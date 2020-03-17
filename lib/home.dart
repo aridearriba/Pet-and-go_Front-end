@@ -25,11 +25,31 @@ class _HomeState extends State<Home> {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                        Text(
-                            'Welcome (name) \n to Pet & Go',
-                            style: TextStyle(fontSize: 25,),
+                        RichText(
+                            text: TextSpan(
+                                text : 'Welcome ',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 28.0,
+                                ),
+                                children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'UserName',
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                            fontSize: 30.0,
+                                        ),
+                                    ),
+                                    TextSpan(
+                                        text : '\n to Pet & Go',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 28.0,
+                                        ),
+                                    ),
+                                ]
+                            ),
                             textAlign: TextAlign.center,
-                            //añadir en un futuro el nombre
                         ),
                     ],
                 ),
