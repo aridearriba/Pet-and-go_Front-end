@@ -1,3 +1,2 @@
 # Pet and Go
-TEST Miguel
-Test Coral
+Rama para hacer la pantalla de registro
