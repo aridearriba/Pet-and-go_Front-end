@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'homePage.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -9,7 +7,7 @@ class MyApp extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         return MaterialApp(
-            title: 'Pantalla de registro',
+            title: 'Pet and go',
             theme: ThemeData(
                 // This is the theme of your application.
                 //
@@ -22,8 +20,7 @@ class MyApp extends StatelessWidget {
                 // is not restarted.
                 primarySwatch: Colors.green,
             ),
-            home: Home(),
-            //MyHomePage(title: 'Pantalla de registro'),
+            home: MyHomePage(title: 'Pantalla de registro'),
         );
     }
 }
@@ -47,6 +44,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+    TextEditingController controlador = TextEditingController();
 
     @override
     Widget build(BuildContext context) {
@@ -82,21 +81,17 @@ class _MyHomePageState extends State<MyHomePage> {
                     // horizontal).
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                        Text(
-                            'Prova de camp de text:',
-                        ),
                         TextField(
+                            textAlign: TextAlign.center,
                             decoration: InputDecoration(
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.blueGrey, width: 2.0),
-                                ),
-                                hintText: 'Username',
+                            border: InputBorder.none,
+                            labelText: 'Username',
                             ),
+                            controller: controlador,
                         )
                     ],
                 ),
-            ),
-         // This trailing comma makes auto-formatting nicer for build methods.
+            ), // This trailing comma makes auto-formatting nicer for build methods.
         );
     }
 }
