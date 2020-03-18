@@ -5,7 +5,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
-        final appTitle = 'Pet_and_Go_register';
+        final appTitle = 'petandgo';
         
         return GestureDetector(
             onTap: () {
@@ -59,6 +59,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 labelText: "Email:"
                             ),
                             controller: _controladorEmail,
+                            validator: (value){
+                                RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                                if(value.isEmpty){
+                                    return 'Por favor, escribe un email válido.';
+                                }
+                                if(!regex.hasMatch(value)){
+                                    return 'Este email no es válido.';
+                                }
+                            },
                         ),
                     ),
                     Padding(
@@ -69,6 +78,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 labelText: "Contraseña:",
                             ),
                             controller: _controladorPasswd,
+                            validator: (value){
+                                if(value.isEmpty){
+                                    return 'Por favor, escribe una contraseña.';
+                                }
+                            },
                         ),
                     ),
                     Padding(
@@ -80,7 +94,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             ),
                             validator: (value) {
                                 if(value!=_controladorPasswd.text){
-                                    return 'Las contraseñas no coinciden';
+                                    return 'Las contraseñas no coinciden.';
                                 }
                             },
                         ),
