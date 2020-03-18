@@ -95,12 +95,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                         Text(
-                            'You have pushed the button this many times:',
+                            'Prova de camp de text:',
                         ),
-                        Text(
-                            '$_counter',
-                            style: Theme.of(context).textTheme.display1,
-                        ),
+                        TextField(
+                            decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.blueGrey, width: 2.0),
+                                ),
+                                hintText: 'Username',
+                            ),
+                        )
                     ],
                 ),
             ),
