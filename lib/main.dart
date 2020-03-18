@@ -43,7 +43,8 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
 
     final _formKey = GlobalKey<FormState>(); // así identificaremos el formulario
-
+    final _controladorEmail = TextEditingController(); //así podremos capturar el email
+    final _controladorPasswd = TextEditingController(); //así podremos capturar la contraseña
     @override
     Widget build(BuildContext context) {
         return Form(
@@ -57,6 +58,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             decoration: InputDecoration(
                                 labelText: "Email:"
                             ),
+                            controller: _controladorEmail,
                         ),
                     ),
                     Padding(
@@ -66,6 +68,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                             decoration: InputDecoration(
                                 labelText: "Contraseña:",
                             ),
+                            controller: _controladorPasswd,
                         ),
                     ),
                     Padding(
@@ -75,6 +78,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                             decoration: InputDecoration(
                                 labelText: "Repetir contraseña:"
                             ),
+                            validator: (value) {
+                                if(value!=_controladorPasswd.text){
+                                    return 'Las contraseñas no coinciden';
+                                }
+                            },
                         ),
                     ),
 
