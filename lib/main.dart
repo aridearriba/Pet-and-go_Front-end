@@ -5,13 +5,16 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
-        final appTitle = 'Pet and Go';
+        final appTitle = 'Pet_and_Go_register';
         
         return MaterialApp(
             title: appTitle,
+            theme: ThemeData(
+                primaryColor: Colors.green
+            ),
             home: Scaffold(
                 appBar: AppBar(
-                    title: Text(appTitle),
+                    title: Text("Pet and Go"),
                 ),
                 body: MyCustomForm(),
             ),
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
     }
 }
 
-// Crea un Widget Form
+// Creamos un Widget que sea un Form
 class MyCustomForm extends StatefulWidget {
     @override
     MyCustomFormState createState() {
@@ -27,32 +30,47 @@ class MyCustomForm extends StatefulWidget {
     }
 }
 
-// Crea una clase State correspondiente. Esta clase contendrá los datos relacionados con
-// el formulario.
+// Esta clase contendrá los datos relacionados con el formulario.
 class MyCustomFormState extends State<MyCustomForm> {
-    // Crea una clave global que identificará de manera única el widget Form
-    // y nos permita validar el formulario
-    //
-    // Nota: Esto es un GlobalKey<FormState>, no un GlobalKey<MyCustomFormState>!
-    final _formKey = GlobalKey<FormState>();
+
+    final _formKey = GlobalKey<FormState>(); // así identificaremos el formulario
 
     @override
     Widget build(BuildContext context) {
-        // Crea un widget Form usando el _formKey que creamos anteriormente
         return Form(
             key: _formKey,
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                    TextFormField(
-                        validator: (value) {
-                            if (value.isEmpty) {
-                                return 'Please enter some text';
-                            }
-                        },
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: TextFormField(
+                            decoration: InputDecoration(
+                                labelText: "Email:"
+                            ),
+                        ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                labelText: "Contraseña:",
+                            ),
+                        ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                labelText: "Repetir contraseña:"
+                            ),
+                        ),
+                    ),
+
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: RaisedButton(
                             onPressed: () {
                                 // devolverá true si el formulario es válido, o falso si
@@ -60,10 +78,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 if (_formKey.currentState.validate()) {
                                     // Si el formulario es válido, queremos mostrar un Snackbar
                                     Scaffold.of(context)
-                                        .showSnackBar(SnackBar(content: Text('Processing Data')));
+                                        .showSnackBar(SnackBar(content: Text('Usuario registrado con éxito!')));
                                 }
                             },
-                            child: Text('Submit'),
+                            child: Text('Sign Up'),
                         ),
                     ),
                 ],
