@@ -7,16 +7,25 @@ class MyApp extends StatelessWidget {
     Widget build(BuildContext context) {
         final appTitle = 'Pet_and_Go_register';
         
-        return MaterialApp(
-            title: appTitle,
-            theme: ThemeData(
-                primaryColor: Colors.green
-            ),
-            home: Scaffold(
-                appBar: AppBar(
-                    title: Text("Pet and Go"),
+        return GestureDetector(
+            onTap: () {
+                FocusScopeNode actualFocus = FocusScope.of(context);
+
+                if(!actualFocus.hasPrimaryFocus){
+                    actualFocus.unfocus();
+                }
+            },
+            child: MaterialApp(
+                title: appTitle,
+                theme: ThemeData(
+                    primaryColor: Colors.green
                 ),
-                body: MyCustomForm(),
+                home: Scaffold(
+                    appBar: AppBar(
+                        title: Text("Pet and Go"),
+                    ),
+                    body: MyCustomForm(),
+                ),
             ),
         );
     }
@@ -43,7 +52,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                         child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: "Email:"
@@ -51,7 +60,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                         child: TextFormField(
                             obscureText: true,
                             decoration: InputDecoration(
@@ -60,7 +69,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
                         child: TextFormField(
                             obscureText: true,
                             decoration: InputDecoration(
@@ -73,8 +82,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: RaisedButton(
                             onPressed: () {
-                                // devolverá true si el formulario es válido, o falso si
-                                // el formulario no es válido.
+                                FocusScope.of(context).requestFocus(FocusNode());
+                                // comprueba que los campos sean correctos
                                 if (_formKey.currentState.validate()) {
                                     // Si el formulario es válido, queremos mostrar un Snackbar
                                     Scaffold.of(context)
