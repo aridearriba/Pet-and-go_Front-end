@@ -87,6 +87,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             child: Text('Log in'),
                         ),
                     ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 30.0),
+                        child: RaisedButton(
+                            onPressed: () {
+                                /*Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => LogIn())
+                                );*/
+                            },
+                            child: Text('Sign up'),
+                        ),
+                    ),
                 ],
             ),
         );
