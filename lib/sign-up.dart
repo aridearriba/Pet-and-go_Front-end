@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-//void main() => runApp(SignUpPage());
+import 'home.dart';
 
 class SignUpPage extends StatelessWidget {
     @override
@@ -162,6 +162,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     // Si el formulario es válido, queremos mostrar un Snackbar
                                     Scaffold.of(context)
                                         .showSnackBar(SnackBar(content: Text('Usuario registrado con éxito!')));
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => Home())
+                                    );
                                 }
                             },
                             child: Text('Sign Up'),
