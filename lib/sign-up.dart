@@ -21,7 +21,7 @@ class SignUpPage extends StatelessWidget {
                     primaryColor: Colors.green
                 ),
                 home: Scaffold(
-                    resizeToAvoidBottomInset: false,
+                    //resizeToAvoidBottomInset: false,
                     appBar: AppBar(
                         title: Text("Pet and Go"),
                     ),
@@ -54,8 +54,8 @@ class MyCustomFormState extends State<MyCustomForm> {
     Widget build(BuildContext context) {
         return Form(
             key: _formKey,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+            child: ListView(
+                //crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
