@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'home.dart';
 
 
 /// This Widget is the main application widget.
@@ -76,9 +77,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             onPressed: () {
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid.
-                                if (_formKey.currentState.validate()) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Home())
+                                );
+                                /*if (_formKey.currentState.validate()) {
                                     // Process data.
-                                }
+                                }*/
                             },
                             child: Text('Log in'),
                         ),
