@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'home.dart';
+import 'sign-up.dart';
 
 
 /// This Widget is the main application widget.
@@ -10,6 +12,9 @@ class LogIn extends StatelessWidget {
     Widget build(BuildContext context) {
         return MaterialApp(
             title: _title,
+            theme: ThemeData(
+                primaryColor: Colors.green
+            ),
             home: Scaffold(
                 appBar: AppBar(title: const Text(_title)),
                 body: MyStatefulWidget(),
@@ -27,13 +32,14 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final _formKey = GlobalKey<FormState>();
+    var _username = 'user';
     var _password = 'hola';
 
     @override
     Widget build(BuildContext context) {
         return Form(
             key: _formKey,
-            child: Column(
+            child: ListView(
                 //crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                     Padding(
@@ -45,7 +51,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             keyboardType: TextInputType.text,
                             validator: (value) {
                                 if (value.isEmpty) {
-                                    return 'Por favor, escribe un email';
+                                    return 'Por favor, escribe un username';
+                                }
+                                else if (value != _username) {
+                                    return 'Este username no existe';
                                 }
                                 return null;
                             },
@@ -71,26 +80,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 30.0),
+                        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
                                 // Validate will return true if the form is valid, or false if
-                                // the form is invalid.
+                                // the form is invalid
                                 if (_formKey.currentState.validate()) {
-                                    // Process data.
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => Home())
+                                    );
                                 }
                             },
                             child: Text('Log in'),
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 30.0),
+                        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
-                                /*Navigator.push(
+                                Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => LogIn())
-                                );*/
+                                    MaterialPageRoute(builder: (context) => SignUpPage())
+                                );
                             },
                             child: Text('Sign up'),
                         ),
