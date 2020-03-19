@@ -39,7 +39,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Widget build(BuildContext context) {
         return Form(
             key: _formKey,
-            child: Column(
+            child: ListView(
                 //crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                     Padding(
@@ -80,7 +80,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 30.0),
+                        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
                                 // Validate will return true if the form is valid, or false if
@@ -96,7 +96,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 30.0),
+                        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
                                 Navigator.push(
