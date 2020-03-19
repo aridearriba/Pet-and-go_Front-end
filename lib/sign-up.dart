@@ -48,7 +48,6 @@ class MyCustomFormState extends State<MyCustomForm> {
     final _controladorPasswd = TextEditingController(); //así podremos capturar la contraseña
     final _controladorNombre = TextEditingController();
     final _controladorApellido1 = TextEditingController();
-    final _controladorApellido2 = TextEditingController();
     final _controladorUsername = TextEditingController();
     @override
     Widget build(BuildContext context) {
@@ -154,7 +153,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     ),
 
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
                                 FocusScope.of(context).requestFocus(FocusNode());
