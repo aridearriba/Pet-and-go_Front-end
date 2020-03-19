@@ -40,16 +40,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         padding: const EdgeInsets.symmetric(horizontal: 30.0),
                         child: TextFormField(
                             decoration: const InputDecoration(
-                                labelText: 'Email',
+                                labelText: 'Username',
                             ),
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.text,
                             validator: (value) {
-                                RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
                                 if (value.isEmpty) {
                                     return 'Por favor, escribe un email';
-                                }
-                                else if (!regex.hasMatch(value)) {
-                                    return 'Escribe un email válido';
                                 }
                                 return null;
                             },
