@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(SignUpPage());
+//void main() => runApp(SignUpPage());
 
 class SignUpPage extends StatelessWidget {
     @override

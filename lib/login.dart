@@ -29,6 +29,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final _formKey = GlobalKey<FormState>();
+    var _username = 'user';
     var _password = 'hola';
 
     @override
@@ -47,7 +48,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             keyboardType: TextInputType.text,
                             validator: (value) {
                                 if (value.isEmpty) {
-                                    return 'Por favor, escribe un email';
+                                    return 'Por favor, escribe un username';
+                                }
+                                else if (value != _username) {
+                                    return 'Este username no existe';
                                 }
                                 return null;
                             },
@@ -77,14 +81,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         child: RaisedButton(
                             onPressed: () {
                                 // Validate will return true if the form is valid, or false if
-                                // the form is invalid.
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => Home())
-                                );
-                                /*if (_formKey.currentState.validate()) {
-                                    // Process data.
-                                }*/
+                                // the form is invalid
+                                if (_formKey.currentState.validate()) {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => Home())
+                                    );
+                                }
                             },
                             child: Text('Log in'),
                         ),
