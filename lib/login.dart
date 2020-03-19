@@ -12,6 +12,9 @@ class LogIn extends StatelessWidget {
     Widget build(BuildContext context) {
         return MaterialApp(
             title: _title,
+            theme: ThemeData(
+                primaryColor: Colors.green
+            ),
             home: Scaffold(
                 appBar: AppBar(title: const Text(_title)),
                 body: MyStatefulWidget(),

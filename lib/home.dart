@@ -62,6 +62,7 @@ class _HomeState extends State<Home> {
             ),
             floatingActionButton: FloatingActionButton(
                 onPressed: nLogIn,
+                backgroundColor: Colors.green,
                 child: Text('LogOut'),
             ),
         );
