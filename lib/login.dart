@@ -86,7 +86,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
                                 if (_formKey.currentState.validate()) {
-                                    Navigator.push(
+                                    Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(builder: (context) => Home())
                                     );

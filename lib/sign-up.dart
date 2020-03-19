@@ -79,7 +79,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
-                            obscureText: true,
                             decoration: InputDecoration(
                                 labelText: "Username:",
                             ),
@@ -95,7 +94,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
-                            obscureText: true,
                             decoration: InputDecoration(
                                 labelText: "Nombre:",
                             ),
@@ -111,7 +109,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
-                            obscureText: true,
                             decoration: InputDecoration(
                                 labelText: "Apellidos:",
                             ),
