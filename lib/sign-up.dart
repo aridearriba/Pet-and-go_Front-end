@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+void main() => runApp(SignUpPage());
+
 class SignUpPage extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class SignUpPage extends StatelessWidget {
                     primaryColor: Colors.green
                 ),
                 home: Scaffold(
+                    resizeToAvoidBottomInset: false,
                     appBar: AppBar(
                         title: Text("Pet and Go"),
                     ),
@@ -43,6 +46,10 @@ class MyCustomFormState extends State<MyCustomForm> {
     final _formKey = GlobalKey<FormState>(); // así identificaremos el formulario
     final _controladorEmail = TextEditingController(); //así podremos capturar el email
     final _controladorPasswd = TextEditingController(); //así podremos capturar la contraseña
+    final _controladorNombre = TextEditingController();
+    final _controladorApellido1 = TextEditingController();
+    final _controladorApellido2 = TextEditingController();
+    final _controladorUsername = TextEditingController();
     @override
     Widget build(BuildContext context) {
         return Form(
@@ -51,7 +58,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: "Email:"
@@ -70,7 +77,55 @@ class MyCustomFormState extends State<MyCustomForm> {
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                labelText: "Username:",
+                            ),
+                            controller: _controladorUsername,
+                            validator: (value){
+                                if(value.isEmpty){
+                                    return 'Por favor, escribe un username.';
+                                }
+                                return null;
+                            },
+                        ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                labelText: "Nombre:",
+                            ),
+                            controller: _controladorNombre,
+                            validator: (value){
+                                if(value.isEmpty){
+                                    return 'Por favor, escribe tu nombre.';
+                                }
+                                return null;
+                            },
+                        ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                labelText: "Apellidos:",
+                            ),
+                            controller: _controladorApellido1,
+                            validator: (value){
+                                if(value.isEmpty){
+                                    return 'Por favor, escribe tus apellidos.';
+                                }
+                                return null;
+                            },
+                        ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             obscureText: true,
                             decoration: InputDecoration(
@@ -86,7 +141,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             obscureText: true,
                             decoration: InputDecoration(
