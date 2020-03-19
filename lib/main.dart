@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
             title: _title,
             theme: ThemeData(
-                primaryColor: Colors.green
+                primaryColor: Color.fromRGBO(63, 202, 12, 1),
             ),
             home: LogIn(),
         );

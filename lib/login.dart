@@ -10,15 +10,27 @@ class LogIn extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
+        Size size = MediaQuery.of(context).size;
         return MaterialApp(
             title: _title,
             theme: ThemeData(
-                primaryColor: Colors.green
+                primaryColor: Color.fromRGBO(63, 202, 12, 1),
             ),
             home: Scaffold(
-                appBar: AppBar(title: const Text(_title)),
-                body: MyStatefulWidget(),
-            ),
+                body: Stack(
+                    children: <Widget>[
+                    Center(
+                        child: new Image.asset(
+                            'assets/images/background-login.jpg',
+                            height: size.height,
+                            fit: BoxFit.fitHeight,
+                        ),
+                    ),
+                    Center(
+                        child: MyStatefulWidget(),
+                    )
+                ]
+                ),),
         );
     }
 }
@@ -42,11 +54,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             child: ListView(
                 //crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                    Container(
+                        padding: EdgeInsets.only(top: 70.0),
+                        child: Image.asset('assets/images/pet-and-go-logo.png', height: 150),
+                    ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
                         child: TextFormField(
+                            style: TextStyle(
+                                color: Colors.white,
+                            ),
                             decoration: const InputDecoration(
-                                labelText: 'Username',
+                                labelText: 'Usuario',
+                                labelStyle: TextStyle(color: Colors.white),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                ),
                             ),
                             keyboardType: TextInputType.text,
                             validator: (value) {
@@ -63,8 +86,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30.0),
                         child: TextFormField(
+                            style: TextStyle(
+                                color: Colors.white
+                            ),
                             decoration: const InputDecoration(
                                 labelText: 'Contraseña',
+                                labelStyle: TextStyle(color: Colors.white),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                ),
                             ),
                             validator: (value) {
                                 if (value.isEmpty) {
@@ -80,7 +110,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
+                        padding: const EdgeInsets.only(top:30.0, bottom: 20.0, left: 90.0, right: 90.0),
                         child: RaisedButton(
                             onPressed: () {
                                 // Validate will return true if the form is valid, or false if
@@ -96,7 +126,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         ),
                     ),
                     Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 90.0),
+                        child: Center(
+                            child: Text(
+                                'or',
+                                style: TextStyle(color: Colors.white),
+                            ),
+                        ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
                                 Navigator.push(
