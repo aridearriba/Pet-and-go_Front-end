@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'home.dart';
+import 'sign-up.dart';
 
 
 /// This Widget is the main application widget.
@@ -92,10 +93,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         padding: const EdgeInsets.symmetric(vertical: 30.0),
                         child: RaisedButton(
                             onPressed: () {
-                                /*Navigator.push(
+                                Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => LogIn())
-                                );*/
+                                    MaterialPageRoute(builder: (context) => SignUpPage())
+                                );
                             },
                             child: Text('Sign up'),
                         ),
