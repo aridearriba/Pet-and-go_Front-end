@@ -29,7 +29,12 @@ class _HomeState extends State<Home> {
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
-                title: Text('Pet & Go'),
+                title: Text(
+                    'Pet & Go',
+                    style: TextStyle(
+                        color: Colors.white,
+                    ),
+                ),
                 actions: <Widget>[
                     IconButton(icon : Icon(Icons.account_circle), color: Colors.white, onPressed: nProfile,),
                 ],

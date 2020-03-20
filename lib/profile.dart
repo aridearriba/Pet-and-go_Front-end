@@ -29,9 +29,14 @@ class _ProfileState extends State<Profile> {
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
-                title: Text('Pet & Go'),
+                title: Text(
+                    'Pet & Go',
+                    style: TextStyle(
+                        color: Colors.white,
+                    ),
+                ),
                 actions: <Widget>[
-                    IconButton(icon : Icon(Icons.dehaze), color: Colors.white, onPressed: () {},),
+                    IconButton(icon : Icon(Icons.settings), color: Colors.white, onPressed: () {},),
                 ],
             ),
             body: Center(
