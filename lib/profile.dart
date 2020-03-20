@@ -17,14 +17,14 @@ class _ProfileState extends State<Profile> {
     String email = 'user@email.com';
 
     nLogIn() {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => LogIn())
         );
     }
 
     nHome() {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Home())
         );
@@ -33,28 +33,37 @@ class _ProfileState extends State<Profile> {
     @override
     Widget build(BuildContext context) {
         return Scaffold(
-            appBar: AppBar(
-                title: Text(
-                    'Pet & Go',
-                    style: TextStyle(
-                        color: Colors.white,
-                    ),
-                ),
-                actions: <Widget>[
-                    IconButton(icon : Icon(Icons.settings), color: Colors.white, onPressed: () {},),
-                ],
-            ),
 
             body: Column(
                 children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
+                        padding: const EdgeInsets.all(20.0),
+                    ),
+
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                            IconButton(
+                                icon: Icon(Icons.home, color: Colors.green,),
+                                onPressed: nHome,
+                            ),
+                            IconButton(
+                                icon: Icon(Icons.settings, color: Colors.green,),
+                                onPressed: () {},
+                            ),
+                        ],
+                    ),
+
+
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Row(
                             children: <Widget>[
                                 Icon(
                                     Icons.account_circle,
                                     color: Colors.green,
                                     size: 150.0,
+
                                 ),
                                 Column(
                                     children: <Widget>[
@@ -77,7 +86,6 @@ class _ProfileState extends State<Profile> {
                                             ),
                                             textAlign: TextAlign.left,
                                         ),
-
                                         Row(
                                             children: <Widget>[
                                                 Icon(
@@ -97,30 +105,13 @@ class _ProfileState extends State<Profile> {
                             ],
                         ),
                     ),
-
-                    Padding(
-                        padding:  const EdgeInsets.symmetric(horizontal: 30.0),
-                        child: Row(
-                            children: <Widget>[
-                                Icon(
-                                    Icons.email,
-                                    color: Colors.grey[600],
-                                ),
-                                Text(
-                                    '   $email',
-                                    style: TextStyle(
-                                        color: Colors.blueAccent,
-                                    ),
-                                )
-                            ],
-                        ),
-                    ),
                 ]
             ),
-                floatingActionButton: FloatingActionButton(
-                    onPressed: nLogIn,
-                    backgroundColor: Colors.green,
-                    child: Text('LogOut'),
+
+            floatingActionButton: FloatingActionButton(
+                onPressed: nLogIn,
+                backgroundColor: Colors.green,
+                child: Text('LogOut'),
             ),
         );
     }

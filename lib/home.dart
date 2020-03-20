@@ -12,14 +12,14 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
     nLogIn() {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => LogIn())
         );
     }
 
     nProfile(){
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Profile())
         );
