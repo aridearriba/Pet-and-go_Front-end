@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petandgo/login.dart';
 
 class Home extends StatefulWidget {
     Home({Key key,}) : super(key: key);
@@ -9,7 +10,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-    nLogIn() {}
+    nLogIn() {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LogIn())
+        );
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -56,6 +62,7 @@ class _HomeState extends State<Home> {
             ),
             floatingActionButton: FloatingActionButton(
                 onPressed: nLogIn,
+                backgroundColor: Colors.green,
                 child: Text('LogOut'),
             ),
         );
