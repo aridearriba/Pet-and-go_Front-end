@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petandgo/login.dart';
+import 'package:petandgo/profile.dart';
 
 class Home extends StatefulWidget {
     Home({Key key,}) : super(key: key);
@@ -17,13 +18,20 @@ class _HomeState extends State<Home> {
         );
     }
 
+    nProfile(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Profile())
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
                 title: Text('Pet & Go'),
                 actions: <Widget>[
-                    IconButton(icon : Icon(Icons.dehaze), color: Colors.white, onPressed: () {},),
+                    IconButton(icon : Icon(Icons.account_circle), color: Colors.white, onPressed: nProfile,),
                 ],
             ),
             body: Center(
@@ -59,11 +67,6 @@ class _HomeState extends State<Home> {
                         ),
                     ],
                 ),
-            ),
-            floatingActionButton: FloatingActionButton(
-                onPressed: nLogIn,
-                backgroundColor: Colors.green,
-                child: Text('LogOut'),
             ),
         );
     }
