@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'home.dart';
 import 'sign-up.dart';
+import 'profile.dart';
+import 'sign-in-google.dart';
 
 
 /// This Widget is the main application widget.
@@ -146,7 +148,51 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             child: Text('Sign up'),
                         ),
                     ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 90.0),
+                        child: _signInButton(),
+                    ),
                 ],
+            ),
+        );
+    }
+
+    Widget _signInButton() {
+        return OutlineButton(
+            splashColor: Colors.grey,
+            onPressed: () {
+                signInWithGoogle().whenComplete(() {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) {
+                                return Profile();
+                            },
+                        ),
+                    );
+                });
+            },
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            highlightElevation: 0,
+            borderSide: BorderSide(color: Colors.grey),
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                        Image(image: AssetImage("assets/images/google_logo.png"), height: 20.0),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                ),
+                            ),
+                        )
+                    ],
+                ),
             ),
         );
     }

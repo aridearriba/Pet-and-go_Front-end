@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1099456091449",
+    "firebase_url": "https://pet-and-go.firebaseio.com",
+    "project_id": "pet-and-go",
+    "storage_bucket": "pet-and-go.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099456091449:android:3be4dfefbd5a76449744e8",
+        "android_client_info": {
+          "package_name": "com.example.petandgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1099456091449-m3hf38aof7uk49mhgafjn23c5t1htr4s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.petandgo",
+            "certificate_hash": "e5aed3f13666a16879c5d50df2c7e542c91130ce"
+          }
+        },
+        {
+          "client_id": "1099456091449-kip4b9ebhhnggfnes4rbajd56gii0vu6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWF8Kwiu3-Q2uYBJg8yP5zwytSBwm4wNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1099456091449-kip4b9ebhhnggfnes4rbajd56gii0vu6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

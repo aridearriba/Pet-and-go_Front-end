@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petandgo/home.dart';
 import 'package:petandgo/login.dart';
+import 'package:petandgo/sign-in-google.dart';
 
 class Profile extends StatefulWidget {
     Profile({Key key,}) : super(key: key);
@@ -11,10 +12,10 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
 
-    String nick = 'UserName';
-    String name = 'usuario';
-    String surname = 'de ejemplo';
-    String email = 'user@email.com';
+    //String nick = 'UserName';
+    //String name = 'usuario';
+    //String surname = 'de ejemplo';
+    //String email = 'user@email.com';
 
     nLogIn() {
         Navigator.pushReplacement(
@@ -32,8 +33,9 @@ class _ProfileState extends State<Profile> {
 
     @override
     Widget build(BuildContext context) {
-        return Scaffold(
+        if (profileImage == null) profileImage = "https://cdn.iconscout.com/icon/free/png-256/avatar-380-456332.png";
 
+        return Scaffold(
             body: Column(
                 children: <Widget>[
                     Padding(
@@ -59,12 +61,18 @@ class _ProfileState extends State<Profile> {
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: Row(
                             children: <Widget>[
-                                Icon(
+                                CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        profileImage,
+                                    ),
+                                    radius: 60,
+                                    backgroundColor: Colors.transparent,
+                                ),
+                                /*Icon(
                                     Icons.account_circle,
                                     color: Colors.green,
                                     size: 150.0,
-
-                                ),
+                                ),*/
                                 Column(
                                     children: <Widget>[
                                         Text(
@@ -78,7 +86,7 @@ class _ProfileState extends State<Profile> {
                                         ),
 
                                         Text(
-                                            '$name $surname',
+                                            '$name',
                                             style: TextStyle(
                                                 color: Colors.grey[600],
                                                 fontStyle: FontStyle.italic,
@@ -109,7 +117,17 @@ class _ProfileState extends State<Profile> {
             ),
 
             floatingActionButton: FloatingActionButton(
-                onPressed: nLogIn,
+                onPressed: () {
+                    signOutGoogle().whenComplete(() {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) {
+                                    return LogIn();
+                                },
+                            ),
+                        );
+                    });
+                },
                 backgroundColor: Colors.green,
                 child: Text('LogOut'),
             ),
