@@ -60,6 +60,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final _formKey = GlobalKey<FormState>();
     var _username = 'user';
     var _password = 'hola';
+    final controladorEmail = new TextEditingController();
+    final controladorPasswd = new TextEditingController();
 
     @override
     Widget build(BuildContext context) {
@@ -86,14 +88,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 ),
                             ),
                             keyboardType: TextInputType.text,
+                            controller: controladorEmail,
                             validator: (value) {
                                 if (value.isEmpty) {
-                                    return 'Por favor, escribe un username';
+                                    return 'Por favor, escribe un email.';
                                 }
                                 /*else if (value != _username) {
                                     return 'Este username no existe';
                                 }*/
-                                _username = value;
 
                                 return null;
                             },
@@ -112,6 +114,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                     borderSide: BorderSide(color: Colors.white),
                                 ),
                             ),
+                            controller: controladorPasswd,
                             validator: (value) {
                                 if (value.isEmpty) {
                                     return 'Por favor, escribe tu constraseña';
@@ -129,18 +132,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         padding: const EdgeInsets.only(top:30.0, bottom: 20.0, left: 90.0, right: 90.0),
                         child: RaisedButton(
                             onPressed: () {
-                                var user = _username;
-                                Future<User> getData() async{
-                                    final response = await http.get(new Uri.http("192.168.1.43:8080", "/api/usuarios/"+user));
-                                    var userP = User.fromJson(jsonDecode(response.body));
-                                    print(userP.nombre);
-                                    return User.fromJson(jsonDecode(response.body));
-
-                                }
                                 getData();
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
                                 if (_formKey.currentState.validate()) {
+                                    passData();
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(builder: (context) => Home())
@@ -174,5 +170,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ],
             ),
         );
+    }
+    Future<User> getData() async{
+        var user = controladorEmail.text;
+        final response = await http.get(new Uri.http("192.168.1.43:8080", "/api/usuarios/"+user));
+        var userP = User.fromJson(jsonDecode(response.body));
+        print(userP.email);
+        return userP;
+
+    }
+
+    Future<http.Response> passData() async{
+        http.Response response = await http.post(new Uri.http("192.168.1.43:8080", "/api/usuarios/login"), body: {'email': controladorEmail.text, 'password': controladorPasswd.text});
+        print(response.body);
     }
 }
