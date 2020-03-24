@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'user.dart';
 import 'home.dart';
 import 'sign-up.dart';
 import 'package:http/http.dart' as http;
@@ -14,26 +15,36 @@ class LogIn extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         Size size = MediaQuery.of(context).size;
-        return MaterialApp(
-            title: _title,
-            theme: ThemeData(
-                primaryColor: Color.fromRGBO(63, 202, 12, 1),
-            ),
-            home: Scaffold(
-                body: Stack(
-                    children: <Widget>[
-                    Center(
-                        child: new Image.asset(
-                            'assets/images/background-login.jpg',
-                            height: size.height,
-                            fit: BoxFit.fitHeight,
+        return GestureDetector(
+            onTap: () {
+                FocusScopeNode actualFocus = FocusScope.of(context);
+
+                if(!actualFocus.hasPrimaryFocus){
+                    actualFocus.unfocus();
+                }
+            },
+
+            child: MaterialApp(
+                title: _title,
+                theme: ThemeData(
+                    primaryColor: Color.fromRGBO(63, 202, 12, 1),
+                ),
+                home: Scaffold(
+                    body: Stack(
+                        children: <Widget>[
+                        Center(
+                            child: new Image.asset(
+                                'assets/images/background-login.jpg',
+                                height: size.height,
+                                fit: BoxFit.fitHeight,
+                            ),
                         ),
-                    ),
-                    Center(
-                        child: MyStatefulWidget(),
-                    )
-                ]
-                ),),
+                        Center(
+                            child: MyStatefulWidget(),
+                        )
+                    ]
+                    ),),
+            ),
         );
     }
 }
@@ -68,7 +79,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 color: Colors.white,
                             ),
                             decoration: const InputDecoration(
-                                labelText: 'Usuario',
+                                labelText: 'Email',
                                 labelStyle: TextStyle(color: Colors.white),
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(color: Colors.white),
@@ -79,9 +90,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 if (value.isEmpty) {
                                     return 'Por favor, escribe un username';
                                 }
-                                else if (value != _username) {
+                                /*else if (value != _username) {
                                     return 'Este username no existe';
-                                }
+                                }*/
+                                _username = value;
+
                                 return null;
                             },
                         ),
@@ -116,13 +129,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         padding: const EdgeInsets.only(top:30.0, bottom: 20.0, left: 90.0, right: 90.0),
                         child: RaisedButton(
                             onPressed: () {
+                                var user = _username;
+                                Future<User> getData() async{
+                                    final response = await http.get(new Uri.http("192.168.1.43:8080", "/api/usuarios/"+user));
+                                    var userP = User.fromJson(jsonDecode(response.body));
+                                    print(userP.nombre);
+                                    return User.fromJson(jsonDecode(response.body));
 
-                                Future getData() async{
-                                    http.Response response = await http.get(new Uri.http("192.168.1.43:8080", "/api/usuarios/antonio68"));
-                                    var data = jsonDecode(response.body);
-                                    print(data.toString());
                                 }
-
                                 getData();
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
