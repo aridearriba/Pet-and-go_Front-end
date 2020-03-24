@@ -118,7 +118,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             onPressed: () {
 
                                 Future getData() async{
-                                    http.Response response = await http.get(new Uri.http("192.168.1.43:8080", "/api/usuarios"));
+                                    http.Response response = await http.get(new Uri.http("192.168.1.43:8080", "/api/usuarios/antonio68"));
                                     var data = jsonDecode(response.body);
                                     print(data.toString());
                                 }
