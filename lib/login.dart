@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'home.dart';
 import 'sign-up.dart';
+import 'package:http/http.dart' as http;
 
 
 /// This Widget is the main application widget.
@@ -113,6 +116,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         padding: const EdgeInsets.only(top:30.0, bottom: 20.0, left: 90.0, right: 90.0),
                         child: RaisedButton(
                             onPressed: () {
+
+                                Future getData() async{
+                                    http.Response response = await http.get(new Uri.http("192.168.1.43:8080", "/api/usuarios"));
+                                    var data = jsonDecode(response.body);
+                                    print(data.toString());
+                                }
+
+                                getData();
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
                                 if (_formKey.currentState.validate()) {
