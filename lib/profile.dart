@@ -3,6 +3,7 @@ import 'package:petandgo/home.dart';
 import 'package:petandgo/login.dart';
 import 'package:petandgo/sign-in-google.dart';
 
+
 class Profile extends StatefulWidget {
     Profile({Key key,}) : super(key: key);
 
@@ -20,7 +21,7 @@ class _ProfileState extends State<Profile> {
     nLogIn() {
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => LogIn())
+            MaterialPageRoute(builder: (context) => Login())
         );
     }
 
@@ -101,7 +102,7 @@ class _ProfileState extends State<Profile> {
                                                     color: Colors.grey[600],
                                                 ),
                                                 Text(
-                                                    '   $email',
+                                                    email,
                                                     style: TextStyle(
                                                         color: Colors.blueAccent,
                                                     ),
@@ -122,7 +123,7 @@ class _ProfileState extends State<Profile> {
                         Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) {
-                                    return LogIn();
+                                    return Login();
                                 },
                             ),
                         );

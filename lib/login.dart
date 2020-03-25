@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:petandgo/sign-in-email.dart';
 import 'user.dart';
 import 'home.dart';
 import 'sign-up.dart';
@@ -13,13 +13,13 @@ import 'package:http/http.dart' as http;
 
 
 /// This Widget is the main application widget.
-class LogIn extends StatelessWidget {
+/*class LogIn extends StatelessWidget {
     static const String _title = 'Pet and Go';
 
     @override
     Widget build(BuildContext context) {
         Size size = MediaQuery.of(context).size;
-        return GestureDetector(
+        GestureDetector(
             onTap: () {
                 FocusScopeNode actualFocus = FocusScope.of(context);
 
@@ -44,23 +44,28 @@ class LogIn extends StatelessWidget {
                             ),
                         ),
                         Center(
-                            child: MyStatefulWidget(),
+                            child: LoginPage(),
                         )
                     ]
                     ),),
             ),
         );
     }
-}
+}*/
 
-class MyStatefulWidget extends StatefulWidget {
-    MyStatefulWidget({Key key}) : super(key: key);
+class Login extends StatefulWidget {
+    Login({this.auth, this.loginCallback});
+
+    final BaseAuth auth;
+    final VoidCallback loginCallback;
+
 
     @override
-    _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+    _LoginState createState() => _LoginState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _LoginState extends State<Login> {
+    static const String _title = 'Pet and Go';
     final _formKey = GlobalKey<FormState>();
     var _responseMessage;
     final controladorEmail = new TextEditingController();
@@ -68,6 +73,38 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
     @override
     Widget build(BuildContext context) {
+        Size size = MediaQuery.of(context).size;
+        GestureDetector(
+            onTap: () {
+                FocusScopeNode actualFocus = FocusScope.of(context);
+
+                if(!actualFocus.hasPrimaryFocus){
+                    actualFocus.unfocus();
+                }
+            },
+
+            child: MaterialApp(
+                title: _title,
+                theme: ThemeData(
+                    primaryColor: Color.fromRGBO(63, 202, 12, 1),
+                ),
+                home: Scaffold(
+                    body: Stack(
+                        children: <Widget>[
+                            Center(
+                                child: new Image.asset(
+                                    'assets/images/background-login.jpg',
+                                    height: size.height,
+                                    fit: BoxFit.fitHeight,
+                                ),
+                            ),
+                            Center(
+                                child: Login(),
+                            )
+                        ]
+                    ),),
+            ),
+        );
         return Form(
             key: _formKey,
             child: ListView(
@@ -137,13 +174,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
                                 passData().whenComplete(
-                                    () {
+                                    ()  async {
                                         if (_formKey.currentState.validate()) {
-                                            //passData();
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => Home())
-                                            );
+                                            User user = await getData();
+                                            widget.auth.signIn(user.email, user.password).whenComplete(() {
+                                                Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(builder: (
+                                                        context) => Home())
+                                                );
+                                            });
                                         }
                                     }
                                 );
@@ -174,14 +214,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 90.0),
-                        child: _signInButton(),
+                        child: _signInGoogleButton(),
                     ),
                 ],
             ),
         );
     }
 
-    Widget _signInButton() {
+    Widget _signInGoogleButton() {
         return OutlineButton(
             splashColor: Colors.grey,
             onPressed: () {
@@ -213,20 +253,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                     fontSize: 12,
                                     color: Colors.white,
                                 ),
+                            )
                         )
                     ],
                 ),
             ),
         );
     }
-    Future<User> getData() async{
+    Future<User> getData() async {
         var user = controladorEmail.text;
         final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+user));
         var userP = User.fromJson(jsonDecode(response.body));
         return userP;
     }
 
-    Future<http.Response> passData() async{
+    Future<void> passData() async{
         http.Response response = await post(new Uri.http("192.168.1.100:8080", "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -235,7 +276,5 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 'email': controladorEmail.text,
                 'password': controladorPasswd.text}));
         _responseMessage = response.body;
-        print(response.body);
     }
-                            ),
 }
