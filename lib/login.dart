@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 import 'user.dart';
 import 'home.dart';
 import 'sign-up.dart';
@@ -58,9 +60,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final _formKey = GlobalKey<FormState>();
-    var _username = 'user';
-    var _password = 'hola';
-    int _statusCode = 0;
+    var _responseMessage;
     final controladorEmail = new TextEditingController();
     final controladorPasswd = new TextEditingController();
 
@@ -94,8 +94,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 if (value.isEmpty) {
                                     return 'Por favor, escribe un email.';
                                 }
-                                else if (_statusCode != 200) {
-                                    return 'Este username no existe';
+                                else if (_responseMessage == "El email no existe") {
+                                    return 'Este email no está registrado';
                                 }
 
                                 return null;
@@ -120,12 +120,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 if (value.isEmpty) {
                                     return 'Por favor, escribe tu constraseña';
                                 }
-                                else if (value != _password) {
+                                else if (_responseMessage == "Password incorrecto") {
                                     return 'Contraseña incorrecta';
                                 }
                                 return null;
                             },
-                            onSaved: (value) => _password = value,
                             obscureText: true,
                         ),
                     ),
@@ -135,10 +134,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             onPressed: () {
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
-                                getData().whenComplete(
+                                passData().whenComplete(
                                     () {
                                         if (_formKey.currentState.validate()) {
-                                            passData();
+                                            //passData();
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(builder: (context) => Home())
@@ -178,13 +177,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Future<User> getData() async{
         var user = controladorEmail.text;
         final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+user));
-        _statusCode = response.statusCode;
         var userP = User.fromJson(jsonDecode(response.body));
         return userP;
     }
 
     Future<http.Response> passData() async{
-        http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/login"), body: {'email': controladorEmail.text, 'password': controladorPasswd.text});
+        http.Response response = await post(new Uri.http("192.168.1.100:8080", "/api/usuarios/login"),
+            headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+                'email': controladorEmail.text,
+                'password': controladorPasswd.text}));
+        _responseMessage = response.body;
         print(response.body);
     }
 }
