@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:petandgo/user.dart';
 
 import 'home.dart';
 
@@ -46,9 +47,9 @@ class MyCustomFormState extends State<MyCustomForm> {
     final _formKey = GlobalKey<FormState>(); // así identificaremos el formulario
     final _controladorEmail = TextEditingController(); //así podremos capturar el email
     final _controladorPasswd = TextEditingController(); //así podremos capturar la contraseña
-    final _controladorNombre = TextEditingController();
-    final _controladorApellido1 = TextEditingController();
-    final _controladorUsername = TextEditingController();
+    final _controladorNombre = TextEditingController(); //capturador nombre usuarip
+    final _controladorApellido1 = TextEditingController(); // capturador apellido
+    final _controladorUsername = TextEditingController(); // capturador username usuario
     @override
     Widget build(BuildContext context) {
         return Form(
@@ -160,6 +161,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 // comprueba que los campos sean correctos
                                 if (_formKey.currentState.validate()) {
                                     // Si el formulario es válido, queremos mostrar un Snackbar
+                                    User(_controladorEmail.text,
+                                        _controladorUsername.text,
+                                        _controladorNombre.text,
+                                        _controladorApellido1.text,
+                                        _controladorPasswd.text);
                                     Scaffold.of(context)
                                         .showSnackBar(SnackBar(content: Text('Usuario registrado con éxito!')));
                                     Navigator.pushReplacement(

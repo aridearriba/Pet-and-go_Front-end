@@ -13,26 +13,36 @@ class LogIn extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
         Size size = MediaQuery.of(context).size;
-        return MaterialApp(
-            title: _title,
-            theme: ThemeData(
-                primaryColor: Color.fromRGBO(63, 202, 12, 1),
-            ),
-            home: Scaffold(
-                body: Stack(
-                    children: <Widget>[
-                    Center(
-                        child: new Image.asset(
-                            'assets/images/background-login.jpg',
-                            height: size.height,
-                            fit: BoxFit.fitHeight,
+        return GestureDetector(
+            onTap: () {
+                FocusScopeNode actualFocus = FocusScope.of(context);
+
+                if(!actualFocus.hasPrimaryFocus){
+                    actualFocus.unfocus();
+                }
+            },
+            child: MaterialApp(
+                title: _title,
+                theme: ThemeData(
+                    primaryColor: Color.fromRGBO(63, 202, 12, 1),
+                ),
+                home: Scaffold(
+                    body: Stack(
+                        children: <Widget>[
+                        Center(
+                            child: new Image.asset(
+                                'assets/images/background-login.jpg',
+                                height: size.height,
+                                fit: BoxFit.fitHeight,
+                            ),
                         ),
+                        Center(
+                            child: MyStatefulWidget(),
+                        )
+                    ]
                     ),
-                    Center(
-                        child: MyStatefulWidget(),
-                    )
-                ]
-                ),),
+                ),
+            ),
         );
     }
 }
