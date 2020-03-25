@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:petandgo/login.dart';
 import 'package:petandgo/profile.dart';
-import 'package:petandgo/sign-in-email.dart';
 
 class Home extends StatefulWidget {
-    Home({Key key, this.auth, this.userId, this.logoutCallback}) : super(key: key);
-
-    final BaseAuth auth;
-    final VoidCallback logoutCallback;
-    final String userId;
+    Home({Key key,}) : super(key: key);
 
     @override
     _HomeState createState() => _HomeState();
@@ -19,7 +14,7 @@ class _HomeState extends State<Home> {
     nLogIn() {
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Login())
+            MaterialPageRoute(builder: (context) => LogIn())
         );
     }
 

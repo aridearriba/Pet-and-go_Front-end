@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:petandgo/sign-in-email.dart';
 import 'user.dart';
 import 'home.dart';
 import 'sign-up.dart';
@@ -13,13 +13,13 @@ import 'package:http/http.dart' as http;
 
 
 /// This Widget is the main application widget.
-/*class LogIn extends StatelessWidget {
+class LogIn extends StatelessWidget {
     static const String _title = 'Pet and Go';
 
     @override
     Widget build(BuildContext context) {
         Size size = MediaQuery.of(context).size;
-        GestureDetector(
+        return GestureDetector(
             onTap: () {
                 FocusScopeNode actualFocus = FocusScope.of(context);
 
@@ -44,28 +44,23 @@ import 'package:http/http.dart' as http;
                             ),
                         ),
                         Center(
-                            child: LoginPage(),
+                            child: MyStatefulWidget(),
                         )
                     ]
                     ),),
             ),
         );
     }
-}*/
-
-class Login extends StatefulWidget {
-    Login({this.auth, this.loginCallback});
-
-    final BaseAuth auth;
-    final VoidCallback loginCallback;
-
-
-    @override
-    _LoginState createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-    static const String _title = 'Pet and Go';
+class MyStatefulWidget extends StatefulWidget {
+    MyStatefulWidget({Key key}) : super(key: key);
+
+    @override
+    _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final _formKey = GlobalKey<FormState>();
     var _responseMessage;
     final controladorEmail = new TextEditingController();
@@ -73,38 +68,6 @@ class _LoginState extends State<Login> {
 
     @override
     Widget build(BuildContext context) {
-        Size size = MediaQuery.of(context).size;
-        GestureDetector(
-            onTap: () {
-                FocusScopeNode actualFocus = FocusScope.of(context);
-
-                if(!actualFocus.hasPrimaryFocus){
-                    actualFocus.unfocus();
-                }
-            },
-
-            child: MaterialApp(
-                title: _title,
-                theme: ThemeData(
-                    primaryColor: Color.fromRGBO(63, 202, 12, 1),
-                ),
-                home: Scaffold(
-                    body: Stack(
-                        children: <Widget>[
-                            Center(
-                                child: new Image.asset(
-                                    'assets/images/background-login.jpg',
-                                    height: size.height,
-                                    fit: BoxFit.fitHeight,
-                                ),
-                            ),
-                            Center(
-                                child: Login(),
-                            )
-                        ]
-                    ),),
-            ),
-        );
         return Form(
             key: _formKey,
             child: ListView(
@@ -174,16 +137,13 @@ class _LoginState extends State<Login> {
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
                                 passData().whenComplete(
-                                    ()  async {
+                                    () {
                                         if (_formKey.currentState.validate()) {
-                                            User user = await getData();
-                                            widget.auth.signIn(user.email, user.password).whenComplete(() {
-                                                Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(builder: (
-                                                        context) => Home())
-                                                );
-                                            });
+                                            //passData();
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => Home())
+                                            );
                                         }
                                     }
                                 );
@@ -214,14 +174,14 @@ class _LoginState extends State<Login> {
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 90.0),
-                        child: _signInGoogleButton(),
+                        child: _signInButton(),
                     ),
                 ],
             ),
         );
     }
 
-    Widget _signInGoogleButton() {
+    Widget _signInButton() {
         return OutlineButton(
             splashColor: Colors.grey,
             onPressed: () {
@@ -253,21 +213,20 @@ class _LoginState extends State<Login> {
                                     fontSize: 12,
                                     color: Colors.white,
                                 ),
-                            )
                         )
                     ],
                 ),
             ),
         );
     }
-    Future<User> getData() async {
+    Future<User> getData() async{
         var user = controladorEmail.text;
         final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+user));
         var userP = User.fromJson(jsonDecode(response.body));
         return userP;
     }
 
-    Future<void> passData() async{
+    Future<http.Response> passData() async{
         http.Response response = await post(new Uri.http("192.168.1.100:8080", "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -276,5 +235,7 @@ class _LoginState extends State<Login> {
                 'email': controladorEmail.text,
                 'password': controladorPasswd.text}));
         _responseMessage = response.body;
+        print(response.body);
     }
+                            ),
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petandgo/sign-in-email.dart';
-import 'package:petandgo/root.dart';
+import 'login.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
                 primaryColor: Color.fromRGBO(63, 202, 12, 1),
             ),
-            home: new RootPage(auth: new Auth())
+            home: LogIn(),
         );
     }
 }
