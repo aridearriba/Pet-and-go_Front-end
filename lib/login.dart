@@ -60,6 +60,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final _formKey = GlobalKey<FormState>();
     var _username = 'user';
     var _password = 'hola';
+    int _statusCode = 0;
     final controladorEmail = new TextEditingController();
     final controladorPasswd = new TextEditingController();
 
@@ -87,15 +88,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                     borderSide: BorderSide(color: Colors.white),
                                 ),
                             ),
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.emailAddress,
                             controller: controladorEmail,
                             validator: (value) {
                                 if (value.isEmpty) {
                                     return 'Por favor, escribe un email.';
                                 }
-                                /*else if (value != _username) {
+                                else if (_statusCode != 200) {
                                     return 'Este username no existe';
-                                }*/
+                                }
 
                                 return null;
                             },
@@ -132,16 +133,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         padding: const EdgeInsets.only(top:30.0, bottom: 20.0, left: 90.0, right: 90.0),
                         child: RaisedButton(
                             onPressed: () {
-                                getData();
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
-                                if (_formKey.currentState.validate()) {
-                                    passData();
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => Home())
-                                    );
-                                }
+                                getData().whenComplete(
+                                    () {
+                                        if (_formKey.currentState.validate()) {
+                                            passData();
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(builder: (context) => Home())
+                                            );
+                                        }
+                                    }
+                                );
                             },
                             child: Text('Log in'),
                         ),
@@ -173,15 +177,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
     Future<User> getData() async{
         var user = controladorEmail.text;
-        final response = await http.get(new Uri.http("192.168.1.43:8080", "/api/usuarios/"+user));
+        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+user));
+        _statusCode = response.statusCode;
         var userP = User.fromJson(jsonDecode(response.body));
-        print(userP.email);
         return userP;
-
     }
 
     Future<http.Response> passData() async{
-        http.Response response = await http.post(new Uri.http("192.168.1.43:8080", "/api/usuarios/login"), body: {'email': controladorEmail.text, 'password': controladorPasswd.text});
+        http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/login"), body: {'email': controladorEmail.text, 'password': controladorPasswd.text});
         print(response.body);
     }
 }
