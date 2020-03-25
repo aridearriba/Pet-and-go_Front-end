@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'home.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -44,11 +46,15 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
 
     final _formKey = GlobalKey<FormState>(); // así identificaremos el formulario
+
     final _controladorEmail = TextEditingController(); //así podremos capturar el email
     final _controladorPasswd = TextEditingController(); //así podremos capturar la contraseña
     final _controladorNombre = TextEditingController();
     final _controladorApellido1 = TextEditingController();
     final _controladorUsername = TextEditingController();
+
+    var _responseMessage;
+
     @override
     Widget build(BuildContext context) {
         return Form(
@@ -63,6 +69,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 labelText: "Email:"
                             ),
                             controller: _controladorEmail,
+                            keyboardType: TextInputType.emailAddress,
                             validator: (value){
                                 RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
                                 if(value.isEmpty){
@@ -157,16 +164,27 @@ class MyCustomFormState extends State<MyCustomForm> {
                         child: RaisedButton(
                             onPressed: () {
                                 FocusScope.of(context).requestFocus(FocusNode());
-                                // comprueba que los campos sean correctos
-                                if (_formKey.currentState.validate()) {
-                                    // Si el formulario es válido, queremos mostrar un Snackbar
-                                    Scaffold.of(context)
-                                        .showSnackBar(SnackBar(content: Text('Usuario registrado con éxito!')));
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => Home())
-                                    );
-                                }
+                                signUp().whenComplete(
+                                () {
+                                    // comprueba que los campos sean correctos
+                                    if (_formKey.currentState.validate()) {
+                                        // Si el formulario es válido, queremos mostrar un Snackbar
+                                        if(_responseMessage == 200) {
+                                            Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        'Usuario registrado con éxito!')));
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) => Home())
+                                            );
+                                        }
+                                        else Scaffold.of(context)
+                                            .showSnackBar(SnackBar(
+                                            content: Text('No se ha podido registrar el usuario')));
+                                    }
+                                });
                             },
                             child: Text('Sign Up'),
                         ),
@@ -174,5 +192,19 @@ class MyCustomFormState extends State<MyCustomForm> {
                 ],
             ),
         );
+    }
+
+    Future<http.Response> signUp() async{
+        http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/"),
+            headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+                'username': _controladorUsername.text,
+                'password': _controladorPasswd.text,
+                'email': _controladorEmail.text,
+                'nombre': _controladorNombre.text + " " + _controladorApellido1.text}));
+        _responseMessage = response.statusCode;
+        print(response.statusCode);
     }
 }
