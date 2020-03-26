@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'user.dart';
-import 'home.dart';
-import 'sign-up.dart';
+import 'package:petandgo/user.dart';
+import 'package:petandgo/home.dart';
+import 'package:petandgo/sign-up.dart';
+
 import 'package:http/http.dart' as http;
 
 
@@ -64,6 +64,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final controladorEmail = new TextEditingController();
     final controladorPasswd = new TextEditingController();
 
+    var _email;
+
     @override
     Widget build(BuildContext context) {
         return Form(
@@ -100,6 +102,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
                                 return null;
                             },
+                            onSaved: (value) => _email = value,
                         ),
                     ),
                     Padding(
@@ -137,9 +140,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 passData().whenComplete(
                                     () {
                                         if (_formKey.currentState.validate()) {
+                                            _formKey.currentState.save();
                                             Navigator.pushReplacement(
                                                 context,
-                                                MaterialPageRoute(builder: (context) => Home())
+                                                MaterialPageRoute(builder: (context) => Home(_email))
                                             );
                                         }
                                     }
@@ -180,7 +184,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         return userP;
     }
 
-    Future<http.Response> passData() async{
+    Future<void> passData() async{
         http.Response response = await post(new Uri.http("192.168.1.100:8080", "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -189,6 +193,5 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 'email': controladorEmail.text,
                 'password': controladorPasswd.text}));
         _responseMessage = response.body;
-        print(response.body);
     }
 }

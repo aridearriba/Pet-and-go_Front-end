@@ -54,6 +54,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     final _controladorUsername = TextEditingController();
 
     var _responseMessage;
+    var _email;
 
     @override
     Widget build(BuildContext context) {
@@ -80,6 +81,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 }
                                 return null;
                             },
+                            onSaved: (value) => _email = value,
                         ),
                     ),
                     Padding(
@@ -147,6 +149,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             obscureText: true,
+                            maxLength: 20,
                             decoration: InputDecoration(
                                 labelText: "Repetir contraseña:"
                             ),
@@ -168,6 +171,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 () {
                                     // comprueba que los campos sean correctos
                                     if (_formKey.currentState.validate()) {
+                                        _formKey.currentState.save();
                                         // Si el formulario es válido, queremos mostrar un Snackbar
                                         if(_responseMessage == 200) {
                                             Scaffold.of(context).showSnackBar(
@@ -177,7 +181,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                             Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) => Home())
+                                                    builder: (context) => Home(_email))
                                             );
                                         }
                                         else Scaffold.of(context)
@@ -194,7 +198,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         );
     }
 
-    Future<http.Response> signUp() async{
+    Future<void> signUp() async{
         http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -205,6 +209,5 @@ class MyCustomFormState extends State<MyCustomForm> {
                 'email': _controladorEmail.text,
                 'nombre': _controladorNombre.text + " " + _controladorApellido1.text}));
         _responseMessage = response.statusCode;
-        print(response.statusCode);
     }
 }
