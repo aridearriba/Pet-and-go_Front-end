@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:petandgo/login.dart';
 import 'package:petandgo/profile.dart';
-import 'package:petandgo/user.dart';
-import 'package:http/http.dart' as http;
+import 'package:petandgo/sign-in-email.dart';
 
 class Home extends StatefulWidget {
     Home(this.email);

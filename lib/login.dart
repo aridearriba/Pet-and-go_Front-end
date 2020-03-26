@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -184,7 +185,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         return userP;
     }
 
-    Future<void> passData() async{
+    Future<http.Response> passData() async{
         http.Response response = await post(new Uri.http("192.168.1.100:8080", "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -193,5 +194,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 'email': controladorEmail.text,
                 'password': controladorPasswd.text}));
         _responseMessage = response.body;
+        print(response.body);
     }
+                            ),
 }
