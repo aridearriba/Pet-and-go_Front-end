@@ -192,14 +192,28 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             splashColor: Colors.grey,
             onPressed: () {
                 signInWithGoogle().whenComplete(() {
+                    signUpGoogle().whenComplete(() {
+                        signInGoogle().whenComplete(
+                                () {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Home(email))
+                                );
+                            }
+                        );
+                    });
+                });
+                /*signInWithGoogle().whenComplete(() {
+                    print ("EMAIL: "+email);
                     Navigator.of(context).push(
                         MaterialPageRoute(
                             builder: (context) {
-                                return Profile();
+                                return Home(email);
                             },
                         ),
                     );
-                });
+                });*/
             },
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
             highlightElevation: 0,
@@ -210,7 +224,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                        Image(image: AssetImage("assets/images/google_logo.png"), height: 20.0),
+                        Image(image: AssetImage("assets/images/google-logo.png"), height: 20.0),
                         Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: Text(
@@ -242,5 +256,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 'email': controladorEmail.text,
                 'password': controladorPasswd.text}));
         _responseMessage = response.body;
+    }
+
+    Future<void> signInGoogle() async{
+        http.Response response = await post(new Uri.http("192.168.1.100:8080", "/api/usuarios/login"),
+            headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+                'email': email,
+                'password': ""}));
+        _responseMessage = response.body;
+    }
+
+    Future<void> signUpGoogle() async{
+        http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/"),
+            headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+                'username': nick,
+                'password': "",
+                'email': email,
+                'nombre': name}));
+        _responseMessage = response.statusCode;
     }
 }
