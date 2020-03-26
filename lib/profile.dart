@@ -15,13 +15,8 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile>
 {
-    /*
-    String nick = 'UserName';
-    String name = 'usuario';
-    String surname = 'de ejemplo';
-    String email = 'user@email.com';*/
-
     nLogIn() {
+        widget.user = null;
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => LogIn())
