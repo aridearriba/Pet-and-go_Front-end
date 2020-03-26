@@ -1,15 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:petandgo/login.dart';
 import 'package:petandgo/profile.dart';
+import 'package:petandgo/user.dart';
+import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
-    Home({Key key,}) : super(key: key);
+    Home(this.email);
+
+    final String email;
 
     @override
     _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+    User user = new User();
 
     nLogIn() {
         Navigator.pushReplacement(
@@ -21,7 +28,7 @@ class _HomeState extends State<Home> {
     nProfile(){
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Profile())
+            MaterialPageRoute(builder: (context) => Profile(user))
         );
     }
 
@@ -36,33 +43,30 @@ class _HomeState extends State<Home> {
                     ),
                 ),
                 actions: <Widget>[
-                    IconButton(icon : Icon(Icons.account_circle), color: Colors.white, onPressed: nProfile,),
+                    IconButton(icon : Icon(Icons.account_circle), color: Colors.white,
+                        onPressed: () {
+                            getData().whenComplete(
+                                nProfile
+                            );
+                        }),
                 ],
             ),
             body: Center(
-
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                         RichText(
                             text: TextSpan(
-                                text : 'Welcome ',
+                                text : 'Welcome to',
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 28.0,
+                                color: Colors.black,
+                                fontSize: 28.0,
                                 ),
                                 children: <TextSpan>[
                                     TextSpan(
-                                        text: 'UserName',
+                                        text : '\nPet & Go',
                                         style: TextStyle(
-                                            color: Colors.green,
-                                            fontSize: 30.0,
-                                        ),
-                                    ),
-                                    TextSpan(
-                                        text : '\n to Pet & Go',
-                                        style: TextStyle(
-                                            color: Colors.black,
+                                            color: Theme.of(context).primaryColor,
                                             fontSize: 28.0,
                                         ),
                                     ),
@@ -74,5 +78,10 @@ class _HomeState extends State<Home> {
                 ),
             ),
         );
+    }
+
+    Future<void> getData() async{
+        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+widget.email));
+        user = User.fromJson(jsonDecode(response.body));
     }
 }
