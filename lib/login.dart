@@ -213,6 +213,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                     fontSize: 12,
                                     color: Colors.white,
                                 ),
+                            )
                         )
                     ],
                 ),
@@ -235,7 +236,5 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 'email': controladorEmail.text,
                 'password': controladorPasswd.text}));
         _responseMessage = response.body;
-        print(response.body);
     }
-                            ),
 }
