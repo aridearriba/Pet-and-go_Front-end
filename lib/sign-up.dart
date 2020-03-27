@@ -79,6 +79,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 if(!regex.hasMatch(value)){
                                     return 'Este email no es válido.';
                                 }
+                                if (_responseMessage == "Email en uso") {
+                                    return 'Ya existe un usuario con este email';
+                                }
                                 return null;
                             },
                             onSaved: (value) => _email = value,
@@ -94,6 +97,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                             validator: (value){
                                 if(value.isEmpty){
                                     return 'Por favor, escribe un username.';
+                                }
+                                if (_responseMessage == "Username en uso"){
+                                    return 'Ya existe un usuario con este username';
                                 }
                                 return null;
                             },
@@ -173,7 +179,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     if (_formKey.currentState.validate()) {
                                         _formKey.currentState.save();
                                         // Si el formulario es válido, queremos mostrar un Snackbar
-                                        if(_responseMessage == 200) {
+                                        if(_responseMessage == "Usuario creado con exito") {
                                             Scaffold.of(context).showSnackBar(
                                                 SnackBar(
                                                     content: Text(
@@ -184,8 +190,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                                     builder: (context) => Home(_email))
                                             );
                                         }
-                                        else Scaffold.of(context)
-                                            .showSnackBar(SnackBar(
+                                        else Scaffold.of(context).showSnackBar(SnackBar(
                                             content: Text('No se ha podido registrar el usuario')));
                                     }
                                 });
@@ -208,6 +213,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                 'password': _controladorPasswd.text,
                 'email': _controladorEmail.text,
                 'nombre': _controladorNombre.text + " " + _controladorApellido1.text}));
-        _responseMessage = response.statusCode;
+        _responseMessage = response.body;
     }
 }
