@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:petandgo/home.dart';
-import 'package:petandgo/login.dart';
-import 'package:petandgo/user.dart';
+import 'package:petandgo/screens/home.dart';
+import 'package:petandgo/screens/user/login.dart';
+import 'package:petandgo/model/user.dart';
 
 
 // ignore: must_be_immutable

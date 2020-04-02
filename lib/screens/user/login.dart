@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
-import 'package:petandgo/user.dart';
-import 'package:petandgo/home.dart';
-import 'package:petandgo/sign-up.dart';
+import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/home.dart';
+import 'package:petandgo/screens/user/sign-up.dart';
 
 import 'package:http/http.dart' as http;
 
