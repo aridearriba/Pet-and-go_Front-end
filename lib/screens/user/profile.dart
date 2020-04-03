@@ -26,7 +26,7 @@ class _ProfileState extends State<Profile>
     nHome() {
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Home(widget.user.email))
+            MaterialPageRoute(builder: (context) => Home(widget.user))
         );
     }
 
@@ -57,11 +57,10 @@ class _ProfileState extends State<Profile>
                         padding: const EdgeInsets.symmetric(vertical: 20.0),
                         child: Column(
                             children: <Widget>[
-                                Icon(
-                                    Icons.account_circle,
-                                    color: Colors.green,
-                                    size: 150.0,
-
+                                CircleAvatar(
+                                    backgroundImage: new NetworkImage(widget.user.profileImageUrl),
+                                    radius: 75,
+                                    backgroundColor: Colors.transparent,
                                 ),
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
