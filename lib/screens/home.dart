@@ -1,23 +1,18 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import 'package:petandgo/model/user.dart';
-import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
-    Home(this.email);
+    Home(this.user);
 
-    final String email;
+    final User user;
 
     @override
     _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-    User user = new User();
-
     nLogIn() {
         Navigator.pushReplacement(
             context,
@@ -28,7 +23,7 @@ class _HomeState extends State<Home> {
     nProfile(){
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Profile(user))
+            MaterialPageRoute(builder: (context) => Profile(widget.user))
         );
     }
 
@@ -44,11 +39,8 @@ class _HomeState extends State<Home> {
                 ),
                 actions: <Widget>[
                     IconButton(icon : Icon(Icons.account_circle), color: Colors.white,
-                        onPressed: () {
-                            getData().whenComplete(
-                                nProfile
-                            );
-                        }),
+                        onPressed: () => nProfile()
+                    )
                 ],
             ),
             body: Center(
@@ -78,10 +70,5 @@ class _HomeState extends State<Home> {
                 ),
             ),
         );
-    }
-
-    Future<void> getData() async{
-        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+widget.email));
-        user = User.fromJson(jsonDecode(response.body));
     }
 }

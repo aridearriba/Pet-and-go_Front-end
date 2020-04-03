@@ -8,7 +8,11 @@ import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/user/sign-up.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:google_sign_in/google_sign_in.dart';
 
+
+GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
+User _user = new User();
 
 /// This Widget is the main application widget.
 class LogIn extends StatelessWidget {
@@ -16,6 +20,7 @@ class LogIn extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
+        _googleSignIn.disconnect();
         Size size = MediaQuery.of(context).size;
         return GestureDetector(
             onTap: () {
@@ -141,9 +146,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                     () {
                                         if (_formKey.currentState.validate()) {
                                             _formKey.currentState.save();
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => Home(_email))
+                                            getData().whenComplete(
+                                                () {
+                                                    Navigator.pushReplacement(context,
+                                                        MaterialPageRoute(
+                                                            builder: (
+                                                                context) =>
+                                                                Home(_user))
+                                                    );
+                                                }
                                             );
                                         }
                                     }
@@ -173,15 +184,69 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             child: Text('Sign up'),
                         ),
                     ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 90.0),
+                        child: _signInButton(),
+                    ),
                 ],
             ),
         );
     }
-    Future<User> getData() async{
-        var user = controladorEmail.text;
-        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+user));
-        var userP = User.fromJson(jsonDecode(response.body));
-        return userP;
+
+    Widget _signInButton() {
+        return OutlineButton(
+            splashColor: Colors.grey,
+            onPressed: () {
+                _googleAccountSignIn().whenComplete(
+                    () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => Home(_user))
+                        );
+                    }
+                );
+            },
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            highlightElevation: 0,
+            borderSide: BorderSide(color: Colors.grey),
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                        Image(image: AssetImage("assets/images/google-logo.png"), height: 20.0),
+                        Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                                'Sign in with Google',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.white,
+                                ),
+                            )
+                        )
+                    ],
+                ),
+            ),
+        );
+    }
+
+    Future<void> _googleAccountSignIn() async{
+        try{
+            await _googleSignIn.signIn();
+            _user.email = _googleSignIn.currentUser.email;
+            _user.username = _googleSignIn.currentUser.displayName.toLowerCase().replaceAll(" ", "");
+            _user.name = _googleSignIn.currentUser.displayName;
+            _user.profileImageUrl = _googleSignIn.currentUser.photoUrl;
+        }catch(error){
+            print(error);
+        }
+    }
+
+    Future<void> getData() async{
+        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+_email));
+        _user = User.fromJson(jsonDecode(response.body));
     }
 
     Future<void> passData() async{
