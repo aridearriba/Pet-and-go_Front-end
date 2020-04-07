@@ -64,7 +64,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final controladorEmail = new TextEditingController();
     final controladorPasswd = new TextEditingController();
 
-    var _email;
+    User user = new User();
+
+    void nHome(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Home(user))
+        );
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -102,7 +109,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
                                 return null;
                             },
-                            onSaved: (value) => _email = value,
                         ),
                     ),
                     Padding(
@@ -140,10 +146,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 passData().whenComplete(
                                     () {
                                         if (_formKey.currentState.validate()) {
-                                            _formKey.currentState.save();
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(builder: (context) => Home(_email))
+                                            getData().whenComplete(
+                                                () {
+                                                    Navigator.pushReplacement(
+                                                        context,
+                                                        MaterialPageRoute(builder: (context) => Home(user))
+                                                    );
+                                                }
                                             );
                                         }
                                     }
@@ -177,11 +186,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
         );
     }
-    Future<User> getData() async{
-        var user = controladorEmail.text;
-        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+user));
-        var userP = User.fromJson(jsonDecode(response.body));
-        return userP;
+    Future<void> getData() async{
+        var email = controladorEmail.text;
+        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+email));
+        user = User.fromJson(jsonDecode(response.body));
     }
 
     Future<void> passData() async{
