@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import 'package:petandgo/model/user.dart';
@@ -35,6 +36,7 @@ class _HomeState extends State<Home> {
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            drawer: Menu(),
             appBar: AppBar(
                 title: Text(
                     'Pet & Go',
