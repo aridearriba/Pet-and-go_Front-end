@@ -1,23 +1,18 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import 'package:petandgo/model/user.dart';
-import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
-    Home(this.email);
-
-    final String email;
+    Home(this.user);
+    User user;
 
     @override
     _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-    User user = new User();
 
     nLogIn() {
         Navigator.pushReplacement(
@@ -29,29 +24,25 @@ class _HomeState extends State<Home> {
     nProfile(){
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Profile(user))
+            MaterialPageRoute(builder: (context) => Profile(widget.user))
         );
     }
 
     @override
     Widget build(BuildContext context) {
         return Scaffold(
-            drawer: Menu(),
+            drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
                     'Pet & Go',
                     style: TextStyle(
                         color: Colors.white,
                     ),
+
                 ),
-                actions: <Widget>[
-                    IconButton(icon : Icon(Icons.account_circle), color: Colors.white,
-                        onPressed: () {
-                            getData().whenComplete(
-                                nProfile
-                            );
-                        }),
-                ],
+                iconTheme: IconThemeData(
+                    color: Colors.white,
+                ),
             ),
             body: Center(
                 child: Column(
@@ -80,10 +71,5 @@ class _HomeState extends State<Home> {
                 ),
             ),
         );
-    }
-
-    Future<void> getData() async{
-        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+widget.email));
-        user = User.fromJson(jsonDecode(response.body));
     }
 }

@@ -1,6 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:petandgo/model/user.dart';
 
-class Menu extends StatelessWidget {
+import 'package:petandgo/screens/user/login.dart';
+import 'package:petandgo/screens/user/profile.dart';
+
+import '../home.dart';
+
+class Menu extends StatefulWidget {
+    Menu(this.user);
+    User user;
+    // Navigate to LogIn
+    @override
+    _MenuContent createState() => _MenuContent();
+}
+
+class _MenuContent extends State<Menu> {
+    // Navigate to LogIn
+    nLogIn() {
+        widget.user = null;
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LogIn())
+        );
+    }
+    // Navigate to Profile
+    nProfile(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Profile(widget.user))
+        );
+    }
+    // Navigate to Home
+    nHome(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Home(widget.user))
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         return Drawer(
@@ -14,17 +51,20 @@ class Menu extends StatelessWidget {
                                 color: Colors.white,
                             ),
                         ),
+                        iconTheme: IconThemeData(
+                            color: Colors.white,
+                        ),
                     ),
                     UserAccountsDrawerHeader(
                         accountName: Text(
-                            "Nombre Apellido",
+                            widget.user.name,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
                             ),
                         ),
                         accountEmail: Text(
-                            "prueba@gmail.com",
+                            widget.user.email,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -37,26 +77,21 @@ class Menu extends StatelessWidget {
                                 image: AssetImage('assets/images/background-login.jpg')
                             )
                         ),
-                        currentAccountPicture: CircleAvatar(
-                            backgroundColor:
-                            Theme.of(context).platform == TargetPlatform.iOS
-                                ? Colors.blue
-                                : Colors.white,
-                            child: Text(
-                                "A",
-                                style: TextStyle(fontSize: 40.0),
-                            ),
+                        currentAccountPicture: IconButton(
+                            icon : Icon(Icons.account_circle, size: 70),
+                            color: Colors.white,
+                            onPressed: nProfile,
                         ),
                     ),
                     ListTile(
                         leading: Icon(Icons.home),
                         title: Text('Inicio'),
-                        onTap: () => {},
+                        onTap: () => nHome(),
                     ),
                     ListTile(
                         leading: Icon(Icons.account_circle),
                         title: Text('Perfil'),
-                        onTap: () => {Navigator.of(context).pop()},
+                        onTap: () => nProfile(),
                     ),
                     ListTile(
                         leading: Icon(Icons.pets),
@@ -71,7 +106,7 @@ class Menu extends StatelessWidget {
                     ListTile(
                         leading: Icon(Icons.exit_to_app),
                         title: Text('Logout'),
-                        onTap: () => {Navigator.of(context).pop()},
+                        onTap: () => nLogIn(),
                     ),
                 ],
             ),

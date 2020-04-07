@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/screens/home.dart';
+import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/model/user.dart';
 
@@ -26,30 +27,25 @@ class _ProfileState extends State<Profile>
     nHome() {
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Home(widget.user.email))
+            MaterialPageRoute(builder: (context) => Home(widget.user))
         );
     }
 
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
                     'Pet & Go',
                     style: TextStyle(
                         color: Colors.white,
                     ),
+
                 ),
-                actions: <Widget>[
-                    IconButton(
-                        icon: Icon(Icons.home, color: Colors.white,),
-                        onPressed: nHome,
-                    ),
-                    IconButton(
-                        icon: Icon(Icons.settings, color: Colors.white,),
-                        onPressed: () {},
-                    ),
-                ]
+                iconTheme: IconThemeData(
+                    color: Colors.white,
+                ),
             ),
             body: Column(
                 children: <Widget>[
@@ -61,7 +57,6 @@ class _ProfileState extends State<Profile>
                                     Icons.account_circle,
                                     color: Colors.green,
                                     size: 150.0,
-
                                 ),
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
