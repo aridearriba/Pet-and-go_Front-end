@@ -40,6 +40,7 @@ class _MenuContent extends State<Menu> {
 
     @override
     Widget build(BuildContext context) {
+        print("EMAIL: " + widget.user.email);
         return Drawer(
             child: ListView(
                 padding: EdgeInsets.zero,
