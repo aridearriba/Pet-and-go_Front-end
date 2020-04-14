@@ -58,8 +58,7 @@ class MyCustomFormState extends State<NewPetForm> {
     final _controladorApellido1 = TextEditingController();
     final _controladorUsername = TextEditingController();
 
-    var _responseMessage;
-    var _email;
+    var _statusCode;
 
     @override
     Widget build(BuildContext context) {
@@ -120,17 +119,17 @@ class MyCustomFormState extends State<NewPetForm> {
                         child: RaisedButton(
                             onPressed: () {
                                 FocusScope.of(context).requestFocus(FocusNode());
-                                signUp().whenComplete(
+                                add().whenComplete(
                                         () {
                                         // comprueba que los campos sean correctos
                                         if (_formKey.currentState.validate()) {
                                             _formKey.currentState.save();
                                             // Si el formulario es válido, queremos mostrar un Snackbar
-                                            if(_responseMessage == "Usuario creado con exito") {
+                                            if(_statusCode == 201) {
                                                 Scaffold.of(context).showSnackBar(
                                                     SnackBar(
                                                         content: Text(
-                                                            'Usuario registrado con éxito!')));
+                                                            'Mascota añadida con éxito!')));
                                                 Navigator.pushReplacement(
                                                     context,
                                                     MaterialPageRoute(
@@ -150,16 +149,17 @@ class MyCustomFormState extends State<NewPetForm> {
         );
     }
 
-    Future<void> signUp() async{
-        http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/"),
+    Future<void> add() async{
+        var email = widget.user.email;
+        http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/" + email + "/mascotas"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode(<String, String>{
-                'username': _controladorUsername.text,
+                'id': _controladorUsername.text,
                 'password': _controladorPasswd.text,
                 'email': _controladorEmail.text,
-                'nombre': _controladorNombre.text + " " + _controladorApellido1.text}));
-        _responseMessage = response.body;
+                'date': _controladorNombre.text + " " + _controladorApellido1.text}));
+        _statusCode = response.statusCode;
     }
 }
