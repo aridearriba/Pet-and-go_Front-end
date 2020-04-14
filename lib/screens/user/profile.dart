@@ -1,10 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
+import 'package:petandgo/screens/pets/Pet.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:petandgo/screens/user/sign-up.dart';
 
 
 // ignore: must_be_immutable
@@ -17,6 +24,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile>
 {
+    List<Mascota> _mascotas = new List<Mascota>();
     nLogIn() {
         widget.user = null;
         Navigator.pushReplacement(
@@ -39,8 +47,17 @@ class _ProfileState extends State<Profile>
         );
     }
 
+    nPet() {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Pet())
+        );
+    }
+
+
     @override
     Widget build(BuildContext context) {
+        getMascotas();
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
@@ -181,47 +198,17 @@ class _ProfileState extends State<Profile>
                                             ),
                                         ),
                                         // Pet
-                                        Padding(
-                                            padding: const EdgeInsets.only(top: 5.0),
-                                            child: Row(
-                                                children: <Widget>[
-                                                    Icon(
-                                                        Icons.crop_square,
-                                                        color: Colors.black54,
-                                                        size: 100.0,
-                                                    ),
-                                                    Column(
-                                                        children: <Widget>[
-                                                            Text(
-                                                                "Nombre mascota",
-                                                                style: TextStyle(
-                                                                    color: Colors.black54,
-                                                                    fontSize: 16.0,
-                                                                ),
-                                                                textAlign: TextAlign.left,
-                                                            ),
-                                                            Text(
-                                                                "Raza",
-                                                                style: TextStyle(
-                                                                    color: Colors.black45,
-                                                                    fontStyle: FontStyle.italic,
-                                                                    fontSize: 12.0,
-                                                                ),
-                                                                textAlign: TextAlign.left,
-                                                            )
-                                                        ]
-                                                    ),
-                                                    Padding(
-                                                        padding: EdgeInsets.only(left: 50),
-                                                        child: Icon(
-                                                            Icons.arrow_forward_ios,
-                                                            color: Colors.black54,
-                                                            size: 20.0,
-                                                        ),
-                                                    ),
-                                                ]
-                                            ),
-                                        ),
+                                        ListView.builder
+                                        (
+                                            shrinkWrap: true,
+                                            itemCount: _mascotas.length,
+                                            itemBuilder: (context, index) {
+                                                return ListTile(
+                                                    title: Text(_mascotas[index].id.name),
+                                                    onTap: () => nPet(),
+                                                );
+                                            },
+                                        )
                                     ],
                                 ),
                             ],
@@ -229,7 +216,17 @@ class _ProfileState extends State<Profile>
                     ),
                 ]
             ),
-
         );
     }
+
+    Future<void> getMascotas() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/" + email + "/mascotas"));
+
+        Iterable list = json.decode(response.body);
+        _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
+
+        print("MASCOTA: " + _mascotas[1].id.name);
+    }
+
 }
