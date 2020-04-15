@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +22,7 @@ class NewPet extends StatelessWidget {
                 if(!actualFocus.hasPrimaryFocus){
                     actualFocus.unfocus();
                 }
+
             },
             child: MaterialApp(
                 title: appTitle,
@@ -30,7 +32,7 @@ class NewPet extends StatelessWidget {
                 home: Scaffold(
                     //resizeToAvoidBottomInset: false,
                     appBar: AppBar(
-                        title: Text("Añadir mascota"),
+                        title: Text("Añadir mascota")
                     ),
                     body: NewPetForm(user),
                 ),
@@ -50,15 +52,15 @@ class NewPetForm extends StatefulWidget {
 // Esta clase contendrá los datos relacionados con el formulario.
 class MyCustomFormState extends State<NewPetForm> {
 
-    final _formKey = GlobalKey<FormState>(); // así identificaremos el formulario
+    final _formKey = GlobalKey<FormState>();
 
-    final _controladorEmail = TextEditingController(); //así podremos capturar el email
-    final _controladorPasswd = TextEditingController(); //así podremos capturar la contraseña
-    final _controladorNombre = TextEditingController();
-    final _controladorApellido1 = TextEditingController();
-    final _controladorUsername = TextEditingController();
+    final _controladorName = TextEditingController();
+    final _controladorBirthday = TextEditingController();
+    final _controladorRaza = TextEditingController();
 
     var _statusCode;
+
+    DateTime _dateTime;
 
     @override
     Widget build(BuildContext context) {
@@ -73,30 +75,45 @@ class MyCustomFormState extends State<NewPetForm> {
                             decoration: InputDecoration(
                                 labelText: "Nombre:"
                             ),
-                            controller: _controladorEmail,
+                            controller: _controladorName,
                             keyboardType: TextInputType.text,
                             validator: (value){
                                 if(value.isEmpty){
                                     return 'Por favor, escribe el nombre de tu mascota.';
                                 }
+                                else if (_statusCode == 500){
+                                    return 'Ya tienes otra mascota con este nombre.';
+                                }
+
                                 return null;
                             },
                         ),
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                        child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: "Fecha nacimiento:",
-                            ),
-                            controller: _controladorUsername,
-                            keyboardType: TextInputType.datetime,
-                            validator: (value){
-                                if(value.isEmpty){
-                                    return 'Por favor, escribe una fecha.';
-                                }
-                                return null;
+                        child: InkWell(
+                            onTap: () async {
+                                    _dateTime = await showDatePicker(
+                                        context: context,
+                                        initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+                                        firstDate: DateTime(DateTime.now().year - 20),
+                                        lastDate: DateTime(DateTime.now().year + 1)
+                                    );
+                                    _controladorBirthday.text = _dateTime.day.toString() + ". " + _dateTime.month.toString() + ". " + _dateTime.year.toString();
                             },
+                            child: IgnorePointer(
+                                child: new TextFormField(
+                                    decoration: new InputDecoration(labelText: 'Fecha de nacimiento:'),
+                                    controller: _controladorBirthday,
+                                    validator: (value){
+                                        if(value.isEmpty){
+                                            return 'Por favor, pon una fecha.';
+                                        }
+                                        return null;
+                                    },
+                                    onSaved: (String val) {},
+                                ),
+                            ),
                         ),
                     ),
                     Padding(
@@ -105,7 +122,7 @@ class MyCustomFormState extends State<NewPetForm> {
                             decoration: InputDecoration(
                                 labelText: "Raza:",
                             ),
-                            controller: _controladorNombre,
+                            controller: _controladorRaza,
                             validator: (value){
                                 if(value.isEmpty){
                                     return 'Por favor, escribe tu nombre.';
@@ -151,15 +168,19 @@ class MyCustomFormState extends State<NewPetForm> {
 
     Future<void> add() async{
         var email = widget.user.email;
+        var date = _dateTime.toString().substring(0, 10);
+        print("DATE: " + _dateTime.toString().substring(0, 10));
         http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/" + email + "/mascotas"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
-            body: jsonEncode(<String, String>{
-                'id': _controladorUsername.text,
-                'password': _controladorPasswd.text,
-                'email': _controladorEmail.text,
-                'date': _controladorNombre.text + " " + _controladorApellido1.text}));
+            body: jsonEncode({
+                'id': {
+                    'nombre': _controladorName.text,
+                    'amo': widget.user.email
+                },
+                'fechaNacimiento': date}));
         _statusCode = response.statusCode;
+        print("STAUTD: " + _statusCode.toString());
     }
 }

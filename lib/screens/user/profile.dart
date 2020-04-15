@@ -199,8 +199,8 @@ class _ProfileState extends State<Profile>
                                             ),
                                         ),
                                         // Pet
-                                        ListView.builder
-                                        (
+                                        ListView.builder(
+                                            physics: NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             itemCount: _mascotas.length,
                                             itemBuilder: (context, index) {
