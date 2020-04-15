@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
-import 'package:petandgo/screens/pets/Pet.dart';
+import 'package:petandgo/screens/pets/pet.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
@@ -18,6 +18,7 @@ import 'package:petandgo/screens/user/sign-up.dart';
 class Profile extends StatefulWidget {
     Profile(this.user);
     User user;
+
     @override
     _ProfileState createState() => _ProfileState();
 }
@@ -47,10 +48,10 @@ class _ProfileState extends State<Profile>
         );
     }
 
-    nPet() {
+    nPet(Mascota mascota) {
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Pet())
+            MaterialPageRoute(builder: (context) => Pet(widget.user, mascota))
         );
     }
 
@@ -62,7 +63,7 @@ class _ProfileState extends State<Profile>
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Pet & Go',
+                    'Perfil',
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -198,14 +199,14 @@ class _ProfileState extends State<Profile>
                                             ),
                                         ),
                                         // Pet
-                                        ListView.builder
-                                        (
+                                        ListView.builder(
+                                            physics: NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             itemCount: _mascotas.length,
                                             itemBuilder: (context, index) {
                                                 return ListTile(
                                                     title: Text(_mascotas[index].id.name),
-                                                    onTap: () => nPet(),
+                                                    onTap: () => nPet(_mascotas[index]),
                                                 );
                                             },
                                         )
@@ -222,11 +223,9 @@ class _ProfileState extends State<Profile>
     Future<void> getMascotas() async{
         var email = widget.user.email;
         final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/" + email + "/mascotas"));
-
-        Iterable list = json.decode(response.body);
-        _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
-
-        print("MASCOTA: " + _mascotas[1].id.name);
+        setState(() {
+            Iterable list = json.decode(response.body);
+            _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
+        });
     }
-
 }

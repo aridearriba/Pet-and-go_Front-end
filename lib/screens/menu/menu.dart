@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/pets/myPets.dart';
 
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
@@ -37,10 +38,16 @@ class _MenuContent extends State<Menu> {
             MaterialPageRoute(builder: (context) => Home(widget.user))
         );
     }
+    // Navigate to MyPets
+    nMyPets(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MyPets(widget.user))
+        );
+    }
 
     @override
     Widget build(BuildContext context) {
-        print("EMAIL: " + widget.user.email);
         return Drawer(
             child: ListView(
                 padding: EdgeInsets.zero,
@@ -97,7 +104,7 @@ class _MenuContent extends State<Menu> {
                     ListTile(
                         leading: Icon(Icons.pets),
                         title: Text('Mis mascotas'),
-                        onTap: () => {Navigator.of(context).pop()},
+                        onTap: () => nMyPets(),
                     ),
                     ListTile(
                         leading: Icon(Icons.settings),
