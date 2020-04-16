@@ -12,7 +12,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 
 GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
-User _user = new User();
 
 /// This Widget is the main application widget.
 class LogIn extends StatelessWidget {
@@ -209,7 +208,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         () {
                         Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => Home(_user))
+                            MaterialPageRoute(builder: (context) => Home(user))
                         );
                     }
                 );
@@ -252,10 +251,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Future<void> _googleAccountSignIn() async{
         try{
             await _googleSignIn.signIn();
-            _user.email = _googleSignIn.currentUser.email;
-            _user.username = _googleSignIn.currentUser.displayName.toLowerCase().replaceAll(" ", "");
-            _user.name = _googleSignIn.currentUser.displayName;
-            if (_googleSignIn.currentUser.photoUrl.runtimeType != Null) _user.profileImageUrl = _googleSignIn.currentUser.photoUrl;
+            user.email = _googleSignIn.currentUser.email;
+            user.username = _googleSignIn.currentUser.displayName.toLowerCase().replaceAll(" ", "");
+            user.name = _googleSignIn.currentUser.displayName;
+            if (_googleSignIn.currentUser.photoUrl.runtimeType != Null) user.profileImageUrl = _googleSignIn.currentUser.photoUrl;
             signUp();
         }catch(error){
             print(error);
@@ -279,10 +278,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode(<String, String>{
-                'username': _user.username,
+                'username': user.username,
                 'password': "",
-                'email': _user.email,
-                'nombre': _user.name}));
+                'email': user.email,
+                'nombre': user.name}));
         _responseCode = response.statusCode;
     }
 }

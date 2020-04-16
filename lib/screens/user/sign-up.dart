@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/model/user.dart';
 import '../home.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -184,15 +185,19 @@ class MyCustomFormState extends State<MyCustomForm> {
                                                 SnackBar(
                                                     content: Text(
                                                         'Usuario registrado con éxito!')));
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => Home(_email))
-                                            );
+                                                // navigate to home
+                                                User user = new User();
+                                                user.username = _controladorUsername.text;
+                                                user.email = _controladorEmail.text;
+                                                user.name = _controladorNombre.text + " " + _controladorApellido1.text;
+                                                Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(builder: (context) => Home(user))
+                                                );
+                                            }
                                         }
                                         else Scaffold.of(context).showSnackBar(SnackBar(
                                             content: Text('No se ha podido registrar el usuario')));
-                                    }
                                 });
                             },
                             child: Text('Sign Up'),
@@ -216,4 +221,6 @@ class MyCustomFormState extends State<MyCustomForm> {
         _responseCode = response.statusCode;
         _responseMessage = response.body;
     }
+
+
 }
