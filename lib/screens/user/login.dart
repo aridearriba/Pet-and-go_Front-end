@@ -60,7 +60,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final _formKey = GlobalKey<FormState>();
-    var _responseMessage;
+    var _responseCode;
     final controladorEmail = new TextEditingController();
     final controladorPasswd = new TextEditingController();
 
@@ -103,8 +103,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 if (value.isEmpty) {
                                     return 'Por favor, escribe un email.';
                                 }
-                                else if (_responseMessage == "El email no existe") {
-                                    return 'Este email no está registrado';
+                                else if (_responseCode == 400) {
+                                    return 'Usuario o contraseña incorrectos';
                                 }
 
                                 return null;
@@ -129,8 +129,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 if (value.isEmpty) {
                                     return 'Por favor, escribe tu constraseña';
                                 }
-                                else if (_responseMessage == "Password incorrecto") {
-                                    return 'Contraseña incorrecta';
+                                else if (_responseCode == 400) {
+                                    return 'Usuario o contraseña incorrectos';
                                 }
                                 return null;
                             },
@@ -146,14 +146,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 passData().whenComplete(
                                     () {
                                         if (_formKey.currentState.validate()) {
-                                            getData().whenComplete(
-                                                () {
-                                                    Navigator.pushReplacement(
-                                                        context,
-                                                        MaterialPageRoute(builder: (context) => Home(user))
-                                                    );
-                                                }
-                                            );
+                                            if(_responseCode != 200) {
+                                                Scaffold.of(context).showSnackBar(SnackBar(
+                                                content: Text('No se ha podido completar el login')));
+                                            }
+                                            else {
+                                                getData().whenComplete(
+                                                        () { Navigator.pushReplacement(
+                                                            context,
+                                                            MaterialPageRoute(builder: (context) => Home(user))
+                                                        );
+                                                    }
+                                                );
+                                            }
                                         }
                                     }
                                 );
@@ -188,18 +193,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
     Future<void> getData() async{
         var email = controladorEmail.text;
-        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+email));
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"+email));
         user = User.fromJson(jsonDecode(response.body));
     }
 
     Future<void> passData() async{
-        http.Response response = await post(new Uri.http("192.168.1.100:8080", "/api/usuarios/login"),
+        http.Response response = await post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode(<String, String>{
                 'email': controladorEmail.text,
                 'password': controladorPasswd.text}));
-        _responseMessage = response.body;
+        _responseCode = response.statusCode;
+        print("CODE: " + _responseCode.toString());
     }
 }

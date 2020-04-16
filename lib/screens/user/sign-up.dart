@@ -204,7 +204,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
 
     Future<void> signUp() async{
-        http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/"),
+        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },

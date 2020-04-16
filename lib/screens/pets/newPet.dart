@@ -170,7 +170,7 @@ class MyCustomFormState extends State<NewPetForm> {
         var email = widget.user.email;
         var date = _dateTime.toString().substring(0, 10);
         print("DATE: " + _dateTime.toString().substring(0, 10));
-        http.Response response = await http.post(new Uri.http("192.168.1.100:8080", "/api/usuarios/" + email + "/mascotas"),
+        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
@@ -181,6 +181,5 @@ class MyCustomFormState extends State<NewPetForm> {
                 },
                 'fechaNacimiento': date}));
         _statusCode = response.statusCode;
-        print("STAUTD: " + _statusCode.toString());
     }
 }
