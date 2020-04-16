@@ -148,7 +148,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             onPressed: () {
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
-                                passData().whenComplete(
+                                login().whenComplete(
                                     () {
                                         if (_formKey.currentState.validate()) {
                                             if(_responseCode != 200) {
@@ -255,13 +255,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             _user.email = _googleSignIn.currentUser.email;
             _user.username = _googleSignIn.currentUser.displayName.toLowerCase().replaceAll(" ", "");
             _user.name = _googleSignIn.currentUser.displayName;
-            _user.profileImageUrl = _googleSignIn.currentUser.photoUrl;
+            if (_googleSignIn.currentUser.photoUrl.runtimeType != Null) _user.profileImageUrl = _googleSignIn.currentUser.photoUrl;
+            signUp();
         }catch(error){
             print(error);
         }
     }
 
-    Future<void> passData() async{
+    Future<void> login() async{
         http.Response response = await post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -270,6 +271,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 'email': controladorEmail.text,
                 'password': controladorPasswd.text}));
         _responseCode = response.statusCode;
-        print("CODE: " + _responseCode.toString());
+    }
+
+    Future<void> signUp() async{
+        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"),
+            headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+                'username': _user.username,
+                'password': "",
+                'email': _user.email,
+                'nombre': _user.name}));
+        _responseCode = response.statusCode;
     }
 }
