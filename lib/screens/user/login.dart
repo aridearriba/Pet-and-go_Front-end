@@ -206,7 +206,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             splashColor: Colors.grey,
             onPressed: () {
                 _googleAccountSignIn().whenComplete(
-                    () {
+                        () {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => Home(_user))
@@ -214,7 +214,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     }
                 );
             },
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40)),
             highlightElevation: 0,
             borderSide: BorderSide(color: Colors.grey),
             child: Padding(
@@ -223,7 +224,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                        Image(image: AssetImage("assets/images/google-logo.png"), height: 20.0),
+                        Image(
+                            image: AssetImage("assets/images/google-logo.png"),
+                            height: 20.0),
                         Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: Text(
@@ -238,6 +241,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 ),
             ),
         );
+    }
+
     Future<void> getData() async{
         var email = controladorEmail.text;
         final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"+email));
@@ -254,11 +259,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         }catch(error){
             print(error);
         }
-    }
-
-    Future<void> getData() async{
-        final response = await http.get(new Uri.http("192.168.1.100:8080", "/api/usuarios/"+_email));
-        _user = User.fromJson(jsonDecode(response.body));
     }
 
     Future<void> passData() async{
