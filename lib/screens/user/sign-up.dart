@@ -53,7 +53,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     final _controladorApellido1 = TextEditingController();
     final _controladorUsername = TextEditingController();
 
-    var _responseMessage;
+    var _responseMessage,_responseCode;
     var _email;
 
     @override
@@ -79,7 +79,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 if(!regex.hasMatch(value)){
                                     return 'Este email no es válido.';
                                 }
-                                if (_responseMessage == "Email en uso") {
+                                if (_responseMessage == "email") {
                                     return 'Ya existe un usuario con este email';
                                 }
                                 return null;
@@ -98,7 +98,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 if(value.isEmpty){
                                     return 'Por favor, escribe un username.';
                                 }
-                                if (_responseMessage == "Username en uso"){
+                                if (_responseMessage == "username"){
                                     return 'Ya existe un usuario con este username';
                                 }
                                 return null;
@@ -179,7 +179,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     if (_formKey.currentState.validate()) {
                                         _formKey.currentState.save();
                                         // Si el formulario es válido, queremos mostrar un Snackbar
-                                        if(_responseMessage == "Usuario creado con exito") {
+                                        if(_responseCode == 201) {
                                             Scaffold.of(context).showSnackBar(
                                                 SnackBar(
                                                     content: Text(
@@ -213,6 +213,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                 'password': _controladorPasswd.text,
                 'email': _controladorEmail.text,
                 'nombre': _controladorNombre.text + " " + _controladorApellido1.text}));
+        _responseCode = response.statusCode;
         _responseMessage = response.body;
     }
 }
