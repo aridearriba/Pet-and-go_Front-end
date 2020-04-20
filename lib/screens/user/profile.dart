@@ -195,7 +195,12 @@ class _ProfileState extends State<Profile> {
                                                         icon: Icon(Icons.lock, color: Colors.white),
                                                         backgroundColor: Colors.green,
                                                         label: Text("Cambiar contraseña"),
-                                                        onPressed: () {}
+                                                        onPressed: () {
+                                                            showDialog(
+                                                                context: context,
+                                                                builder: (BuildContext context) => _buildPasswordDialog(context)
+                                                            );
+                                                        }
                                                     )
                                                 ],
                                             )
@@ -279,6 +284,82 @@ class _ProfileState extends State<Profile> {
         });
     }
 
+    Widget _buildPasswordDialog(BuildContext context){
+        final _formKey = GlobalKey<FormState>();
+        TextEditingController _passwdController = new TextEditingController();
+        return new AlertDialog(
+            title: Text('Cambiar contraseña'),
+            content: new Form(
+                key: _formKey,
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+                            child: Row(
+                                children: <Widget>[
+                                    new Expanded(child: Text(
+                                        "Nueva contraseña:  ",
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                    ),),
+                                    SizedBox(width: 150, child: TextFormField(
+                                        controller: _passwdController,
+                                        textAlign: TextAlign.center,
+                                        obscureText: true,
+                                        validator: (value){
+                                            if(value.isEmpty){
+                                                return 'Escribe una contraseña';
+                                            }
+                                            return null;
+                                        },
+                                    ),)
+                                ],
+                            ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Row(
+                                children: <Widget>[
+                                    new Expanded(child: Text(
+                                        "Repetir nueva contraseña: ",
+                                        style: TextStyle(
+                                            color: Colors.green,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                    ),),
+                                    SizedBox(width: 150, child: TextFormField(
+                                        textAlign: TextAlign.center,
+                                        obscureText: true,
+                                        validator: (value){
+                                            if(value != _passwdController.text){
+                                                return 'No coinciden';
+                                            }
+                                            return null;
+                                        },
+                                    ),)
+                                ],
+                            ),
+                        ),
+                    ],
+                ),
+            ),
+            actions: <Widget>[new FlatButton(
+                onPressed: (){
+                    if(_formKey.currentState.validate()){
+
+                    }
+                },
+                textColor: Theme.of(context).primaryColor,
+                child: const Text('Aceptar'),
+            ),
+            ],
+        );
+    }
+
     Widget _buildEditDialog(BuildContext context) {
         TextEditingController _usernameController = new TextEditingController();
         _usernameController.text = widget.user.username;
@@ -350,9 +431,9 @@ class _ProfileState extends State<Profile> {
                 ],
             ),
             actions: <Widget>[new FlatButton(
-                onPressed: (){ Navigator.of(context).pop(); },
+                onPressed: (){},
                 textColor: Theme.of(context).primaryColor,
-                child: const Text('Okay, got it'),
+                child: const Text('Aceptar'),
                 ),
             ],
         );
