@@ -42,14 +42,14 @@ class _ProfileState extends State<Profile> {
     }
 
     nNewPet() {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NewPet(widget.user))
         );
     }
 
     nPet(Mascota mascota) {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Pet(widget.user, mascota))
         );

@@ -27,14 +27,14 @@ class _PetsState extends State<MyPets>
     List<Mascota> _mascotas = new List<Mascota>();
 
     nNewPet() {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NewPet(widget.user))
         );
     }
 
     nPet(Mascota mascota) {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Pet(widget.user, mascota))
         );

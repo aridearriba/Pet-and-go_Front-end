@@ -33,6 +33,12 @@ class _PetState extends State<Pet>
                 iconTheme: IconThemeData(
                     color: Colors.white,
                 ),
+                actions: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () => Navigator.pop(context),
+                    )
+                ],
             ),
             body: ListView(
                 children: <Widget>[
