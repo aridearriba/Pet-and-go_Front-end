@@ -64,7 +64,7 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final _formKey = GlobalKey<FormState>();
-    var _responseCode;
+    var _responseCode, _token;
     final controladorEmail = new TextEditingController();
     final controladorPasswd = new TextEditingController();
 
@@ -147,7 +147,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             onPressed: () {
                                 // Validate will return true if the form is valid, or false if
                                 // the form is invalid
-                                login().whenComplete(
+                                login(controladorEmail.text, controladorPasswd.text).whenComplete(
                                     () {
                                         if (_formKey.currentState.validate()) {
                                             if(_responseCode != 200) {
@@ -246,6 +246,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         var email = controladorEmail.text;
         final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"+email));
         user = User.fromJson(jsonDecode(response.body));
+        user.token = _token;
     }
 
     Future<void> _googleAccountSignIn() async{
@@ -255,21 +256,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             user.username = _googleSignIn.currentUser.displayName.toLowerCase().replaceAll(" ", "");
             user.name = _googleSignIn.currentUser.displayName;
             if (_googleSignIn.currentUser.photoUrl.runtimeType != Null) user.profileImageUrl = _googleSignIn.currentUser.photoUrl;
-            signUp();
+            signUp().whenComplete(
+                () => login(user.email, "").whenComplete(
+                    () => user.token = _token.toString()
+                )
+            );
         }catch(error){
             print(error);
         }
     }
 
-    Future<void> login() async{
+    Future<void> login(String email, String password) async{
         http.Response response = await post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode(<String, String>{
-                'email': controladorEmail.text,
-                'password': controladorPasswd.text}));
+                'email': email,
+                'password': password}));
         _responseCode = response.statusCode;
+        _token = response.headers['authorization'].toString();
     }
 
     Future<void> signUp() async{
