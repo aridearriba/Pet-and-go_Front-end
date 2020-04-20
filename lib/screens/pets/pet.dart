@@ -105,6 +105,25 @@ class _PetState extends State<Pet>
                                                 ],
                                             )
                                         ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0, bottom: 30),
+                                            child: Row(
+                                                children: <Widget>[
+                                                    FloatingActionButton.extended(
+                                                        icon: Icon(Icons.pets, color: Colors.white),
+                                                        backgroundColor: Colors.green,
+                                                        label: Text("Editar datos de mascota"),
+                                                        onPressed: () {
+                                                            showDialog(
+                                                                context: context,
+                                                                builder: (BuildContext context) => _buildEditDialog(context)
+                                                            );
+                                                        }
+                                                    )
+                                                ],
+                                            )
+                                        ),
                                     ],
                                 ),
                             ],
@@ -112,6 +131,65 @@ class _PetState extends State<Pet>
                     ),
                 ]
             ),
+        );
+    }
+
+    Widget _buildEditDialog(BuildContext context) {
+        TextEditingController _nameController = new TextEditingController();
+        _nameController.text = widget.mascota.id.name;
+        var _date = widget.mascota.date.day.toString() + "." + widget.mascota.date.month.toString() + "." + widget.mascota.date.year.toString();
+        TextEditingController _dateController = new TextEditingController();
+        _dateController.text = _date;
+        return new AlertDialog(
+            title: Text('Datos de la mascota'),
+            content: new Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                            children: <Widget>[
+                                new Expanded(child: Text(
+                                    "Nombre:  ",
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                ),),
+                                SizedBox(width: 150, child: TextFormField(
+                                    controller: _nameController,
+                                    textAlign: TextAlign.center,
+                                ),)
+                            ],
+                        ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                            children: <Widget>[
+                                new Expanded( child: Text(
+                                    "Fecha de nacimiento:  ",
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                ),),
+                                SizedBox ( width: 150, child: TextFormField(
+                                    controller: _dateController,
+                                    textAlign: TextAlign.center,
+                                ),)
+                            ],
+                        ),
+                    ),
+                ],
+            ),
+            actions: <Widget>[new FlatButton(
+                onPressed: (){},
+                textColor: Theme.of(context).primaryColor,
+                child: const Text('Aceptar'),
+            ),
+            ],
         );
     }
 }
