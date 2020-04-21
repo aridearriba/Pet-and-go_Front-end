@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,19 +12,16 @@ import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:petandgo/screens/user/sign-up.dart';
 
-
-// ignore: must_be_immutable
-class Profile extends StatefulWidget {
-    Profile(this.user);
+class Settings extends StatefulWidget {
+    Settings(this.user);
     User user;
 
     @override
-    _ProfileState createState() => _ProfileState();
+    _SettingsState createState() => _SettingsState();
 }
 
-class _ProfileState extends State<Profile>
+class _SettingsState extends State<Settings>
 {
     List<Mascota> _mascotas = new List<Mascota>();
     nLogIn() {
@@ -58,7 +56,6 @@ class _ProfileState extends State<Profile>
 
     @override
     Widget build(BuildContext context) {
-        getMascotas();
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
@@ -79,11 +76,6 @@ class _ProfileState extends State<Profile>
                         padding: const EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
                         child: Column(
                             children: <Widget>[
-                                CircleAvatar(
-                                    backgroundImage: new NetworkImage(widget.user.profileImageUrl),
-                                    radius: 75,
-                                    backgroundColor: Colors.transparent,
-                                ),
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,7 +84,7 @@ class _ProfileState extends State<Profile>
                                         Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                                             child: Text(
-                                                "USUARIO",
+                                                "NOTIFICACIONES",
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontWeight: FontWeight.bold,
@@ -101,63 +93,61 @@ class _ProfileState extends State<Profile>
                                                 textAlign: TextAlign.left,
                                             )
                                         ),
-                                        // username
-                                        Padding(
-                                            padding: const EdgeInsets.only(top: 5.0),
-                                            child: Row(
-                                                children: <Widget>[
-                                                    Icon(
-                                                        Icons.account_circle,
-                                                        color: Colors.black54,
-                                                    ),
-                                                    Text(
-                                                        '   ' + widget.user.username,
-                                                        style: TextStyle(
-                                                            color: Colors.black54,
-                                                            fontWeight: FontWeight.bold,
-                                                            fontSize: 16.0,
-                                                        ),
-                                                        textAlign: TextAlign.center,
-                                                    ),
-                                                ]
-                                            ),
-                                        ),
-                                        // email
-                                        Padding (
-                                            padding: const EdgeInsets.only(top: 5.0),
-                                            child: Row(
-                                                children: <Widget>[
-                                                    Icon(
-                                                        Icons.assignment_ind,
-                                                        color: Colors.black54,
-                                                    ),
-                                                    Text(
-                                                        '   ' + widget.user.name,
-                                                        style: TextStyle(
-                                                            color: Colors.black54,
-                                                            fontSize: 16.0,
-                                                        ),
-                                                        textAlign: TextAlign.center,
-                                                    )
-                                                ]
-                                            ),
-                                        ),
                                         Padding (
                                             padding: const EdgeInsets.only(top: 5.0, bottom: 30),
                                             child: Row(
                                                 children: <Widget>[
-                                                    Icon(
+                                                    /*Icon(
                                                         Icons.email,
                                                         color: Colors.black54,
-                                                    ),
+                                                    ),*/
                                                     Text(
-                                                        '   ' + widget.user.email,
+                                                        '   ',
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                         ),
                                                     )
                                                 ],
                                             )
+                                        ),
+                                    ],
+                                ),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                        // PETS
+                                        Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                            child: Text(
+                                                "CUENTA",
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                            )
+                                        ),
+                                        Padding (
+                                            padding: const EdgeInsets.only(top: 5.0),
+                                            child: GestureDetector(
+                                                child: Row(
+                                                    children: <Widget>[
+                                                        Icon(
+                                                            Icons.delete,
+                                                            color: Colors.redAccent,
+                                                        ),
+                                                        Text(
+                                                            '   ' + "Eliminar cuenta",
+                                                            style: TextStyle(
+                                                                color: Colors.redAccent,
+                                                            ),
+                                                        ),
+                                                    ],
+                                                ),
+                                                onTap: () => {} //deleteAccount()
+                                            ),
                                         ),
                                     ],
                                 ),
@@ -169,12 +159,14 @@ class _ProfileState extends State<Profile>
         );
     }
 
-    Future<void> getMascotas() async{
+    Future<void> deleteAccount() async{
         var email = widget.user.email;
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"));
-        setState(() {
-            Iterable list = json.decode(response.body);
-            _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
-        });
+        final http.Response response = await http.delete(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email),
+            headers: <String, String> {
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+        );
+
     }
 }

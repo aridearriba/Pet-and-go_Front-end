@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
+import 'package:petandgo/screens/settings.dart';
 
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
@@ -43,6 +44,13 @@ class _MenuContent extends State<Menu> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => MyPets(widget.user))
+        );
+    }
+    // Navigate to Settings
+    nSettings(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Settings(widget.user))
         );
     }
 
@@ -109,7 +117,7 @@ class _MenuContent extends State<Menu> {
                     ListTile(
                         leading: Icon(Icons.settings),
                         title: Text('Configuración'),
-                        onTap: () => {Navigator.of(context).pop()},
+                        onTap: () => nSettings(),
                     ),
                     ListTile(
                         leading: Icon(Icons.exit_to_app),
