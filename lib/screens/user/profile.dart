@@ -6,6 +6,7 @@ import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/pets/pet.dart';
+import 'package:petandgo/screens/user/edit.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
@@ -55,6 +56,13 @@ class _ProfileState extends State<Profile> {
         );
     }
 
+    nEdit(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Edit(widget.user))
+        );
+    }
+
 
     @override
     Widget build(BuildContext context) {
@@ -78,10 +86,7 @@ class _ProfileState extends State<Profile> {
                             Icons.mode_edit,
                             color: Colors.white,
                         ),
-                        onPressed: (){
-                            showDialog(context: context,
-                            builder: (BuildContext context) => _buildEditDialog(context));
-                        },
+                        onPressed: () => nEdit(),
                     ),
                 ],
             ),
@@ -182,25 +187,6 @@ class _ProfileState extends State<Profile> {
                                                             color: Colors
                                                                 .black54,
                                                         ),
-                                                    )
-                                                ],
-                                            )
-                                        ),
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0, bottom: 30),
-                                            child: Row(
-                                                children: <Widget>[
-                                                    FloatingActionButton.extended(
-                                                        icon: Icon(Icons.lock, color: Colors.white),
-                                                        backgroundColor: Colors.green,
-                                                        label: Text("Cambiar contraseña"),
-                                                        onPressed: () {
-                                                            showDialog(
-                                                                context: context,
-                                                                builder: (BuildContext context) => _buildPasswordDialog(context)
-                                                            );
-                                                        }
                                                     )
                                                 ],
                                             )
@@ -356,85 +342,6 @@ class _ProfileState extends State<Profile> {
                 textColor: Theme.of(context).primaryColor,
                 child: const Text('Aceptar'),
             ),
-            ],
-        );
-    }
-
-    Widget _buildEditDialog(BuildContext context) {
-        TextEditingController _usernameController = new TextEditingController();
-        _usernameController.text = widget.user.username;
-        TextEditingController _nombreController = new TextEditingController();
-        _nombreController.text = widget.user.name;
-        TextEditingController _emailController = new TextEditingController();
-        _emailController.text = widget.user.email;
-        return new AlertDialog(
-            title: Text('Editar datos de usuario'),
-            content: new Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                            children: <Widget>[
-                                new Expanded(child: Text(
-                                    "Username:  ",
-                                    style: TextStyle(
-                                        color: Colors.green,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                ),),
-                                SizedBox(width: 150, child: TextFormField(
-                                    controller: _usernameController,
-                                    textAlign: TextAlign.center,
-                                ),)
-                            ],
-                        ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                            children: <Widget>[
-                                new Expanded( child: Text(
-                                    "Nombre: ",
-                                    style: TextStyle(
-                                        color: Colors.green,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                ),),
-                                SizedBox ( width: 150, child: TextFormField(
-                                    controller: _nombreController,
-                                    textAlign: TextAlign.center,
-                                ),)
-                            ],
-                        ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                            children: <Widget>[
-                                new Expanded( child: Text(
-                                    "Email: ",
-                                    style: TextStyle(
-                                        color: Colors.green,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                ),),
-                                SizedBox(width: 150, child: TextFormField(
-                                    controller: _emailController,
-                                    textAlign: TextAlign.center,
-                                ),)
-                            ],
-                        ),
-                    ),
-
-                ],
-            ),
-            actions: <Widget>[new FlatButton(
-                onPressed: (){},
-                textColor: Theme.of(context).primaryColor,
-                child: const Text('Aceptar'),
-                ),
             ],
         );
     }
