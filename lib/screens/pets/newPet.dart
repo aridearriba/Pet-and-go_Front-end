@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/screens/pets/myPets.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import '../home.dart';
 
@@ -70,6 +72,14 @@ class MyCustomFormState extends State<NewPetForm> {
     var _statusCode;
 
     DateTime _dateTime;
+
+    // Navigate to MyPets
+    nMyPets(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MyPets(widget.user))
+        );
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -156,11 +166,7 @@ class MyCustomFormState extends State<NewPetForm> {
                                                     SnackBar(
                                                         content: Text(
                                                             'Mascota añadida con éxito!')));
-                                                Navigator.pushReplacement(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) => Profile(widget.user))
-                                                );
+                                                nMyPets();
                                             }
                                             else Scaffold.of(context).showSnackBar(SnackBar(
                                                 content: Text('No se ha podido añadir la mascota')));
@@ -181,7 +187,8 @@ class MyCustomFormState extends State<NewPetForm> {
         print("DATE: " + _dateTime.toString().substring(0, 10));
         http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"),
             headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString()
             },
             body: jsonEncode({
                 'id': {

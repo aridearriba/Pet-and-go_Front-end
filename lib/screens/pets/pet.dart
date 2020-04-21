@@ -55,7 +55,7 @@ class _PetState extends State<Pet>
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
-                                        // USER
+                                        // PET
                                         Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                                             child: Text(

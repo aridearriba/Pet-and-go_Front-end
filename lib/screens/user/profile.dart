@@ -66,7 +66,6 @@ class _ProfileState extends State<Profile> {
 
     @override
     Widget build(BuildContext context) {
-        getMascotas();
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
@@ -193,156 +192,11 @@ class _ProfileState extends State<Profile> {
                                         ),
                                     ],
                                 ),
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: <Widget>[
-                                        // PETS
-                                        Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 5.0),
-                                            child: Text(
-                                                "MASCOTAS",
-                                                style: TextStyle(
-                                                    color: Colors.black87,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18.0,
-                                                ),
-                                                textAlign: TextAlign.left,
-                                            )
-                                        ),
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0),
-                                            child: GestureDetector(
-                                                child: Row(
-                                                    children: <Widget>[
-                                                        Icon(
-                                                            Icons.add_circle,
-                                                            color: Colors
-                                                                .black54,
-                                                        ),
-                                                        Text(
-                                                            '   ' +
-                                                                "Añadir mascota",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black54,
-                                                            ),
-                                                        ),
-                                                    ],
-                                                ),
-                                                onTap: () => nNewPet()
-                                            ),
-                                        ),
-                                        // Pet
-                                        ListView.builder(
-                                            physics: NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: _mascotas.length,
-                                            itemBuilder: (context, index) {
-                                                return ListTile(
-                                                    title: Text(_mascotas[index]
-                                                        .id.name),
-                                                    onTap: () =>
-                                                        nPet(_mascotas[index]),
-                                                );
-                                            },
-                                        )
-                                    ],
-                                ),
                             ],
                         ),
                     ),
                 ]
             ),
-        );
-    }
-
-    Future<void> getMascotas() async {
-        var email = widget.user.email;
-        final response = await http.get(new Uri.http(
-            "petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"));
-        setState(() {
-            Iterable list = json.decode(response.body);
-            _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
-        });
-    }
-
-    Widget _buildPasswordDialog(BuildContext context){
-        final _formKey = GlobalKey<FormState>();
-        TextEditingController _passwdController = new TextEditingController();
-        return new AlertDialog(
-            title: Text('Cambiar contraseña'),
-            content: new Form(
-                key: _formKey,
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-                            child: Row(
-                                children: <Widget>[
-                                    new Expanded(child: Text(
-                                        "Nueva contraseña:  ",
-                                        style: TextStyle(
-                                            color: Colors.green,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                    ),),
-                                    SizedBox(width: 150, child: TextFormField(
-                                        controller: _passwdController,
-                                        textAlign: TextAlign.center,
-                                        obscureText: true,
-                                        validator: (value){
-                                            if(value.isEmpty){
-                                                return 'Escribe una contraseña';
-                                            }
-                                            return null;
-                                        },
-                                    ),)
-                                ],
-                            ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Row(
-                                children: <Widget>[
-                                    new Expanded(child: Text(
-                                        "Repetir nueva contraseña: ",
-                                        style: TextStyle(
-                                            color: Colors.green,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                    ),),
-                                    SizedBox(width: 150, child: TextFormField(
-                                        textAlign: TextAlign.center,
-                                        obscureText: true,
-                                        validator: (value){
-                                            if(value != _passwdController.text){
-                                                return 'No coinciden';
-                                            }
-                                            return null;
-                                        },
-                                    ),)
-                                ],
-                            ),
-                        ),
-                    ],
-                ),
-            ),
-            actions: <Widget>[new FlatButton(
-                onPressed: (){
-                    if(_formKey.currentState.validate()){
-
-                    }
-                },
-                textColor: Theme.of(context).primaryColor,
-                child: const Text('Aceptar'),
-            ),
-            ],
         );
     }
 }
