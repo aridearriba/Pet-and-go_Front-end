@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/model/user.dart';
 import '../home.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -53,7 +54,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     final _controladorApellido1 = TextEditingController();
     final _controladorUsername = TextEditingController();
 
-    var _responseMessage;
+    var _responseMessage,_responseCode;
     var _email;
 
     @override
@@ -79,7 +80,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 if(!regex.hasMatch(value)){
                                     return 'Este email no es válido.';
                                 }
-                                if (_responseMessage == "Email en uso") {
+                                if (_responseMessage == "email") {
                                     return 'Ya existe un usuario con este email';
                                 }
                                 return null;
@@ -98,7 +99,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                 if(value.isEmpty){
                                     return 'Por favor, escribe un username.';
                                 }
-                                if (_responseMessage == "Username en uso"){
+                                if (_responseMessage == "username"){
                                     return 'Ya existe un usuario con este username';
                                 }
                                 return null;
@@ -179,20 +180,24 @@ class MyCustomFormState extends State<MyCustomForm> {
                                     if (_formKey.currentState.validate()) {
                                         _formKey.currentState.save();
                                         // Si el formulario es válido, queremos mostrar un Snackbar
-                                        if(_responseMessage == "Usuario creado con exito") {
+                                        if(_responseCode == 201) {
                                             Scaffold.of(context).showSnackBar(
                                                 SnackBar(
                                                     content: Text(
                                                         'Usuario registrado con éxito!')));
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) => Home(_email))
-                                            );
+                                                // navigate to home
+                                                User user = new User();
+                                                user.username = _controladorUsername.text;
+                                                user.email = _controladorEmail.text;
+                                                user.name = _controladorNombre.text + " " + _controladorApellido1.text;
+                                                Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(builder: (context) => Home(user))
+                                                );
+                                            }
                                         }
                                         else Scaffold.of(context).showSnackBar(SnackBar(
                                             content: Text('No se ha podido registrar el usuario')));
-                                    }
                                 });
                             },
                             child: Text('Sign Up'),
@@ -213,6 +218,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 'password': _controladorPasswd.text,
                 'email': _controladorEmail.text,
                 'nombre': _controladorNombre.text + " " + _controladorApellido1.text}));
+        _responseCode = response.statusCode;
         _responseMessage = response.body;
     }
+
+
 }

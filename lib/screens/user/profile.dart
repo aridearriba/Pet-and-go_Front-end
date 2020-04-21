@@ -97,10 +97,10 @@ class _ProfileState extends State<Profile> {
                             top: 20.0, left: 30.0, right: 30.0),
                         child: Column(
                             children: <Widget>[
-                                Icon(
-                                    Icons.account_circle,
-                                    color: Colors.green,
-                                    size: 150.0,
+                                CircleAvatar(
+                                    backgroundImage: new NetworkImage(widget.user.profileImageUrl),
+                                    radius: 75,
+                                    backgroundColor: Colors.transparent,
                                 ),
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
