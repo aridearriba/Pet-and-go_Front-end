@@ -53,6 +53,13 @@ class _SettingsState extends State<Settings>
         );
     }
 
+    nLogin() {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => LogIn())
+        );
+    }
+
 
     @override
     Widget build(BuildContext context) {
@@ -146,7 +153,7 @@ class _SettingsState extends State<Settings>
                                                         ),
                                                     ],
                                                 ),
-                                                onTap: () => {} //deleteAccount()
+                                                onTap: () => _showAlertDialog()
                                             ),
                                         ),
                                     ],
@@ -159,6 +166,32 @@ class _SettingsState extends State<Settings>
         );
     }
 
+    void _showAlertDialog() {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+                return AlertDialog(
+                    title: Text("Eliminar cuenta", textAlign: TextAlign.center),
+                    content: Text("Estas apunto de eliminar tu cuenta. ¿Estás seguro?", textAlign: TextAlign.center),
+                    actions: <Widget>[
+                        FlatButton(
+                            child: Text("CERRAR", style: TextStyle(color: Colors.black45),),
+                            onPressed: () =>  Navigator.pop(context),
+                        ),
+                        FlatButton(
+                            child: Text("ACEPTAR", style: TextStyle(color: Colors.redAccent),),
+                            onPressed:  () => deleteAccount().whenComplete(
+                                    () {
+                                        Navigator.pop(context);
+                                        nLogIn();
+                                    }()),
+                        ),
+                    ],
+                );
+            }
+        );
+    }
+
     Future<void> deleteAccount() async{
         var email = widget.user.email;
         final http.Response response = await http.delete(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email),
@@ -167,6 +200,5 @@ class _SettingsState extends State<Settings>
                 HttpHeaders.authorizationHeader: widget.user.token.toString(),
             },
         );
-
     }
 }

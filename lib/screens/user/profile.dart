@@ -58,7 +58,6 @@ class _ProfileState extends State<Profile>
 
     @override
     Widget build(BuildContext context) {
-        getMascotas();
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
@@ -167,14 +166,5 @@ class _ProfileState extends State<Profile>
                 ]
             ),
         );
-    }
-
-    Future<void> getMascotas() async{
-        var email = widget.user.email;
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"));
-        setState(() {
-            Iterable list = json.decode(response.body);
-            _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
-        });
     }
 }

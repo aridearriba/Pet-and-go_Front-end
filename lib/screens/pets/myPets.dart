@@ -101,7 +101,7 @@ class _PetsState extends State<MyPets>
                                         physics: NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         itemCount: _mascotas.length,
-                                        itemBuilder: (context, index) {
+                                        itemBuilder: (BuildContext context, index) {
                                             return ListTile(
                                                 title: Text(_mascotas[index].id.name),
                                                 onTap: () => nPet(_mascotas[index]),
@@ -128,7 +128,7 @@ class _PetsState extends State<MyPets>
             context: context,
             builder: (BuildContext context) {
                 return AlertDialog(
-                    title: Text("¿Confirmar acción?", textAlign: TextAlign.center),
+                    title: Text("Eliminar mascota", textAlign: TextAlign.center),
                     content: Text("Estas apunto de eliminar una mascota. ¿Estás seguro?", textAlign: TextAlign.center),
                     actions: <Widget>[
                         FlatButton(
