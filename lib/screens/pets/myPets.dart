@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
@@ -40,6 +42,13 @@ class _PetsState extends State<MyPets>
         );
     }
 
+    nMyPets() {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MyPets(widget.user))
+        );
+    }
+
 
     @override
     Widget build(BuildContext context) {
@@ -61,7 +70,7 @@ class _PetsState extends State<MyPets>
             body: ListView(
                 children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
+                        padding: const EdgeInsets.only(top: 20.0, left: 30.0, right: 20.0),
                         child:
                             Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -88,14 +97,21 @@ class _PetsState extends State<MyPets>
                                         ),
                                     ),
                                     // Pet
-                                    ListView.builder
-                                        (
+                                    ListView.builder(
+                                        physics: NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         itemCount: _mascotas.length,
                                         itemBuilder: (context, index) {
                                             return ListTile(
                                                 title: Text(_mascotas[index].id.name),
                                                 onTap: () => nPet(_mascotas[index]),
+                                                //trailing: Icon(Icons.keyboard_arrow_right),
+                                                trailing: IconButton(
+                                                    icon: Icon(Icons.delete),
+                                                    color: Colors.black54,
+                                                    onPressed: () =>
+                                                        _showAlertDialog(_mascotas[index].id.name),
+                                                ),
                                             );
                                         },
                                     )
@@ -107,6 +123,30 @@ class _PetsState extends State<MyPets>
         );
     }
 
+    void _showAlertDialog(String petName) {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+                return AlertDialog(
+                    title: Text("¿Confirmar acción?", textAlign: TextAlign.center),
+                    content: Text("Estas apunto de eliminar una mascota. ¿Estás seguro?", textAlign: TextAlign.center),
+                    actions: <Widget>[
+                        FlatButton(
+                            child: Text("CERRAR", style: TextStyle(color: Colors.black45),),
+                            onPressed: () =>  Navigator.pop(context),
+                        ),
+                        FlatButton(
+                            child: Text("ACEPTAR", style: TextStyle(color: Colors.redAccent),),
+                            onPressed:  () => deleteMascota(petName).whenComplete(
+                                            () => getMascotas().whenComplete(
+                                                () => Navigator.pop(context))),
+                        ),
+                    ],
+                );
+            }
+        );
+    }
+
     Future<void> getMascotas() async{
         var email = widget.user.email;
         final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"));
@@ -114,5 +154,16 @@ class _PetsState extends State<MyPets>
             Iterable list = json.decode(response.body);
             _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
         });
+    }
+
+    Future<void> deleteMascota(String petName) async{
+        var email = widget.user.email;
+        final http.Response response = await http.delete(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" +
+            email + "/mascotas/" + petName),
+            headers: <String, String> {
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+        );
     }
 }
