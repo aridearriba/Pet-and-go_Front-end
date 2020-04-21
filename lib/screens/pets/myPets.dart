@@ -138,8 +138,7 @@ class _PetsState extends State<MyPets>
                         FlatButton(
                             child: Text("ACEPTAR", style: TextStyle(color: Colors.redAccent),),
                             onPressed:  () => deleteMascota(petName).whenComplete(
-                                            () => getMascotas().whenComplete(
-                                                () => Navigator.pop(context))),
+                                            () => Navigator.pop(context)),
                         ),
                     ],
                 );
