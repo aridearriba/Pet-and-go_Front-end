@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:http/http.dart' as http;
 
 
 class Pet extends StatefulWidget {
@@ -13,14 +17,20 @@ class Pet extends StatefulWidget {
     _PetState createState() => _PetState();
 }
 
-class _PetState extends State<Pet>
-{
+class _PetState extends State<Pet>{
+
+    var _statusCode;
+    var _nameMascotas;
+
+    DateTime _dateTime;
+    final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
     @override
     Widget build(BuildContext context) {
         var _date = widget.mascota.date.day.toString() + "." + widget.mascota.date.month.toString() + "." + widget.mascota.date.year.toString();
         var _difference = DateTime.now().difference(widget.mascota.date);
         var _age = (_difference.inDays/365).floor().toString();
         return Scaffold(
+            key: _scaffoldKey,
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
@@ -140,56 +150,98 @@ class _PetState extends State<Pet>
         var _date = widget.mascota.date.day.toString() + "." + widget.mascota.date.month.toString() + "." + widget.mascota.date.year.toString();
         TextEditingController _dateController = new TextEditingController();
         _dateController.text = _date;
-        return new AlertDialog(
-            title: Text('Datos de la mascota'),
-            content: new Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                            children: <Widget>[
-                                new Expanded(child: Text(
-                                    "Nombre:  ",
-                                    style: TextStyle(
-                                        color: Colors.green,
+        return new SimpleDialog(
+            title: Text('Datos de la mascota',
+            textAlign: TextAlign.center,),
+            children: <Widget>[
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                    child: Text(
+                                "Fecha de nacimiento:  ",
+                                style: TextStyle(
+                                    color: Colors.green,
+                                ),
+                                textAlign: TextAlign.center,
+                            ),
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
+                    child: InkWell(
+                                onTap: () async {
+                                    _dateTime = await showDatePicker(
+                                        context: context,
+                                        initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+                                        firstDate: DateTime(DateTime.now().year - 20),
+                                        lastDate: DateTime(DateTime.now().year + 1)
+                                    );
+                                    _dateController.text = _dateTime.day.toString() + ". " + _dateTime.month.toString() + ". " + _dateTime.year.toString();
+                                },
+                                child: IgnorePointer(
+                                    child: new TextFormField(
+                                        controller: _dateController,
+                                        textAlign: TextAlign.center,
+                                        validator: (value){
+                                            if(value.isEmpty){
+                                                return 'Por favor, pon una fecha.';
+                                            }
+                                            return null;
+                                        },
+                                        onSaved: (String val) {},
                                     ),
-                                    textAlign: TextAlign.left,
-                                ),),
-                                SizedBox(width: 150, child: TextFormField(
-                                    controller: _nameController,
-                                    textAlign: TextAlign.center,
-                                ),)
-                            ],
-                        ),
+                                ),
                     ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Row(
-                            children: <Widget>[
-                                new Expanded( child: Text(
-                                    "Fecha de nacimiento:  ",
-                                    style: TextStyle(
-                                        color: Colors.green,
-                                    ),
-                                    textAlign: TextAlign.left,
-                                ),),
-                                SizedBox ( width: 150, child: TextFormField(
-                                    controller: _dateController,
-                                    textAlign: TextAlign.center,
-                                ),)
-                            ],
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 10.0),
+                    child: SimpleDialogOption(
+                        child: RaisedButton(
+                            disabledColor: Colors.green,
+                            child: Text("Actualizar"),
+                            disabledTextColor: Colors.white,
                         ),
-                    ),
-                ],
-            ),
-            actions: <Widget>[new FlatButton(
-                onPressed: (){},
-                textColor: Theme.of(context).primaryColor,
-                child: const Text('Aceptar'),
-            ),
+                        onPressed: ()  {
+                            if(_dateController.text.isEmpty || _nameController.text.isEmpty){
+                                _scaffoldKey.currentState.showSnackBar(SnackBar(
+                                    content: Text('Error: Alguno de los campos está vacío'),
+                                ));
+                            }
+                            else{
+                                update().whenComplete(
+                                    () {
+                                        if(_statusCode == 200) {
+                                            Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                    content: Text(
+                                                        'Mascota actualizada con éxito!')));
+                                        }
+                                    }
+                                );
+                            }
+                            Navigator.of(context).pop();
+                        },
+                    )
+                ),
             ],
         );
+    }
+
+    Future<void> update() async{
+        var email = widget.user.email;
+        String mascot = widget.mascota.id.name;
+        var date = _dateTime.toString().substring(0,10);
+        print(date);
+        http.Response response = await http.put(new Uri.http("192.168.1.60:8080", "/api/usuarios/" + email + "/mascotas/"+ mascot),
+            headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString()
+            },
+            body: jsonEncode({
+                    "id": {
+                    "nombre":mascot,
+                    "amo":"cvila@hotmail.com"
+                    },
+                    "fechaNacimiento":date}));
+        _statusCode = response.statusCode;
+        print(_statusCode);
     }
 }
