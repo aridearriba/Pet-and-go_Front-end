@@ -28,6 +28,8 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile>
 {
+    var _image, _image64;
+
     nLogIn() {
         widget.user = null;
         Navigator.pushReplacement(
@@ -57,9 +59,16 @@ class _ProfileState extends State<Profile>
         );
     }
 
+    nProfile() {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Profile(widget.user))
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
-
+        _image64 = widget.user.image;
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
@@ -84,13 +93,26 @@ class _ProfileState extends State<Profile>
                                     backgroundImage: getImage(),
                                     radius: 75,
                                     backgroundColor: Colors.transparent,
-                                    /*child: FloatingActionButton(
-                                            onPressed: _pickImage,
-                                            tooltip: 'Elige una imagen',
-                                            elevation: 10.0,
-                                            backgroundColor: Theme.of(context).primaryColor,
-                                            child: Icon(Icons.add_a_photo, color: Colors.black),
-                                    ),*/
+                                    child: Stack(
+                                        children: <Widget>[
+                                            Positioned(
+                                                top: 105,
+                                                left: 110,
+                                                child: Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    child:
+                                                        FloatingActionButton(
+                                                            onPressed: _pickImage,
+                                                            tooltip: 'Elige una imagen',
+                                                            elevation: 10.0,
+                                                            backgroundColor: Theme.of(context).primaryColor,
+                                                            child: Icon(Icons.add_a_photo, color: Colors.black, size: 15),
+                                                        )
+                                                )
+                                            ),
+                                        ]
+                                    ),
                                 ),
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -179,12 +201,12 @@ class _ProfileState extends State<Profile>
 
     ImageProvider getImage()  {
         // no user image
-        if (widget.user.image == "")
+        if (_image64 == "")
             return Image.network(widget.user.profileImageUrl).image;
 
         // else --> load image
         Uint8List _bytesImage;
-        String _imgString = widget.user.image.toString();
+        String _imgString = _image64.toString();
         _bytesImage = Base64Decoder().convert(_imgString);
         return Image.memory(_bytesImage).image;
     }
@@ -194,14 +216,14 @@ class _ProfileState extends State<Profile>
             context: context,
             builder: (context) =>
                 AlertDialog(
-                    title: Text("Select the image source"),
+                    title: Text("Selecciona una opción"),
                     actions: <Widget>[
                         MaterialButton(
                             child: Text("Camera"),
                             onPressed: () => Navigator.pop(context, ImageSource.camera),
                         ),
                         MaterialButton(
-                            child: Text("Gallery"),
+                            child: Text("Galería"),
                             onPressed: () => Navigator.pop(context, ImageSource.gallery),
                         )
                     ],
@@ -210,11 +232,27 @@ class _ProfileState extends State<Profile>
 
         if(imageSource != null) {
             final file = await ImagePicker.pickImage(source: imageSource);
-            if(file != null) {
-                //setState(() => _image = file);
+            if (file != null)
+            {
+                _image = file;
+                setState(() => _image64 = Base64Encoder().convert(_image.readAsBytesSync()));
+                changeProfileImage().whenComplete(nProfile);
             }
-            //var bytes = base64Encode(_image.readAsBytesSync());
         }
+    }
+
+    Future<void> changeProfileImage() async{
+        var email = widget.user.email;
+
+        http.Response response = await http.put(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/image"),
+            headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+            body: _image64
+        );
+
+        if (response.statusCode == 200) widget.user.image = _image64;
     }
 
 }
