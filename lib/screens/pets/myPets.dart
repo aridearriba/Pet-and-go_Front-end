@@ -29,14 +29,14 @@ class _PetsState extends State<MyPets>
     List<Mascota> _mascotas; //= new List<Mascota>();
 
     nNewPet() {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NewPet(widget.user))
         );
     }
 
     nPet(Mascota mascota) {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Pet(widget.user, mascota))
         );
@@ -64,10 +64,6 @@ class _PetsState extends State<MyPets>
                             style: TextStyle(
                                 color: Colors.white,
                             ),
-
-                        ),
-                        iconTheme: IconThemeData(
-                            color: Colors.white,
                         ),
                     ),
                     body: ListView(
@@ -217,10 +213,10 @@ class _PetsState extends State<MyPets>
                         FlatButton(
                             child: Text("ACEPTAR", style: TextStyle(color: Colors.redAccent),),
                             onPressed:  () => deleteMascota(petName).whenComplete(
-                                            () {
-                                                Navigator.pop(context);
-                                                getMascotas();
-                                            })
+                                    () {
+                                    Navigator.pop(context);
+                                    getMascotas();
+                                })
                         ),
                     ],
                 );

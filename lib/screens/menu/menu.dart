@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
@@ -93,11 +96,16 @@ class _MenuContent extends State<Menu> {
                                 image: AssetImage('assets/images/background-login.jpg')
                             )
                         ),
-                        currentAccountPicture: IconButton(
+                        currentAccountPicture:  CircleAvatar(
+                            backgroundImage: getImage(),
+                            radius: 75,
+                            backgroundColor: Colors.transparent,
+                        ),
+                        /*IconButton(
                             icon : Icon(Icons.account_circle, size: 70),
                             color: Colors.white,
                             onPressed: nProfile,
-                        ),
+                        ),*/
                     ),
                     ListTile(
                         leading: Icon(Icons.home),
@@ -127,5 +135,17 @@ class _MenuContent extends State<Menu> {
                 ],
             ),
         );
+    }
+
+    ImageProvider getImage()  {
+        // no user image
+        if (widget.user.image == "")
+            return Image.network(widget.user.profileImageUrl).image;
+
+        // else --> load image
+        Uint8List _bytesImage;
+        String _imgString = widget.user.image.toString();
+        _bytesImage = Base64Decoder().convert(_imgString);
+        return Image.memory(_bytesImage).image;
     }
 }
