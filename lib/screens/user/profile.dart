@@ -28,7 +28,9 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile>
 {
-    var _image, _image64;
+    var _image;
+    String _image64;
+    ImageProvider _imageProfile;
 
     nLogIn() {
         widget.user = null;
@@ -69,6 +71,8 @@ class _ProfileState extends State<Profile>
     @override
     Widget build(BuildContext context) {
         _image64 = widget.user.image;
+        _imageProfile = getImage();
+
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
@@ -90,7 +94,7 @@ class _ProfileState extends State<Profile>
                         child: Column(
                             children: <Widget>[
                                 CircleAvatar(
-                                    backgroundImage: getImage(),
+                                    backgroundImage: _imageProfile,
                                     radius: 75,
                                     backgroundColor: Colors.transparent,
                                     child: Stack(
@@ -235,8 +239,12 @@ class _ProfileState extends State<Profile>
             if (file != null)
             {
                 _image = file;
-                setState(() => _image64 = Base64Encoder().convert(_image.readAsBytesSync()));
-                changeProfileImage().whenComplete(nProfile);
+                _image64 = Base64Encoder().convert(_image.readAsBytesSync());
+                changeProfileImage().whenComplete(
+                    () {
+                        setState(() => _imageProfile = getImage());
+                    }
+                );
             }
         }
     }
@@ -251,6 +259,7 @@ class _ProfileState extends State<Profile>
             },
             body: _image64
         );
+        print("SCODE " + response.statusCode.toString());
 
         if (response.statusCode == 200) widget.user.image = _image64;
     }
