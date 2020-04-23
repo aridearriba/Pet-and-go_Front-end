@@ -68,8 +68,7 @@ class MyCustomFormState extends State<EditForm>{
     final _controladorUsername = TextEditingController();
     final _controladorOldPasswd = TextEditingController();
     final _controladorNewPasswd = TextEditingController();
-
-    var _statusCode;
+    var _responseCode, _token;
 
     DateTime _dateTime;
 
@@ -136,103 +135,142 @@ class MyCustomFormState extends State<EditForm>{
                         )
                     ),
                     Padding(
-                        padding: const EdgeInsets.only(
-                            top: 50.0, left: 30.0, right: 30.0, bottom: 5.0),
-                        child: Text(
-                            "MODIFICAR CONTRASEÑA",
-                            style: TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                            ),
-                            textAlign: TextAlign.center,
-                        ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5.0),
-                        child: Text(
-                            "Si no quieres actualizar tu contraseña, no rellenes los siguientes campos.",
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.0,
-                            ),
-                            textAlign: TextAlign.center,
-                        ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                        child: Row(
-                            children: <Widget>[
-                                Expanded(child: Text('Contraseña actual: ', style: TextStyle(color: Colors.green))),
-                                Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
-                                    child: SizedBox(width: 150.0,child: TextFormField(
-                                        controller: _controladorOldPasswd,
-                                        keyboardType: TextInputType.text,
-                                        textAlign: TextAlign.center,
-                                        validator: (value){
-                                            return null;
-                                        },
-                                    ),
-                                    ),
-                                ),
-                            ],
-                        )
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                        child: Row(
-                            children: <Widget>[
-                                Expanded(child: Text('Nueva contraseña: ', style: TextStyle(color: Colors.green))),
-                                Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
-                                    child: SizedBox(width: 150.0,child: TextFormField(
-                                        controller: _controladorNewPasswd,
-                                        keyboardType: TextInputType.text,
-                                        textAlign: TextAlign.center,
-                                        validator: (value){
-                                            return null;
-                                        },
-                                    ),
-                                    ),
-                                ),
-                            ],
-                        )
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                        child: Row(
-                            children: <Widget>[
-                                Expanded(child: Text('Repetir contraseña: ', style: TextStyle(color: Colors.green))),
-                                Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
-                                    child: SizedBox(width: 150.0, child: TextFormField(
-                                        keyboardType: TextInputType.text,
-                                        textAlign: TextAlign.center,
-                                        validator: (value){
-                                            return null;
-                                        },
-                                    ),
-                                    ),
-                                ),
-                            ],
-                        )
-                    ),
-                    Padding(
                         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             color: Colors.green,
                             textColor: Colors.white,
                             onPressed: () {
-                                FocusScope.of(context).requestFocus(FocusNode());
                             },
                             child: Text('Actualizar'),
                         ),
                     ),
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            top: 50.0, left: 30.0, right: 30.0, bottom: 5.0),
+                        child: FloatingActionButton.extended(
+                            icon: Icon(Icons.lock_outline, color: Colors.white,
+                            ),
+                            backgroundColor: Colors.lightGreen,
+                            onPressed: (){
+                                login(widget.user.email, "").whenComplete( () {
+                                    if(_responseCode == 200){
+                                        showDialog(context: context,
+                                            builder: (BuildContext context) => _buildGoogleDialog(context)
+                                        );
+                                    }
+                                    else{
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) => _buildEditDialog(context)
+                                        );
+                                    }
+                                });
+
+                            }, label: Text('Cambiar contraseña'))
+                    ),
                 ],
             ),
         );
+    }
+
+    Widget _buildEditDialog(BuildContext context) {
+        TextEditingController _passwdController = new TextEditingController();
+        return new SimpleDialog(
+            title: Text('Modificar contraseña: ',
+                textAlign: TextAlign.center,),
+            children: <Widget>[
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Row(
+                        children: <Widget>[
+                            Expanded(child: Text('Contraseña actual: ', style: TextStyle(color: Colors.green))),
+                            Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
+                                child: SizedBox(width: 120.0,child: TextFormField(
+                                    controller: _controladorOldPasswd,
+                                    keyboardType: TextInputType.text,
+                                    textAlign: TextAlign.center,
+                                    validator: (value){
+                                        return null;
+                                    },
+                                ),
+                                ),
+                            ),
+                        ],
+                    )
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Row(
+                        children: <Widget>[
+                            Expanded(child: Text('Nueva contraseña: ', style: TextStyle(color: Colors.green))),
+                            Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
+                                child: SizedBox(width: 120.0,child: TextFormField(
+                                    controller: _controladorNewPasswd,
+                                    keyboardType: TextInputType.text,
+                                    textAlign: TextAlign.center,
+                                    validator: (value){
+                                        return null;
+                                    },
+                                ),
+                                ),
+                            ),
+                        ],
+                    )
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Row(
+                        children: <Widget>[
+                            Expanded(child: Text('Repetir contraseña: ', style: TextStyle(color: Colors.green))),
+                            Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
+                                child: SizedBox(width: 120.0, child: TextFormField(
+                                    keyboardType: TextInputType.text,
+                                    textAlign: TextAlign.center,
+                                    validator: (value){
+                                        return null;
+                                    },
+                                ),
+                                ),
+                            ),
+                        ],
+                    )
+                ),
+                Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 60.0, vertical: 10.0),
+                    child: SimpleDialogOption(
+                        child: RaisedButton(
+                            disabledColor: Colors.lightGreen,
+                            child: Text("Actualizar"),
+                            disabledTextColor: Colors.white,
+                        ),
+                        onPressed: ()  {
+                        },
+                    )
+                ),
+            ],
+        );
+    }
+
+    Widget _buildGoogleDialog(BuildContext context) {
+        return new AlertDialog(
+            title: Text('Alerta!', textAlign: TextAlign.center,),
+            content: Text('Eres un usuario Google, así que no puedes cambiar tu contraseña.',
+                style: TextStyle(color: Colors.red), textAlign: TextAlign.center,),
+        );
+    }
+
+    Future<void> login(String email, String password) async{
+        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/login"),
+            headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode(<String, String>{
+                'email': email,
+                'password': password}));
+        _responseCode = response.statusCode;
+        _token = response.headers['authorization'].toString();
     }
 }
