@@ -53,7 +53,7 @@ class _PetsState extends State<MyPets>
     @override
     Widget build(BuildContext context) {
     return FutureBuilder<List<Mascota>>(
-        future: getMascotas(), 
+        future: getMascotas(),
         builder: (BuildContext context, AsyncSnapshot<List<Mascota>> snapshot) {
             if(snapshot.data == null){
                 return Scaffold(
