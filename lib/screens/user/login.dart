@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -156,11 +157,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                             }
                                             else {
                                                 getData().whenComplete(
-                                                        () { Navigator.pushReplacement(
-                                                            context,
-                                                            MaterialPageRoute(builder: (context) => Home(user))
-                                                        );
-                                                    }
+                                                    () => getProfileImage().whenComplete(
+                                                        () {    Navigator.pushReplacement(
+                                                                context,
+                                                                MaterialPageRoute(builder: (context) => Home(user))
+                                                            );
+                                                        }
+                                                    )
                                                 );
                                             }
                                         }
@@ -206,10 +209,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             onPressed: () {
                 _googleAccountSignIn().whenComplete(
                         () {
+                        getProfileImage().whenComplete( () =>
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => Home(user))
-                        );
+                        ));
                     }
                 );
             },
@@ -242,6 +246,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         );
     }
 
+    Future<void> getProfileImage() async{
+        var email = user.email;
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/image"));
+        user.image = response.body;
+    }
+
     Future<void> getData() async{
         var email = controladorEmail.text;
         final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"+email));
@@ -258,7 +268,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             if (_googleSignIn.currentUser.photoUrl.runtimeType != Null) user.profileImageUrl = _googleSignIn.currentUser.photoUrl;
             signUp().whenComplete(
                 () => login(user.email, "").whenComplete(
-                    () => user.token = _token.toString()
+                    (){
+                        user.token = _token.toString();
+                    }
                 )
             );
         }catch(error){

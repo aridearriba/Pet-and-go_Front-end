@@ -31,6 +31,7 @@ class _HomeState extends State<Home> {
     @override
     Widget build(BuildContext context) {
         print("USER TOKEN: "+ widget.user.token.toString());
+        print(widget.user.image);
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
