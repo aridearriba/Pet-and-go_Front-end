@@ -217,6 +217,7 @@ class _PetState extends State<Pet>{
                             if(_dateController.text == _date){
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
                                     content: Text('Error: No se ha actualizado la fecha'),
+                                    duration: Duration(seconds: 2),
                                 ));
                             }
                             else{
