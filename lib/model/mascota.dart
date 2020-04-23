@@ -3,15 +3,20 @@ import 'dart:convert';
 class Mascota {
     Id _id;
     DateTime _date;
+    String _image;
 
 
-    Mascota({Id id, DateTime date}) {
+    Mascota({Id id, DateTime date, String image}) {
         this._id = id;
         this._date = date;
+        this._image = image = "";
     }
 
     Id get id => _id;
     DateTime get date => _date;
+    String get image => _image;
+
+    set image(String image) => _image = image;
 
     factory Mascota.fromJson(Map<String, dynamic> json) {
         return Mascota(

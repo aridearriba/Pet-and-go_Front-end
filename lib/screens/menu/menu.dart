@@ -101,11 +101,6 @@ class _MenuContent extends State<Menu> {
                             radius: 75,
                             backgroundColor: Colors.transparent,
                         ),
-                        /*IconButton(
-                            icon : Icon(Icons.account_circle, size: 70),
-                            color: Colors.white,
-                            onPressed: nProfile,
-                        ),*/
                     ),
                     ListTile(
                         leading: Icon(Icons.home),
