@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -172,7 +173,8 @@ class MyCustomFormState extends State<NewPetForm> {
         print("DATE: " + _dateTime.toString().substring(0, 10));
         http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"),
             headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
             },
             body: jsonEncode({
                 'id': {

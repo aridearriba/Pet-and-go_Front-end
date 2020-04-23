@@ -90,7 +90,6 @@ class MyCustomFormState extends State<NewDogStopForm> {
         zoom: 10,
     );
 
-
     void getLocations(String input) async {
         if (input.isEmpty){
             return null;
@@ -118,6 +117,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
 
        _placesList = _displayResults;
     }
+
     Future<void> getLatLng(Places p) async {
         String baseURL = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
         String language = 'es';
@@ -135,7 +135,8 @@ class MyCustomFormState extends State<NewDogStopForm> {
     @override
     Widget build(BuildContext context) {
         return new Scaffold(
-            body: Center(
+            body: Form(
+                key: _formKey,
                 child: ListView(
                     children: <Widget>[
                         Padding(
@@ -146,9 +147,6 @@ class MyCustomFormState extends State<NewDogStopForm> {
                                 ),
                                 controller: _controladorLocation,
                                 keyboardType: TextInputType.text,
-                               // onChanged: () {
-                                 //   getLocations(Text(_controladorLocation.text));
-                                //},
                                 validator: (value){
                                     if(value.isEmpty){
                                         return 'Por favor, escribe una direccion.';
@@ -217,7 +215,6 @@ class MyCustomFormState extends State<NewDogStopForm> {
                             width: 50,
                             height: 300,
                             child: GoogleMap(
-
                                 mapType: MapType.hybrid,
                                 initialCameraPosition: _kGooglePlex,
                                 onMapCreated: (GoogleMapController controller) {
@@ -229,7 +226,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
                         Padding(
                             padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                             child: RaisedButton(
-                                /*onPressed: () {
+                                onPressed: () {
                                     FocusScope.of(context).requestFocus(FocusNode());
                                     add().whenComplete(
                                             () {
@@ -252,7 +249,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
                                                     content: Text('No se ha podido la Perreparada')));
                                             }
                                         });
-                                },*/
+                                },
                                 child: Text('Añadir'),
                             ),
                         ),
@@ -264,20 +261,24 @@ class MyCustomFormState extends State<NewDogStopForm> {
     }
 
     Future<void> add() async{
-        var email = widget.user.email;
-        var date = _dateTime.toString().substring(0, 10);
-        print("DATE: " + _dateTime.toString().substring(0, 10));
-        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"),
+        var date = _dateTime.toString().substring(0, 10) + ' ' + _hour.hour.toString() + ':' + _hour.minute.toString();
+        var today = DateTime.now().toString().substring(0, 10);
+        var loc = _controladorLocation.text.toString();
+        print("DATE: $date");
+        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/quedadas"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
             body: jsonEncode({
-                'id': {
-                    'nombre': _controladorLocation.text,
-                    'amo': widget.user.email
-                },
-                'fechaNacimiento': date}));
+                'admin': widget.user.email,
+                'createdAt': today,
+                'fechaQuedada': date,
+                'lugarInicio': loc,
+                'lugarFin': loc,
+                }));
         _statusCode = response.statusCode;
+
+        print(_statusCode);
     }
 }
 
