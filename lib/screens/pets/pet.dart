@@ -33,14 +33,14 @@ class _PetState extends State<Pet>{
             MaterialPageRoute(builder: (context) => Pet(widget.user, mascota))
         );
     }
-
     var _statusCode;
-
+    Mascota _result = new Mascota();
+    var _date;
     DateTime _dateTime;
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
     @override
     Widget build(BuildContext context) {
-        var _date = widget.mascota.date.day.toString() + "." + widget.mascota.date.month.toString() + "." + widget.mascota.date.year.toString();
+        _date = widget.mascota.date.day.toString() + "." + widget.mascota.date.month.toString() + "." + widget.mascota.date.year.toString();
         var _difference = DateTime.now().difference(widget.mascota.date);
         var _age = (_difference.inDays/365).floor().toString();
         return Scaffold(
@@ -214,20 +214,21 @@ class _PetState extends State<Pet>{
                             disabledTextColor: Colors.white,
                         ),
                         onPressed: ()  {
-                            if(_dateController.text.isEmpty || _nameController.text.isEmpty){
+                            if(_dateController.text == _date){
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                    content: Text('Error: Alguno de los campos está vacío'),
+                                    content: Text('Error: No se ha actualizado la fecha'),
                                 ));
                             }
                             else{
-                                update().whenComplete(
-                                    () {
-                                        if(_statusCode == 200) {
+                                update().whenComplete(() {
+                                    if(_statusCode == 200){
+                                        getMascota().whenComplete(() {
+                                            print(_result.date);
                                             Navigator.pop(context);
-                                            nPet(widget.mascota);
-                                        }
+                                            nPet(_result);
+                                        });
                                     }
-                                );
+                                });
                             }
                         },
                     )
@@ -253,5 +254,13 @@ class _PetState extends State<Pet>{
                     "fechaNacimiento":date}));
         _statusCode = response.statusCode;
         print(_statusCode);
+    }
+
+    Future<void> getMascota() async{
+        var email = widget.user.email;
+        String mascot = widget.mascota.id.name;
+        http.Response response = await http.get(new Uri.http("192.168.1.60:8080", "/api/usuarios/" + email + "/mascotas/"+ mascot));
+        _result = Mascota.fromJson(jsonDecode(response.body));
+        print("La data en result: " +_result.date.toString());
     }
 }
