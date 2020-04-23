@@ -230,7 +230,7 @@ class _PetsState extends State<MyPets>
 
     Future<List<Mascota>> getMascotas() async{
         var email = widget.user.email;
-        final response = await http.get(new Uri.http("192.168.1.60:8080", "/api/usuarios/" + email + "/mascotas"));
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"));
         Iterable list = json.decode(response.body);
         _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
         return _mascotas;

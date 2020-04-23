@@ -185,7 +185,7 @@ class MyCustomFormState extends State<NewPetForm> {
         var email = widget.user.email;
         var date = _dateTime.toString().substring(0, 10);
         print("DATE: " + _dateTime.toString().substring(0, 10));
-        http.Response response = await http.post(new Uri.http("192.168.1.60:8080", "/api/usuarios/" + email + "/mascotas"),
+        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString()

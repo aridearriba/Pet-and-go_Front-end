@@ -244,7 +244,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
     Future<void> getData() async{
         var email = controladorEmail.text;
-        final response = await http.get(new Uri.http("192.168.1.60:8080", "/api/usuarios/"+email));
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"+email));
         user = User.fromJson(jsonDecode(response.body));
         user.token = _token;
     }
@@ -267,7 +267,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
 
     Future<void> login(String email, String password) async{
-        http.Response response = await post(new Uri.http("192.168.1.60:8080", "/api/usuarios/login"),
+        http.Response response = await post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
