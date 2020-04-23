@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/DogStop.dart';
+import 'package:petandgo/screens/DogStops/newDogStop.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
@@ -63,6 +64,13 @@ class _HomeState extends State<Home> {
         );
     }
 
+    nNewDogStop() {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => NewDogStop(widget.user))
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         return Scaffold(
@@ -111,7 +119,7 @@ class _HomeState extends State<Home> {
                     ],
                 ),
                 floatingActionButton: FloatingActionButton(
-                    onPressed: (){},
+                    onPressed: nNewDogStop,
                     backgroundColor: Colors.green,
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
