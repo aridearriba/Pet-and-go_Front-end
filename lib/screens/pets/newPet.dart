@@ -34,7 +34,16 @@ class NewPet extends StatelessWidget {
                 home: Scaffold(
                     //resizeToAvoidBottomInset: false,
                     appBar: AppBar(
-                        title: Text("Añadir mascota")
+                        title: Text("Añadir mascota"),
+                        iconTheme: IconThemeData(
+                            color: Colors.white,
+                        ),
+                        actions: <Widget>[
+                            IconButton(
+                                icon: Icon(Icons.arrow_back, color: Colors.white),
+                                onPressed: () => Navigator.pop(context),
+                            )
+                        ],
                     ),
                     body: NewPetForm(user),
                 ),
@@ -188,5 +197,6 @@ class MyCustomFormState extends State<NewPetForm> {
                 },
                 'fechaNacimiento': date}));
         _statusCode = response.statusCode;
+        print(_statusCode);
     }
 }

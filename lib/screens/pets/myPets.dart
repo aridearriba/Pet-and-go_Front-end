@@ -29,14 +29,14 @@ class _PetsState extends State<MyPets>
     List<Mascota> _mascotas; //= new List<Mascota>();
 
     nNewPet() {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NewPet(widget.user))
         );
     }
 
     nPet(Mascota mascota) {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Pet(widget.user, mascota))
         );
@@ -64,142 +64,137 @@ class _PetsState extends State<MyPets>
                             style: TextStyle(
                                 color: Colors.white,
                             ),
-
                         ),
-                        iconTheme: IconThemeData(
-                            color: Colors.white,
-                        ),
-                    ),
-                    body: ListView(
-                        children: <Widget>[
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 20.0, left: 30.0, right: 20.0),
-                                child:
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0),
-                                            child: GestureDetector(
-                                                child: Row(
-                                                    children: <Widget>[
-                                                        Icon(
-                                                            Icons.add_circle,
-                                                            color: Colors.black54,
-                                                        ),
-                                                        Text(
-                                                            '   ' +
-                                                                "Añadir mascota",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black54,
+                        body: ListView(
+                            children: <Widget>[
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 20.0, left: 30.0, right: 20.0),
+                                    child:
+                                    Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5.0),
+                                                child: GestureDetector(
+                                                    child: Row(
+                                                        children: <Widget>[
+                                                            Icon(
+                                                                Icons.add_circle,
+                                                                color: Colors.black54,
                                                             ),
-                                                        ),
-                                                    ],
+                                                            Text(
+                                                                '   ' +
+                                                                    "Añadir mascota",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black54,
+                                                                ),
+                                                            ),
+                                                        ],
+                                                    ),
+                                                    onTap: () => nNewPet()
                                                 ),
-                                                onTap: () => nNewPet()
                                             ),
-                                        ),
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0),
-                                            child: Text("Loading ...")
-                                        ),
-                                    ],
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5.0),
+                                                child: Text("Loading ...")
+                                            ),
+                                        ],
+                                    ),
                                 ),
+                            ]
+                        ),
+                    );
+                }
+                else {
+                    return Scaffold(
+                        drawer: Menu(widget.user),
+                        appBar: AppBar(
+                            title: Text(
+                                'Mis mascotas',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                ),
+
                             ),
-                        ]
-                    ),
-                );
-            }
-            else {
-                return Scaffold(
-                    drawer: Menu(widget.user),
-                    appBar: AppBar(
-                        title: Text(
-                            'Mis mascotas',
-                            style: TextStyle(
+                            iconTheme: IconThemeData(
                                 color: Colors.white,
                             ),
-
                         ),
-                        iconTheme: IconThemeData(
-                            color: Colors.white,
-                        ),
-                    ),
-                    body: ListView(
-                        children: <Widget>[
-                            Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 20.0, left: 30.0, right: 20.0),
-                                child:
-                                Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: <Widget>[
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0),
-                                            child: GestureDetector(
-                                                child: Row(
-                                                    children: <Widget>[
-                                                        Icon(
-                                                            Icons.add_circle,
-                                                            color: Colors
-                                                                .black54,
-                                                        ),
-                                                        Text(
-                                                            '   ' +
-                                                                "Añadir mascota",
-                                                            style: TextStyle(
+                        body: ListView(
+                            children: <Widget>[
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 20.0, left: 30.0, right: 20.0),
+                                    child:
+                                    Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: <Widget>[
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5.0),
+                                                child: GestureDetector(
+                                                    child: Row(
+                                                        children: <Widget>[
+                                                            Icon(
+                                                                Icons.add_circle,
                                                                 color: Colors
                                                                     .black54,
                                                             ),
-                                                        ),
-                                                    ],
-                                                ),
-                                                onTap: () => nNewPet()
-                                            ),
-                                        ),
-                                        // Pet
-                                        ListView.builder(
-                                            physics: NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: _mascotas.length,
-                                            itemBuilder: (BuildContext context,
-                                                index) {
-                                                return ListTile(
-                                                    title: Text(
-                                                        _mascotas[index].id
-                                                            .name),
-                                                    onTap: () =>
-                                                        nPet(_mascotas[index]),
-                                                    //trailing: Icon(Icons.keyboard_arrow_right),
-                                                    trailing: IconButton(
-                                                        icon: Icon(
-                                                            Icons.delete),
-                                                        color: Colors.black54,
-                                                        onPressed: () =>
-                                                            _showAlertDialog(
-                                                                _mascotas[index]
-                                                                    .id
-                                                                    .name),
+                                                            Text(
+                                                                '   ' +
+                                                                    "Añadir mascota",
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black54,
+                                                                ),
+                                                            ),
+                                                        ],
                                                     ),
-                                                );
-                                            },
-                                        )
-                                    ],
+                                                    onTap: () => nNewPet()
+                                                ),
+                                            ),
+                                            // Pet
+                                            ListView.builder(
+                                                physics: NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                itemCount: _mascotas.length,
+                                                itemBuilder: (BuildContext context,
+                                                    index) {
+                                                    return ListTile(
+                                                        title: Text(
+                                                            _mascotas[index].id
+                                                                .name),
+                                                        onTap: () =>
+                                                            nPet(_mascotas[index]),
+                                                        //trailing: Icon(Icons.keyboard_arrow_right),
+                                                        trailing: IconButton(
+                                                            icon: Icon(
+                                                                Icons.delete),
+                                                            color: Colors.black54,
+                                                            onPressed: () =>
+                                                                _showAlertDialog(
+                                                                    _mascotas[index]
+                                                                        .id
+                                                                        .name),
+                                                        ),
+                                                    );
+                                                },
+                                            )
+                                        ],
+                                    ),
                                 ),
-                            ),
-                        ]
-                    ),
-                );
-            }
-        });
+                            ]
+                        ),
+                    );
+                }
+            });
     }
 
     void _showAlertDialog(String petName) {
@@ -217,10 +212,10 @@ class _PetsState extends State<MyPets>
                         FlatButton(
                             child: Text("ACEPTAR", style: TextStyle(color: Colors.redAccent),),
                             onPressed:  () => deleteMascota(petName).whenComplete(
-                                            () {
-                                                Navigator.pop(context);
-                                                getMascotas();
-                                            })
+                                    () {
+                                    Navigator.pop(context);
+                                    getMascotas();
+                                })
                         ),
                     ],
                 );

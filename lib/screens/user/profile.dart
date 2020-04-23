@@ -6,6 +6,7 @@ import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/pets/pet.dart';
+import 'package:petandgo/screens/user/edit.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
@@ -23,9 +24,9 @@ class Profile extends StatefulWidget {
     _ProfileState createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile>
-{
+class _ProfileState extends State<Profile> {
     List<Mascota> _mascotas = new List<Mascota>();
+
     nLogIn() {
         widget.user = null;
         Navigator.pushReplacement(
@@ -42,16 +43,23 @@ class _ProfileState extends State<Profile>
     }
 
     nNewPet() {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NewPet(widget.user))
         );
     }
 
     nPet(Mascota mascota) {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Pet(widget.user, mascota))
+        );
+    }
+
+    nEdit(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Edit(widget.user))
         );
     }
 
@@ -71,11 +79,21 @@ class _ProfileState extends State<Profile>
                 iconTheme: IconThemeData(
                     color: Colors.white,
                 ),
+                actions: <Widget>[
+                    IconButton(
+                        icon: Icon(
+                            Icons.mode_edit,
+                            color: Colors.white,
+                        ),
+                        onPressed: () => nEdit(),
+                    ),
+                ],
             ),
             body: ListView(
                 children: <Widget>[
                     Padding(
-                        padding: const EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
+                        padding: const EdgeInsets.only(
+                            top: 20.0, left: 30.0, right: 30.0),
                         child: Column(
                             children: <Widget>[
                                 CircleAvatar(
@@ -85,11 +103,13 @@ class _ProfileState extends State<Profile>
                                 ),
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
                                     children: <Widget>[
                                         // USER
                                         Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5.0),
                                             child: Text(
                                                 "USUARIO",
                                                 style: TextStyle(
@@ -102,7 +122,8 @@ class _ProfileState extends State<Profile>
                                         ),
                                         // username
                                         Padding(
-                                            padding: const EdgeInsets.only(top: 5.0),
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0),
                                             child: Row(
                                                 children: <Widget>[
                                                     Icon(
@@ -110,20 +131,25 @@ class _ProfileState extends State<Profile>
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + widget.user.username,
+                                                        '   ' + widget.user
+                                                            .username,
                                                         style: TextStyle(
-                                                            color: Colors.black54,
-                                                            fontWeight: FontWeight.bold,
+                                                            color: Colors
+                                                                .black54,
+                                                            fontWeight: FontWeight
+                                                                .bold,
                                                             fontSize: 16.0,
                                                         ),
-                                                        textAlign: TextAlign.center,
+                                                        textAlign: TextAlign
+                                                            .center,
                                                     ),
                                                 ]
                                             ),
                                         ),
                                         // email
-                                        Padding (
-                                            padding: const EdgeInsets.only(top: 5.0),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0),
                                             child: Row(
                                                 children: <Widget>[
                                                     Icon(
@@ -131,18 +157,22 @@ class _ProfileState extends State<Profile>
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + widget.user.name,
+                                                        '   ' +
+                                                            widget.user.name,
                                                         style: TextStyle(
-                                                            color: Colors.black54,
+                                                            color: Colors
+                                                                .black54,
                                                             fontSize: 16.0,
                                                         ),
-                                                        textAlign: TextAlign.center,
+                                                        textAlign: TextAlign
+                                                            .center,
                                                     )
                                                 ]
                                             ),
                                         ),
-                                        Padding (
-                                            padding: const EdgeInsets.only(top: 5.0, bottom: 30),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0, bottom: 30),
                                             child: Row(
                                                 children: <Widget>[
                                                     Icon(
@@ -150,9 +180,11 @@ class _ProfileState extends State<Profile>
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + widget.user.email,
+                                                        '   ' +
+                                                            widget.user.email,
                                                         style: TextStyle(
-                                                            color: Colors.black54,
+                                                            color: Colors
+                                                                .black54,
                                                         ),
                                                     )
                                                 ],
