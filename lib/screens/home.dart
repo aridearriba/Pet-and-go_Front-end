@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
     }
 
     nNewDogStop() {
-        Navigator.pushReplacement(
+        Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NewDogStop(widget.user))
         );
@@ -119,6 +119,7 @@ class _HomeState extends State<Home> {
                     ],
                 ),
                 floatingActionButton: FloatingActionButton(
+                    child: Icon(Icons.add, color: Colors.white,),
                     onPressed: nNewDogStop,
                     backgroundColor: Colors.green,
                 ),
