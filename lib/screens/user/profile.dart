@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
@@ -25,7 +28,6 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile>
 {
-    List<Mascota> _mascotas = new List<Mascota>();
     nLogIn() {
         widget.user = null;
         Navigator.pushReplacement(
@@ -55,9 +57,9 @@ class _ProfileState extends State<Profile>
         );
     }
 
-
     @override
     Widget build(BuildContext context) {
+
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
@@ -79,9 +81,16 @@ class _ProfileState extends State<Profile>
                         child: Column(
                             children: <Widget>[
                                 CircleAvatar(
-                                    backgroundImage: new NetworkImage(widget.user.profileImageUrl),
+                                    backgroundImage: getImage(),
                                     radius: 75,
                                     backgroundColor: Colors.transparent,
+                                    /*child: FloatingActionButton(
+                                            onPressed: _pickImage,
+                                            tooltip: 'Elige una imagen',
+                                            elevation: 10.0,
+                                            backgroundColor: Theme.of(context).primaryColor,
+                                            child: Icon(Icons.add_a_photo, color: Colors.black),
+                                    ),*/
                                 ),
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -167,4 +176,45 @@ class _ProfileState extends State<Profile>
             ),
         );
     }
+
+    ImageProvider getImage()  {
+        // no user image
+        if (widget.user.image == "")
+            return Image.network(widget.user.profileImageUrl).image;
+
+        // else --> load image
+        Uint8List _bytesImage;
+        String _imgString = widget.user.image.toString();
+        _bytesImage = Base64Decoder().convert(_imgString);
+        return Image.memory(_bytesImage).image;
+    }
+
+    void _pickImage() async {
+        final imageSource = await showDialog<ImageSource>(
+            context: context,
+            builder: (context) =>
+                AlertDialog(
+                    title: Text("Select the image source"),
+                    actions: <Widget>[
+                        MaterialButton(
+                            child: Text("Camera"),
+                            onPressed: () => Navigator.pop(context, ImageSource.camera),
+                        ),
+                        MaterialButton(
+                            child: Text("Gallery"),
+                            onPressed: () => Navigator.pop(context, ImageSource.gallery),
+                        )
+                    ],
+                )
+        );
+
+        if(imageSource != null) {
+            final file = await ImagePicker.pickImage(source: imageSource);
+            if(file != null) {
+                //setState(() => _image = file);
+            }
+            //var bytes = base64Encode(_image.readAsBytesSync());
+        }
+    }
+
 }
