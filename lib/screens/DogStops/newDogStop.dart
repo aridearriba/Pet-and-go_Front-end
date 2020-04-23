@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:dio/dio.dart';
@@ -69,6 +70,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
     final _controladorHour = TextEditingController();
 
     var _statusCode;
+    var _id;
 
     DateTime _dateTime;
     TimeOfDay _hour;
@@ -242,7 +244,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
                                                     Navigator.pushReplacement(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => Profile(widget.user))
+                                                            builder: (context) => Home(widget.user))
                                                     );
                                                 }
                                                 else Scaffold.of(context).showSnackBar(SnackBar(
@@ -261,23 +263,27 @@ class MyCustomFormState extends State<NewDogStopForm> {
     }
 
     Future<void> add() async{
-        var date = _dateTime.toString().substring(0, 10) + ' ' + _hour.hour.toString() + ':' + _hour.minute.toString();
+        var email = widget.user.email;
+        var date = _dateTime.toString().substring(0, 10) + ' ' + _hour.hour.toString() + ':' + _hour.minute.toString() + ':00';
         var today = DateTime.now().toString().substring(0, 10);
         var loc = _controladorLocation.text.toString();
         print("DATE: $date");
         http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/quedadas"),
             headers: <String, String>{
-                'Content-Type': 'application/json; charset=UTF-8',
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
             },
             body: jsonEncode({
-                'admin': widget.user.email,
+                'admin': email,
                 'createdAt': today,
                 'fechaQuedada': date,
                 'lugarInicio': loc,
                 'lugarFin': loc,
                 }));
         _statusCode = response.statusCode;
+        _id = response.body;
 
+        print('$_id');
         print(_statusCode);
     }
 }

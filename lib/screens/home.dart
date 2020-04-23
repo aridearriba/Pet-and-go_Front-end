@@ -6,6 +6,8 @@ import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import 'package:petandgo/model/user.dart';
 
+import 'DogStops/DogStopView.dart';
+
 class Home extends StatefulWidget {
     Home(this.user);
     User user;
@@ -17,7 +19,7 @@ class Home extends StatefulWidget {
     _HomeState createState() => _HomeState();
 }
 
-class DogStopWidget extends StatelessWidget{
+class DogStopWidgetShort extends StatelessWidget{
     @override
     Widget build(BuildContext context) {
         Widget dogStop = Container(
@@ -71,6 +73,13 @@ class _HomeState extends State<Home> {
         );
     }
 
+    nDogStopView() {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => DogStopWidget(widget.user, 25))
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         return Scaffold(
@@ -92,6 +101,9 @@ class _HomeState extends State<Home> {
                     children: <Widget>[
                         Container(
                             height: 200,
+                        ),
+                        RaisedButton(
+                            onPressed: nDogStopView,
                         ),
                         Text(
                             'PERREPARADAS CERCANAS',

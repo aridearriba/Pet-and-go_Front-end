@@ -33,6 +33,7 @@ class _PetState extends State<Pet>{
             MaterialPageRoute(builder: (context) => Pet(widget.user, mascota))
         );
     }
+
     var _statusCode;
     Mascota _result = new Mascota();
     var _date;
