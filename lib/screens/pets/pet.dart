@@ -7,6 +7,7 @@ import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/screens/pets/myPets.dart';
 
 
 class Pet extends StatefulWidget {
@@ -19,8 +20,21 @@ class Pet extends StatefulWidget {
 
 class _PetState extends State<Pet>{
 
+    nMyPets() {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MyPets(widget.user))
+        );
+    }
+
+    nPet(Mascota mascota) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Pet(widget.user, mascota))
+        );
+    }
+
     var _statusCode;
-    var _nameMascotas;
 
     DateTime _dateTime;
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -46,7 +60,7 @@ class _PetState extends State<Pet>{
                 actions: <Widget>[
                     IconButton(
                         icon: Icon(Icons.arrow_back, color: Colors.white),
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => nMyPets(),
                     )
                 ],
             ),
@@ -147,9 +161,9 @@ class _PetState extends State<Pet>{
     Widget _buildEditDialog(BuildContext context) {
         TextEditingController _nameController = new TextEditingController();
         _nameController.text = widget.mascota.id.name;
-        var _date = widget.mascota.date.day.toString() + "." + widget.mascota.date.month.toString() + "." + widget.mascota.date.year.toString();
+        var _dateT = widget.mascota.date.day.toString() + "." + widget.mascota.date.month.toString() + "." + widget.mascota.date.year.toString();
         TextEditingController _dateController = new TextEditingController();
-        _dateController.text = _date;
+        _dateController.text = _dateT;
         return new SimpleDialog(
             title: Text('Datos de la mascota',
             textAlign: TextAlign.center,),
@@ -209,15 +223,12 @@ class _PetState extends State<Pet>{
                                 update().whenComplete(
                                     () {
                                         if(_statusCode == 200) {
-                                            Scaffold.of(context).showSnackBar(
-                                                SnackBar(
-                                                    content: Text(
-                                                        'Mascota actualizada con éxito!')));
+                                            Navigator.pop(context);
+                                            nPet(widget.mascota);
                                         }
                                     }
                                 );
                             }
-                            Navigator.of(context).pop();
                         },
                     )
                 ),
@@ -229,7 +240,6 @@ class _PetState extends State<Pet>{
         var email = widget.user.email;
         String mascot = widget.mascota.id.name;
         var date = _dateTime.toString().substring(0,10);
-        print(date);
         http.Response response = await http.put(new Uri.http("192.168.1.60:8080", "/api/usuarios/" + email + "/mascotas/"+ mascot),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
