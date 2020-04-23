@@ -209,10 +209,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             onPressed: () {
                 _googleAccountSignIn().whenComplete(
                         () {
+                        getProfileImage().whenComplete( () =>
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => Home(user))
-                        );
+                        ));
                     }
                 );
             },
@@ -246,7 +247,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
 
     Future<void> getProfileImage() async{
-        var email = controladorEmail.text;
+        var email = user.email;
         final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/image"));
         user.image = response.body;
     }

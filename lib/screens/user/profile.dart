@@ -259,8 +259,7 @@ class _ProfileState extends State<Profile>
             },
             body: _image64
         );
-        print("SCODE " + response.statusCode.toString());
-
+        
         if (response.statusCode == 200) widget.user.image = _image64;
     }
 
