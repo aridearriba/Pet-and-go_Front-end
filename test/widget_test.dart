@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:petandgo/sign-up.dart';
+import 'package:petandgo/screens/user/sign-up.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
