@@ -135,7 +135,7 @@ class MyCustomFormState extends State<NewPetForm> {
                             ),
                         ),
                     ),
-                    Padding(
+                    /*Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             decoration: InputDecoration(
@@ -149,7 +149,7 @@ class MyCustomFormState extends State<NewPetForm> {
                                 return null;
                             },
                         ),
-                    ),
+                    ),*/
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(

@@ -373,5 +373,6 @@ class MyCustomFormState extends State<EditForm>{
         final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"+email));
         userRefresh = User.fromJson(jsonDecode(response.body));
         userRefresh.token = widget.user.token;
+        userRefresh.image = widget.user.image;
     }
 }

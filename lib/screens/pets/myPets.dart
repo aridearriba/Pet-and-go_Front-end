@@ -102,7 +102,7 @@ class _PetsState extends State<MyPets>
                                         Padding(
                                             padding: const EdgeInsets.only(
                                                 top: 5.0),
-                                            child: Text("Loading ...")
+                                            child: Text(" ")
                                         ),
                                     ],
                                 ),
@@ -214,8 +214,8 @@ class _PetsState extends State<MyPets>
                             child: Text("ACEPTAR", style: TextStyle(color: Colors.redAccent),),
                             onPressed:  () => deleteMascota(petName).whenComplete(
                                     () {
-                                    Navigator.pop(context);
-                                    getMascotas();
+                                        Navigator.pop(context);
+                                        getMascotas();
                                 })
                         ),
                     ],
