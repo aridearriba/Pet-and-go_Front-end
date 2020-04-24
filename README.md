@@ -22,6 +22,9 @@ https://docs.google.com/spreadsheets/d/1HZ2jMO45pnqwhHH_Od_mxbTQ_9pZfgjP6klXEAgS
 ### Sprint 1
 > **Sprint Master:** Joan Pont Martori
 
+### Sprint 2
+> **Sprint Master:** Ariadna de Arriba Serra
+
 #### Front-End
 - Ariadna de Arriba Serra
 - Miguel Angel Serrat Gil
