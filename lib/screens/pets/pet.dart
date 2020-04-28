@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
@@ -19,6 +21,9 @@ class Pet extends StatefulWidget {
 }
 
 class _PetState extends State<Pet>{
+    var _image;
+    String _image64;
+    ImageProvider _imageProfile;
 
     nMyPets() {
         Navigator.pushReplacement(
@@ -44,6 +49,9 @@ class _PetState extends State<Pet>{
         _date = widget.mascota.date.day.toString() + "." + widget.mascota.date.month.toString() + "." + widget.mascota.date.year.toString();
         var _difference = DateTime.now().difference(widget.mascota.date);
         var _age = (_difference.inDays/365).floor().toString();
+        _image64 = widget.mascota.image;
+        _imageProfile = getImage();
+
         return Scaffold(
             key: _scaffoldKey,
             drawer: Menu(widget.user),
@@ -71,10 +79,31 @@ class _PetState extends State<Pet>{
                         padding: const EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
                         child: Column(
                             children: <Widget>[
-                                Icon(
-                                    Icons.account_circle,
-                                    color: Colors.green,
-                                    size: 150.0,
+                                CircleAvatar(
+                                    backgroundImage: _imageProfile,
+                                    radius: 75,
+                                    backgroundColor: Colors.transparent,
+                                    child: Stack(
+                                        children: <Widget>[
+                                            Positioned(
+                                                top: 105,
+                                                left: 110,
+                                                child: Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    child:
+                                                    FloatingActionButton(
+                                                        heroTag: "pickImage",
+                                                        onPressed: _pickImage,
+                                                        tooltip: 'Elige una imagen',
+                                                        elevation: 10.0,
+                                                        backgroundColor: Theme.of(context).primaryColor,
+                                                        child: Icon(Icons.add_a_photo, color: Colors.black, size: 15),
+                                                    )
+                                                )
+                                            ),
+                                        ]
+                                    ),
                                 ),
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -136,6 +165,7 @@ class _PetState extends State<Pet>{
                                             child: Row(
                                                 children: <Widget>[
                                                     FloatingActionButton.extended(
+                                                        heroTag: "editPet",
                                                         icon: Icon(Icons.pets, color: Colors.white),
                                                         backgroundColor: Colors.green,
                                                         label: Text("Editar datos de mascota"),
@@ -264,5 +294,67 @@ class _PetState extends State<Pet>{
         http.Response response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas/"+ mascot));
         _result = Mascota.fromJson(jsonDecode(response.body));
         print("La data en result: " +_result.date.toString());
+    }
+
+    ImageProvider getImage()  {
+        // no pet image
+        if (_image64 == "")
+            return Image.network("https://www.abbeyvetgroupbarnsley.co.uk/wp-content/uploads/2014/09/dog-avatar.png").image;
+
+        // else --> load image
+        Uint8List _bytesImage;
+        String _imgString = _image64.toString();
+        _bytesImage = Base64Decoder().convert(_imgString);
+        return Image.memory(_bytesImage).image;
+    }
+
+    void _pickImage() async {
+        final imageSource = await showDialog<ImageSource>(
+            context: context,
+            builder: (context) =>
+                AlertDialog(
+                    title: Text("Selecciona una opción"),
+                    actions: <Widget>[
+                        MaterialButton(
+                            child: Text("Camera"),
+                            onPressed: () => Navigator.pop(context, ImageSource.camera),
+                        ),
+                        MaterialButton(
+                            child: Text("Galería"),
+                            onPressed: () => Navigator.pop(context, ImageSource.gallery),
+                        )
+                    ],
+                )
+        );
+
+        if(imageSource != null) {
+            final file = await ImagePicker.pickImage(source: imageSource);
+            if (file != null)
+            {
+                _image = file;
+                _image64 = Base64Encoder().convert(_image.readAsBytesSync());
+                changeProfileImage().whenComplete(
+                        () {
+                        setState(() => _imageProfile = getImage());
+                    }
+                );
+            }
+        }
+    }
+
+
+    Future<void> changeProfileImage() async{
+        var email = widget.user.email;
+        var mascota = widget.mascota.id.name;
+
+        http.Response response = await http.put(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas/" + mascota + "/image"),
+            headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+            body: _image64
+        );
+
+        if (response.statusCode == 200) widget.mascota.image = _image64;
     }
 }
