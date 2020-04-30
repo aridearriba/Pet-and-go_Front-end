@@ -288,6 +288,7 @@ class _PetState extends State<Pet>{
         print(_statusCode);
     }
 
+
     Future<void> getMascota() async{
         var email = widget.user.email;
         String mascot = widget.mascota.id.name;
@@ -295,7 +296,6 @@ class _PetState extends State<Pet>{
         _result = Mascota.fromJson(jsonDecode(response.body));
         print("La data en result: " +_result.date.toString());
     }
-
     ImageProvider getImage()  {
         // no pet image
         if (_image64 == "")

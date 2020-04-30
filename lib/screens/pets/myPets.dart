@@ -49,6 +49,7 @@ class _PetsState extends State<MyPets>
         );
     }
 
+    Mascota _mascota = new Mascota();
 
     @override
     Widget build(BuildContext context) {
@@ -172,8 +173,11 @@ class _PetsState extends State<MyPets>
                                                     title: Text(
                                                         _mascotas[index].id
                                                             .name),
-                                                    onTap: () =>
-                                                        nPet(_mascotas[index]),
+                                                    onTap:
+                                                        () {
+                                                            _mascota = _mascotas[index];
+                                                            getPetProfileImage().whenComplete(() => nPet(_mascota));
+                                                        },
                                                     //trailing: Icon(Icons.keyboard_arrow_right),
                                                     trailing: IconButton(
                                                         icon: Icon(
@@ -230,6 +234,17 @@ class _PetsState extends State<MyPets>
         Iterable list = json.decode(response.body);
         _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
         return _mascotas;
+    }
+
+    Future<void> getPetProfileImage() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas/" + _mascota.id.name + "/image"),
+            headers: <String, String> {
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+        );
+        _mascota.image = response.body;
     }
 
     Future<void> deleteMascota(String petName) async{

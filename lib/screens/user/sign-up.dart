@@ -279,6 +279,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         return Image.memory(_bytesImage, fit: BoxFit.cover, width: 150, height: 150);
     }
 
+
     void _pickImage() async {
         final imageSource = await showDialog<ImageSource>(
             context: context,
