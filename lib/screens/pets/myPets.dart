@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -226,7 +227,7 @@ class _PetsState extends State<MyPets>
 
     Future<List<Mascota>> getMascotas() async{
         var email = widget.user.email;
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"));
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/mascotas"));
         Iterable list = json.decode(response.body);
         _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
         return _mascotas;
@@ -234,7 +235,7 @@ class _PetsState extends State<MyPets>
 
     Future<void> deleteMascota(String petName) async{
         var email = widget.user.email;
-        final http.Response response = await http.delete(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" +
+        final http.Response response = await http.delete(new Uri.http(Global.apiURL, "/api/usuarios/" +
             email + "/mascotas/" + petName),
             headers: <String, String> {
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',

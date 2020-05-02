@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
+import 'package:petandgo/screens/quedadas/perreParadaTabView.dart';
 import 'package:petandgo/screens/settings.dart';
 
 import 'package:petandgo/screens/user/login.dart';
@@ -47,6 +48,14 @@ class _MenuContent extends State<Menu> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => MyPets(widget.user))
+        );
+    }
+
+    // Navigate to MyPets
+    nMisQuedadas(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => QuedadasTabView(widget.user))
         );
     }
     // Navigate to Settings
@@ -118,6 +127,11 @@ class _MenuContent extends State<Menu> {
                         onTap: () => nMyPets(),
                     ),
                     ListTile(
+                        leading: Icon(Icons.sentiment_satisfied),
+                        title: Text('Mis quedadas'),
+                        onTap: () => nMisQuedadas(),
+                    ),
+                    ListTile(
                         leading: Icon(Icons.settings),
                         title: Text('Configuración'),
                         onTap: () => nSettings(),
@@ -143,4 +157,6 @@ class _MenuContent extends State<Menu> {
         _bytesImage = Base64Decoder().convert(_imgString);
         return Image.memory(_bytesImage).image;
     }
+
+
 }

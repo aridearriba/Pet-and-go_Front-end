@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/mascota.dart';
@@ -243,7 +244,7 @@ class _PetState extends State<Pet>{
         var email = widget.user.email;
         String mascot = widget.mascota.id.name;
         var date = _dateTime.toString().substring(0,10);
-        http.Response response = await http.put(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas/"+ mascot),
+        http.Response response = await http.put(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/mascotas/"+ mascot),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString()
@@ -261,7 +262,7 @@ class _PetState extends State<Pet>{
     Future<void> getMascota() async{
         var email = widget.user.email;
         String mascot = widget.mascota.id.name;
-        http.Response response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas/"+ mascot));
+        http.Response response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/mascotas/"+ mascot));
         _result = Mascota.fromJson(jsonDecode(response.body));
         print("La data en result: " +_result.date.toString());
     }

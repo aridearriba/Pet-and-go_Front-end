@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -285,7 +286,7 @@ class _ProfileState extends State<Profile>
     Future<void> changeProfileImage() async{
         var email = widget.user.email;
 
-        http.Response response = await http.put(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/image"),
+        http.Response response = await http.put(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/image"),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString(),

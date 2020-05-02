@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class _DogStopState extends State<DogStopWidget>{
     }
 
     Future<void> getDogStop(int id) async{
-        http.Response response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/quedadas/1"));
+        http.Response response = await http.get(new Uri.http(Global.apiURL, "/api/quedadas/1"));
         print('HEY HEREEEEEEEEEE');
         print(' --------> ' + response.body.toString());
         _dogStop = DogStop.fromJson(jsonDecode(response.body));
