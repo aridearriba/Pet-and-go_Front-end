@@ -47,34 +47,46 @@ class _DogStopState extends State<DogStopWidget>{
 
     static double lat;
     static double lng;
-    
-    Future<void> getLatLng(String name) async {
-        String baseURL = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
-        String language = 'es';
 
-        String request = '$baseURL?query=$name&key=$PLACES_API_KEY&language=$language';
-        final response = await Dio().get(request);
+    /*Future<void> getLatLng(String name) async {
 
         final prediction = response.data['candidates'];
 
         lat = prediction[0]['geometry']['location']['lat'];
         lng = prediction[0]['geometry']['location']['lng'];
+
+        String URL = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=$name&key=$PLACES_API_KEY';
+        final response = await http.get(URL);
+
+        print(response.statusCode.toString());
+
+        if (response.statusCode == 200) {
+            var data = json.decode(response.body);
+            var rest = data["result"];
+            print(data);
+            _result = Result.fromJson(rest);
+        } else {
+            throw Exception('An error occurred getting places nearby error: ');
+        }
+
+
+
         print(lat);
-    }
+    }*/
 
     Future<void> getDogStop(int id) async{
         http.Response response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/quedadas/1"));
         print('HEY HEREEEEEEEEEE');
         print(' --------> ' + response.body.toString());
-        _dogStop = DogStop.fromJson(jsonDecode(response.body));
+        _dogStop = DogStop.fromJson(json.decode(response.body));
     }
 
     @override void initState() {
         getDogStop(widget.id);
-        getLatLng(_dogStop.locationOrigin);
+        super.initState();
   }
 
-    static final CameraPosition _camposition = CameraPosition(
+    static final CameraPosition _camPosition = CameraPosition(
         target: LatLng(lat, lng),
         zoom: 14.4746,
     );
@@ -107,14 +119,6 @@ class _DogStopState extends State<DogStopWidget>{
                     Text('' + _dogStop.locationOrigin),
                     Text('' + _dogStop.date.toString()),
                     Text('de ' + _dogStop.admin),
-                    GoogleMap(
-                        mapType: MapType.normal,
-                        initialCameraPosition: _camposition,
-                        onMapCreated: (GoogleMapController controller) {
-                            _controller.complete(controller);
-                        },
-                        markers: _createMarkers(),
-                    ),
                 ],
             ),
         );
@@ -129,3 +133,4 @@ class _DogStopState extends State<DogStopWidget>{
         return tmp;
     }
 }
+

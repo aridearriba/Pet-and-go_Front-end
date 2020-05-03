@@ -13,9 +13,14 @@ import 'package:petandgo/model/user.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/screens/user/profile.dart';
+import 'package:uuid/uuid.dart';
 import '../../Credentials.dart';
 import '../home.dart';
 import 'package:rxdart/rxdart.dart';
+
+import '../home.dart';
+import '../home.dart';
+import 'DogStopView.dart';
 
 
 class NewDogStop extends StatelessWidget {
@@ -71,19 +76,17 @@ class MyCustomFormState extends State<NewDogStopForm> {
 
     var _statusCode;
     var _id;
+    var uuid;
 
     DateTime _dateTime;
     TimeOfDay _hour;
-    Places _location;
 
-    List<Places> _placesList;
-
-    AutoCompleteTextField<Places> textField;
-
-    Places selected;
-
+    List<String> _placesList;
+    List<Prediction> _predictions;
+    Result _result;
     static double lat = 41.390205;
     static double lng = 2.154007;
+    static String code = '';
 
     Completer<GoogleMapController> _controller = Completer();
 
@@ -92,46 +95,63 @@ class MyCustomFormState extends State<NewDogStopForm> {
         zoom: 10,
     );
 
-    void getLocations(String input) async {
+    Future<void> getLocations(String input) async {
         if (input.isEmpty){
             return null;
         }
 
-        String baseURL = 'https://mpas.googleapis.com/maps/api/place/autocomplete/json';
-        String type = 'address';
-        String language = 'es';
+        input = input.replaceAll(" ", "+");
 
-        //ADD SESION TOKEN??
+        String URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$PLACES_API_KEY&sessiontoken=$uuid';
 
-        String request = '$baseURL?input=$input&key=$PLACES_API_KEY&type=$type&language=$language';
-        final response = await Dio().get(request);
+        print('000000000000000000000000000000000000000000000000000000000000000 \n');
 
-        final predictions = response.data['predictions'];
+        final response = await http.get(URL);
 
-        List<Places> _displayResults = [];
+        print(response.statusCode.toString());
 
-        for (var i=0; i < predictions.length; i++){
-            Places p = new Places();
-            p.name = predictions[i]['description'];
-            p.id = predictions[i]['id'];
-            _displayResults.add(p);
+        if (response.statusCode == 200) {
+            var data = json.decode(response.body);
+            var rest = data["predictions"] as List;
+            print(rest);
+            _predictions = rest.map<Prediction>((json) => Prediction.fromJson(json)).toList();
+        } else {
+            throw Exception('An error occurred getting places nearby');
         }
 
-       _placesList = _displayResults;
+        //Iterable list = json.decode(response.body);
+        //_predictions = list.map((model) => Prediction.fromJson(model)).toList();
+
+        print('11111111111111111111111111111111111111111111111111111111111111111 \n');
     }
 
-    Future<void> getLatLng(Places p) async {
-        String baseURL = 'https://maps.googleapis.com/maps/api/place/textsearch/json';
-        String language = 'es';
-        String name = p.name;
+    Future<void> getPlaceInfo(String name) async {
 
-        String request = '$baseURL?query=$name&key=$PLACES_API_KEY&language=$language';
-        final response = await Dio().get(request);
+        print('2222222222222222222222222222222222222222222222222222222222222222222222222 \n');
 
-        final prediction = response.data['candidates'];
+        //name = name.replaceAll(" ", "+");
 
-        lat = prediction[0]['geometry']['location']['lat'];
-        print(lat);
+        //String URL = 'https://maps.googleapis.com/maps/api/geocode/json?address=$name&key=$PLACES_API_KEY';
+        String URL = 'https://maps.googleapis.com/maps/api/place/details/json?place_id=$name&key=$PLACES_API_KEY&sessiontoken=$uuid';
+        final response = await http.get(URL);
+
+        print(response.statusCode.toString());
+
+        if (response.statusCode == 200) {
+            var data = json.decode(response.body);
+            var rest = data["result"];
+            print(data);
+            _result = Result.fromJson(rest);
+        } else {
+            throw Exception('An error occurred getting places nearby error: ');
+        }
+        print('333333333333333333333333333333333333333333333333333333333333333333333333333 \n');
+    }
+
+    @override
+    void initState() {
+        uuid = Uuid();
+        super.initState();
     }
 
     @override
@@ -244,7 +264,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
                                                     Navigator.pushReplacement(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => Home(widget.user))
+                                                            builder: (context) => DogStopWidget(widget.user, _id))
                                                     );
                                                 }
                                                 else Scaffold.of(context).showSnackBar(SnackBar(
@@ -264,9 +284,32 @@ class MyCustomFormState extends State<NewDogStopForm> {
 
     Future<void> add() async{
         var email = widget.user.email;
-        var date = _dateTime.toString().substring(0, 10) + ' ' + _hour.hour.toString() + ':' + _hour.minute.toString() + ':00';
+        var date = _dateTime.toString() + ' ' + _hour.hour.toString() + ':' + _hour.minute.toString() + ':00';
         var today = DateTime.now().toString().substring(0, 10);
         var loc = _controladorLocation.text.toString();
+
+        print("LOC: $loc");
+        await getLocations(loc);
+
+        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        for(var i=0; i<_predictions.length; ++i) {
+            print(_predictions[i].description + ' ' + _predictions[i].id);
+        }
+
+        loc = _predictions[0].id;
+
+        print("LOC: $loc");
+        await getPlaceInfo(loc);
+
+        lat = _result.geo.loc.lat;
+        lng = _result.geo.loc.lng;
+        loc = _result.name;
+
+        print('lat: $lat lng: $lng code: $loc');
+
+        //getPlaceInfo(loc);
+        //loc = code;
+
         print("DATE: $date");
         http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/quedadas"),
             headers: <String, String>{
@@ -277,18 +320,130 @@ class MyCustomFormState extends State<NewDogStopForm> {
                 'admin': email,
                 'createdAt': today,
                 'fechaQuedada': date,
-                'lugarInicio': loc,
-                'lugarFin': loc,
+                'lugarInicio': loc, //PLUS_CODE
+
+                /*
+                * OP1 - place_id -> +1 consulta a la API de google,
+                * OP2 - add lat, lng y nombre
+                *
+                * Añadir apartado para guardar fotos
+                * */
+
+                'lugarFin': '',
                 }));
         _statusCode = response.statusCode;
-        _id = response.body;
+        _id = int.parse(response.body);
 
         print('$_id');
         print(_statusCode);
     }
 }
 
-class Places {
-    String name;
-    String id;
+//GOOGLE MAPS RESPONSE CLASSES:
+class Prediction {
+    String _description;
+    String _id;
+
+    Prediction({String desc, String id})
+    {
+        this._description = desc;
+        this._id = id;
+    }
+
+    String get description => _description;
+    String get id => this._id;
+
+    factory Prediction.fromJson(Map<String, dynamic> json){
+        return Prediction(
+            desc:  json['description'],
+            id: json['place_id']
+        );
+    }
+
+}
+
+class Result {
+    Geometry _geo;
+    String _name;
+
+    Result({Geometry geo, String name})
+    {
+        this._geo = geo;
+        this._name = name;
+    }
+
+    Geometry get geo => _geo;
+    String get name => _name;
+
+    factory Result.fromJson(Map<String, dynamic> json){
+        return Result(
+            geo: Geometry.fromJson(json['geometry']),
+            name: json['formatted_address'],
+        );
+    }
+}
+
+class Geometry {
+
+    Location _loc;
+
+    Geometry({Location loc})
+    {
+        this._loc = loc;
+    }
+
+    Location get loc => _loc;
+
+    factory Geometry.fromJson(Map<String, dynamic> json){
+        return Geometry(
+            loc: Location.fromJson(json ['location'])
+        );
+    }
+}
+
+class Location {
+
+    double _lat, _lng;
+
+    Location({double lat, double lng})
+    {
+        this._lat = lat;
+        this._lng = lng;
+    }
+
+    double get lat => _lat;
+    double get lng => _lng;
+
+
+    factory Location.fromJson(Map<String, dynamic> json){
+        return Location(
+            lat: json['lat'],
+            lng: json['lng']
+        );
+    }
+}
+
+class Photo {
+    double _height, _width;
+    String _ref;
+
+    Photo({double h, double w, String ref})
+    {
+        this._height = h;
+        this._width = w;
+        this._ref = ref;
+    }
+
+    double get height => _height;
+    double get width => _width;
+    String get ref => _ref;
+
+
+    factory Photo.fromJson(Map<String, dynamic> json){
+        return Photo(
+            h: json['height'],
+            w: json['width'],
+            ref: json['photo_reference']
+        );
+    }
 }
