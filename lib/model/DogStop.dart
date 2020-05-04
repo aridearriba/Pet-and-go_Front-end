@@ -23,12 +23,13 @@ class DogStop{
     String get locationOrigin => _locationOrigin;
     String get locationEnd => _locationEnd;
     List<String> get assistants => _assistants;
+    DateTime get creationDate => _creationDate;
 
     factory DogStop.fromJson(Map<String, dynamic> json) {
         return DogStop(
-            admin : json['admin'],
-            date : json['fechaQuedada'],
-            creationDate: json['createdAt'],
+            admin : json['admin'].toString(),
+            date : DateTime.parse(json['fechaQuedada']),
+            creationDate:  DateTime.parse(json['createdAt']),
             locationOrigin: json['lugarInicio'],
             locationEnd: json['lugarFin'],
         );
