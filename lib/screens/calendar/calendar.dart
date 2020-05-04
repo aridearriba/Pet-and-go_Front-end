@@ -111,10 +111,16 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
         );
     }
 
+    Map<CalendarFormat, String> formats = {
+        CalendarFormat.month: 'Mes',
+        CalendarFormat.week: 'Semana',
+    };
+
     // Simple TableCalendar configuration (using Styles)
     Widget _buildTableCalendar() {
         return TableCalendar(
             locale: 'es_ES',
+            availableCalendarFormats: formats,
             calendarController: _calendarController,
             events: _events,
             holidays: _holidays,
