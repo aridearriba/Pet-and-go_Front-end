@@ -3,6 +3,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/calendar/calendar.dart';
+import 'package:petandgo/screens/calendar/calendarList.dart';
+import 'package:petandgo/screens/calendar/calendarMain.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
 import 'package:petandgo/screens/settings.dart';
 
@@ -54,6 +57,14 @@ class _MenuContent extends State<Menu> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Settings(widget.user))
+        );
+    }
+    // Navigate to Calendar
+    nCalendar(){
+        Navigator.pushReplacement(
+            context,
+            //MaterialPageRoute(builder: (context) => CalendarMain(widget.user))
+            MaterialPageRoute(builder: (context) => Calendari(widget.user))
         );
     }
 
@@ -116,6 +127,11 @@ class _MenuContent extends State<Menu> {
                         leading: Icon(Icons.pets),
                         title: Text('Mis mascotas'),
                         onTap: () => nMyPets(),
+                    ),
+                    ListTile(
+                        leading: Icon(Icons.calendar_today),
+                        title: Text('Calendario'),
+                        onTap: () => nCalendar(),
                     ),
                     ListTile(
                         leading: Icon(Icons.settings),
