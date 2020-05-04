@@ -102,9 +102,7 @@ class _HomeState extends State<Home> {
                         Container(
                             height: 200,
                         ),
-                        RaisedButton(
-                            onPressed: nDogStopView,
-                        ),
+
                         Text(
                             'PERREPARADAS CERCANAS',
                             textAlign: TextAlign.center,

@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:petandgo/model/DogStop.dart';
 import 'package:petandgo/model/PerreParada.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/DogStops/DogStopView.dart';
 import 'perreParadaTabView.dart';
 
 class SquarePerreParadaWidget extends StatefulWidget {
@@ -23,8 +25,8 @@ class SquarePerreParadaView extends State<SquarePerreParadaWidget> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   nPerreParadaView() {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => QuedadasTabView(widget.user)));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => DogStopWidget(widget.user, widget.miniQuedada.id)));
   }
 
   @override
