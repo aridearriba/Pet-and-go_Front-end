@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/mascota.dart';
@@ -194,7 +195,7 @@ class _SettingsState extends State<Settings>
 
     Future<void> deleteAccount() async{
         var email = widget.user.email;
-        final http.Response response = await http.delete(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email),
+        final http.Response response = await http.delete(new Uri.http(Global.apiURL, "/api/usuarios/" + email),
             headers: <String, String> {
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString(),

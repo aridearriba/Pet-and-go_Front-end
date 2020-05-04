@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -311,7 +312,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
         //loc = code;
 
         print("DATE: $date");
-        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/quedadas"),
+        http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/quedadas"),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString(),

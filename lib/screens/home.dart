@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:petandgo/model/DogStop.dart';
+import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
 import 'package:petandgo/screens/DogStops/newDogStop.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/user/login.dart';
@@ -113,21 +113,7 @@ class _HomeState extends State<Home> {
                                 decoration: TextDecoration.underline,
                             ),
                         ),
-                        Container(
-                          height: 500,
-                          child: ListView.separated(
-                              padding: const EdgeInsets.all(20),
-                               itemCount: widget.nearbyDogStops.length,
-                               itemBuilder: (BuildContext context, int index){
-                                  return Container(
-                                      height: 200,
-                                      color: Colors.amber,
-                                     child: Text('index ${widget.nearbyDogStops[index]}'),
-                                  );
-                                  },
-                              separatorBuilder: (BuildContext context, int index) => const Divider(),
-                          ),
-                        )
+                        ListaPerreParadasWidget(widget.user,"cercanas"),
                     ],
                 ),
                 floatingActionButton: FloatingActionButton(
