@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/calendar/newEvent.dart';
+import 'package:petandgo/screens/calendar/viewEvent.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -27,6 +30,22 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     AnimationController _animationController;
     CalendarController _calendarController;
 
+    // Navigate to NewEvent
+    nNewEvent(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => NewEvent(widget.user))
+        );
+    }
+
+    // Navigate to Event
+    nViewEvent(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => ViewEvent(widget.user))
+        );
+    }
+
     @override
     void initState() {
         initializeDateFormatting();
@@ -34,6 +53,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
         final _selectedDay = DateTime.now();
 
         _events = {
+            DateTime(2020, 5, 17, 12, 22) : ['Event ARI'],
             _selectedDay.subtract(Duration(days: 30)): ['Event A0', 'Event B0', 'Event C0'],
             _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
             _selectedDay.subtract(Duration(days: 20)): ['Event A2', 'Event B2', 'Event C2', 'Event D2'],
@@ -108,6 +128,11 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
                     Expanded(child: _buildEventList()),
                 ],
             ),
+            floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add),
+                backgroundColor: Theme.of(context).primaryColor,
+                onPressed: () => nNewEvent(),
+            ),
         );
     }
 
@@ -157,7 +182,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
                 margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
                     title: Text(event.toString()),
-                    onTap: () => print('$event tapped!'),
+                    onTap: () => nViewEvent() //print('$event tapped!'),
                 ),
             ))
                 .toList(),
