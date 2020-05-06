@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/PerreParada.dart';
@@ -44,7 +46,9 @@ class ListaPerreParadasWidget extends StatelessWidget{
 
   Future<List<PerreParada>> getPerreParadas(String tipo) async{
     var queryParameters = {tipo: user.email };
+
     final response = await http.get(new Uri.http(Global.apiURL, "/api/quedadas", queryParameters));
+
     return reqResponsePerreParadaFromJson(response.body);
   }
 

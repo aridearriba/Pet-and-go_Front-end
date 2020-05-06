@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
 import 'package:petandgo/screens/DogStops/newDogStop.dart';
 import 'package:petandgo/screens/menu/menu.dart';
@@ -11,7 +12,6 @@ import 'DogStops/DogStopView.dart';
 class Home extends StatefulWidget {
     Home(this.user);
     User user;
-    List<int> nearbyDogStops = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22];
 
     //PEDIR A BACK EL LISTADO DE PERREPARADAS CERCANAS AL USUARIO
 
@@ -52,6 +52,8 @@ class DogStopWidgetShort extends StatelessWidget{
 
 class _HomeState extends State<Home> {
 
+    String _queryParameters = '/distancia/1000/';
+
     nLogIn() {
         Navigator.pushReplacement(
             context,
@@ -59,7 +61,7 @@ class _HomeState extends State<Home> {
         );
     }
 
-    nProfile(){
+    nProfile() {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Profile(widget.user))
@@ -76,33 +78,30 @@ class _HomeState extends State<Home> {
     nDogStopView() {
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => DogStopWidget(widget.user, 25))
+            MaterialPageRoute(
+                builder: (context) => DogStopWidget(widget.user, 25))
         );
+    }
+
+    Future<String> _getCurrentLocation() async {
+        final position = await Geolocator().getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
+        print('$position');
+
+        _queryParameters +=
+            position.latitude.toString() + '/' + position.longitude.toString();
     }
 
     @override
     Widget build(BuildContext context) {
-        return Scaffold(
-            drawer: Menu(widget.user),
-            appBar: AppBar(
-                title: Text(
-                    'Pet & Go',
-                    style: TextStyle(
-                        color: Colors.white,
-                    ),
-
-                ),
-                iconTheme: IconThemeData(
-                    color: Colors.white,
-                ),
-            ),
-
-                body: ListView(
-                    children: <Widget>[
-                        Container(
-                            height: 200,
-                        ),
-
+        return FutureBuilder<String>(
+            future: _getCurrentLocation(),
+            // a previously-obtained Future<String> or null
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                List<Widget> children;
+                if (snapshot.hasData) {
+                    children = <Widget>[
+                        Container(height: 200,),
                         Text(
                             'PERREPARADAS CERCANAS',
                             textAlign: TextAlign.center,
@@ -111,15 +110,90 @@ class _HomeState extends State<Home> {
                                 decoration: TextDecoration.underline,
                             ),
                         ),
-                        ListaPerreParadasWidget(widget.user,"cercanas"),
-                    ],
-                ),
-                floatingActionButton: FloatingActionButton(
-                    child: Icon(Icons.add, color: Colors.white,),
-                    onPressed: nNewDogStop,
-                    backgroundColor: Colors.green,
-                ),
-                floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+                        ListaPerreParadasWidget(widget.user, _queryParameters),
+                    ];
+                }
+                else if (snapshot.hasError) {
+                    children = <Widget>[
+                        Container(height: 200,),
+                        Text(
+                            'PERREPARADAS CERCANAS',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20,
+                                decoration: TextDecoration.underline,
+                            ),
+                        ),
+                        Icon(
+                            Icons.error_outline,
+                            color: Colors.red,
+                            size: 60,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: Text('Error: ${snapshot.error}'),
+                        )
+                    ];
+                }
+                else {
+                    children = <Widget>[
+                        Container(height: 200,),
+                        Text(
+                            'PERREPARADAS CERCANAS',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20,
+                                decoration: TextDecoration.underline,
+                            ),
+                        ),
+                        Center(
+                            child: Column(
+                                children: <Widget>[
+                                    Padding(
+                                        padding: EdgeInsets.all(20),
+                                    ),
+                                    SizedBox(
+                                        width: 30.0,
+                                        height: 30.0,
+
+                                        child: CircularProgressIndicator(),
+                                    ),
+                                    const Padding(
+                                        padding: EdgeInsets.all(100),
+                                        child: Text('Awaiting result...'),
+                                    )
+                                ],
+                            ),
+                        )
+                    ];
+                }
+                return Scaffold(
+                    drawer: Menu(widget.user),
+                    appBar: AppBar(
+                        title: Text(
+                            'Pet & Go',
+                            style: TextStyle(
+                                color: Colors.white,
+                            ),
+
+                        ),
+                        iconTheme: IconThemeData(
+                            color: Colors.white,
+                        ),
+                    ),
+
+                    body: ListView(
+                        children: children,
+                    ),
+                    floatingActionButton: FloatingActionButton(
+                        child: Icon(Icons.add, color: Colors.white,),
+                        onPressed: nNewDogStop,
+                        backgroundColor: Colors.green,
+                    ),
+                    floatingActionButtonLocation: FloatingActionButtonLocation
+                        .centerFloat,
+                );
+            }
         );
     }
 }
