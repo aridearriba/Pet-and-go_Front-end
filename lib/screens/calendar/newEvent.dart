@@ -79,8 +79,8 @@ class MyCustomFormState extends State<NewEventForm> {
     final _controladorDescription = TextEditingController();
 
     var _statusCode;
-    DateTime _dateTime;
-    TimeOfDay _hour;
+    DateTime _date;
+    TimeOfDay _time;
 
     // Navigate to Calendari
     nCalendar(){
@@ -117,13 +117,13 @@ class MyCustomFormState extends State<NewEventForm> {
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: InkWell(
                             onTap: () async {
-                                _dateTime = await showDatePicker(
+                                _date = await showDatePicker(
                                     context: context,
-                                    initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+                                    initialDate: _date == null ? DateTime.now() : _date,
                                     firstDate: DateTime(DateTime.now().year - 20),
                                     lastDate: DateTime(DateTime.now().year + 1)
                                 );
-                                _controladorDate.text = _dateTime.day.toString() + ". " + _dateTime.month.toString() + ". " + _dateTime.year.toString();
+                                _controladorDate.text = _date.day.toString() + ". " + _date.month.toString() + ". " + _date.year.toString();
                             },
                             child: IgnorePointer(
                                 child: new TextFormField(
@@ -144,11 +144,11 @@ class MyCustomFormState extends State<NewEventForm> {
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: InkWell(
                             onTap: () async {
-                                _hour = await showTimePicker(
+                                _time = await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay(hour: 12, minute: 0),
                                 );
-                                _controladorHour.text = _hour.hour.toString().padLeft(2, '0') + ':' + _hour.minute.toString().padLeft(2, '0');
+                                _controladorHour.text = _time.hour.toString().padLeft(2, '0') + ':' + _time.minute.toString().padLeft(2, '0');
                             },
                             child: IgnorePointer(
                                 child: new TextFormField(
@@ -179,12 +179,49 @@ class MyCustomFormState extends State<NewEventForm> {
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
-                            onPressed: () => nCalendar(),
+                            onPressed: () {
+                                addEvent().whenComplete(
+                                    () {
+                                        if (_formKey.currentState.validate()) {
+                                            _formKey.currentState.save();
+                                            if(_statusCode == 200) {
+                                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Evento añadido con éxito!')));
+                                                nCalendar();
+                                            }
+                                            else {
+                                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('No se ha podido añadir el evento.')));
+                                            }
+                                        }
+                                    }
+                                );
+                            },
                             child: Text('Añadir'),
                         ),
                     ),
                 ],
             ),
         );
+    }
+
+    Future<void> addEvent() async{
+        var email = widget.user.email;
+        var eventDate = new DateTime(_date.year, _date.month, _date.day, _time.hour, _time.minute);
+        var dateString = eventDate.toString().substring(0, 10) + 'T' + eventDate.toString().substring(11);
+        print("DATE: $dateString");
+        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/eventos"),
+            headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString()
+            },
+            body: jsonEncode({
+                'id': {
+                    'titulo': _controladorTitle.text,
+                    'user': widget.user.email,
+                    'fecha': dateString
+                },
+                'descripcion': _controladorDescription.text}));
+        _statusCode = response.statusCode;
+        print("TOKEN: " + widget.user.token.toString());
+        print("STATUS CODE: $_statusCode");
     }
 }

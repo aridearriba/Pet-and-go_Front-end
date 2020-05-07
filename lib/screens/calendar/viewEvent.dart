@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/menu/menu.dart';
@@ -14,9 +15,9 @@ import 'package:petandgo/screens/pets/myPets.dart';
 
 
 class ViewEvent extends StatefulWidget {
-    ViewEvent(this.user/*, this.event*/);
+    ViewEvent(this.user, this.event);
     User user;
-    Mascota event;
+    Event event;
     @override
     _viewEventState createState() => _viewEventState();
 }
@@ -89,7 +90,7 @@ class _viewEventState extends State<ViewEvent>{
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + 'Event name',
+                                                        '   ' + 'Name', //widget.event.id.title,
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16.0,

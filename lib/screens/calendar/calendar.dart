@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/calendar/newEvent.dart';
@@ -6,6 +9,7 @@ import 'package:petandgo/screens/calendar/viewEvent.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:http/http.dart' as http;
 
 // Example holidays
 final Map<DateTime, List> _holidays = {
@@ -25,6 +29,7 @@ class Calendari extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
+    Map<EventId, Event> _eventos;
     Map<DateTime, List> _events;
     List _selectedEvents;
     AnimationController _animationController;
@@ -39,10 +44,17 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     }
 
     // Navigate to Event
-    nViewEvent(){
+    nViewEvent(String eventName){
+        EventId eventID = new EventId();
+        eventID.title = eventName;
+        eventID.user = widget.user.name;
+        eventID.date = DateTime.now();
+
+        print("EVENT: " + eventID.title + " " + eventID.user + " " + eventID.date.toString());
+
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => ViewEvent(widget.user))
+            MaterialPageRoute(builder: (context) => ViewEvent(widget.user, _eventos[eventID]))
         );
     }
 
@@ -70,8 +82,13 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
             _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
             _selectedDay.add(Duration(days: 26)): ['Event A14', 'Event B14', 'Event C14'],
         };
-
+        _events = {};
         _selectedEvents = _events[_selectedDay] ?? [];
+        getEvents().whenComplete(() {
+            setState(() {
+                _selectedEvents = _events[_selectedDay] ?? [];
+            });
+        });
         _calendarController = CalendarController();
 
         _animationController = AnimationController(
@@ -182,10 +199,33 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
                 margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
                     title: Text(event.toString()),
-                    onTap: () => nViewEvent() //print('$event tapped!'),
+                    onTap: () => nViewEvent(event.toString()) //print('$event tapped!'),
                 ),
             ))
                 .toList(),
         );
+    }
+
+    Future<void> getEvents() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/eventos"));
+        Iterable list = json.decode(response.body);
+        List<Event> listEvents = list.map((model) => Event.fromJson(model)).toList();
+        _eventos = Map.fromIterable(listEvents, key: (e) => e.id, value: (e) => e);
+        _events = {};
+
+        listEvents.forEach((e) {
+            var data = e.id.date;
+            var eventTitle = e.id.title;
+
+            if (_events[data] != null){
+                _events[data].add(eventTitle);
+            }
+            else{
+                List<dynamic> list = new List();
+                list.add(eventTitle);
+                _events[data] = list;
+            }
+        });
     }
 }
