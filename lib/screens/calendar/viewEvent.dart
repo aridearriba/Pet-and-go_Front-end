@@ -90,7 +90,7 @@ class _viewEventState extends State<ViewEvent>{
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + 'Name', //widget.event.id.title,
+                                                        '   ' + widget.event.id.title,
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16.0,
@@ -109,7 +109,7 @@ class _viewEventState extends State<ViewEvent>{
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + _date.toString(),
+                                                        '   ' + widget.event.id.date.toString(),
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                         ),

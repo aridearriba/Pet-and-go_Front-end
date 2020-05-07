@@ -29,7 +29,6 @@ class Calendari extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
-    Map<EventId, Event> _eventos;
     Map<DateTime, List> _events;
     List _selectedEvents;
     AnimationController _animationController;
@@ -44,17 +43,11 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     }
 
     // Navigate to Event
-    nViewEvent(String eventName){
-        EventId eventID = new EventId();
-        eventID.title = eventName;
-        eventID.user = widget.user.name;
-        eventID.date = DateTime.now();
-
-        print("EVENT: " + eventID.title + " " + eventID.user + " " + eventID.date.toString());
-
+    nViewEvent(Event event){
+        EventId eventID = event.id;
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => ViewEvent(widget.user, _eventos[eventID]))
+            MaterialPageRoute(builder: (context) => ViewEvent(widget.user, event))
         );
     }
 
@@ -64,24 +57,6 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
         super.initState();
         final _selectedDay = DateTime.now();
 
-        _events = {
-            DateTime(2020, 5, 17, 12, 22) : ['Event ARI'],
-            _selectedDay.subtract(Duration(days: 30)): ['Event A0', 'Event B0', 'Event C0'],
-            _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-            _selectedDay.subtract(Duration(days: 20)): ['Event A2', 'Event B2', 'Event C2', 'Event D2'],
-            _selectedDay.subtract(Duration(days: 16)): ['Event A3', 'Event B3'],
-            _selectedDay.subtract(Duration(days: 10)): ['Event A4', 'Event B4', 'Event C4'],
-            _selectedDay.subtract(Duration(days: 4)): ['Event A5', 'Event B5', 'Event C5'],
-            _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-            _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-            _selectedDay.add(Duration(days: 1)): ['Event A8', 'Event B8', 'Event C8', 'Event D8'],
-            _selectedDay.add(Duration(days: 3)): Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-            _selectedDay.add(Duration(days: 7)): ['Event A10', 'Event B10', 'Event C10'],
-            _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-            _selectedDay.add(Duration(days: 17)): ['Event A12', 'Event B12', 'Event C12', 'Event D12'],
-            _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
-            _selectedDay.add(Duration(days: 26)): ['Event A14', 'Event B14', 'Event C14'],
-        };
         _events = {};
         _selectedEvents = _events[_selectedDay] ?? [];
         getEvents().whenComplete(() {
@@ -198,8 +173,8 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
-                    title: Text(event.toString()),
-                    onTap: () => nViewEvent(event.toString()) //print('$event tapped!'),
+                    title: Text(event.id.title),
+                    onTap: () => nViewEvent(event),
                 ),
             ))
                 .toList(),
@@ -211,19 +186,17 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
         final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/eventos"));
         Iterable list = json.decode(response.body);
         List<Event> listEvents = list.map((model) => Event.fromJson(model)).toList();
-        _eventos = Map.fromIterable(listEvents, key: (e) => e.id, value: (e) => e);
         _events = {};
 
         listEvents.forEach((e) {
-            var data = e.id.date;
-            var eventTitle = e.id.title;
+            var data = new DateTime(e.id.date.year, e.id.date.month, e.id.date.day);
 
             if (_events[data] != null){
-                _events[data].add(eventTitle);
+                _events[data].add(e);
             }
             else{
                 List<dynamic> list = new List();
-                list.add(eventTitle);
+                list.add(e);
                 _events[data] = list;
             }
         });
