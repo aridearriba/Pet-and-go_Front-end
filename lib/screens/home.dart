@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
@@ -98,32 +99,50 @@ class _HomeState extends State<Home> {
             future: _getCurrentLocation(),
             // a previously-obtained Future<String> or null
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                Center advice = Center(
+                    child: Container(
+                        width: 300,
+                        height: 200,
+                        decoration: BoxDecoration(
+                            color: Colors.lightGreen[200],
+                            borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                            '\n"COVID-19 CONSEJO: PASEA A TUS MASCOTAS INDIVIDUALMENTE Y CON LA CORREA PUESTA"',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 25,
+                            ),
+                        ),
+                    )
+                );
+                RichText title = RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: 'PERREPARADAS CERCANAS',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            decoration: TextDecoration.underline,
+                        ),
+                    )
+                );
                 List<Widget> children;
                 if (snapshot.hasData) {
                     children = <Widget>[
-                        Container(height: 200,),
-                        Text(
-                            'PERREPARADAS CERCANAS',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20,
-                                decoration: TextDecoration.underline,
-                            ),
-                        ),
+                        Padding(padding: EdgeInsets.all(10)),
+                        advice,
+                        Padding(padding: EdgeInsets.all(10)),
+                        title,
                         ListaPerreParadasWidget(widget.user, _queryParameters),
                     ];
                 }
                 else if (snapshot.hasError) {
                     children = <Widget>[
-                        Container(height: 200,),
-                        Text(
-                            'PERREPARADAS CERCANAS',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20,
-                                decoration: TextDecoration.underline,
-                            ),
-                        ),
+                        Padding(padding: EdgeInsets.all(10)),
+                        advice,
+                        Padding(padding: EdgeInsets.all(10)),
+                        title,
                         Icon(
                             Icons.error_outline,
                             color: Colors.red,
@@ -137,15 +156,10 @@ class _HomeState extends State<Home> {
                 }
                 else {
                     children = <Widget>[
-                        Container(height: 200,),
-                        Text(
-                            'PERREPARADAS CERCANAS',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20,
-                                decoration: TextDecoration.underline,
-                            ),
-                        ),
+                        Padding(padding: EdgeInsets.all(10)),
+                        advice,
+                        Padding(padding: EdgeInsets.all(10)),
+                        title,
                         Center(
                             child: Column(
                                 children: <Widget>[
