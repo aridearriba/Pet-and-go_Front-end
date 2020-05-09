@@ -11,9 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/global/global.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/global/global.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/menu/menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/menu/menu.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,7 +20,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_XL_API_R_2" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
