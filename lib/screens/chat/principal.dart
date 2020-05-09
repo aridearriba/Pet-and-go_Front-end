@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:petandgo/model/message.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/chat/chat_page.dart';
 import 'package:petandgo/screens/menu/menu.dart';
@@ -58,26 +59,29 @@ class RecentChats extends StatelessWidget{
                         topRight: Radius.circular(30.0),
                     ),
                     child: ListView.builder(
-                        itemCount: 10,
+                        itemCount: chats.length,
                         itemBuilder: (BuildContext context, int index) {
+                            final Message chat = chats[index];
                             return GestureDetector(
                                 onTap: () => {
                                     Navigator.push(
                                         context,
-                                        MaterialPageRoute( builder: (_) => ChatPage())
+                                        MaterialPageRoute( builder: (_) => ChatPage(
+                                            chat.sender,
+                                            )
+                                        )
                                     )
                                 },
                                 child: Container(
                                     margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
-                                    padding:
-                                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                                    /*decoration: BoxDecoration(
-                                        color: chat.unread ? Color(0xFFFFEFEE) : Colors.white,
+                                    padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                                    decoration: BoxDecoration(
+                                        color: chat.unread ? Color(0x1FA4FF02) : Colors.white,
                                         borderRadius: BorderRadius.only(
                                             topRight: Radius.circular(20.0),
                                             bottomRight: Radius.circular(20.0),
                                         ),
-                                    ),*/
+                                    ),
                                     child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
@@ -92,7 +96,7 @@ class RecentChats extends StatelessWidget{
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: <Widget>[
                                                             Text(
-                                                                'Usuario '+ index.toString(),
+                                                                chat.sender.name,
                                                                 style: TextStyle(
                                                                     color: Colors.grey,
                                                                     fontSize: 15.0,
@@ -103,7 +107,7 @@ class RecentChats extends StatelessWidget{
                                                             Container(
                                                                 width: MediaQuery.of(context).size.width * 0.45,
                                                                 child: Text(
-                                                                    'Mensaje de prueba',
+                                                                    chat.text,
                                                                     style: TextStyle(
                                                                         color: Colors.blueGrey,
                                                                         fontSize: 15.0,
@@ -119,7 +123,7 @@ class RecentChats extends StatelessWidget{
                                             Column(
                                                 children: <Widget>[
                                                     Text(
-                                                        '17:06',
+                                                        chat.time,
                                                         style: TextStyle(
                                                             color: Colors.grey,
                                                             fontSize: 15.0,
@@ -127,8 +131,8 @@ class RecentChats extends StatelessWidget{
                                                         ),
                                                     ),
                                                     SizedBox(height: 5.0),
-                                                    /*chat.unread
-                                                        ? */Container(
+                                                    chat.unread
+                                                        ? Container(
                                                         width: 40.0,
                                                         height: 20.0,
                                                         decoration: BoxDecoration(
@@ -145,7 +149,7 @@ class RecentChats extends StatelessWidget{
                                                             ),
                                                         ),
                                                     )
-                                                        /*: Text(''),*/
+                                                        : Text(''),
                                                 ],
                                             ),
                                         ],
