@@ -11,8 +11,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/menu/menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/menu/menu.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/principal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/principal.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -158,6 +158,14 @@
       <option name="presentableId" value="Default" />
       <updated>1584006262633</updated>
     </task>
+    <task id="LOCAL-00001" summary="creation chat principal page">
+      <created>1589053342777</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1589053342777</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -172,6 +180,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="creation chat principal page" />
+    <option name="LAST_COMMIT_MESSAGE" value="creation chat principal page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
