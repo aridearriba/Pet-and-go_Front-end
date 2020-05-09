@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/chat/chat_page.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 
 class Principal extends StatefulWidget{
@@ -22,8 +25,8 @@ class _PrincipalState extends State<Principal>{
                     style: TextStyle(
                         color: Colors.white,
                     ),
-
                 ),
+                centerTitle: true,
                 iconTheme: IconThemeData(
                     color: Colors.white,
                 ),
@@ -59,6 +62,10 @@ class RecentChats extends StatelessWidget{
                         itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
                                 onTap: () => {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute( builder: (_) => ChatPage())
+                                    )
                                 },
                                 child: Container(
                                     margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
@@ -85,7 +92,7 @@ class RecentChats extends StatelessWidget{
                                                         crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: <Widget>[
                                                             Text(
-                                                                'Usuario1',
+                                                                'Usuario '+ index.toString(),
                                                                 style: TextStyle(
                                                                     color: Colors.grey,
                                                                     fontSize: 15.0,
