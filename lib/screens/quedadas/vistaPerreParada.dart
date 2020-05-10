@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:petandgo/model/DogStop.dart';
+import 'package:petandgo/model/PerreParada.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
@@ -19,18 +19,18 @@ import '../../Credentials.dart';
 import '../home.dart';
 
 
-class DogStopWidget extends StatefulWidget {
+class VistaPerreParada extends StatefulWidget {
 
-    DogStopWidget(this.user, this.id);
+    VistaPerreParada(this.user, this.id);
 
     User user;
     int id;
 
     @override
-    _DogStopState createState() => _DogStopState();
+    _VistaPerreParadaState createState() => _VistaPerreParadaState();
 }
 
-class _DogStopState extends State<DogStopWidget>{
+class _VistaPerreParadaState extends State<VistaPerreParada>{
 
     nHome(){
         Navigator.pushReplacement(
@@ -39,7 +39,7 @@ class _DogStopState extends State<DogStopWidget>{
         );
     }
 
-    DogStop _dogStop;
+    PerreParada _perreParada;
     var _statusCode;
 
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -49,7 +49,7 @@ class _DogStopState extends State<DogStopWidget>{
     static double lat;
     static double lng;
 
-    Future<String> getDogStop(int id) async{
+    Future<String> getPerreParada(int id) async{
 
         String URL = 'https://petandgo.herokuapp.com/api/quedadas/$id';
         final response = await http.get(URL);
@@ -58,7 +58,7 @@ class _DogStopState extends State<DogStopWidget>{
             var data = json.decode(response.body);
             print(data);
             setState(() {
-                _dogStop = DogStop.fromJson(data);
+                _perreParada = PerreParada.fromJson(data);
             });
             return data.toString();
         } else {
@@ -77,7 +77,7 @@ class _DogStopState extends State<DogStopWidget>{
     @override
     Widget build(BuildContext context) {
         return FutureBuilder<String>(
-            future: getDogStop(widget.id),// a previously-obtained Future<String> or null
+            future: getPerreParada(widget.id),// a previously-obtained Future<String> or null
             // ignore: missing_return
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                 List<Widget> children;
@@ -94,7 +94,7 @@ class _DogStopState extends State<DogStopWidget>{
                                     color: Colors.grey,
                                 ),
                                 Text(
-                                    '${_dogStop.admin}',
+                                    '${_perreParada.admin}',
                                 ),
                             ],
                         ),
@@ -105,7 +105,7 @@ class _DogStopState extends State<DogStopWidget>{
                                     color: Colors.grey,
                                 ),
                                 Text(
-                                    '${_dogStop.locationOrigin}',
+                                    '${_perreParada.lugarInicio}',
                                 ),
                             ],
                         ),
@@ -116,7 +116,7 @@ class _DogStopState extends State<DogStopWidget>{
                                     color: Colors.grey,
                                 ),
                                 Text(
-                                    '${_dogStop.date.day}/${_dogStop.date.month}/${_dogStop.date.year} a las ${_dogStop.date.hour}:${_dogStop.date.minute}',
+                                    '${_perreParada.fechaQuedada.day}/${_perreParada.fechaQuedada.month}/${_perreParada.fechaQuedada.year} a las ${_perreParada.fechaQuedada.hour}:${_perreParada.fechaQuedada.minute}',
                                 ),
                             ],
                         ),

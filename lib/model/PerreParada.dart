@@ -5,38 +5,47 @@ List<PerreParada> reqResponsePerreParadaFromJson(String str) => List<PerreParada
 String reqResponsePerreParadaToJson(List<PerreParada> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class PerreParada {
-  int id;
-  String admin;
-  DateTime createdAt;
-  DateTime fechaQuedada;
-  String lugarInicio;
-  String lugarFin;
-  String fotoLugar = "";
+    int id;
+    String admin;
+    DateTime createdAt;
+    DateTime fechaQuedada;
+    String lugarInicio;
+    double latitud;
+    double longitud;
+    String idImageGoogle;
 
-  PerreParada({
-    this.id,
-    this.admin,
-    this.createdAt,
-    this.fechaQuedada,
-    this.lugarInicio,
-    this.lugarFin,
-  });
+    String fotoLugar = "";
 
-  factory PerreParada.fromJson(Map<String, dynamic> json) => PerreParada(
-    id: json["id"],
-    admin: json["admin"],
-    createdAt: DateTime.parse(json["createdAt"]),
-    fechaQuedada: DateTime.parse(json["fechaQuedada"]),
-    lugarInicio: json["lugarInicio"],
-    lugarFin: json["lugarFin"],
-  );
+    PerreParada({
+        this.id,
+        this.admin,
+        this.createdAt,
+        this.fechaQuedada,
+        this.lugarInicio,
+        this.latitud,
+        this.longitud,
+        this.idImageGoogle,
+    });
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "admin": admin,
-    "createdAt": createdAt.toIso8601String(),
-    "fechaQuedada": fechaQuedada.toIso8601String(),
-    "lugarInicio": lugarInicio,
-    "lugarFin": lugarFin,
-  };
+    factory PerreParada.fromJson(Map<String, dynamic> json) => PerreParada(
+        id: json["id"],
+        admin: json["admin"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        fechaQuedada: DateTime.parse(json["fechaQuedada"]),
+        lugarInicio: json["lugarInicio"],
+        latitud: json["latitud"],
+        longitud: json['longitud'],
+        idImageGoogle: json['idImageGoogle']
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "admin": admin,
+        "createdAt": createdAt.toIso8601String(),
+        "fechaQuedada": fechaQuedada.toIso8601String(),
+        "lugarInicio": lugarInicio,
+        "latitud": latitud,
+        "longitud": longitud,
+        "idImageGoogle": idImageGoogle,
+    };
 }

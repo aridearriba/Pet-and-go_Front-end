@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
-import 'package:petandgo/screens/DogStops/newDogStop.dart';
 import 'package:petandgo/screens/menu/menu.dart';
+import 'package:petandgo/screens/quedadas/nuevaPerreParada.dart';
+import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import 'package:petandgo/model/user.dart';
 
-import 'DogStops/DogStopView.dart';
 
 class Home extends StatefulWidget {
     Home(this.user);
@@ -53,7 +53,7 @@ class DogStopWidgetShort extends StatelessWidget{
 
 class _HomeState extends State<Home> {
 
-    String _queryParameters = '/distancia/1000/';
+    String _queryParameters = '0/0';
 
     nLogIn() {
         Navigator.pushReplacement(
@@ -72,7 +72,7 @@ class _HomeState extends State<Home> {
     nNewDogStop() {
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => NewDogStop(widget.user))
+            MaterialPageRoute(builder: (context) => NuevaPerreParada(widget.user))
         );
     }
 
@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => DogStopWidget(widget.user, 25))
+                builder: (context) => VistaPerreParada(widget.user, 25))
         );
     }
 
@@ -89,8 +89,9 @@ class _HomeState extends State<Home> {
             desiredAccuracy: LocationAccuracy.high);
         print('$position');
 
-        _queryParameters +=
-            position.latitude.toString() + '/' + position.longitude.toString();
+        _queryParameters = position.latitude.toString() + '/' + position.longitude.toString();
+
+        return position.toString();
     }
 
     @override
@@ -134,7 +135,7 @@ class _HomeState extends State<Home> {
                         advice,
                         Padding(padding: EdgeInsets.all(10)),
                         title,
-                        ListaPerreParadasWidget(widget.user, _queryParameters),
+                        ListaPerreParadasWidget(widget.user, 'cercanas', _queryParameters),
                     ];
                 }
                 else if (snapshot.hasError) {
@@ -174,7 +175,7 @@ class _HomeState extends State<Home> {
                                     ),
                                     const Padding(
                                         padding: EdgeInsets.all(100),
-                                        child: Text('Awaiting result...'),
+                                        child: Text('searching position...'),
                                     )
                                 ],
                             ),

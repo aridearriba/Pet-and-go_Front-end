@@ -21,11 +21,11 @@ import 'package:rxdart/rxdart.dart';
 
 import '../home.dart';
 import '../home.dart';
-import 'DogStopView.dart';
+import 'vistaPerreParada.dart';
 
 
-class NewDogStop extends StatelessWidget {
-    NewDogStop(this.user);
+class NuevaPerreParada extends StatelessWidget {
+    NuevaPerreParada(this.user);
     User user;
 
     @override
@@ -51,7 +51,7 @@ class NewDogStop extends StatelessWidget {
                     appBar: AppBar(
                         title: Text("Crea una nueva Perreparada")
                     ),
-                    body: NewDogStopForm(user),
+                    body: NuevaPerreParadaForm(user),
                 ),
             ),
         );
@@ -59,15 +59,15 @@ class NewDogStop extends StatelessWidget {
 }
 
 // Creamos un Widget que sea un Form
-class NewDogStopForm extends StatefulWidget {
-    NewDogStopForm(this.user);
+class NuevaPerreParadaForm extends StatefulWidget {
+    NuevaPerreParadaForm(this.user);
     User user;
     @override
-    MyCustomFormState createState() => MyCustomFormState();
+    NuevaPerreParadaState createState() => NuevaPerreParadaState();
 }
 
 // Esta clase contendrá los datos relacionados con el formulario.
-class MyCustomFormState extends State<NewDogStopForm> {
+class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
 
     final _formKey = GlobalKey<FormState>();
 
@@ -91,7 +91,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
 
     Completer<GoogleMapController> _controller = Completer();
 
-    static final CameraPosition _kGooglePlex = CameraPosition(
+    static final CameraPosition _camPosition = CameraPosition(
         target: LatLng(lat, lng),
         zoom: 10,
     );
@@ -100,13 +100,8 @@ class MyCustomFormState extends State<NewDogStopForm> {
         if (input.isEmpty){
             return null;
         }
-
         input = input.replaceAll(" ", "+");
-
         String URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$PLACES_API_KEY&sessiontoken=$uuid';
-
-        print('000000000000000000000000000000000000000000000000000000000000000 \n');
-
         final response = await http.get(URL);
 
         print(response.statusCode.toString());
@@ -117,22 +112,11 @@ class MyCustomFormState extends State<NewDogStopForm> {
             print(rest);
             _predictions = rest.map<Prediction>((json) => Prediction.fromJson(json)).toList();
         } else {
-            throw Exception('An error occurred getting places nearby');
+            throw Exception('An error occurred getting places : PREDICTIONS');
         }
-
-        //Iterable list = json.decode(response.body);
-        //_predictions = list.map((model) => Prediction.fromJson(model)).toList();
-
-        print('11111111111111111111111111111111111111111111111111111111111111111 \n');
     }
 
     Future<void> getPlaceInfo(String name) async {
-
-        print('2222222222222222222222222222222222222222222222222222222222222222222222222 \n');
-
-        //name = name.replaceAll(" ", "+");
-
-        //String URL = 'https://maps.googleapis.com/maps/api/geocode/json?address=$name&key=$PLACES_API_KEY';
         String URL = 'https://maps.googleapis.com/maps/api/place/details/json?place_id=$name&key=$PLACES_API_KEY&sessiontoken=$uuid';
         final response = await http.get(URL);
 
@@ -144,9 +128,8 @@ class MyCustomFormState extends State<NewDogStopForm> {
             print(data);
             _result = Result.fromJson(rest);
         } else {
-            throw Exception('An error occurred getting places nearby error: ');
+            throw Exception('An error occurred getting places : RESULT');
         }
-        print('333333333333333333333333333333333333333333333333333333333333333333333333333 \n');
     }
 
     @override
@@ -239,7 +222,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
                             height: 300,
                             child: GoogleMap(
                                 mapType: MapType.hybrid,
-                                initialCameraPosition: _kGooglePlex,
+                                initialCameraPosition: _camPosition,
                                 onMapCreated: (GoogleMapController controller) {
                                     _controller.complete(controller);
                                 },
@@ -265,7 +248,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
                                                     Navigator.pushReplacement(
                                                         context,
                                                         MaterialPageRoute(
-                                                            builder: (context) => DogStopWidget(widget.user, _id))
+                                                            builder: (context) => VistaPerreParada(widget.user, _id))
                                                     );
                                                 }
                                                 else Scaffold.of(context).showSnackBar(SnackBar(
@@ -292,7 +275,7 @@ class MyCustomFormState extends State<NewDogStopForm> {
         print("LOC: $loc");
         await getLocations(loc);
 
-        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        //par aver las predicciones -- mover en un futuro
         for(var i=0; i<_predictions.length; ++i) {
             print(_predictions[i].description + ' ' + _predictions[i].id);
         }
@@ -322,16 +305,10 @@ class MyCustomFormState extends State<NewDogStopForm> {
                 'createdAt': today,
                 'fechaQuedada': date,
                 'lugarInicio': loc, //PLUS_CODE
-
-                /*
-                * OP1 - place_id -> +1 consulta a la API de google,
-                * OP2 - add lat, lng y nombre
-                *
-                * Añadir apartado para guardar fotos
-                * */
-
-                'lugarFin': '',
-                }));
+                'latitud':  lat,
+                'longitud': lng,
+                'idImageGoogle': '',
+            }));
         _statusCode = response.statusCode;
         _id = int.parse(response.body);
 
