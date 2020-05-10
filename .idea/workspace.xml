@@ -9,18 +9,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/DogStop.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/PerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/PerreParada.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/DogStops/DogStopView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/DogStops/newDogStop.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/nuevaPerreParada.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/listadoPerreParadasView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/listadoPerreParadasView.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/perreParadaTabView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/perreParadaTabView.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-    </list>
+    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -172,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588608733914</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="listas de perreparadas">
+      <created>1589137170425</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1589137170425</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -190,7 +186,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Navegacion entre lista de quedadas y su vista individual" />
-    <option name="LAST_COMMIT_MESSAGE" value="Navegacion entre lista de quedadas y su vista individual" />
+    <MESSAGE value="listas de perreparadas" />
+    <option name="LAST_COMMIT_MESSAGE" value="listas de perreparadas" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
