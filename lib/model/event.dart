@@ -1,23 +1,24 @@
 import 'dart:convert';
 
-class Event {
+class Evento {
     EventId _id;
     String _description;
 
 
-    Event({EventId id, String description}) {
+    Evento({EventId id, String description}) {
         this._id = id;
         this._description = description;
     }
 
     EventId get id => _id;
+    String get stringId => _id.user + ' ' + _id.title + ' ' + _id.date.toIso8601String();
     String get description => _description;
 
     set id(EventId id) => _id = id;
     set description(String description) => _description = description;
 
-    factory Event.fromJson(Map<String, dynamic> json) {
-        return Event(
+    factory Evento.fromJson(Map<String, dynamic> json) {
+        return Evento(
             id: EventId.fromJson(json['id']),
             description: json['descripcion'],
         );

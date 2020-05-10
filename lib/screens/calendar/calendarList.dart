@@ -6,8 +6,7 @@ import 'package:device_calendar/device_calendar.dart';
 
 
 class Calendario extends StatefulWidget {
-    Calendario(this._calendarCallback, this.user);
-    final User user;
+    Calendario(this._calendarCallback);
     final Function _calendarCallback;
 
     @override
@@ -40,7 +39,6 @@ class _CalendarState extends State<Calendario> {
         return new Scaffold(
             body: new Column(
                 children: <Widget>[
-                    Text('Select Calendar'),
                     new ConstrainedBox(
                         constraints: new BoxConstraints(maxHeight: 120.0),
                         child: new ListView.builder(

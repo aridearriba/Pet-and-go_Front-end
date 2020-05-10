@@ -49,7 +49,10 @@ class NewEvent extends StatelessWidget {
                         actions: <Widget>[
                             IconButton(
                                 icon: Icon(Icons.arrow_back, color: Colors.white),
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => Calendari(user))
+                                ),
                             )
                         ],
                     ),

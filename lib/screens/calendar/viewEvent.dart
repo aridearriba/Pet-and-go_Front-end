@@ -17,7 +17,7 @@ import 'package:petandgo/screens/pets/myPets.dart';
 class ViewEvent extends StatefulWidget {
     ViewEvent(this.user, this.event);
     User user;
-    Event event;
+    Evento event;
     @override
     _viewEventState createState() => _viewEventState();
 }

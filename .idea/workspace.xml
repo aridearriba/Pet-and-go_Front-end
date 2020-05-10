@@ -11,13 +11,14 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Runner/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/Info.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/calendar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/calendar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/calendarList.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/calendarList.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/calendarMain.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/calendarMain.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/newEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/newEvent.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/viewEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/viewEvent.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/menu/menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/menu/menu.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/login.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +26,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="HYF0219105004631" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_XL_API_29" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
