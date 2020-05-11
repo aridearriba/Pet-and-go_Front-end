@@ -9,14 +9,19 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="" />
+    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/menu/menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/menu/menu.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_Edited_API_29" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -45,7 +50,7 @@
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/model" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -61,10 +66,11 @@
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\assets\images" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\puntosDeInteres" />
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\global" />
-      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -197,10 +203,7 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="FlutterRunConfigurationType">
-        <watch expression="json[&quot;id&quot;]" language="Dart" />
-        <watch expression="int.parse(json['id'])" language="Dart" />
-        <watch expression="misPerreParadas" language="Dart" />
-        <watch expression="misQuedadas" language="Dart" />
+        <watch expression="widget.puntosInteres.results" language="Dart" />
       </configuration>
     </watches-manager>
   </component>
