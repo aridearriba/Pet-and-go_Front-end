@@ -75,7 +75,7 @@ class PuntosInteresTabState extends State<PuntosInteresTabView>{
                                                     child: TabBarView(
                                                         physics: NeverScrollableScrollPhysics(),
                                                         children: [
-                                                            ListaPuntosInteresWidget(widget.user,snapshot.data),
+                                                            ListaPuntosInteresWidget(widget.user,snapshot.data,widget.origen),
                                                             MapaPuntosInteresWidget(widget.user,snapshot.data,widget.origen),
                                                         ],
                                                     ),

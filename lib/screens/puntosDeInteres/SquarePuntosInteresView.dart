@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/PuntosInteres.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/puntosDeInteres/puntoInteres/puntoInteresView.dart';
 import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import '../../Credentials.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,10 +15,12 @@ import 'package:http/http.dart' as http;
 class SquarePuntoInteresWidget extends StatefulWidget {
     User user;
     PuntoInteres puntoInteres;
+    LatLng position;
 
-    SquarePuntoInteresWidget(User User, PuntoInteres puntoInteres) {
+    SquarePuntoInteresWidget(User User, PuntoInteres puntoInteres,LatLng position) {
         this.user = User;
         this.puntoInteres = puntoInteres;
+        this.position = position;
     }
 
     @override
@@ -26,15 +30,15 @@ class SquarePuntoInteresWidget extends StatefulWidget {
 class SquarePuntoInteresView extends State<SquarePuntoInteresWidget> {
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-    nPerreParadaView() {
+    nPuntoInteresView() {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => VistaPerreParada(widget.user, 1)));
+            MaterialPageRoute(builder: (context) => PuntoInteresView(widget.user, widget.puntoInteres,widget.position)));
     }
 
     @override
     Widget build(BuildContext context) {
         return GestureDetector(
-            onTap: () => nPerreParadaView(),
+            onTap: () => nPuntoInteresView(),
             child: buildImage(context)
         );
     }
@@ -53,7 +57,7 @@ class SquarePuntoInteresView extends State<SquarePuntoInteresWidget> {
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: snapshot.data,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                             ),
                         ),
                         height: 200.0,

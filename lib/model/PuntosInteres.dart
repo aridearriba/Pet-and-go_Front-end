@@ -14,6 +14,8 @@ class PuntosInteres {
     List<PuntoInteres> results;
     String status;
 
+    PuntosInteres.vacio();
+
     PuntosInteres({
         this.htmlAttributions,
         this.nextPageToken,
