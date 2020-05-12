@@ -1,56 +1,49 @@
 import 'dart:convert';
 
 class Evento {
-    EventId _id;
+    int _id;
+    String _title;
+    String _user;
+    DateTime _dateIni;
+    DateTime _dateEnd;
     String _description;
+    bool _previouslyDeleted;
 
-
-    Evento({EventId id, String description}) {
+    Evento({int id, String title, String user, DateTime dateIni, DateTime dateEnd, String description}) {
         this._id = id;
+        this._title = title;
+        this._user = user;
+        this._dateIni = dateIni;
+        this._dateEnd = dateEnd;
         this._description = description;
+        this._previouslyDeleted = false;
     }
 
-    EventId get id => _id;
-    String get stringId => _id.user + ' ' + _id.title + ' ' + _id.date.toIso8601String();
+    int get id => _id;
+    String get title => _title;
+    String get user => _user;
+    DateTime get dateIni => _dateIni;
+    DateTime get dateEnd => _dateEnd;
     String get description => _description;
+    bool get previouslyDeleted => _previouslyDeleted;
 
-    set id(EventId id) => _id = id;
+
+    set id(int id) => _id = id;
+    set title(String title) => _title = title;
+    set user(String value) =>_user = value;
+    set dateIni(DateTime value) =>_dateIni = value;
+    set dateEnd(DateTime value) => _dateEnd = value;
     set description(String description) => _description = description;
+    set previouslyDeleted(bool deleted) => _previouslyDeleted = deleted;
 
     factory Evento.fromJson(Map<String, dynamic> json) {
         return Evento(
-            id: EventId.fromJson(json['id']),
-            description: json['descripcion'],
-        );
-    }
-}
-
-class EventId {
-    String _title;
-    String _user;
-    DateTime _date;
-
-    EventId({String title, String user, DateTime date})
-    {
-        this._title = title;
-        this._user = user;
-        this._date = date;
-    }
-
-    String get title => _title;
-    String get user => _user;
-    DateTime get date => _date;
-
-    set title(String title) => _title = title;
-    set user(String user) => _user = user;
-    set date(DateTime date) => _date = date;
-
-
-    factory EventId.fromJson(Map<String, dynamic> json){
-        return EventId(
+            id: json['id'],
             title: json['titulo'],
-            user: json['user'],
-            date: DateTime.parse(json['fecha']),
+            user: json['usuario'],
+            dateIni: DateTime.parse(json['fecha']),
+            dateEnd: DateTime.parse(json['fechaFin']),
+            description: json['descripcion'],
         );
     }
 }

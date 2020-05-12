@@ -14,15 +14,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:http/http.dart' as http;
 
-// Example holidays
-final Map<DateTime, List> _holidays = {
-    DateTime(2019, 1, 1): ['New Year\'s Day'],
-    DateTime(2019, 1, 6): ['Epiphany'],
-    DateTime(2019, 2, 14): ['Valentine\'s Day'],
-    DateTime(2019, 4, 21): ['Easter Sunday'],
-    DateTime(2020, 4, 22): ['Easter Monday'],
-};
-
 class Calendari extends StatefulWidget {
     Calendari(this.user);
     final User user;
@@ -32,11 +23,17 @@ class Calendari extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
+    // Variables
     Map<DateTime, List> _events;
     List _selectedEvents;
     AnimationController _animationController;
     CalendarController _calendarController;
     String statusString = '';
+    Map<CalendarFormat, String> formats = {
+        CalendarFormat.month: 'Mes',
+        CalendarFormat.week: 'Semana'
+    };
+    var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
     // Navigate to NewEvent
     nNewEvent(){
@@ -48,10 +45,9 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
 
     // Navigate to Event
     nViewEvent(Evento event){
-        EventId eventID = event.id;
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => ViewEvent(widget.user, event))
+            MaterialPageRoute(builder: (context) => ViewEvent(widget.user, event, _deviceCalendarPlugin, _currentCalendarID))
         );
     }
 
@@ -100,9 +96,12 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
         print('CALLBACK: _onCalendarCreated');
     }
 
+
+    // main build
     @override
     Widget build(BuildContext context) {
         return Scaffold(
+            key: _scaffoldKey,
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
@@ -115,33 +114,39 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
                 iconTheme: IconThemeData(
                     color: Colors.white,
                 ),
-                actions: <Widget>[
-                    IconButton(
-                        padding: EdgeInsets.only(right: 15.0),
-                        icon: Icon(Icons.sync, color: Colors.white),
-                        onPressed: () =>
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) => _buildSyncDialog(context)
+                actions: <Widget> [
+                    PopupMenuButton<int>(
+                        itemBuilder: (scaffoldContext) => [
+                            PopupMenuItem(
+                                value: 1,
+                                child:  Row(
+                                    children: <Widget>[
+                                        Icon(
+                                            Icons.sync,
+                                            color: Colors.black54,
+                                        ),
+                                        Text("   Sincronizar"),
+                                    ],
+                                ),
                             ),
-                    ),
-                    IconButton(
-                        padding: EdgeInsets.only(right: 15.0),
-                        icon: Icon(Icons.sync_disabled, color: Colors.white),
-                        onPressed: () =>
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) => _buildDesSyncDialog(context)
-                            ),
-                    ),
-                    PopupMenuButton(
-                        //onSelected: /*(result) { setState(() { _selection = result; }); },*/,
-                        itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                            const PopupMenuItem(
-                                value: "Hye",
-                                child: Text('Working a lot harder'),
+                            PopupMenuItem(
+                                value: 2,
+                                child:  Row(
+                                    children: <Widget>[
+                                        Icon(
+                                            Icons.sync_disabled,
+                                            color: Colors.black54,
+                                        ),
+                                        Text("   Desincronizar"),
+                                    ],
+                                ),
                             ),
                         ],
+                        onSelected: (value) {
+                            if (value == 1) showDialog(context: context, builder: (BuildContext context) => _buildSyncDialog(context));
+                            else if (value == 2) showDialog(context: context, builder: (BuildContext context) => _buildDesSyncDialog(context));
+                        },
+                        icon: Icon(Icons.more_vert),
                     )
                 ],
             ),
@@ -162,19 +167,13 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     }
 
 
-    Map<CalendarFormat, String> formats = {
-        CalendarFormat.month: 'Mes',
-        CalendarFormat.week: 'Semana',
-    };
-
-    // Simple TableCalendar configuration (using Styles)
+    // TableCalendar configuration
     Widget _buildTableCalendar() {
         return TableCalendar(
             locale: 'es_ES',
             availableCalendarFormats: formats,
             calendarController: _calendarController,
             events: _events,
-            holidays: _holidays,
             initialCalendarFormat: CalendarFormat.month,
             startingDayOfWeek: StartingDayOfWeek.monday,
             calendarStyle: CalendarStyle(
@@ -197,6 +196,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
         );
     }
 
+    // Show events
     Widget _buildEventList() {
         return ListView(
             children: _selectedEvents
@@ -207,7 +207,22 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 child: ListTile(
-                    title: Text(event.id.title),
+                    title: Text(
+                                event.dateIni.day.toString() + ' ' + _monthName(event.dateIni.month) + ' ' +
+                                event.dateIni.hour.toString().padLeft(2, '0') + ':' + event.dateIni.minute.toString().padLeft(2, '0') + '  -  ' +
+                                event.dateEnd.day.toString() + ' ' + _monthName(event.dateEnd.month) + ' ' +
+                                event.dateEnd.hour.toString().padLeft(2, '0') + ':' + event.dateEnd.minute.toString().padLeft(2, '0') + '   ' ,
+                                style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.black45
+                                ),
+                            ),
+                    subtitle: Text(
+                                event.title,
+                                style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black87),
+                            ),
                     onTap: () => nViewEvent(event),
                 ),
             ))
@@ -215,26 +230,55 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
         );
     }
 
+    String _monthName(int month)
+    {
+        if (month == 1) return 'Ene.';
+        if (month == 2) return 'Feb.';
+        if (month == 3) return 'Mar.';
+        if (month == 4) return 'Abr.';
+        if (month == 5) return 'May.';
+        if (month == 6) return 'Jun.';
+        if (month == 7) return 'Jul.';
+        if (month == 8) return 'Ago.';
+        if (month == 9) return 'Sep.';
+        if (month == 10) return 'Oct.';
+        if (month == 11) return 'Nov.';
+        if (month == 12) return 'Dic.';
+    }
+
+    // GET Events from User
     Future<void> getEvents() async{
         var email = widget.user.email;
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/eventos"));
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/calendario/" + email + "/eventos"));
         Iterable list = json.decode(response.body);
         List<Evento> listEvents = list.map((model) => Evento.fromJson(model)).toList();
         _events = {};
 
         listEvents.forEach((e) {
-            var data = new DateTime(e.id.date.year, e.id.date.month, e.id.date.day);
+            DateTime dataIni = new DateTime(e.dateIni.year, e.dateIni.month, e.dateIni.day);
+            DateTime dataEnd = new DateTime(e.dateEnd.year, e.dateEnd.month, e.dateEnd.day);
+            DateTime data = dataIni;
 
-            if (_events[data] != null){
-                _events[data].add(e);
-            }
-            else{
-                List<dynamic> list = new List();
-                list.add(e);
-                _events[data] = list;
+            while(data.compareTo(dataEnd) <= 0) {
+                if (_events[data] != null){
+                    _events[data].add(e);
+                }
+                else {
+                    List<dynamic> list = new List();
+                    list.add(e);
+                    _events[data] = list;
+                }
+
+                data = data.add(new Duration(days: 1));
             }
         });
+
+        _events.forEach((date, evs) => evs.sort(((a,b) => a.dateIni.compareTo(b.dateIni))));
     }
+
+
+
+
 
     // Device calendar Variables
     bool deleted = false;
@@ -245,8 +289,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     StateSetter setStateDialog;
 
     Widget calendarButtonOrCalendar() {
-        //Returns a calendar button that displays 'Select Calendar' or Returns a
-        // Calendar Page if the button was pressed
+        // Returns a calendar button or returns the device's calendar if the button was pressed
         if (!calendarSelected) {
             return new FlatButton.icon(
                 icon: Icon(
@@ -282,69 +325,43 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     }
 
 
-    Future _addEventsToCalendar(Map<DateTime, dynamic> mmaEvents) async {
+    Future _addEventsToCalendar(Map<DateTime, dynamic> allEvents) async {
         DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        mmaEvents.forEach( (date, events) async {
-            for (var mmaEvent in events) {
-                final eventTime = mmaEvent.id.date;
+        allEvents.forEach( (date, events) async {
+            for (var event in events) {
+                final eventTime = event.dateIni;
                 final eventToCreate = new Event(_currentCalendarID);
 
-                eventToCreate.title = mmaEvent.id.title;
+                eventToCreate.title = event.title;
                 eventToCreate.start = eventTime;
-                eventToCreate.description = mmaEvent.description;
+                eventToCreate.description = event.description;
 
-                /*String mmaEventId = prefs.getString(mmaEvent.stringId);
-                bool previouslyDeleted = prefs.getBool(mmaEvent.getPrefBoolKey());
-                if (mmaEventId != null) {
-                    if (previouslyDeleted != null && !previouslyDeleted){
-                        //If the event already has an ID (was already added) and has not
-                        //been previously deleted, set the ID on the event to update
-                        eventToCreate.eventId = mmaEventId;
-                    }
-                }*/
-
-                eventToCreate.end = eventTime.add(new Duration(hours: 1));
-                final createEventResult =
-                    await _deviceCalendarPlugin.createOrUpdateEvent(eventToCreate);
+                eventToCreate.end = event.dateEnd;
+                final createEventResult = await _deviceCalendarPlugin.createOrUpdateEvent(eventToCreate);
 
                 if (createEventResult.isSuccess &&
                     (createEventResult.data?.isNotEmpty ?? false)) {
-                    prefs.setString(mmaEvent.stringId, createEventResult.data);
-                    bool succes = true;
+                    prefs.setString(event.id.toString(), createEventResult.data);
                 }
             }
-        });
-
-        setState(() {
-            statusString = 'Eventos añadidos a $calendarButtonText';
         });
     }
 
-    Future _deleteEventsFromCalendar(Map<DateTime, dynamic> mmaEvents) async {
-
+    Future _deleteEventsFromCalendar(Map<DateTime, dynamic> allEvents) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        mmaEvents.forEach( (date, events) async {
-            for (var mmaEvent in events) {
+        allEvents.forEach( (date, events) async {
+            for (var event in events) {
                 final eventToCreate = new Event(_currentCalendarID);
-                String mmaEventId = prefs.getString(mmaEvent.stringId);
-                if (mmaEventId != null) {
-                    eventToCreate.eventId = mmaEventId;
-                    final createEventResult =
-                        await _deviceCalendarPlugin.deleteEvent(
-                        _currentCalendarID, eventToCreate.eventId);
-                    /*if (createEventResult.isSuccess) {
-                        prefs.setBool(mmaEvent.getPrefBoolKey(), true);
-                    }*/
+                String eventId = prefs.getString(event.id.toString());
+                if (eventId != null) {
+                    eventToCreate.eventId = eventId;
+                    await _deviceCalendarPlugin.deleteEvent(_currentCalendarID, eventToCreate.eventId);
                 }
             }
-        });
-
-        setState(() {
-            statusString = 'Evento eliminado';
         });
     }
 
@@ -391,6 +408,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
             ],
         );
     }
+
     Widget _buildDesSyncDialog(BuildContext context) {
         return AlertDialog(
             title:

@@ -66,12 +66,6 @@ class _MenuContent extends State<Menu> {
             MaterialPageRoute(builder: (context) => Calendari(widget.user))
         );
     }
-    nCalendarMain(){
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => CalendarMain(widget.user))
-        );
-    }
 
     @override
     Widget build(BuildContext context) {
@@ -137,11 +131,6 @@ class _MenuContent extends State<Menu> {
                         leading: Icon(Icons.calendar_today),
                         title: Text('Calendario'),
                         onTap: () => nCalendar(),
-                    ),
-                    ListTile(
-                        leading: Icon(Icons.sync),
-                        title: Text('Calendario Sync'),
-                        onTap: () => nCalendarMain(),
                     ),
                     ListTile(
                         leading: Icon(Icons.settings),

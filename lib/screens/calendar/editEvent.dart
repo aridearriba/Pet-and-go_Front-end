@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_webservice/directions.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
@@ -16,9 +18,12 @@ import 'package:petandgo/screens/pets/myPets.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import '../home.dart';
 
-class NewEvent extends StatelessWidget {
-    NewEvent(this.user);
+class EditEvent extends StatelessWidget {
+    EditEvent(this.user, this.event, this._deviceCalendarPlugin, this._currentCalendarID);
     User user;
+    Evento event;
+    String _currentCalendarID;
+    DeviceCalendarPlugin _deviceCalendarPlugin;
 
     @override
     Widget build(BuildContext context) {
@@ -56,7 +61,7 @@ class NewEvent extends StatelessWidget {
                             )
                         ],
                     ),
-                    body: NewEventForm(user),
+                    body: EditEventForm(user, event, _deviceCalendarPlugin, _currentCalendarID),
                 ),
             ),
         );
@@ -64,15 +69,18 @@ class NewEvent extends StatelessWidget {
 }
 
 // Creamos un Widget que sea un Form
-class NewEventForm extends StatefulWidget {
-    NewEventForm(this.user);
+class EditEventForm extends StatefulWidget {
+    EditEventForm(this.user, this.event, this._deviceCalendarPlugin, this._currentCalendarID);
     User user;
+    Evento event;
+    String _currentCalendarID;
+    DeviceCalendarPlugin _deviceCalendarPlugin;
     @override
     MyCustomFormState createState() => MyCustomFormState();
 }
 
 // Esta clase contendrá los datos relacionados con el formulario.
-class MyCustomFormState extends State<NewEventForm> {
+class MyCustomFormState extends State<EditEventForm> {
 
     final _formKey = GlobalKey<FormState>();
 
@@ -87,25 +95,27 @@ class MyCustomFormState extends State<NewEventForm> {
     DateTime _dateIni, _dateEnd;
     TimeOfDay _timeIni, _timeEnd;
 
-    // Navigate to Calendari
-    nCalendar(){
+    // Navigate to viewEvent
+    nViewEvent(){
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Calendari(widget.user))
+            MaterialPageRoute(builder: (context) => ViewEvent(widget.user, widget.event, widget._deviceCalendarPlugin, widget._currentCalendarID))
         );
     }
 
     @override
     Widget build(BuildContext context) {
-        _dateIni = DateTime.now();
-        _dateEnd = _dateIni.add(Duration(hours: 1));
+        _dateIni = widget.event.dateIni;
+        _dateEnd = widget.event.dateEnd;
         _timeIni = TimeOfDay.fromDateTime(_dateIni);
         _timeEnd = TimeOfDay.fromDateTime(_dateEnd);
 
+        _controladorTitle.text = widget.event.title;
         _controladorDateIni.text = _dateIni.day.toString().padLeft(2, '0') + ". " + _dateIni.month.toString().padLeft(2, '0') + ". " + _dateIni.year.toString();
         _controladorDateEnd.text = _dateEnd.day.toString().padLeft(2, '0') + ". " + _dateEnd.month.toString().padLeft(2, '0') + ". " + _dateEnd.year.toString();
         _controladorHourIni.text = _timeIni.hour.toString().padLeft(2, '0') + ':' + _timeIni.minute.toString().padLeft(2, '0');
         _controladorHourEnd.text = _timeEnd.hour.toString().padLeft(2, '0') + ':' + _timeEnd.minute.toString().padLeft(2, '0');
+        _controladorDescription.text = widget.event.description;
 
         return Form(
             key: _formKey,
@@ -163,7 +173,7 @@ class MyCustomFormState extends State<NewEventForm> {
                             onTap: () async {
                                 _timeIni = await showTimePicker(
                                     context: context,
-                                    initialTime: TimeOfDay.fromDateTime(DateTime.now()),
+                                    initialTime: _timeIni == null ? TimeOfDay.fromDateTime(DateTime.now()) : _timeIni,
                                 );
                                 _controladorHourIni.text = _timeIni.hour.toString().padLeft(2, '0') + ':' + _timeIni.minute.toString().padLeft(2, '0');
                             },
@@ -188,7 +198,7 @@ class MyCustomFormState extends State<NewEventForm> {
                             onTap: () async {
                                 _dateEnd = await showDatePicker(
                                     context: context,
-                                    initialDate: _dateIni == null ? DateTime.now() : _dateIni,
+                                    initialDate: _dateEnd == null ? DateTime.now() : _dateEnd,
                                     firstDate: DateTime(DateTime.now().year - 20),
                                     lastDate: DateTime(DateTime.now().year + 1)
                                 );
@@ -201,9 +211,6 @@ class MyCustomFormState extends State<NewEventForm> {
                                     validator: (value){
                                         if(value.isEmpty){
                                             return 'Por favor, pon una fecha.';
-                                        }
-                                        if(_dateEnd.isBefore(_dateIni)){
-                                            return 'La fecha fin debe ser posterior a la de inicio.';
                                         }
                                         return null;
                                     },
@@ -218,7 +225,7 @@ class MyCustomFormState extends State<NewEventForm> {
                             onTap: () async {
                                 _timeEnd = await showTimePicker(
                                     context: context,
-                                    initialTime: _timeIni == null ? TimeOfDay(hour: 12, minute: 0) : _timeIni.replacing(hour: _timeIni.hour + 1)
+                                    initialTime: _timeEnd == null ? TimeOfDay.fromDateTime(DateTime.now()) : _timeEnd,
                                 );
                                 _controladorHourEnd.text = _timeEnd.hour.toString().padLeft(2, '0') + ':' + _timeEnd.minute.toString().padLeft(2, '0');
                             },
@@ -229,11 +236,6 @@ class MyCustomFormState extends State<NewEventForm> {
                                     validator: (value){
                                         if(value.isEmpty){
                                             return 'Por favor, pon una hora.';
-                                        }
-                                        if(_dateIni.compareTo(_dateEnd) == 0 &&
-                                            ((_timeEnd.hour == _timeIni.hour && _timeEnd.minute <= _timeIni.minute) ||
-                                                (_timeEnd.hour < _timeIni.hour))){
-                                            return 'La hora fin debe ser posterior a la de inicio.';
                                         }
                                         return null;
                                     },
@@ -258,25 +260,22 @@ class MyCustomFormState extends State<NewEventForm> {
                         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                    _formKey.currentState.save();
-                                        addEvent().whenComplete(
-                                            () {
-                                                    if (_statusCode == 201) {
-                                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Evento añadido con éxito!')));
-                                                        nCalendar();
-                                                    }
-                                                    else if (_statusCode == 404) {
-                                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Ya tienes otro evento en ese rango de fecha/hora')));
-                                                    }
-                                                    else {
-                                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('No se ha podido añadir el evento.')));
-                                                    }
-                                                }
-                                        );
-                                }
+                                updateEvent().whenComplete(
+                                    () {
+                                        if (_formKey.currentState.validate()) {
+                                            _formKey.currentState.save();
+                                            if (_statusCode == 200) {
+                                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Evento actualizado')));
+                                                nViewEvent();
+                                            }
+                                            else {
+                                                Scaffold.of(context).showSnackBar(SnackBar(content: Text('No se han podido guardar los cambios.')));
+                                            }
+                                        }
+                                    }
+                                );
                             },
-                            child: Text('Añadir'),
+                            child: Text('Guardar cambios'),
                         ),
                     ),
                 ],
@@ -284,14 +283,16 @@ class MyCustomFormState extends State<NewEventForm> {
         );
     }
 
-    Future<void> addEvent() async{
+    Future<void> updateEvent() async{
         var email = widget.user.email;
+        var id = widget.event.id.toString();
+
         var eventDateIni = new DateTime(_dateIni.year, _dateIni.month, _dateIni.day, _timeIni.hour, _timeIni.minute);
         var dateStringIni = eventDateIni.toIso8601String();
         var eventDateEnd = new DateTime(_dateEnd.year, _dateEnd.month, _dateEnd.day, _timeEnd.hour, _timeEnd.minute);
         var dateStringEnd = eventDateEnd.toIso8601String();
 
-        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/calendario/" + email + "/eventos"),
+        http.Response response = await http.put(new Uri.http("petandgo.herokuapp.com", "/api/calendario/" + email + "/eventos/" + id),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString()
@@ -303,7 +304,6 @@ class MyCustomFormState extends State<NewEventForm> {
                 'fechaFin': dateStringEnd,
                 'descripcion': _controladorDescription.text}));
         _statusCode = response.statusCode;
-
-        print("STATUS CODE: $_statusCode");
+        print(_statusCode);
     }
 }
