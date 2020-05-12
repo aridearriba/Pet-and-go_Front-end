@@ -296,6 +296,6 @@ class MyCustomFormState extends State<EditEventForm> {
                 'fechaFin': dateStringEnd,
                 'descripcion': _controladorDescription.text}));
         _statusCode = response.statusCode;
-        print(_statusCode);
+        widget.event = Evento.fromJson(jsonDecode(response.body));
     }
 }

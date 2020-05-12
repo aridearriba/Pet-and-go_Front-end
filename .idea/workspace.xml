@@ -11,14 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/event.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/calendar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/calendar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/calendarMain.dart" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/calendar/editEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/editEvent.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/mmaObjects.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/newEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/newEvent.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/viewEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/viewEvent.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/menu/menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/menu/menu.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
