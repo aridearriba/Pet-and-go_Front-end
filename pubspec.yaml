@@ -43,6 +43,9 @@ dependencies:
 
     uuid: 2.0.4
 
+    web_socket_channel:
+
+
 
 dev_dependencies:
     flutter_test:
