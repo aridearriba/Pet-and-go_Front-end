@@ -9,12 +9,10 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="chat envia mensajes">
+    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/chat/principal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/principal.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,6 +20,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_API_R" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -194,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589282368134</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="chat envia mensajes">
+      <created>1589303735339</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1589303735339</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -216,7 +222,8 @@
     <MESSAGE value="navegacion pantalla single chat" />
     <MESSAGE value="pantalla single chat" />
     <MESSAGE value="stream builder" />
-    <option name="LAST_COMMIT_MESSAGE" value="stream builder" />
+    <MESSAGE value="chat envia mensajes" />
+    <option name="LAST_COMMIT_MESSAGE" value="chat envia mensajes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
