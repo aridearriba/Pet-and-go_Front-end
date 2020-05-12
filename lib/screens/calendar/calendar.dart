@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/event.dart';
-import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/calendar/calendarList.dart';
 import 'package:petandgo/screens/calendar/newEvent.dart';

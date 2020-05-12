@@ -5,15 +5,12 @@ import 'dart:typed_data';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:petandgo/model/event.dart';
-import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/calendar/editEvent.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
-import 'package:petandgo/screens/pets/myPets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

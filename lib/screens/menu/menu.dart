@@ -4,8 +4,6 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/calendar/calendar.dart';
-import 'package:petandgo/screens/calendar/calendarList.dart';
-import 'package:petandgo/screens/calendar/calendarMain.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
 import 'package:petandgo/screens/settings.dart';
 
