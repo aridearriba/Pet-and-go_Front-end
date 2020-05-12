@@ -43,7 +43,7 @@ dependencies:
 
     uuid: 2.0.4
 
-    web_socket_channel:
+    socket_io_client: any
 
 
 

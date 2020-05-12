@@ -1,12 +1,14 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/message.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/chat/chat_page.dart';
 import 'package:petandgo/screens/menu/menu.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class Principal extends StatefulWidget{
     Principal(this.user);
@@ -16,8 +18,25 @@ class Principal extends StatefulWidget{
 }
 
 class _PrincipalState extends State<Principal>{
+
+    TextEditingController _controller = TextEditingController();
+    IO.Socket socket = IO.io('https://petandgochat.herokuapp.com/', <String, dynamic>{
+        'transports': ['websocket']
+    });
     @override
     Widget build(BuildContext context) {
+
+        print('hola');
+        socket.on('connect', (_) {
+            print('connect');
+            socket.emit('message', 'test');
+        });
+        socket.on('connect_error', (error) {
+            print("connect error");
+            print(error);
+        });
+
+        socket.on('message', (data) => print(data));
 
         return Scaffold(
             drawer: Menu(widget.user),
@@ -35,7 +54,36 @@ class _PrincipalState extends State<Principal>{
             ),
             body: Column(
                 children: <Widget>[
-                    RecentChats()
+                    Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                                Form(
+                                    child: TextFormField(
+                                        controller: _controller,
+                                        decoration: InputDecoration(labelText: 'Send a message'),
+                                    ),
+                                ),
+                                Text('plis que funcioni x200990'),
+                            ],
+                        ),
+                    ),
+                    Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: FloatingActionButton(
+                            onPressed: (){
+                                if(_controller.text.isNotEmpty){
+                                    socket.emit('message',
+                                    jsonEncode(<String, String>{
+                                        'data': _controller.text,
+                                        'sender': widget.user.email,
+                                        'receiver': 'a@prueba.com'}));
+                                }
+                            },
+                            child: Icon(Icons.send),
+                        ),
+                    )
                 ],
             )
         );
@@ -43,40 +91,26 @@ class _PrincipalState extends State<Principal>{
 }
 
 class RecentChats extends StatelessWidget{
+
     TextEditingController _controller = TextEditingController();
-    final WebSocketChannel socket = IOWebSocketChannel.connect('ws://petandgochat.herokuapp.com/chat');
+    IO.Socket socket = IO.io('https://petandgochat.herokuapp.com/', <String, dynamic>{
+        'transports': ['websocket']
+    });
+
     @override
     Widget build(BuildContext context) {
+        print('hola');
+        socket.on('connect', (_) {
+            print('connect');
+            socket.emit('message', 'test');
+        });
+        socket.on('connect_error', (error) {
+            print("connect error");
+            print(error);
+        });
+
+        socket.on('message', (data) => print(data));
         return Column(
-            children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                            Form(
-                                child: TextFormField(
-                                    controller: _controller,
-                                    decoration: InputDecoration(labelText: 'Send a message'),
-                                ),
-                            ),
-                            StreamBuilder(
-                                stream: socket.stream,
-                                builder: (context, snapshot) {
-                                    return Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 24.0),
-                                        child: Text(snapshot.hasData ? '${snapshot.data}' : ''),
-                                    );
-                                },
-                            )
-                        ],
-                    ),
-                ),
-                Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: FloatingActionButton(onPressed: _sendMessage,),
-                )
-            ],
         );
         
         /*return Expanded(
@@ -196,15 +230,5 @@ class RecentChats extends StatelessWidget{
                 ),
             ),
         );*/
-    }
-    void _sendMessage() {
-        if (_controller.text.isNotEmpty) {
-            socket.sink.add(_controller.text);
-        }
-    }
-
-    @override
-    void dispose() {
-        socket.sink.close();
     }
 }

@@ -12,6 +12,9 @@
 ### Link to Back-End Github
 https://github.com/ceraalex99/Pet_and_Go
 
+### Link to Chat Github
+https://github.com/ceraalex99/petandgochat
+
 ### Link to Taiga
 https://tree.taiga.io/project/coralvila-pes-petgo/backlog
 
