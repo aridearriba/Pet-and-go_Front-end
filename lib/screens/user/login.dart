@@ -258,6 +258,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email));
         user = User.fromJson(jsonDecode(response.body));
         user.token = _token;
+        print("USER: " + user.toString());
+        print("TOKEN: " + user.token.toString());
     }
 
     Future<void> _googleAccountSignIn() async{
