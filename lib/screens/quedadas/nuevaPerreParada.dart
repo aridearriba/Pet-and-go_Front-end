@@ -3,25 +3,15 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:petandgo/global/global.dart' as Global;
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:google_maps_webservice/places.dart';
-import 'package:http/http.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:petandgo/screens/user/profile.dart';
 import 'package:uuid/uuid.dart';
 import '../../Credentials.dart';
-import '../home.dart';
-import 'package:rxdart/rxdart.dart';
-
-import '../home.dart';
-import '../home.dart';
 import 'vistaPerreParada.dart';
+import 'adressField.dart';
 
 
 class NuevaPerreParada extends StatelessWidget {
@@ -147,24 +137,8 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
                     children: <Widget>[
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                            child: TextFormField(
-                                decoration: InputDecoration(
-                                    labelText: "Dirección:"
-                                ),
-                                controller: _controladorLocation,
-                                keyboardType: TextInputType.text,
-                                validator: (value){
-                                    if(value.isEmpty){
-                                        return 'Por favor, escribe una direccion.';
-                                    }
-                                    else if (_statusCode == 500){
-                                        return 'Ya hay otra quedada en esa hora por esa zona, apunntate!.';
-                                    }
-
-                                    return null;
-                                },
+                            child: NuevaPerreParada(uuid)
                             ),
-                        ),
                         Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 40.0),
                             child: InkWell(
@@ -272,19 +246,6 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
         var today = DateTime.now().toString().substring(0, 10);
         var loc = _controladorLocation.text.toString();
 
-        print("LOC: $loc");
-        await getLocations(loc);
-
-        //par aver las predicciones -- mover en un futuro
-        for(var i=0; i<_predictions.length; ++i) {
-            print(_predictions[i].description + ' ' + _predictions[i].id);
-        }
-
-        loc = _predictions[0].id;
-
-        print("LOC: $loc");
-        await getPlaceInfo(loc);
-
         lat = _result.geo.loc.lat;
         lng = _result.geo.loc.lng;
         loc = _result.name;
@@ -317,28 +278,8 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
     }
 }
 
-//GOOGLE MAPS RESPONSE CLASSES:
-class Prediction {
-    String _description;
-    String _id;
 
-    Prediction({String desc, String id})
-    {
-        this._description = desc;
-        this._id = id;
-    }
-
-    String get description => _description;
-    String get id => this._id;
-
-    factory Prediction.fromJson(Map<String, dynamic> json){
-        return Prediction(
-            desc:  json['description'],
-            id: json['place_id']
-        );
-    }
-
-}
+//GOOGLE MAPS RESPONSE CLASSES
 
 class Result {
     Geometry _geo;

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
 import 'package:petandgo/screens/menu/menu.dart';
-import 'package:petandgo/screens/quedadas/nuevaPerreParada.dart';
+import 'package:petandgo/screens/quedadas/adressField.dart';
 import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
@@ -18,37 +18,6 @@ class Home extends StatefulWidget {
 
     @override
     _HomeState createState() => _HomeState();
-}
-
-class DogStopWidgetShort extends StatelessWidget{
-    @override
-    Widget build(BuildContext context) {
-        Widget dogStop = Container(
-            padding: const EdgeInsets.all(8.0),
-            width: 700,
-            height: 100,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                        Color(0xFF068FFA),
-                        Color(0xFF89ED91)
-                    ]
-                )
-            ),
-            child: SafeArea(
-                child: Column(
-                    children: <Widget>[
-                        Text('Hola')
-                    ],
-                ),
-            ),
-        );
-
-      return dogStop;
-  }
-
 }
 
 class _HomeState extends State<Home> {
@@ -89,6 +58,7 @@ class _HomeState extends State<Home> {
             desiredAccuracy: LocationAccuracy.high);
         print('$position');
 
+        widget.user.pos = position;
         _queryParameters = position.latitude.toString() + '/' + position.longitude.toString();
 
         return position.toString();
