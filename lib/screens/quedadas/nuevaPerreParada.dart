@@ -1,69 +1,40 @@
 import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
-
-import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:petandgo/model/user.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import 'package:uuid/uuid.dart';
 import '../../Credentials.dart';
-import 'vistaPerreParada.dart';
-import 'adressField.dart';
+import 'package:petandgo/global/global.dart' as Global;
 
 
-class NuevaPerreParada extends StatelessWidget {
+class NuevaPerreParada extends StatefulWidget {
     NuevaPerreParada(this.user);
     User user;
 
     @override
-    Widget build(BuildContext context) {
-        final appTitle = 'petandgo';
-
-        return GestureDetector(
-            onTap: () {
-                FocusScopeNode actualFocus = FocusScope.of(context);
-
-                if(!actualFocus.hasPrimaryFocus){
-                    actualFocus.unfocus();
-                }
-
-            },
-            child: MaterialApp(
-                title: appTitle,
-                theme: ThemeData(
-                    primaryColor: Colors.green
-                ),
-                home: Scaffold(
-                    //resizeToAvoidBottomInset: false,
-                    appBar: AppBar(
-                        title: Text("Crea una nueva Perreparada")
-                    ),
-                    body: NuevaPerreParadaForm(user),
-                ),
-            ),
-        );
-    }
+    _NuevaPerreParadaState createState() => _NuevaPerreParadaState();
 }
 
-// Creamos un Widget que sea un Form
-class NuevaPerreParadaForm extends StatefulWidget {
-    NuevaPerreParadaForm(this.user);
-    User user;
-    @override
-    NuevaPerreParadaState createState() => NuevaPerreParadaState();
-}
-
-// Esta clase contendrá los datos relacionados con el formulario.
-class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
+class _NuevaPerreParadaState extends State<NuevaPerreParada> {
 
     final _formKey = GlobalKey<FormState>();
 
-    final _controladorLocation = TextEditingController();
+    final FocusNode _focusNode = new FocusNode();
+    final TextEditingController _searchQueryController = new TextEditingController();
     final _controladorDate = TextEditingController();
     final _controladorHour = TextEditingController();
+
+    bool _isSearching = true;
+    String _searchText = "";
+    List<Prediction> _searchList;
+    bool _onTap = false;
+    int _onTapTextLength = 0;
 
     var _statusCode;
     var _id;
@@ -72,9 +43,9 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
     DateTime _dateTime;
     TimeOfDay _hour;
 
-    List<String> _placesList;
     List<Prediction> _predictions;
     Result _result;
+
     static double lat = 41.390205;
     static double lng = 2.154007;
     static String code = '';
@@ -86,12 +57,32 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
         zoom: 10,
     );
 
-    Future<void> getLocations(String input) async {
+
+    _NuevaPerreParadaState() {
+        _searchQueryController.addListener(() {
+           if (_searchQueryController.text.isEmpty){
+               setState(() {
+                   _isSearching = false;
+                   _searchText = "";
+                   _searchList = List();
+               });
+           }
+           else {
+               setState(() {
+                   _isSearching = true;
+                   _searchText = _searchQueryController.text;
+                   _onTap = _onTapTextLength == _searchText.length;
+               });
+           }
+        });
+    }
+
+    Future<List<Prediction>> getLocations(String input) async {
         if (input.isEmpty){
-            return null;
+            return List();
         }
         input = input.replaceAll(" ", "+");
-        String URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$PLACES_API_KEY&sessiontoken=$uuid';
+        String URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=$PLACES_API_KEY&sessiontoken=${uuid}&location=${widget.user.pos.latitude},${widget.user.pos.longitude}&radius5000';
         final response = await http.get(URL);
 
         print(response.statusCode.toString());
@@ -100,7 +91,7 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
             var data = json.decode(response.body);
             var rest = data["predictions"] as List;
             print(rest);
-            _predictions = rest.map<Prediction>((json) => Prediction.fromJson(json)).toList();
+            return rest.map<Prediction>((json) => Prediction.fromJson(json)).toList();
         } else {
             throw Exception('An error occurred getting places : PREDICTIONS');
         }
@@ -117,6 +108,8 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
             var rest = data["result"];
             print(data);
             _result = Result.fromJson(rest);
+            lat = _result.geo.loc.lat;
+            lng = _result.geo.loc.lng;
         } else {
             throw Exception('An error occurred getting places : RESULT');
         }
@@ -126,136 +119,30 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
     void initState() {
         uuid = Uuid();
         super.initState();
+        _isSearching = false;
     }
 
     @override
     Widget build(BuildContext context) {
-        return new Scaffold(
-            body: Form(
-                key: _formKey,
-                child: ListView(
-                    children: <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                            child: NuevaPerreParada(uuid)
-                            ),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                            child: InkWell(
-                                onTap: () async {
-                                    _dateTime = await showDatePicker(
-                                        context: context,
-                                        initialDate: _dateTime == null ? DateTime.now() : _dateTime,
-                                        firstDate: DateTime(DateTime.now().year - 20),
-                                        lastDate: DateTime(DateTime.now().year + 1)
-                                    );
-                                    _controladorDate.text = _dateTime.day.toString() + ". " + _dateTime.month.toString() + ". " + _dateTime.year.toString();
-                                },
-                                child: IgnorePointer(
-                                    child: new TextFormField(
-                                        decoration: new InputDecoration(labelText: 'Fecha:'),
-                                        controller: _controladorDate,
-                                        validator: (value){
-                                            if(value.isEmpty){
-                                                return 'Por favor, pon una fecha.';
-                                            }
-                                            return null;
-                                        },
-                                        onSaved: (String val) {},
-                                    ),
-                                ),
-                            ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                            child: InkWell(
-                                onTap: () async {
-                                    _hour = await showTimePicker(
-                                        context: context,
-                                        initialTime: TimeOfDay(hour: 12, minute: 0),
-                                    );
-                                    _controladorHour.text = _hour.hour.toString() + ':' + _hour.minute.toString();
-                                },
-                                child: IgnorePointer(
-                                    child: new TextFormField(
-                                        decoration: new InputDecoration(labelText: 'Hora:'),
-                                        controller: _controladorHour,
-                                        validator: (value){
-                                            if(value.isEmpty){
-                                                return 'Por favor, pon una hora.';
-                                            }
-                                            return null;
-                                        },
-                                        onSaved: (String val) {},
-                                    ),
-                                ),
-                            ),
-                        ),
-                        Container(
-                            width: 50,
-                            height: 300,
-                            child: GoogleMap(
-                                mapType: MapType.hybrid,
-                                initialCameraPosition: _camPosition,
-                                onMapCreated: (GoogleMapController controller) {
-                                    _controller.complete(controller);
-                                },
-
-                            ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
-                            child: RaisedButton(
-                                onPressed: () {
-                                    FocusScope.of(context).requestFocus(FocusNode());
-                                    add().whenComplete(
-                                            () {
-                                            // comprueba que los campos sean correctos
-                                            if (_formKey.currentState.validate()) {
-                                                _formKey.currentState.save();
-                                                // Si el formulario es válido, queremos mostrar un Snackbar
-                                                if(_statusCode == 201) {
-                                                    Scaffold.of(context).showSnackBar(
-                                                        SnackBar(
-                                                            content: Text(
-                                                                'Perreparada añadida con éxito!')));
-                                                    Navigator.pushReplacement(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => VistaPerreParada(widget.user, _id))
-                                                    );
-                                                }
-                                                else Scaffold.of(context).showSnackBar(SnackBar(
-                                                    content: Text('No se ha podido la Perreparada')));
-                                            }
-                                        });
-                                },
-                                child: Text('Añadir'),
-                            ),
-                        ),
-                    ],
+    return new Scaffold(
+        appBar: AppBar(
+            title: Text(
+                'Pet & Go',
+                style: TextStyle(
+                    color: Colors.white,
                 ),
-            ),
 
-        );
+            ),
+        ),
+        body: buildBody(),
+    );
     }
 
     Future<void> add() async{
         var email = widget.user.email;
-        var date = _dateTime.toString() + ' ' + _hour.hour.toString() + ':' + _hour.minute.toString() + ':00';
+        var date = _dateTime.day.toString() + '-' +  _dateTime.month.toString() + '-' +  _dateTime.year.toString() +  ' '  + _hour.hour.toString() + ':' + _hour.minute.toString() + ':00';
         var today = DateTime.now().toString().substring(0, 10);
-        var loc = _controladorLocation.text.toString();
 
-        lat = _result.geo.loc.lat;
-        lng = _result.geo.loc.lng;
-        loc = _result.name;
-
-        print('lat: $lat lng: $lng code: $loc');
-
-        //getPlaceInfo(loc);
-        //loc = code;
-
-        print("DATE: $date");
         http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/quedadas"),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
@@ -265,7 +152,7 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
                 'admin': email,
                 'createdAt': today,
                 'fechaQuedada': date,
-                'lugarInicio': loc, //PLUS_CODE
+                'lugarInicio': _searchQueryController.text,
                 'latitud':  lat,
                 'longitud': lng,
                 'idImageGoogle': '',
@@ -276,10 +163,250 @@ class NuevaPerreParadaState extends State<NuevaPerreParadaForm> {
         print('$_id');
         print(_statusCode);
     }
+
+    Widget getFutureWidget() {
+        return new FutureBuilder(
+            future: _buildSearchList(),
+            initialData: List<ListTile>(),
+            builder: (BuildContext context, AsyncSnapshot<List<ListTile>> childItems) {
+                return new Container(
+                    color: Colors.white,
+                    height: getChildren(childItems).length * 48.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: new ListView(
+                        padding: new EdgeInsets.only(left: 50.0),
+                        children: childItems.data.isNotEmpty
+                            ? ListTile.divideTiles(context: context, tiles: getChildren(childItems)).toList() : List(),
+                    ),
+                );
+            },
+        );
+    }
+
+    List<ListTile> getChildren(AsyncSnapshot<List<ListTile>> childItems) {
+        if (_onTap && _searchText.length != _onTapTextLength) _onTap = false;
+        List<ListTile> childrenList =
+        _isSearching && !_onTap ? childItems.data : List();
+        return childrenList;
+    }
+
+    ListTile _getListTile(String suggestedPhrase, String id) {
+        return new ListTile(
+            dense: true,
+            title: new Text(
+              suggestedPhrase,
+            ),
+            onTap: () {
+                setState(() {
+                    _onTap = true;
+                    _isSearching = false;
+                    _onTapTextLength = suggestedPhrase.length;
+                    _searchQueryController.text = suggestedPhrase;
+                    setPlace(id);
+                });
+                _searchQueryController.selection = TextSelection.fromPosition(new TextPosition(offset: suggestedPhrase.length));
+            },
+        );
+    }
+
+    Future<List<ListTile>> _buildSearchList() async {
+        if (_searchText.isEmpty){
+            _searchList = List();
+            return List();
+        }
+        else {
+            _searchList = await getLocations(_searchText) ?? List();
+
+            List<ListTile> childItems = new List();
+            for(var value in _searchList) {
+                childItems.add(_getListTile(value.description, value.id));
+            }
+            return childItems;
+        }
+    }
+
+    Future<void> setPlace(id) async{
+        await getPlaceInfo(id);
+        final GoogleMapController controller = await _controller.future;
+        controller.animateCamera(CameraUpdate.newCameraPosition(
+           CameraPosition(
+               target: LatLng(lat,lng),
+               zoom: 16,
+           )
+        ));
+
+    }
+
+    Widget buildBody() {
+        return new SafeArea(
+            top: false,
+            bottom: false,
+            child: new SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Form(
+                    key: _formKey,
+                    child: new Stack(
+                        children: <Widget>[
+                            Column(
+                                children: <Widget>[
+                                    Container(
+                                        height: MediaQuery.of(context).size.height,
+                                        child: new Column(
+                                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                                            children: <Widget>[
+                                                new TextFormField(
+                                                    controller: _searchQueryController,
+                                                    focusNode: _focusNode,
+                                                    onFieldSubmitted: (String value) {
+                                                        print("submitted: $value");
+                                                        setState(() {
+                                                            _searchQueryController.text = value;
+                                                            _onTap = true;
+                                                        });
+                                                    },
+                                                    onSaved: (String value) => print("saved: $value"),
+                                                    decoration: const InputDecoration(
+                                                        labelText: "Dirección"
+                                                    ),
+                                                    validator: (value){
+                                                        if(value.isEmpty){
+                                                            return 'Por favor, pon una localización.';
+                                                        }
+                                                        return null;
+                                                    },
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                                                    child: InkWell(
+                                                        onTap: () async {
+                                                            _dateTime = await showDatePicker(
+                                                                context: context,
+                                                                initialDate: _dateTime == null ? DateTime.now() : _dateTime,
+                                                                firstDate: DateTime(DateTime.now().year - 20),
+                                                                lastDate: DateTime(DateTime.now().year + 1)
+                                                            );
+                                                            _controladorDate.text = _dateTime.day.toString() + ". " + _dateTime.month.toString() + ". " + _dateTime.year.toString();
+                                                        },
+                                                        child: IgnorePointer(
+                                                            child: new TextFormField(
+                                                                decoration: new InputDecoration(labelText: 'Fecha:'),
+                                                                controller: _controladorDate,
+                                                                validator: (value){
+                                                                    if(value.isEmpty){
+                                                                        return 'Por favor, pon una fecha.';
+                                                                    }
+                                                                    return null;
+                                                                },
+                                                                onSaved: (String val) {},
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                                                    child: InkWell(
+                                                        onTap: () async {
+                                                            _hour = await showTimePicker(
+                                                                context: context,
+                                                                initialTime: TimeOfDay(hour: 12, minute: 0),
+                                                            );
+                                                            _controladorHour.text = _hour.hour.toString() + ':' + _hour.minute.toString();
+                                                        },
+                                                        child: IgnorePointer(
+                                                            child: new TextFormField(
+                                                                decoration: new InputDecoration(labelText: 'Hora:'),
+                                                                controller: _controladorHour,
+                                                                validator: (value){
+                                                                    if(value.isEmpty){
+                                                                        return 'Por favor, pon una hora.';
+                                                                    }
+                                                                    return null;
+                                                                },
+                                                                onSaved: (String val) {},
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding: EdgeInsets.all(20.0),
+                                                ),
+                                                Center(
+                                                    child: Container(
+                                                        width: 350,
+                                                        height: 250,
+                                                        child: GoogleMap(
+                                                            mapType: MapType.hybrid,
+                                                            initialCameraPosition: _camPosition,
+                                                            onMapCreated: (GoogleMapController controller) {
+                                                                _controller.complete(controller);
+                                                            },
+
+                                                        ),
+                                                    ),
+                                                ),
+                                                Padding(
+                                                    padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
+                                                    child: RaisedButton(
+                                                        onPressed: () {
+                                                            FocusScope.of(context).requestFocus(FocusNode());
+                                                            add().whenComplete(
+                                                                    () {// comprueba que los campos sean correctos
+                                                                    if (_formKey.currentState.validate()) {
+                                                                        _formKey.currentState.save();
+                                                                        // Si el formulario es válido, queremos mostrar un Snackbar
+                                                                        if(_statusCode == 201) {
+                                                                            Navigator.pushReplacement(
+                                                                                context,
+                                                                                MaterialPageRoute(
+                                                                                    builder: (context) => VistaPerreParada(widget.user, _id))
+                                                                            );
+                                                                        }
+                                                                    }
+                                                                });
+                                                        },
+                                                        child: Text('Añadir'),
+                                                    )
+                                                ),
+                                            ],
+                                        ),
+                                    ),
+                                ],
+                            ),
+                            new Container(
+                                alignment: Alignment.topCenter,
+                                padding: EdgeInsets.only(top: 60.0),
+                                child: _isSearching && (!_onTap) ? getFutureWidget() : null
+                            ),
+                        ],
+                    ),
+                )
+            ),
+        );
+    }
 }
 
-
 //GOOGLE MAPS RESPONSE CLASSES
+
+class Prediction {
+    String _description;
+    String _id;
+
+    Prediction({String desc, String id})
+    {
+        this._description = desc;
+        this._id = id;
+    }
+
+    String get description => _description;
+    String get id => this._id;
+
+    factory Prediction.fromJson(Map<String, dynamic> json){
+        return Prediction(
+            desc:  json['description'],
+            id: json['place_id']
+        );
+    }
+}
 
 class Result {
     Geometry _geo;
