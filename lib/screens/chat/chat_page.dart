@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -113,13 +114,17 @@ class _ChatPageState extends State<ChatPage>{
                     Expanded(
                         child: TextField(
                             textCapitalization: TextCapitalization.sentences,
-                            onChanged: (value) {},
+                            onChanged: (value) {
+                            },
                             controller: _controller,
                             decoration: InputDecoration.collapsed(
                                 hintText: 'Send a message...',
                             ),
                             onTap: () {
-                                _listController.jumpTo(_listController.position.maxScrollExtent);
+                                Timer(
+                                    Duration(milliseconds: 100),
+                                        () => _listController
+                                        .jumpTo(_listController.position.maxScrollExtent));
                             },
                         ),
                     ),
@@ -128,18 +133,24 @@ class _ChatPageState extends State<ChatPage>{
                         iconSize: 25.0,
                         color: Theme.of(context).primaryColor,
                         onPressed: () {
-                            setState(() {
-                                Message msg = new Message(
-                                    sender: widget.userMe,
-                                    time: DateTime.now().toString(),
-                                    text: _controller.text,
-                                    isLiked: false,
-                                    unread: false
-                                );
-                                _missatges.add(msg);
-                                _listController.jumpTo(_listController.position.maxScrollExtent);
-                                _controller.clear();
-                            });
+                            if(_controller.text.isNotEmpty){
+                                setState(() {
+                                    Message msg = new Message(
+                                        sender: widget.userMe,
+                                        time: DateTime.now().toString(),
+                                        text: _controller.text,
+                                        isLiked: false,
+                                        unread: false
+                                    );
+                                    _missatges.add(msg);
+                                    _controller.clear();
+                                });
+                            }
+                            Timer(
+                                Duration(milliseconds: 100),
+                                    () => _listController
+                                    .jumpTo(_listController.position.maxScrollExtent));
+
                         },
                     ),
                 ],
@@ -160,9 +171,6 @@ class _ChatPageState extends State<ChatPage>{
         });
 
         socket.on('message', (data) => print(data));
-
-        print(_missatges.length);
-
         return Scaffold(
             appBar: PreferredSize(
                 preferredSize: Size.fromHeight(60.0),
