@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
 import 'package:petandgo/screens/menu/menu.dart';
-import 'package:petandgo/screens/quedadas/adressField.dart';
+import 'package:petandgo/screens/quedadas/nuevaPerreParada.dart';
 import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
@@ -42,14 +42,6 @@ class _HomeState extends State<Home> {
         Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => NuevaPerreParada(widget.user))
-        );
-    }
-
-    nDogStopView() {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => VistaPerreParada(widget.user, 25))
         );
     }
 
