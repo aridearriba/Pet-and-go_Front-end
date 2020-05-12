@@ -12,6 +12,7 @@ class ChatPage extends StatefulWidget{
     User userMe;
     String userChat;
 
+
     @override
     _ChatPageState createState() => _ChatPageState();
 }
@@ -23,91 +24,11 @@ class _ChatPageState extends State<ChatPage>{
         'transports': ['websocket']
     });
 
-    @override
-    Widget build(BuildContext context) {
-        print('hola');
-        socket.on('connect', (_) {
-            print('connect');
-            socket.emit('message', 'test');
-        });
-        socket.on('connect_error', (error) {
-            print("connect error");
-            print(error);
-        });
+    ScrollController _listController = new ScrollController();
 
-        socket.on('message', (data) => print(data));
+    List<Message> _missatges = List();
 
-        return Scaffold(
-            appBar: PreferredSize(
-                preferredSize: Size.fromHeight(60.0),
-                child: AppBar(
-                    title: Row(
-                        children: <Widget>[
-                            SizedBox(width: 40.0,),
-                            CircleAvatar(
-                                radius: 20.0,
-                                child: Icon(Icons.person),
-                            ),
-                            SizedBox(width: 15.0),
-                            Text(
-                                widget.userChat,
-                                style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                ),
-                            )
-                        ],
-                    ),
-                    centerTitle: true,
-                    elevation: 0.0,
-                    actions: <Widget>[
-                        IconButton(
-                            icon: Icon(Icons.more_horiz),
-                            iconSize: 30.0,
-                            color: Colors.white,
-                            onPressed: () {},
-                        ),
-                    ],
-                ),
-            ),
-            body:Column(
-                children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                                Form(
-                                    child: TextFormField(
-                                        controller: _controller,
-                                        decoration: InputDecoration(labelText: 'Send a message'),
-                                    ),
-                                ),
-                                Text('plis que funcioni x200990'),
-                            ],
-                        ),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: FloatingActionButton(
-                            onPressed: (){
-                                if(_controller.text.isNotEmpty){
-                                    socket.emit('message',
-                                        jsonEncode(<String, String>{
-                                            'data': _controller.text,
-                                            'sender': widget.userMe.email,
-                                            'receiver': 'a@prueba.com'}));
-                                }
-                            },
-                            child: Icon(Icons.send),
-                        ),
-                    )
-                ],
-            )
-        );
-    }
-
-    /*_buildMessage(Message message, bool isMe) {
+    _buildMessage(Message message, bool isMe) {
         final Container msg = Container(
             margin: isMe
                 ? EdgeInsets.only(
@@ -193,22 +114,116 @@ class _ChatPageState extends State<ChatPage>{
                         child: TextField(
                             textCapitalization: TextCapitalization.sentences,
                             onChanged: (value) {},
+                            controller: _controller,
                             decoration: InputDecoration.collapsed(
                                 hintText: 'Send a message...',
                             ),
+                            onTap: () {
+                                _listController.jumpTo(_listController.position.maxScrollExtent);
+                            },
                         ),
                     ),
                     IconButton(
                         icon: Icon(Icons.send),
                         iconSize: 25.0,
                         color: Theme.of(context).primaryColor,
-                        onPressed: () {},
+                        onPressed: () {
+                            setState(() {
+                                Message msg = new Message(
+                                    sender: widget.userMe,
+                                    time: DateTime.now().toString(),
+                                    text: _controller.text,
+                                    isLiked: false,
+                                    unread: false
+                                );
+                                _missatges.add(msg);
+                                _listController.jumpTo(_listController.position.maxScrollExtent);
+                                _controller.clear();
+                            });
+                        },
                     ),
                 ],
             ),
         );
     }
 
+    @override
+    Widget build(BuildContext context) {
+        print('hola');
+        socket.on('connect', (_) {
+            print('connect');
+            socket.emit('message', 'test');
+        });
+        socket.on('connect_error', (error) {
+            print("connect error");
+            print(error);
+        });
+
+        socket.on('message', (data) => print(data));
+
+        print(_missatges.length);
+
+        return Scaffold(
+            appBar: PreferredSize(
+                preferredSize: Size.fromHeight(60.0),
+                child: AppBar(
+                    title: Row(
+                        children: <Widget>[
+                            SizedBox(width: 40.0,),
+                            CircleAvatar(
+                                radius: 20.0,
+                                child: Icon(Icons.person),
+                            ),
+                            SizedBox(width: 15.0),
+                            Text(
+                                widget.userChat,
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                ),
+                            )
+                        ],
+                    ),
+                    centerTitle: true,
+                    elevation: 0.0,
+                ),
+            ),
+            body: Column(
+                children: <Widget>[
+                    Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: FloatingActionButton(
+                            onPressed: (){
+                                if(_controller.text.isNotEmpty){
+                                    socket.emit('message',
+                                        jsonEncode(<String, String>{
+                                            'data': _controller.text,
+                                            'sender': widget.userMe.email,
+                                            'receiver': 'a@prueba.com'}));
+                                }
+                            },
+                            child: Icon(Icons.send),
+                        ),
+                    ),
+                    Expanded(
+                        child: ListView.builder(
+                                    padding: EdgeInsets.all(20.0),
+                                    itemCount: _missatges.length,
+                                    controller: _listController,
+                                    itemBuilder: (BuildContext context, int index) {
+                                        final Message message = _missatges[index];
+                                        final bool isMe = message.sender.name == widget.userMe.name;
+                                        return _buildMessage(message, isMe);
+                                    },
+                        ),
+                    ),
+                    _buildMessageComposer()
+                ],
+            ),
+        );
+    }
+
+    /*
     @override
     Widget build(BuildContext context) {
         return Scaffold(

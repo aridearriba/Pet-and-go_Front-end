@@ -200,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589303735339</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="canvi pantalles chat screen">
+      <created>1589314057333</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1589314057333</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -223,7 +230,8 @@
     <MESSAGE value="pantalla single chat" />
     <MESSAGE value="stream builder" />
     <MESSAGE value="chat envia mensajes" />
-    <option name="LAST_COMMIT_MESSAGE" value="chat envia mensajes" />
+    <MESSAGE value="canvi pantalles chat screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="canvi pantalles chat screen" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

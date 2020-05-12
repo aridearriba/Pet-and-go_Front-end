@@ -43,18 +43,7 @@ class _PrincipalState extends State<Principal>{
                         )
                     )
                 },
-                child: Container(
-                    margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
-                    padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                    decoration: BoxDecoration(
-                        color: Color(0x1FA4FF02),
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20.0),
-                            bottomRight: Radius.circular(20.0),
-                        ),
-                    ),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: ListView(
                         children: <Widget>[
                             Row(
                                 children: <Widget>[
@@ -81,7 +70,6 @@ class _PrincipalState extends State<Principal>{
                         ],
                     ),
                 ),
-            )
-        );
+            );
   }
 }
