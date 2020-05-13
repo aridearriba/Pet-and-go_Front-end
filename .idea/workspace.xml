@@ -24,6 +24,7 @@
       <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/calendar/editEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/editEvent.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +42,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="development" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
@@ -56,6 +62,7 @@
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/build/app/outputs/apk/app.apk" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_Edited_API_29" />
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-01T17:05:56.774Z" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
@@ -64,6 +71,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/android/app/src/main/res/drawable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/model" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/screens/calendar" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/StudioProjects/StudioProjects" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -181,6 +189,91 @@
       <option name="presentableId" value="Default" />
       <updated>1584006262633</updated>
     </task>
+    <task id="LOCAL-00001" summary="creation chat principal page">
+      <created>1589053342777</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1589053342777</updated>
+    </task>
+    <task id="LOCAL-00002" summary="llista de chats">
+      <created>1589055628695</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1589055628695</updated>
+    </task>
+    <task id="LOCAL-00003" summary="navegacion pantalla single chat">
+      <created>1589056752282</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1589056752282</updated>
+    </task>
+    <task id="LOCAL-00004" summary="pantalla single chat">
+      <created>1589060059116</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1589060059116</updated>
+    </task>
+    <task id="LOCAL-00005" summary="stream builder">
+      <created>1589282368134</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1589282368134</updated>
+    </task>
+    <task id="LOCAL-00006" summary="chat envia mensajes">
+      <created>1589303735339</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1589303735339</updated>
+    </task>
+    <task id="LOCAL-00007" summary="canvi pantalles chat screen">
+      <created>1589314057333</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1589314057333</updated>
+    </task>
+    <task id="LOCAL-00008" summary="enviar missatges">
+      <created>1589317442651</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1589317442651</updated>
+    </task>
+    <task id="LOCAL-00009" summary="scroll missatges">
+      <created>1589319428485</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1589319428485</updated>
+    </task>
+    <task id="LOCAL-00010" summary="enviament missatges">
+      <created>1589374988694</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1589374988694</updated>
+    </task>
+    <task id="LOCAL-00011" summary="scroll correcte">
+      <created>1589401580479</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1589401580479</updated>
+    </task>
+    <task id="LOCAL-00012" summary="notifications #1">
+      <created>1589405334339</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1589405334339</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -195,6 +288,21 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="creation chat principal page" />
+    <MESSAGE value="llista de chats" />
+    <MESSAGE value="navegacion pantalla single chat" />
+    <MESSAGE value="pantalla single chat" />
+    <MESSAGE value="stream builder" />
+    <MESSAGE value="chat envia mensajes" />
+    <MESSAGE value="canvi pantalles chat screen" />
+    <MESSAGE value="enviar missatges" />
+    <MESSAGE value="scroll missatges" />
+    <MESSAGE value="enviament missatges" />
+    <MESSAGE value="scroll correcte" />
+    <MESSAGE value="notifications #1" />
+    <option name="LAST_COMMIT_MESSAGE" value="notifications #1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

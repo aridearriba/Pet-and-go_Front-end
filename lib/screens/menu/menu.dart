@@ -7,6 +7,7 @@ import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
 import 'package:petandgo/screens/quedadas/perreParadaTabView.dart';
 import 'package:petandgo/screens/settings.dart';
+import 'package:petandgo/screens/chat/principal.dart';
 
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
@@ -71,6 +72,13 @@ class _MenuContent extends State<Menu> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Calendari(widget.user))
+        );
+    }
+
+    nChat(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Principal(widget.user))
         );
     }
 
@@ -143,6 +151,11 @@ class _MenuContent extends State<Menu> {
                         leading: Icon(Icons.calendar_today),
                         title: Text('Calendario'),
                         onTap: () => nCalendar(),
+                    ),
+                    ListTile(
+                        leading: Icon(Icons.chat),
+                        title: Text('Chat'),
+                        onTap: () => nChat(),
                     ),
                     ListTile(
                         leading: Icon(Icons.settings),
