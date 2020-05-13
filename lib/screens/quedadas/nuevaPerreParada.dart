@@ -340,7 +340,6 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                                                             onMapCreated: (GoogleMapController controller) {
                                                                 _controller.complete(controller);
                                                             },
-
                                                         ),
                                                     ),
                                                 ),

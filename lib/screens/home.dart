@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
     }
 
     nNewDogStop() {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => NuevaPerreParada(widget.user))
         );

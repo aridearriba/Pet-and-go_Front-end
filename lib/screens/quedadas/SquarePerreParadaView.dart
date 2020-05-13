@@ -26,7 +26,7 @@ class SquarePerreParadaView extends State<SquarePerreParadaWidget> {
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
     nPerreParadaView() {
-        Navigator.push(context,
+        Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => VistaPerreParada(widget.user, widget.miniQuedada.id)));
     }
 
