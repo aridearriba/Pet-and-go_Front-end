@@ -5,12 +5,14 @@ import 'dart:typed_data';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:petandgo/main.dart';
 import 'package:petandgo/model/event.dart';
 import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/calendar/editEvent.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/screens/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -121,7 +123,7 @@ class _viewEventState extends State<ViewEvent>{
                                                             widget.event.dateIni.month.toString().padLeft(2, '0') + '.  ' +
                                                             widget.event.dateIni.year.toString() + '     ' +
                                                             widget.event.dateIni.hour.toString().padLeft(2, '0') + '. ' +
-                                                            widget.event.dateIni.hour.toString().padLeft(2, '0') + ' h',
+                                                            widget.event.dateIni.minute.toString().padLeft(2, '0') + ' h',
                                                         style: TextStyle(
                                                             color: Colors.black87,
                                                             fontSize: 16.0,
@@ -152,11 +154,11 @@ class _viewEventState extends State<ViewEvent>{
                                         Padding (
                                             padding: const EdgeInsets.only(top: 10.0),
                                             child: Text(
-                                                '         ' + widget.event.dateIni.day.toString().padLeft(2, '0') + '.  ' +
-                                                    widget.event.dateIni.month.toString().padLeft(2, '0') + '.  ' +
-                                                    widget.event.dateIni.year.toString() + '     ' +
-                                                    widget.event.dateIni.hour.toString().padLeft(2, '0') + '. ' +
-                                                    widget.event.dateIni.hour.toString().padLeft(2, '0') + ' h',
+                                                '         ' + widget.event.dateEnd.day.toString().padLeft(2, '0') + '.  ' +
+                                                    widget.event.dateEnd.month.toString().padLeft(2, '0') + '.  ' +
+                                                    widget.event.dateEnd.year.toString() + '     ' +
+                                                    widget.event.dateEnd.hour.toString().padLeft(2, '0') + '. ' +
+                                                    widget.event.dateEnd.hour.toString().padLeft(2, '0') + ' h',
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontSize: 16.0,
@@ -184,7 +186,7 @@ class _viewEventState extends State<ViewEvent>{
                                             )
                                         ),
                                         Padding (
-                                            padding: const EdgeInsets.only(top: 10.0, bottom: 30, left: 35, right: 10),
+                                            padding: const EdgeInsets.only(top: 10.0, left: 35, right: 10),
                                             child: Text(
                                                         widget.event.description,
                                                         style: TextStyle(
@@ -192,6 +194,42 @@ class _viewEventState extends State<ViewEvent>{
                                                             fontSize: 16
                                                         ),
                                                     )
+                                        ),
+                                        Padding (
+                                            padding: const EdgeInsets.only(top: 30.0),
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(
+                                                        Icons.notifications,
+                                                        color: Colors.black54,
+                                                    ),
+                                                    Text(
+                                                        '   ' + 'Notificaciones',
+                                                        style: TextStyle(
+                                                            color: Colors.black54,
+                                                            fontSize: 16
+                                                        ),
+                                                    )
+                                                ],
+                                            )
+                                        ),
+                                        Padding (
+                                            padding: const EdgeInsets.only(top: 10.0, left: 30, bottom: 30),
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(
+                                                        widget.event.notifications ? Icons.check : Icons.close,
+                                                        color: widget.event.notifications ? Colors.green : Colors.redAccent,
+                                                    ),
+                                                    Text(
+                                                        widget.event.notifications ? '   Recordatorio 1h antes' : '   No hay recordatorios activos',
+                                                        style: TextStyle(
+                                                            color: Colors.black87,
+                                                            fontSize: 16
+                                                        ),
+                                                    )
+                                                ],
+                                            )
                                         ),
                                     ],
                                 ),
