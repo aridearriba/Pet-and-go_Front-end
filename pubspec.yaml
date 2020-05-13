@@ -44,6 +44,7 @@ dependencies:
     uuid: 2.0.4
 
     socket_io_client: any
+    firebase_messaging: ^5.1.2
 
 
 

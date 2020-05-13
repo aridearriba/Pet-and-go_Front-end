@@ -1,11 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/model/message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:http/http.dart' as http;
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 // ignore: must_be_immutable
 class ChatPage extends StatefulWidget{
@@ -199,6 +204,33 @@ class _ChatPageState extends State<ChatPage>{
 
     @override
     Widget build(BuildContext context) {
+        String fToken;
+        _firebaseMessaging.getToken().then((token){
+            print(token.toString());
+            fToken = token.toString();
+        });
+
+        _firebaseMessaging.configure(
+            onMessage: (Map<String, dynamic> message) async {
+                print('on message $message');
+            },
+            onResume: (Map<String, dynamic> message) async {
+                print('on resume $message');
+            },
+            onLaunch: (Map<String, dynamic> message) async {
+                print('on launch $message');
+            },
+        );
+
+        String email = widget.userMe.email;
+        String URL = 'https://petandgo.herokuapp.com/api/usuarios/$email/firebase';
+        http.put(URL, headers: <String, String>{
+            HttpHeaders.authorizationHeader: widget.userMe.token.toString(),
+            'Content-Type': 'application/json; charset=UTF-8'
+        }, body: jsonEncode(<String, String>{
+            'token': fToken}));
+
+
         print('hola');
 
 
