@@ -16,8 +16,16 @@ class Principal extends StatefulWidget{
 }
 
 class _PrincipalState extends State<Principal>{
+
+
     @override
     Widget build(BuildContext context) {
+
+        String userChat;
+        if(widget.user.email == 'cvila@gmail.com'){
+            userChat = 'a@prueba.com';
+        }
+        else userChat = 'cvila@gmail.com';
 
         return Scaffold(
             drawer: Menu(widget.user),
@@ -38,7 +46,7 @@ class _PrincipalState extends State<Principal>{
                     Navigator.push(
                         context,
                         MaterialPageRoute( builder: (_) => ChatPage(
-                            widget.user, 'a@prueba.com'
+                            widget.user, userChat
                             )
                         )
                     )
@@ -56,7 +64,7 @@ class _PrincipalState extends State<Principal>{
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
                                             Text(
-                                                'a@prueba.com',
+                                                userChat,
                                                 style: TextStyle(
                                                     color: Colors.grey,
                                                     fontSize: 15.0,

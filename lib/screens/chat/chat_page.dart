@@ -31,6 +31,37 @@ class _ChatPageState extends State<ChatPage>{
 
     List<Message> _missatges = List();
 
+    @override
+    void initState(){
+        socket.on('connect', (_) {
+            print('connect');
+            socket.emit('join', widget.userMe.email);
+        });
+        socket.on('connect_error', (error) {
+            print("connect error");
+            print(error);
+        });
+
+        socket.on('message', (data) {
+            msg = jsonDecode(data);
+            setState(() {
+                if (msg['sender'] != widget.userMe.email){
+                    Message m = new Message(
+                        sender: msg['sender'],
+                        text: msg['text'],
+                        time: msg['time'],
+                        isLiked: false,
+                        unread: false
+                    );
+                    if(!_missatges.contains(m)) {
+                        print('entro aquí');
+                        _missatges.add(m);
+                    }
+                }
+            });
+        });
+    }
+
     _buildMessage(Message message, bool isMe) {
         final Container msg = Container(
             margin: isMe
@@ -130,10 +161,21 @@ class _ChatPageState extends State<ChatPage>{
                                     jsonEncode(<String, String>{
                                         'text': _controller.text,
                                         'sender': widget.userMe.email,
-                                        'receiver': 'a@prueba.com',
+                                        'receiver': widget.userChat,
                                         'time': DateTime.now().hour.toString()+ ':'+ DateTime.now().minute.toString(),
                                     })
                                 );
+                                setState(() {
+                                    _missatges.add(
+                                        Message(
+                                            sender: widget.userMe.email,
+                                            text: _controller.text,
+                                            time: DateTime.now().hour.toString()+ ':'+ DateTime.now().minute.toString(),
+                                            isLiked: false,
+                                            unread: false
+                                        )
+                                    );
+                                });
                                 _controller.clear();
                             }
                             Timer(
@@ -152,32 +194,7 @@ class _ChatPageState extends State<ChatPage>{
     @override
     Widget build(BuildContext context) {
         print('hola');
-        socket.on('connect', (_) {
-            print('connect');
-            socket.emit('message', 'test');
-        });
-        socket.on('connect_error', (error) {
-            print("connect error");
-            print(error);
-        });
 
-
-        socket.on('message', (data) {
-            msg = jsonDecode(data);
-            print('Este es el missatge de text: ${msg}');
-            setState(() {
-                _missatges.add(
-                    Message(
-                        sender: widget.userMe,
-                        text: msg['text'],
-                        time: msg['time'],
-                        isLiked: false,
-                        unread: false
-                    )
-                );
-            });
-
-        });
 
         return Scaffold(
             appBar: PreferredSize(
@@ -213,7 +230,7 @@ class _ChatPageState extends State<ChatPage>{
                                     controller: _listController,
                                     itemBuilder: (BuildContext context, int index) {
                                         final Message message = _missatges[index];
-                                        final bool isMe = message.sender.name == widget.userMe.name;
+                                        final bool isMe = message.sender == widget.userMe.email;
                                         return _buildMessage(message, isMe);
                                     },
                         ),

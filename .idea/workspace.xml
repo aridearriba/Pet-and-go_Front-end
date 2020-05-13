@@ -11,7 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/message.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/message.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/principal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/principal.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,12 +44,13 @@
     <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/build/app/outputs/apk/app.apk" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_Edited_API_29" />
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-01T17:05:56.774Z" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/model" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/build/app/outputs/apk/app.apk" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -219,7 +222,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589319428485</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="enviament missatges">
+      <created>1589374988694</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1589374988694</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,7 +255,8 @@
     <MESSAGE value="canvi pantalles chat screen" />
     <MESSAGE value="enviar missatges" />
     <MESSAGE value="scroll missatges" />
-    <option name="LAST_COMMIT_MESSAGE" value="scroll missatges" />
+    <MESSAGE value="enviament missatges" />
+    <option name="LAST_COMMIT_MESSAGE" value="enviament missatges" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
