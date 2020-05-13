@@ -360,15 +360,18 @@ class MyCustomFormState extends State<EditEventForm> {
         String title = 'Hoy  ' + _controladorHourIni.text;
         String body = '[' + widget.event.user + ']  ' + _controladorTitle.text;
 
-        await MyApp.flutterLocalNotificationsPlugin.schedule(
-            widget.event.id,
-            title,
-            body,
-            scheduledNotificationDateTime,
-            platformChannelSpecifics,
-            payload: 'Default_Sound',
-            androidAllowWhileIdle: true
-        );
+        if (date.isAfter(DateTime.now()))
+        {
+            await MyApp.flutterLocalNotificationsPlugin.schedule(
+                widget.event.id,
+                title,
+                body,
+                scheduledNotificationDateTime,
+                platformChannelSpecifics,
+                payload: 'Default_Sound',
+                androidAllowWhileIdle: true
+            );
+        }
     }
 
     Future _deleteNotification() async {
