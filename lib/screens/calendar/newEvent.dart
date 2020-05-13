@@ -3,10 +3,13 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/menu/menu.dart';
+
+import '../../main.dart';
 
 class NewEvent extends StatelessWidget {
     NewEvent(this.user);
@@ -79,6 +82,8 @@ class MyCustomFormState extends State<NewEventForm> {
     DateTime _dateIni, _dateEnd;
     TimeOfDay _timeIni, _timeEnd;
 
+    bool notificationsOn = false;
+
     // Navigate to Calendari
     nCalendar(){
         Navigator.pushReplacement(
@@ -89,16 +94,6 @@ class MyCustomFormState extends State<NewEventForm> {
 
     @override
     Widget build(BuildContext context) {
-        _dateIni = DateTime.now();
-        _dateEnd = _dateIni.add(Duration(hours: 1));
-        _timeIni = TimeOfDay.fromDateTime(_dateIni);
-        _timeEnd = TimeOfDay.fromDateTime(_dateEnd);
-
-        _controladorDateIni.text = _dateIni.day.toString().padLeft(2, '0') + ". " + _dateIni.month.toString().padLeft(2, '0') + ". " + _dateIni.year.toString();
-        _controladorDateEnd.text = _dateEnd.day.toString().padLeft(2, '0') + ". " + _dateEnd.month.toString().padLeft(2, '0') + ". " + _dateEnd.year.toString();
-        _controladorHourIni.text = _timeIni.hour.toString().padLeft(2, '0') + ':' + _timeIni.minute.toString().padLeft(2, '0');
-        _controladorHourEnd.text = _timeEnd.hour.toString().padLeft(2, '0') + ':' + _timeEnd.minute.toString().padLeft(2, '0');
-
         return Form(
             key: _formKey,
             child: ListView(
@@ -247,6 +242,30 @@ class MyCustomFormState extends State<NewEventForm> {
                         ),
                     ),
                     Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 35),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                                Text(
+                                    'Recordatorio 1h antes',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black54
+                                    )
+                                ),
+                                Switch(
+                                    value: notificationsOn,
+                                    onChanged: (value) {
+                                        setState(() {
+                                            notificationsOn = value;
+                                        });
+                                    },
+                                    activeColor: Colors.green,
+                                ),
+                            ],
+                        )
+                    ),
+                    Padding(
                         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
@@ -256,6 +275,8 @@ class MyCustomFormState extends State<NewEventForm> {
                                             () {
                                                     if (_statusCode == 201) {
                                                         Scaffold.of(context).showSnackBar(SnackBar(content: Text('Evento añadido con éxito!')));
+                                                        print("NOTI " + notificationsOn.toString());
+                                                        if (notificationsOn) _scheduleNotification();
                                                         nCalendar();
                                                     }
                                                     else if (_statusCode == 404) {
@@ -297,5 +318,33 @@ class MyCustomFormState extends State<NewEventForm> {
         _statusCode = response.statusCode;
 
         print("STATUS CODE: $_statusCode");
+    }
+
+    Future _scheduleNotification() async {
+        DateTime date = DateTime(_dateIni.year, _dateIni.month, _dateIni.day, _timeIni.hour, _timeIni.minute);
+        DateTime scheduledNotificationDateTime = date.subtract(Duration(hours: 1));
+
+        print("DATA: " + DateTime.now().toString());
+        print("DATA: " + scheduledNotificationDateTime.toString());
+
+        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+            'your channel id', 'your channel name', 'your channel description',
+            importance: Importance.Max, priority: Priority.High);
+        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+        var platformChannelSpecifics = new NotificationDetails(
+            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+        String data = 'Hoy  ' + _controladorHourIni.text;
+        String text = _controladorTitle.text;
+
+        await MyApp.flutterLocalNotificationsPlugin.schedule(
+            0,
+            data,
+            text,
+            scheduledNotificationDateTime,
+            platformChannelSpecifics,
+            payload: 'Default_Sound',
+            androidAllowWhileIdle: true
+        );
     }
 }

@@ -11,6 +11,14 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/debug/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/calendar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/calendar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/calendar/newEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/newEvent.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/global/global.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/global/global.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" afterDir="false" />
@@ -53,6 +61,7 @@
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/android/app/src/main/res/drawable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/model" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/screens/calendar" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -78,6 +87,11 @@
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app" />
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src" />
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\assets\images" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src\main\res\drawable" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\calendar" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
     </key>
   </component>
   <component name="RunDashboard">

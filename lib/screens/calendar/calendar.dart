@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/calendar/calendarList.dart';
@@ -12,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:http/http.dart' as http;
+
+import '../../main.dart';
 
 class Calendari extends StatefulWidget {
     Calendari(this.user);
