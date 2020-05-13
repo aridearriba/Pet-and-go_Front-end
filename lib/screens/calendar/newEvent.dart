@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/screens/calendar/calendar.dart';
@@ -14,6 +15,7 @@ import '../../main.dart';
 class NewEvent extends StatelessWidget {
     NewEvent(this.user);
     User user;
+
 
     @override
     Widget build(BuildContext context) {
@@ -82,7 +84,7 @@ class MyCustomFormState extends State<NewEventForm> {
     DateTime _dateIni, _dateEnd;
     TimeOfDay _timeIni, _timeEnd;
 
-    bool notificationsOn = false;
+    bool notificationsOn;
 
     // Navigate to Calendari
     nCalendar(){
@@ -90,6 +92,23 @@ class MyCustomFormState extends State<NewEventForm> {
             context,
             MaterialPageRoute(builder: (context) => Calendari(widget.user))
         );
+    }
+
+    @override
+    void initState() {
+        notificationsOn = false;
+
+        _dateIni = DateTime.now();
+        _dateEnd = DateTime.now();
+        _timeIni = TimeOfDay.fromDateTime(_dateIni);
+        _timeEnd =  _timeIni.replacing(hour: _timeIni.hour + 1);
+
+        _controladorDateIni.text = _dateIni.day.toString().padLeft(2, '0') + ". " + _dateIni.month.toString().padLeft(2, '0') + ". " + _dateIni.year.toString();
+        _controladorDateEnd.text = _dateEnd.day.toString().padLeft(2, '0') + ". " + _dateEnd.month.toString().padLeft(2, '0') + ". " + _dateEnd.year.toString();
+        _controladorHourIni.text = _timeIni.hour.toString().padLeft(2, '0') + ':' + _timeIni.minute.toString().padLeft(2, '0');
+        _controladorHourEnd.text = _timeEnd.hour.toString().padLeft(2, '0') + ':' + _timeEnd.minute.toString().padLeft(2, '0');
+
+        super.initState();
     }
 
     @override
@@ -275,7 +294,6 @@ class MyCustomFormState extends State<NewEventForm> {
                                             () {
                                                     if (_statusCode == 201) {
                                                         Scaffold.of(context).showSnackBar(SnackBar(content: Text('Evento añadido con éxito!')));
-                                                        print("NOTI " + notificationsOn.toString());
                                                         if (notificationsOn) _scheduleNotification();
                                                         nCalendar();
                                                     }
@@ -297,6 +315,7 @@ class MyCustomFormState extends State<NewEventForm> {
         );
     }
 
+    Evento _event;
     Future<void> addEvent() async{
         var email = widget.user.email;
         var eventDateIni = new DateTime(_dateIni.year, _dateIni.month, _dateIni.day, _timeIni.hour, _timeIni.minute);
@@ -314,18 +333,16 @@ class MyCustomFormState extends State<NewEventForm> {
                 'usuario': widget.user.email,
                 'fecha': dateStringIni,
                 'fechaFin': dateStringEnd,
-                'descripcion': _controladorDescription.text}));
+                'descripcion': _controladorDescription.text,
+                'notificaciones': notificationsOn
+            }));
         _statusCode = response.statusCode;
-
-        print("STATUS CODE: $_statusCode");
+        _event = Evento.fromJson(jsonDecode(response.body));
     }
 
     Future _scheduleNotification() async {
         DateTime date = DateTime(_dateIni.year, _dateIni.month, _dateIni.day, _timeIni.hour, _timeIni.minute);
         DateTime scheduledNotificationDateTime = date.subtract(Duration(hours: 1));
-
-        print("DATA: " + DateTime.now().toString());
-        print("DATA: " + scheduledNotificationDateTime.toString());
 
         var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
             'your channel id', 'your channel name', 'your channel description',
@@ -335,10 +352,10 @@ class MyCustomFormState extends State<NewEventForm> {
             androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
         String data = 'Hoy  ' + _controladorHourIni.text;
-        String text = _controladorTitle.text;
+        String text = '[' + widget.user.email + ']  ' + _controladorTitle.text;
 
         await MyApp.flutterLocalNotificationsPlugin.schedule(
-            0,
+            _event.id,
             data,
             text,
             scheduledNotificationDateTime,
@@ -347,4 +364,5 @@ class MyCustomFormState extends State<NewEventForm> {
             androidAllowWhileIdle: true
         );
     }
+
 }

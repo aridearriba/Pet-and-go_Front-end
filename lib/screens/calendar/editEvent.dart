@@ -3,12 +3,15 @@ import 'dart:io';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/calendar/viewEvent.dart';
 import 'package:petandgo/screens/menu/menu.dart';
+
+import '../../main.dart';
 
 class EditEvent extends StatelessWidget {
     EditEvent(this.user, this.event, this._deviceCalendarPlugin, this._currentCalendarID);
@@ -87,6 +90,8 @@ class MyCustomFormState extends State<EditEventForm> {
     DateTime _dateIni, _dateEnd;
     TimeOfDay _timeIni, _timeEnd;
 
+    bool notificationsOn;
+
     // Navigate to viewEvent
     nViewEvent(){
         Navigator.pushReplacement(
@@ -96,7 +101,9 @@ class MyCustomFormState extends State<EditEventForm> {
     }
 
     @override
-    Widget build(BuildContext context) {
+    void initState() {
+        notificationsOn = widget.event.notifications;
+
         _dateIni = widget.event.dateIni;
         _dateEnd = widget.event.dateEnd;
         _timeIni = TimeOfDay.fromDateTime(_dateIni);
@@ -109,6 +116,11 @@ class MyCustomFormState extends State<EditEventForm> {
         _controladorHourEnd.text = _timeEnd.hour.toString().padLeft(2, '0') + ':' + _timeEnd.minute.toString().padLeft(2, '0');
         _controladorDescription.text = widget.event.description;
 
+        super.initState();
+    }
+
+    @override
+    Widget build(BuildContext context) {
         return Form(
             key: _formKey,
             child: ListView(
@@ -204,6 +216,9 @@ class MyCustomFormState extends State<EditEventForm> {
                                         if(value.isEmpty){
                                             return 'Por favor, pon una fecha.';
                                         }
+                                        if(_dateEnd.isBefore(_dateIni)){
+                                            return 'La fecha fin debe ser posterior a la de inicio.';
+                                        }
                                         return null;
                                     },
                                     onSaved: (String val) {},
@@ -229,6 +244,11 @@ class MyCustomFormState extends State<EditEventForm> {
                                         if(value.isEmpty){
                                             return 'Por favor, pon una hora.';
                                         }
+                                        if(_dateIni.compareTo(_dateEnd) == 0 &&
+                                            ((_timeEnd.hour == _timeIni.hour && _timeEnd.minute <= _timeIni.minute) ||
+                                                (_timeEnd.hour < _timeIni.hour))){
+                                            return 'La hora fin debe ser posterior a la de inicio.';
+                                        }
                                         return null;
                                     },
                                     onSaved: (String val) {},
@@ -249,23 +269,48 @@ class MyCustomFormState extends State<EditEventForm> {
                         ),
                     ),
                     Padding(
+                        padding: const EdgeInsets.only(top: 30.0, left: 40, right: 30),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                                Text(
+                                    'Recordatorio 1h antes',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black54
+                                    )
+                                ),
+                                Switch(
+                                    value: notificationsOn,
+                                    onChanged: (value) {
+                                        setState(() {
+                                            notificationsOn = value;
+                                        });
+                                    },
+                                    activeColor: Colors.green,
+                                ),
+                            ],
+                        )
+                    ),
+                    Padding(
                         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
-                                updateEvent().whenComplete(
-                                    () {
-                                        if (_formKey.currentState.validate()) {
-                                            _formKey.currentState.save();
+                                if (_formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                    updateEvent().whenComplete(
+                                        () {
                                             if (_statusCode == 200) {
                                                 Scaffold.of(context).showSnackBar(SnackBar(content: Text('Evento actualizado')));
+                                                if (notificationsOn) _scheduleNotification();
+                                                else                 _deleteNotification();
                                                 nViewEvent();
                                             }
                                             else {
                                                 Scaffold.of(context).showSnackBar(SnackBar(content: Text('No se han podido guardar los cambios.')));
                                             }
-                                        }
+                                        });
                                     }
-                                );
                             },
                             child: Text('Guardar cambios'),
                         ),
@@ -294,8 +339,39 @@ class MyCustomFormState extends State<EditEventForm> {
                 'usuario': widget.user.email,
                 'fecha': dateStringIni,
                 'fechaFin': dateStringEnd,
-                'descripcion': _controladorDescription.text}));
+                'descripcion': _controladorDescription.text,
+                'notificaciones': notificationsOn
+            }));
         _statusCode = response.statusCode;
         widget.event = Evento.fromJson(jsonDecode(response.body));
+    }
+
+    Future _scheduleNotification() async {
+        DateTime date = DateTime(_dateIni.year, _dateIni.month, _dateIni.day, _timeIni.hour, _timeIni.minute);
+        DateTime scheduledNotificationDateTime = date.subtract(Duration(hours: 1));
+
+        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+            'your channel id', 'your channel name', 'your channel description',
+            importance: Importance.Max, priority: Priority.High);
+        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+        var platformChannelSpecifics = new NotificationDetails(
+            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+        String title = 'Hoy  ' + _controladorHourIni.text;
+        String body = '[' + widget.event.user + ']  ' + _controladorTitle.text;
+
+        await MyApp.flutterLocalNotificationsPlugin.schedule(
+            widget.event.id,
+            title,
+            body,
+            scheduledNotificationDateTime,
+            platformChannelSpecifics,
+            payload: 'Default_Sound',
+            androidAllowWhileIdle: true
+        );
+    }
+
+    Future _deleteNotification() async {
+        await MyApp.flutterLocalNotificationsPlugin.cancel(widget.event.id);
     }
 }
