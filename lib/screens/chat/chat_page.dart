@@ -114,6 +114,12 @@ class _ChatPageState extends State<ChatPage>{
         if (isMe) {
             return msg;
         }
+
+        Timer(
+            Duration(milliseconds: 100),
+                () => _listController
+                .jumpTo(_listController.position.maxScrollExtent)
+        );
         return Row(
             children: <Widget>[
                 msg,
