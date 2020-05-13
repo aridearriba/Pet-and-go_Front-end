@@ -11,12 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -244,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589401580479</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="notifications #1">
+      <created>1589405334339</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1589405334339</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -272,7 +274,8 @@
     <MESSAGE value="scroll missatges" />
     <MESSAGE value="enviament missatges" />
     <MESSAGE value="scroll correcte" />
-    <option name="LAST_COMMIT_MESSAGE" value="scroll correcte" />
+    <MESSAGE value="notifications #1" />
+    <option name="LAST_COMMIT_MESSAGE" value="notifications #1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

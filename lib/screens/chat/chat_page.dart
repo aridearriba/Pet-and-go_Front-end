@@ -65,6 +65,31 @@ class _ChatPageState extends State<ChatPage>{
                 }
             });
         });
+
+        String fToken;
+        _firebaseMessaging.getToken().then((token){
+            print(token.toString());
+            fToken = token.toString();
+            String email = widget.userMe.email;
+            String URL = 'https://petandgochat.herokuapp.com/api/usuarios/$email/firebase';
+            http.put(URL, headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.userMe.token.toString(),
+                'Content-Type': 'application/json; charset=utf-8'
+            }, body: jsonEncode(<String, String>{
+                'token': fToken}));
+        });
+
+        _firebaseMessaging.configure(
+            onMessage: (Map<String, dynamic> message) async {
+                print('on message $message');
+            },
+            onResume: (Map<String, dynamic> message) async {
+                print('on resume $message');
+            },
+            onLaunch: (Map<String, dynamic> message) async {
+                print('on launch $message');
+            },
+        );
     }
 
     _buildMessage(Message message, bool isMe) {
@@ -204,31 +229,6 @@ class _ChatPageState extends State<ChatPage>{
 
     @override
     Widget build(BuildContext context) {
-        String fToken;
-        _firebaseMessaging.getToken().then((token){
-            print(token.toString());
-            fToken = token.toString();
-        });
-
-        _firebaseMessaging.configure(
-            onMessage: (Map<String, dynamic> message) async {
-                print('on message $message');
-            },
-            onResume: (Map<String, dynamic> message) async {
-                print('on resume $message');
-            },
-            onLaunch: (Map<String, dynamic> message) async {
-                print('on launch $message');
-            },
-        );
-
-        String email = widget.userMe.email;
-        String URL = 'https://petandgo.herokuapp.com/api/usuarios/$email/firebase';
-        http.put(URL, headers: <String, String>{
-            HttpHeaders.authorizationHeader: widget.userMe.token.toString(),
-            'Content-Type': 'application/json; charset=UTF-8'
-        }, body: jsonEncode(<String, String>{
-            'token': fToken}));
 
 
         print('hola');
