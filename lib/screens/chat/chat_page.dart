@@ -25,6 +25,8 @@ class _ChatPageState extends State<ChatPage>{
         'transports': ['websocket']
     });
 
+    Map<String, dynamic> msg = new Map();
+
     ScrollController _listController = new ScrollController();
 
     List<Message> _missatges = List();
@@ -61,8 +63,8 @@ class _ChatPageState extends State<ChatPage>{
                     Text(
                         message.time,
                         style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 16.0,
+                            color: Colors.grey,
+                            fontSize: 11.0,
                             fontWeight: FontWeight.w600,
                         ),
                     ),
@@ -84,16 +86,6 @@ class _ChatPageState extends State<ChatPage>{
         return Row(
             children: <Widget>[
                 msg,
-                IconButton(
-                    icon: message.isLiked
-                        ? Icon(Icons.favorite)
-                        : Icon(Icons.favorite_border),
-                    iconSize: 30.0,
-                    color: message.isLiked
-                        ? Theme.of(context).primaryColor
-                        : Colors.blueGrey,
-                    onPressed: () {},
-                )
             ],
         );
     }
@@ -134,22 +126,21 @@ class _ChatPageState extends State<ChatPage>{
                         color: Theme.of(context).primaryColor,
                         onPressed: () {
                             if(_controller.text.isNotEmpty){
-                                setState(() {
-                                    Message msg = new Message(
-                                        sender: widget.userMe,
-                                        time: DateTime.now().toString(),
-                                        text: _controller.text,
-                                        isLiked: false,
-                                        unread: false
-                                    );
-                                    _missatges.add(msg);
-                                    _controller.clear();
-                                });
+                                socket.emit('message',
+                                    jsonEncode(<String, String>{
+                                        'text': _controller.text,
+                                        'sender': widget.userMe.email,
+                                        'receiver': 'a@prueba.com',
+                                        'time': DateTime.now().hour.toString()+ ':'+ DateTime.now().minute.toString(),
+                                    })
+                                );
+                                _controller.clear();
                             }
                             Timer(
                                 Duration(milliseconds: 100),
                                     () => _listController
-                                    .jumpTo(_listController.position.maxScrollExtent));
+                                    .jumpTo(_listController.position.maxScrollExtent)
+                            );
 
                         },
                     ),
@@ -170,7 +161,24 @@ class _ChatPageState extends State<ChatPage>{
             print(error);
         });
 
-        socket.on('message', (data) => print(data));
+
+        socket.on('message', (data) {
+            msg = jsonDecode(data);
+            print('Este es el missatge de text: ${msg}');
+            setState(() {
+                _missatges.add(
+                    Message(
+                        sender: widget.userMe,
+                        text: msg['text'],
+                        time: msg['time'],
+                        isLiked: false,
+                        unread: false
+                    )
+                );
+            });
+
+        });
+
         return Scaffold(
             appBar: PreferredSize(
                 preferredSize: Size.fromHeight(60.0),
@@ -198,21 +206,6 @@ class _ChatPageState extends State<ChatPage>{
             ),
             body: Column(
                 children: <Widget>[
-                    Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: FloatingActionButton(
-                            onPressed: (){
-                                if(_controller.text.isNotEmpty){
-                                    socket.emit('message',
-                                        jsonEncode(<String, String>{
-                                            'data': _controller.text,
-                                            'sender': widget.userMe.email,
-                                            'receiver': 'a@prueba.com'}));
-                                }
-                            },
-                            child: Icon(Icons.send),
-                        ),
-                    ),
                     Expanded(
                         child: ListView.builder(
                                     padding: EdgeInsets.all(20.0),
@@ -230,79 +223,4 @@ class _ChatPageState extends State<ChatPage>{
             ),
         );
     }
-
-    /*
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-            backgroundColor: Theme.of(context).primaryColor,
-            appBar: PreferredSize(
-                preferredSize: Size.fromHeight(60.0),
-                child: AppBar(
-                    title: Row(
-                        children: <Widget>[
-                            SizedBox(width: 55.0,),
-                            CircleAvatar(
-                                radius: 20.0,
-                                child: Icon(Icons.person),
-                            ),
-                            SizedBox(width: 15.0),
-                            Text(
-                                widget.userChat.name,
-                                style: TextStyle(
-                                    fontSize: 26.0,
-                                    fontWeight: FontWeight.bold,
-                                ),
-                            )
-                        ],
-                    ),
-                    centerTitle: true,
-                    elevation: 0.0,
-                    actions: <Widget>[
-                        IconButton(
-                            icon: Icon(Icons.more_horiz),
-                            iconSize: 30.0,
-                            color: Colors.white,
-                            onPressed: () {},
-                        ),
-                    ],
-                ),
-            ),
-            body: GestureDetector(
-                onTap: () => FocusScope.of(context).unfocus(),
-                child: Column(
-                    children: <Widget>[
-                        Expanded(
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                    ),
-                                ),
-                                child: ClipRRect(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30.0),
-                                        topRight: Radius.circular(30.0),
-                                    ),
-                                    child: ListView.builder(
-                                        reverse: true,
-                                        padding: EdgeInsets.only(top: 15.0),
-                                        itemCount: messages.length,
-                                        itemBuilder: (BuildContext context, int index) {
-                                            final Message message = messages[index];
-                                            final bool isMe = message.sender.name == currentUser.name;
-                                            return _buildMessage(message, isMe);
-                                        },
-                                    ),
-                                ),
-                            ),
-                        ),
-                        _buildMessageComposer(),
-                    ],
-                ),
-            ),
-        );
-    }*/
 }
