@@ -22,6 +22,8 @@
       <change beforePath="$PROJECT_DIR$/lib/global/global.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/global/global.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/home.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/SquarePerreParadaView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/nuevaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/nuevaPerreParada.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/calendar/editEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/editEvent.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
@@ -79,6 +81,13 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\migue\AndroidStudioProjects\Pet-and-go_Front-end\lib\screens\quedadas" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src\main\res\drawable" />
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\calendar" />
@@ -189,6 +198,35 @@
       <option name="presentableId" value="Default" />
       <updated>1584006262633</updated>
     </task>
+    <task id="LOCAL-00001" summary="Navegacion entre lista de quedadas y su vista individual">
+      <created>1588608733914</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1588608733914</updated>
+    </task>
+    <task id="LOCAL-00002" summary="listas de perreparadas">
+      <created>1589137170425</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1589137170425</updated>
+    </task>
+    <task id="LOCAL-00003" summary="esto es una prueba">
+      <created>1589140185704</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1589140185704</updated>
+    </task>
+    <task id="LOCAL-00004" summary="busqueda de lugares predictiva y mapa movil">
+      <created>1589264994343</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1589264994343</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <task id="LOCAL-00001" summary="creation chat principal page">
       <created>1589053342777</created>
       <option name="number" value="00001" />
@@ -288,6 +326,13 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Navegacion entre lista de quedadas y su vista individual" />
+    <MESSAGE value="listas de perreparadas" />
+    <MESSAGE value="esto es una prueba" />
+    <MESSAGE value="busqueda de lugares predictiva y mapa movil" />
+    <option name="LAST_COMMIT_MESSAGE" value="busqueda de lugares predictiva y mapa movil" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="creation chat principal page" />
