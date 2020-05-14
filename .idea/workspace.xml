@@ -11,6 +11,16 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/PuntosInteres.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/PuntosInteres.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/menu/menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/menu/menu.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/puntosDeInteres/SquarePuntosInteresView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/puntosDeInteres/SquarePuntosInteresView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/puntosDeInteres/listadoPuntosInteresView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/puntosDeInteres/listadoPuntosInteresView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/puntosDeInteres/puntosInteresTabView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/puntosDeInteres/puntosInteresTabView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
+    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/model/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/event.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/calendar/editEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/calendar/editEvent.dart" afterDir="false" />
@@ -34,6 +44,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_Edited_API_29" />
   <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_API_29" />
   <component name="ExecutionTargetManager" SELECTED_TARGET="HYF0219105004631" />
   <component name="FileTemplateManagerImpl">
@@ -66,10 +77,11 @@
   <component name="PropertiesComponent">
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/build/app/outputs/apk/app.apk" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_Edited_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-01T17:05:56.774Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-12T20:26:25.908Z" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/android/app/src/main/res/drawable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/model" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/screens/calendar" />
@@ -81,12 +93,19 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\assets\images" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\puntosDeInteres" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\global" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\puntosDeInteres\puntoInteres" />
       <recent name="C:\Users\migue\AndroidStudioProjects\Pet-and-go_Front-end\lib\screens\quedadas" />
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app" />
-      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src\main\res\drawable" />
@@ -357,10 +376,7 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="FlutterRunConfigurationType">
-        <watch expression="json[&quot;id&quot;]" language="Dart" />
-        <watch expression="int.parse(json['id'])" language="Dart" />
-        <watch expression="misPerreParadas" language="Dart" />
-        <watch expression="misQuedadas" language="Dart" />
+        <watch expression="widget.pts" language="Dart" />
       </configuration>
     </watches-manager>
   </component>

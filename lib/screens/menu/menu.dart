@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
+import 'package:petandgo/screens/puntosDeInteres/puntosInteresTabView.dart';
 import 'package:petandgo/screens/quedadas/perreParadaTabView.dart';
 import 'package:petandgo/screens/settings.dart';
 import 'package:petandgo/screens/chat/principal.dart';
@@ -58,6 +59,14 @@ class _MenuContent extends State<Menu> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => QuedadasTabView(widget.user))
+        );
+    }
+
+    // Navigate to MyPets
+    nPuntosInteres(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => PuntosInteresTabView(widget.user))
         );
     }
     // Navigate to Settings
@@ -146,6 +155,11 @@ class _MenuContent extends State<Menu> {
                         leading: Icon(Icons.sentiment_satisfied),
                         title: Text('Mis quedadas'),
                         onTap: () => nMisQuedadas(),
+                    ),
+                    ListTile(
+                        leading: Icon(Icons.account_balance),
+                        title: Text('Puntos de interes'),
+                        onTap: () => nPuntosInteres(),
                     ),
                     ListTile(
                         leading: Icon(Icons.calendar_today),

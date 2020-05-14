@@ -23,6 +23,9 @@ dependencies:
     #A powerful Http client for Dart, which supports Interceptors, Global configuration, FormData, Request Cancellation, File downloading, Timeout etc.
     dio: 3.0.9 #latest version
 
+    #carousel_pro utilizado para mostrar iamgenes
+    carousel_pro:
+
     # Google_map plugin
     google_maps_flutter: ^0.5.26+2
 
