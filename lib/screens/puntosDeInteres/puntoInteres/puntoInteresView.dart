@@ -159,29 +159,5 @@ class PuntoInteresState extends State<PuntoInteresView> {
     return result;
   }
 
-/*
-    Future<bool> changeProfileImage(String url,String path) async {
-        var queryParameters = {
-            "size": "600x300",
-            "location": widget.miniQuedada.latitud.toString()  + "," + widget.miniQuedada.longitud.toString(),
-            "fov" : "90",
-            "heading" : "235",
-            "pitch" : "10",
-            "key" : PLACES_API_KEY,
-        };
-
-        Uri uri = new Uri.https(url, path,queryParameters);
-        var res;
-        try {
-            final response = await http.get(uri);
-            res = json.decode(response.body);
-            if (res.containsKey("status"))
-                return res["status"] == "OK";
-        }catch(e) {
-            return false;
-        }
-
-    }
-*/
 }
 
