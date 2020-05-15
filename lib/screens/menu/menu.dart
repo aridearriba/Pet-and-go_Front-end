@@ -3,8 +3,12 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
+import 'package:petandgo/screens/puntosDeInteres/puntosInteresTabView.dart';
+import 'package:petandgo/screens/quedadas/perreParadaTabView.dart';
 import 'package:petandgo/screens/settings.dart';
+import 'package:petandgo/screens/chat/principal.dart';
 
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
@@ -49,11 +53,41 @@ class _MenuContent extends State<Menu> {
             MaterialPageRoute(builder: (context) => MyPets(widget.user))
         );
     }
+
+    // Navigate to MyPets
+    nMisQuedadas(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => QuedadasTabView(widget.user))
+        );
+    }
+
+    // Navigate to MyPets
+    nPuntosInteres(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => PuntosInteresTabView(widget.user))
+        );
+    }
     // Navigate to Settings
     nSettings(){
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Settings(widget.user))
+        );
+    }
+    // Navigate to Calendar
+    nCalendar(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Calendari(widget.user))
+        );
+    }
+
+    nChat(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Principal(widget.user))
         );
     }
 
@@ -118,6 +152,26 @@ class _MenuContent extends State<Menu> {
                         onTap: () => nMyPets(),
                     ),
                     ListTile(
+                        leading: Icon(Icons.sentiment_satisfied),
+                        title: Text('Mis quedadas'),
+                        onTap: () => nMisQuedadas(),
+                    ),
+                    ListTile(
+                        leading: Icon(Icons.account_balance),
+                        title: Text('Puntos de interes'),
+                        onTap: () => nPuntosInteres(),
+                    ),
+                    ListTile(
+                        leading: Icon(Icons.calendar_today),
+                        title: Text('Calendario'),
+                        onTap: () => nCalendar(),
+                    ),
+                    ListTile(
+                        leading: Icon(Icons.chat),
+                        title: Text('Chat'),
+                        onTap: () => nChat(),
+                    ),
+                    ListTile(
                         leading: Icon(Icons.settings),
                         title: Text('Configuración'),
                         onTap: () => nSettings(),
@@ -143,4 +197,6 @@ class _MenuContent extends State<Menu> {
         _bytesImage = Base64Decoder().convert(_imgString);
         return Image.memory(_bytesImage).image;
     }
+
+
 }

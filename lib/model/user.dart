@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 
 class User {
     String _username;
@@ -11,6 +12,7 @@ class User {
     String _profileImageUrl;
     String _token;
     String _image;
+    Position pos;
 
     User({String username, String password,String email, String name, String token})
     {

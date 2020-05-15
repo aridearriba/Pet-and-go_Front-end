@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -248,15 +249,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
     Future<void> getProfileImage() async{
         var email = user.email;
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/image"));
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/image"));
         user.image = response.body;
     }
 
     Future<void> getData() async{
         var email = controladorEmail.text;
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"+email));
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email));
         user = User.fromJson(jsonDecode(response.body));
         user.token = _token;
+        print("USER: " + user.toString());
+        print("TOKEN: " + user.token.toString());
     }
 
     Future<void> _googleAccountSignIn() async{
@@ -279,7 +282,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
 
     Future<void> login(String email, String password) async{
-        http.Response response = await post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/login"),
+         Uri uri= new Uri.http(Global.apiURL, "/api/usuarios/login");
+        http.Response response = await post(uri,
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
@@ -291,7 +295,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     }
 
     Future<void> signUp() async{
-        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"),
+        http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/usuarios/"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },

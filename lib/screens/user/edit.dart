@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -323,7 +324,7 @@ class MyCustomFormState extends State<EditForm>{
     }
 
     Future<void> login(String email, String password) async{
-        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/login"),
+        http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
@@ -338,7 +339,7 @@ class MyCustomFormState extends State<EditForm>{
         var email = widget.user.email;
         var name = _controladorName.text;
         var username = _controladorUsername.text;
-        http.Response response = await http.put(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email),
+        http.Response response = await http.put(new Uri.http(Global.apiURL, "/api/usuarios/" + email),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString()
@@ -355,7 +356,7 @@ class MyCustomFormState extends State<EditForm>{
         var email = widget.user.email;
         var old = _controladorOldPasswd.text;
         var nueva = _controladorNewPasswd.text;
-        http.Response response = await http.put(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/forgot"),
+        http.Response response = await http.put(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/forgot"),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString()
@@ -370,7 +371,7 @@ class MyCustomFormState extends State<EditForm>{
 
     Future<void> getData() async{
         var email = widget.user.email;
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"+email));
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email));
         userRefresh = User.fromJson(jsonDecode(response.body));
         userRefresh.token = widget.user.token;
         userRefresh.image = widget.user.image;

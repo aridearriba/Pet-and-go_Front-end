@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,6 +50,7 @@ class _PetsState extends State<MyPets>
         );
     }
 
+    Mascota _mascota = new Mascota();
 
     @override
     Widget build(BuildContext context) {
@@ -172,8 +174,11 @@ class _PetsState extends State<MyPets>
                                                     title: Text(
                                                         _mascotas[index].id
                                                             .name),
-                                                    onTap: () =>
-                                                        nPet(_mascotas[index]),
+                                                    onTap:
+                                                        () {
+                                                            _mascota = _mascotas[index];
+                                                            getPetProfileImage().whenComplete(() => nPet(_mascota));
+                                                        },
                                                     //trailing: Icon(Icons.keyboard_arrow_right),
                                                     trailing: IconButton(
                                                         icon: Icon(
@@ -226,15 +231,26 @@ class _PetsState extends State<MyPets>
 
     Future<List<Mascota>> getMascotas() async{
         var email = widget.user.email;
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas"));
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/mascotas"));
         Iterable list = json.decode(response.body);
         _mascotas = list.map((model) => Mascota.fromJson(model)).toList();
         return _mascotas;
     }
 
+    Future<void> getPetProfileImage() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/mascotas/" + _mascota.id.name + "/image"),
+            headers: <String, String> {
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+        );
+        _mascota.image = response.body;
+    }
+
     Future<void> deleteMascota(String petName) async{
         var email = widget.user.email;
-        final http.Response response = await http.delete(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" +
+        final http.Response response = await http.delete(new Uri.http(Global.apiURL, "/api/usuarios/" +
             email + "/mascotas/" + petName),
             headers: <String, String> {
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',

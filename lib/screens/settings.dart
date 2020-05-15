@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
@@ -12,6 +15,8 @@ import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
 
 import 'package:http/http.dart' as http;
+
+import '../main.dart';
 
 class Settings extends StatefulWidget {
     Settings(this.user);
@@ -60,6 +65,17 @@ class _SettingsState extends State<Settings>
         );
     }
 
+    List<Evento> listEvents;
+
+    @override
+    void initState()  {
+        getEvents().whenComplete(
+            ()  {
+                if (MyApp.calendarNotifications) _enableCalendarNotifications();
+            }
+        );
+        super.initState();
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -67,7 +83,7 @@ class _SettingsState extends State<Settings>
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Perfil',
+                    'Configuración',
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -100,20 +116,29 @@ class _SettingsState extends State<Settings>
                                                 textAlign: TextAlign.left,
                                             )
                                         ),
-                                        Padding (
-                                            padding: const EdgeInsets.only(top: 5.0, bottom: 30),
+                                        Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 10.0),
                                             child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: <Widget>[
-                                                    /*Icon(
-                                                        Icons.email,
-                                                        color: Colors.black54,
-                                                    ),*/
                                                     Text(
-                                                        '   ',
+                                                        'Notificaciones calendario',
                                                         style: TextStyle(
-                                                            color: Colors.black54,
-                                                        ),
-                                                    )
+                                                            fontSize: 16,
+                                                            color: Colors.black54
+                                                        )
+                                                    ),
+                                                    Switch(
+                                                        value: MyApp.calendarNotifications,
+                                                        onChanged: (value) {
+                                                            setState(() {
+                                                                MyApp.calendarNotifications = value;
+                                                            });
+                                                            if (MyApp.calendarNotifications)  _enableCalendarNotifications();
+                                                            else                              _disableCalendarNotifications();
+                                                        },
+                                                        activeColor: Colors.green,
+                                                    ),
                                                 ],
                                             )
                                         ),
@@ -125,7 +150,7 @@ class _SettingsState extends State<Settings>
                                     children: <Widget>[
                                         // PETS
                                         Padding(
-                                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                            padding: const EdgeInsets.symmetric(vertical: 20.0),
                                             child: Text(
                                                 "CUENTA",
                                                 style: TextStyle(
@@ -194,11 +219,58 @@ class _SettingsState extends State<Settings>
 
     Future<void> deleteAccount() async{
         var email = widget.user.email;
-        final http.Response response = await http.delete(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email),
+        final http.Response response = await http.delete(new Uri.http(Global.apiURL, "/api/usuarios/" + email),
             headers: <String, String> {
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString(),
             },
         );
+    }
+
+    Future<List<Evento>> getEvents() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/calendario/" + email + "/eventos"));
+        Iterable list = json.decode(response.body);
+        listEvents = list.map((model) => Evento.fromJson(model)).toList();
+    }
+
+    Future _scheduleNotification(int id, String title, String body, DateTime scheduledDateTime) async{
+        var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+            'your channel id', 'your channel name', 'your channel description',
+            importance: Importance.Max, priority: Priority.High);
+        var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+        var platformChannelSpecifics = new NotificationDetails(
+            androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+
+        await MyApp.flutterLocalNotificationsPlugin.schedule(
+            id,
+            title,
+            body,
+            scheduledDateTime,
+            platformChannelSpecifics,
+            payload: 'Default_Sound',
+            androidAllowWhileIdle: true
+        );
+    }
+
+    Future _enableCalendarNotifications() async {
+        listEvents.forEach((e) async {
+            DateTime date = DateTime(e.dateIni.year, e.dateIni.month, e.dateIni.day, e.dateIni.hour, e.dateIni.minute);
+            DateTime scheduledDateTime = date.subtract(Duration(hours: 1));
+
+            String title = 'Hoy  ' + e.dateIni.hour.toString().padLeft(2, '0') + ': ' + e.dateIni.minute.toString().padLeft(2, '0');
+            String body = '[' + e.user + ']  ' + e.title;
+
+            if (e.notifications) {
+                if (date.isAfter(DateTime.now()))
+                    _scheduleNotification(e.id, title, body, scheduledDateTime);
+            }
+        });
+    }
+
+    Future _disableCalendarNotifications() async {
+        listEvents.forEach((e) async {
+            if (e.notifications) await MyApp.flutterLocalNotificationsPlugin.cancel(e.id);
+        });
     }
 }

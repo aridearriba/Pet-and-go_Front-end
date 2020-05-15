@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -254,7 +255,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     }
 
     Future<void> signUp() async{
-        http.Response response = await http.post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"),
+        http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/usuarios/"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
@@ -278,6 +279,7 @@ class MyCustomFormState extends State<MyCustomForm> {
         _bytesImage = Base64Decoder().convert(_imgString);
         return Image.memory(_bytesImage, fit: BoxFit.cover, width: 150, height: 150);
     }
+
 
     void _pickImage() async {
         final imageSource = await showDialog<ImageSource>(
@@ -312,7 +314,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     Future<void> changeProfileImage() async{
         var email = _controladorEmail.text;
 
-        http.Response response = await http.put(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/" + email + "/image"),
+        http.Response response = await http.put(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/image"),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: user.token.toString(),
@@ -325,13 +327,13 @@ class MyCustomFormState extends State<MyCustomForm> {
 
     Future<void> getData() async{
         var email = _controladorEmail.text;
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/"+email));
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email));
         user = User.fromJson(jsonDecode(response.body));
         user.token = _token;
     }
 
     Future<void> login(String email, String password) async{
-        http.Response response = await post(new Uri.http("petandgo.herokuapp.com", "/api/usuarios/login"),
+        http.Response response = await post(new Uri.http(Global.apiURL, "/api/usuarios/login"),
             headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
             },
