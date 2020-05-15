@@ -28,10 +28,14 @@ https://docs.google.com/spreadsheets/d/1HZ2jMO45pnqwhHH_Od_mxbTQ_9pZfgjP6klXEAgS
 ### Sprint 2
 > **Sprint Master:** Ariadna de Arriba Serra
 
+### Sprint 3
+> **Sprint Master:** Miguel Angel Serrat Gil
+
 #### Front-End
-- Ariadna de Arriba Serra
+- Ariadna de Arriba Serra 
 - Miguel Angel Serrat Gil
 - Coral Vila Prieto
+- Luis Belloso Estepa (Sprint 3)
 
 #### Back-End
 - Luis Belloso Estepa
