@@ -46,7 +46,7 @@ class VisorImagenesState extends State<VisorImagenesWidget> {
                     itemCount: widget.imagenes.length,
                     itemBuilder: (BuildContext c, int i) {
                       return Image(
-                        fit: BoxFit.fitWidth,
+                        fit: BoxFit.cover,
                         image: widget.imagenes[i],
                       );
                     }

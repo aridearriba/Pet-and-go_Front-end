@@ -76,7 +76,9 @@ class PuntoInteresState extends State<PuntoInteresView> {
                 ),
               ),
               Text(""),
-              if(widget.puntoInteres.openingHours.openNow)
+              if(widget.puntoInteres.openingHours == null)
+                Text("")
+              else if(widget.puntoInteres.openingHours.openNow)
                 Text(
                   "Abierto ahora mismo",
                   textAlign: TextAlign.left,
@@ -146,7 +148,7 @@ class PuntoInteresState extends State<PuntoInteresView> {
       widget.puntoInteres.photos.forEach((element) {
         try {
           ref = element.photoReference;
-          urlImage = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + ref + "&key=" + PLACES_API_KEY;
+          urlImage = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=200&photoreference=" + ref + "&key=" + PLACES_API_KEY;
           i = Image.network(urlImage).image;
           result.add(i);
         }catch(e){}

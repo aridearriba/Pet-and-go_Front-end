@@ -93,7 +93,7 @@ class ListaPerreParadasWidget extends StatelessWidget {
 
       case 'admin':
         {
-          var queryParameters = {tipo: user.email};
+          var queryParameters = {tipo: user.email,"order": "time"};
           http.Response response = await http.get(
             new Uri.http(Global.apiURL, "/api/quedadas", queryParameters),
             headers: <String, String>{
@@ -114,7 +114,7 @@ class ListaPerreParadasWidget extends StatelessWidget {
         }
       case 'participante':
         {
-          var queryParameters = {tipo: user.email};
+          var queryParameters = {tipo: user.email,"order": "time"};
           http.Response response = await http.get(
             new Uri.http(Global.apiURL, "/api/quedadas", queryParameters),
             headers: <String, String>{
@@ -135,8 +135,9 @@ class ListaPerreParadasWidget extends StatelessWidget {
         }
       case 'all':
         {
-          http.Response response = await http.get(
-            new Uri.http(Global.apiURL, "/api/quedadas/"),
+            var queryParameters = {"order": "time"};
+            http.Response response = await http.get(
+            new Uri.http(Global.apiURL, "/api/quedadas/",queryParameters),
             headers: <String, String>{
               HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
               HttpHeaders.authorizationHeader: user.token.toString(),

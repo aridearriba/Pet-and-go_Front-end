@@ -50,7 +50,7 @@ class SquarePuntoInteresView extends State<SquarePuntoInteresWidget> {
             builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot) {
                 if (! snapshot.hasData) {
                     return Center(
-                        child: CircularProgressIndicator(),
+
                     );
                 } else {
                     return Container(

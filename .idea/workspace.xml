@@ -9,14 +9,22 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="" />
+    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/puntosDeInteres/SquarePuntosInteresView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/puntosDeInteres/SquarePuntosInteresView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/puntosDeInteres/puntoInteres/puntoInteresView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/puntosDeInteres/puntoInteres/puntoInteresView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/puntosDeInteres/puntoInteres/visorImagenesWidget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/puntosDeInteres/puntoInteres/visorImagenesWidget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/puntosDeInteres/puntosInteresTabView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/puntosDeInteres/puntosInteresTabView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/listadoPerreParadasView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/listadoPerreParadasView.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_XL_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_Edited_API_29" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -47,14 +55,10 @@
   <component name="PropertiesComponent">
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/build/app/outputs/apk/app.apk" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_Edited_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-12T20:26:25.908Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-14T17:05:01.270Z" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/android/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/model" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/screens/calendar" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/StudioProjects/StudioProjects" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
@@ -304,13 +308,25 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/screens/quedadas/listadoPerreParadasView.dart</url>
+          <line>116</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/screens/puntosDeInteres/puntoInteres/visorImagenesWidget.dart</url>
+          <line>14</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
       <default-breakpoints>
         <breakpoint type="dart-exception" />
       </default-breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="FlutterRunConfigurationType">
-        <watch expression="widget.pts" language="Dart" />
+        <watch expression="origen = new LatLng();" language="Dart" />
       </configuration>
     </watches-manager>
   </component>
