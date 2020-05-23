@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,6 +10,7 @@ import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:http/http.dart' as http;
 
 
 class Home extends StatefulWidget {
@@ -23,6 +26,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
     String _queryParameters = '0/0';
+    String _consejo = '';
 
     nLogIn() {
         Navigator.pushReplacement(
@@ -45,6 +49,11 @@ class _HomeState extends State<Home> {
         );
     }
 
+    @override
+    void initState() {
+        _getConsejos();
+    }
+
     Future<String> _getCurrentLocation() async {
         final position = await Geolocator().getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
@@ -56,27 +65,61 @@ class _HomeState extends State<Home> {
         return position.toString();
     }
 
+    // GET Consejos
+    Future<String> _getConsejos() async {
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/consejos/one"));
+
+        Map<String, dynamic> responseJson = json.decode(response.body);
+
+        setState(() {
+            _consejo = responseJson['consejo'];
+        });
+
+        return _consejo;
+    }
+
     @override
     Widget build(BuildContext context) {
         return FutureBuilder<String>(
             future: _getCurrentLocation(),
             // a previously-obtained Future<String> or null
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                print(_consejo);
                 Center advice = Center(
                     child: Container(
                         width: 300,
-                        height: 200,
+                        //height: 200,
                         decoration: BoxDecoration(
                             color: Colors.lightGreen[200],
                             borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Text(
-                            '\n"COVID-19 CONSEJO: PASEA A TUS MASCOTAS INDIVIDUALMENTE Y CON LA CORREA PUESTA"',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 25,
+                        child:  ListTile(
+                            title: Text(
+                                "CONSEJO",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 22,
+                                    //decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.bold,
+                                    //color: Colors.black45
+                                ),
                             ),
-                        ),
+                            subtitle: Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: _consejo == '' ?
+                                    Text ('cargando consejo...',
+                                        textAlign: TextAlign.center,
+                                    ) :
+                                    Text(
+                                    _consejo,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        color: Colors.black87
+                                    ),
+                                ),
+                            )
+                        )
                     )
                 );
                 RichText title = RichText(
@@ -113,7 +156,7 @@ class _HomeState extends State<Home> {
                         ),
                         Padding(
                             padding: const EdgeInsets.only(top: 16),
-                            child: Text('Error: ${snapshot.error}'),
+                            child: Text('Error: ${snapshot.data.error}'),
                         )
                     ];
                 }
@@ -173,4 +216,6 @@ class _HomeState extends State<Home> {
             }
         );
     }
+
+
 }
