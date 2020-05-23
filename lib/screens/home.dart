@@ -176,7 +176,7 @@ class _HomeState extends State<Home> {
                                         width: 30.0,
                                         height: 30.0,
 
-                                        child: CircularProgressIndicator(),
+                                        child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
                                     ),
                                     const Padding(
                                         padding: EdgeInsets.all(100),
