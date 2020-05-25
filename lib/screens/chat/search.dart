@@ -14,6 +14,9 @@ class Search extends StatefulWidget{
 
 class _SearchState extends State<Search>{
 
+    TextEditingController _controller = new TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+
 
     @override
     Widget build(BuildContext context) {
@@ -32,10 +35,36 @@ class _SearchState extends State<Search>{
                     color: Colors.white,
                 ),
             ),
-            body: GestureDetector(
-                onTap: () => {
-                },
-            ),
+            body: Column(
+                children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.all(35.0),
+                        child: Row(
+                            children: <Widget>[
+                                Form(
+                                    key: _formKey,
+                                    child: SizedBox(width: 250.0,
+                                            child: TextFormField(
+                                                decoration: InputDecoration(
+                                                    labelText: 'Introduzca un email'
+                                                ),
+                                                controller: _controller,
+                                            )
+                                    ),
+                                ),
+                                SizedBox(width: 15.0,),
+                                FloatingActionButton(
+                                    child: Icon(Icons.search),
+                                    onPressed: () => {
+                                        _controller.text = 'ha funcionat el boto',
+                                    },
+                                    backgroundColor: Colors.green,
+                                )
+                            ],
+                        ),
+                    )
+                ],
+            )
         );
     }
 }
