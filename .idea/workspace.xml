@@ -9,14 +9,17 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="" />
+    <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/menu/menu.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/menu/menu.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3a_XL_API_29" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -47,11 +50,10 @@
   <component name="PropertiesComponent">
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/build/app/outputs/apk/app.apk" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_Edited_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-12T20:26:25.908Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-01T17:05:56.774Z" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/images" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/android/app/src/main/res/drawable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/model" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/screens/calendar" />
@@ -63,20 +65,6 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\assets\images" />
-      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\puntosDeInteres" />
-      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
-      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
-      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\global" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\puntosDeInteres\puntoInteres" />
-      <recent name="C:\Users\migue\AndroidStudioProjects\Pet-and-go_Front-end\lib\screens\quedadas" />
-      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
-      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
-      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src\main\res\drawable" />
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\calendar" />
@@ -271,7 +259,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589405334339</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="notifications #2">
+      <created>1589410070468</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1589410070468</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -300,7 +295,8 @@
     <MESSAGE value="enviament missatges" />
     <MESSAGE value="scroll correcte" />
     <MESSAGE value="notifications #1" />
-    <option name="LAST_COMMIT_MESSAGE" value="notifications #1" />
+    <MESSAGE value="notifications #2" />
+    <option name="LAST_COMMIT_MESSAGE" value="notifications #2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -310,7 +306,10 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="FlutterRunConfigurationType">
-        <watch expression="widget.pts" language="Dart" />
+        <watch expression="json[&quot;id&quot;]" language="Dart" />
+        <watch expression="int.parse(json['id'])" language="Dart" />
+        <watch expression="misPerreParadas" language="Dart" />
+        <watch expression="misQuedadas" language="Dart" />
       </configuration>
     </watches-manager>
   </component>
