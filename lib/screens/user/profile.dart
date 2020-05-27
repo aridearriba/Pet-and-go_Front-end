@@ -268,7 +268,7 @@ class _ProfileState extends State<Profile>
                                                         size: 22,
                                                     ),
                                                     Text(
-                                                        '    ' + 'Nivel 1',
+                                                        '    ' + 'Nivel ' + widget.user.level.toString(),
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16.0,
@@ -288,7 +288,7 @@ class _ProfileState extends State<Profile>
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + '123 puntos',
+                                                        '   ' + widget.user.points.toString() + ' punto(s)',
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16.0,
