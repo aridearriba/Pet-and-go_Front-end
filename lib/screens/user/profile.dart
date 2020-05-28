@@ -86,6 +86,11 @@ class _ProfileState extends State<Profile>
         );
     }
 
+    @override
+    void initState(){
+        getData();
+        super.initState();
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -417,6 +422,17 @@ class _ProfileState extends State<Profile>
         );
         
         if (response.statusCode == 200) widget.user.image = _image64;
+    }
+
+    Future<void> getData() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email));
+        User updatedUser = User.fromJson(jsonDecode(response.body));
+
+        if (response.statusCode == 200) {
+            widget.user.level = updatedUser.level;
+            widget.user.points = updatedUser.points;
+        }
     }
 
 }
