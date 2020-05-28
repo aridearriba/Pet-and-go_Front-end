@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Avatar {
     int _id;
     int _level;
