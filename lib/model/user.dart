@@ -13,8 +13,12 @@ class User {
     String _token;
     String _image;
     Position pos;
+    int _points;
+    int _level;
+    String _avatar;
 
-    User({String username, String password,String email, String name, String token})
+
+    User({String username, String password,String email, String name, String token, int points, int level, String avatar})
     {
         this._username = username;
         this._password = password;
@@ -23,6 +27,9 @@ class User {
         this._token = token;
         this._image = image = "";
         this._profileImageUrl = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+        this._points = points;
+        this._level = level;
+        this._avatar = avatar;
     }
 
     String get username => _username;
@@ -32,6 +39,9 @@ class User {
     String get profileImageUrl => _profileImageUrl;
     String get image => _image;
     String get token => _token;
+    int get points => _points;
+    int get level => _level;
+    String get avatar => _avatar;
 
     set username(String username) => _username = username;
     set email(String email) => _email = email;
@@ -39,13 +49,19 @@ class User {
     set profileImageUrl(String url) => _profileImageUrl = url;
     set token(String token) => _token = token;
     set image(String image) => _image = image;
+    set points(int points) => _points = points;
+    set level(int level) => _level = level;
+    set avatar(String avatar) => _avatar = avatar;
 
     factory User.fromJson(Map<String, dynamic> json) {
         return User(
             username: json['username'],
             password: json['password'],
             email: json['email'],
-            name: json['nombre']
+            name: json['nombre'],
+            points: json['puntos'],
+            level: json['nivel'],
+            avatar: json['avatar']
         );
     }
 }

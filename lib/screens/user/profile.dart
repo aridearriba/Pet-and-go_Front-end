@@ -18,6 +18,8 @@ import 'package:petandgo/screens/pets/newPet.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/screens/user/sign-up.dart';
 
+import 'awards.dart';
+
 
 // ignore: must_be_immutable
 class Profile extends StatefulWidget {
@@ -69,6 +71,7 @@ class _ProfileState extends State<Profile>
             MaterialPageRoute(builder: (context) => Profile(widget.user))
         );
     }
+
     nEdit(){
         Navigator.push(
             context,
@@ -76,6 +79,18 @@ class _ProfileState extends State<Profile>
         );
     }
 
+    nAwards(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Awards(widget.user))
+        );
+    }
+
+    @override
+    void initState(){
+        getData();
+        super.initState();
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -207,8 +222,7 @@ class _ProfileState extends State<Profile>
                                             ),
                                         ),
                                         Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0, bottom: 30),
+                                            padding: const EdgeInsets.only(top: 5.0, bottom: 30),
                                             child: Row(
                                                 children: <Widget>[
                                                     Icon(
@@ -226,6 +240,119 @@ class _ProfileState extends State<Profile>
                                                 ],
                                             )
                                         ),
+                                    ],
+                                ),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: <Widget>[
+                                        // PUNTUACION
+                                        Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5.0),
+                                            child: Text(
+                                                "NIVEL",
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                            )
+                                        ),
+                                        // nivel
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0),
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(
+                                                        Icons.star,
+                                                        color: Colors.black54,
+                                                        size: 22,
+                                                    ),
+                                                    Text(
+                                                        '    ' + 'Nivel ' + widget.user.level.toString(),
+                                                        style: TextStyle(
+                                                            color: Colors.black54,
+                                                            fontSize: 16.0,
+                                                        ),
+                                                        textAlign: TextAlign.center,
+                                                    )
+                                                ]
+                                            ),
+                                        ),
+                                        // puntos
+                                        Padding(
+                                            padding: const EdgeInsets.only(top: 5.0, bottom: 30),
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(
+                                                        Icons.trending_up,
+                                                        color: Colors.black54,
+                                                    ),
+                                                    Text(
+                                                        '   ' + widget.user.points.toString() + ' punto(s)',
+                                                        style: TextStyle(
+                                                            color: Colors.black54,
+                                                            fontSize: 16.0,
+                                                        ),
+                                                        textAlign: TextAlign.center,
+                                                    ),
+                                                ]
+                                            ),
+                                        ),
+                                    ],
+                                ),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                        // PREMIOS
+                                        Padding(
+                                            padding: const EdgeInsets.only(top: 5.0, bottom: 10),
+                                            child: Text(
+                                                "PREMIOS",
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                            )
+                                        ),
+                                        // premios
+                                        Align(
+                                            alignment: Alignment.bottomLeft,
+                                            child: OutlineButton(
+                                                splashColor: Colors.grey,
+                                                onPressed: () => nAwards(),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(40)),
+                                                highlightElevation: 0,
+                                                borderSide: BorderSide(color: Colors.grey),
+                                                child: Padding(
+                                                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                                    child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: <Widget>[
+                                                            Icon(
+                                                                Icons.card_giftcard,
+                                                                color: Colors.black54,
+                                                            ),
+                                                            Text(
+                                                                '    ' + 'Ver premios ',
+                                                                style: TextStyle(
+                                                                    color: Colors.black54,
+                                                                ),
+                                                            )
+                                                        ],
+                                                    ),
+                                                ),
+                                            )
+                                        )
                                     ],
                                 ),
                             ],
@@ -295,6 +422,17 @@ class _ProfileState extends State<Profile>
         );
         
         if (response.statusCode == 200) widget.user.image = _image64;
+    }
+
+    Future<void> getData() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email));
+        User updatedUser = User.fromJson(jsonDecode(response.body));
+
+        if (response.statusCode == 200) {
+            widget.user.level = updatedUser.level;
+            widget.user.points = updatedUser.points;
+        }
     }
 
 }
