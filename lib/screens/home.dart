@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:petandgo/multilanguage/appLanguage.dart';
 import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/quedadas/nuevaPerreParada.dart';
@@ -11,6 +12,7 @@ import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 
 class Home extends StatefulWidget {

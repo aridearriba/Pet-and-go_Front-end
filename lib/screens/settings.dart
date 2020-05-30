@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/mascota.dart';
+import 'package:petandgo/multilanguage/appLanguage.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/pets/pet.dart';
@@ -15,6 +17,7 @@ import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../main.dart';
 
@@ -29,6 +32,8 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings>
 {
     List<Mascota> _mascotas = new List<Mascota>();
+    String language;
+
     nLogIn() {
         widget.user = null;
         Navigator.pushReplacement(
@@ -79,6 +84,9 @@ class _SettingsState extends State<Settings>
 
     @override
     Widget build(BuildContext context) {
+        var appLanguage = Provider.of<AppLanguage>(context);
+        var title = AppLocalizations.of(context).translate('profile-title');
+
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
@@ -99,6 +107,68 @@ class _SettingsState extends State<Settings>
                         padding: const EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
                         child: Column(
                             children: <Widget>[
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                        // USER
+                                        Padding(
+                                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                                            child: Text(
+                                                "IDIOMA",
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                            )
+                                        ),
+                                        Padding (
+                                            padding: const EdgeInsets.only(top: 10.0, bottom: 40),
+                                            child: GestureDetector(
+                                                child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: <Widget>[
+                                                        Icon(
+                                                            Icons.language,
+                                                            color: Colors.black54,
+                                                        ),
+                                                        Container(
+                                                            width: 260,
+                                                            child: DropdownButtonHideUnderline(
+                                                                child: ButtonTheme(
+                                                                    alignedDropdown: true,
+                                                                    child: DropdownButton<String>(
+                                                                        hint: _selectedLanguage(appLanguage.appLocal.languageCode),
+                                                                        isExpanded: true,
+                                                                        value: language,
+                                                                        icon: Icon(Icons.arrow_drop_down),
+                                                                        iconSize: 24,
+                                                                        elevation: 16,
+                                                                        style: TextStyle(color: Colors.black54),
+                                                                        onChanged: (String newValue) {
+                                                                            setState(() {
+                                                                                language = newValue;
+                                                                            });
+                                                                        },
+                                                                        items: <String>['Catalan', 'Español', 'Inglés'].map<DropdownMenuItem<String>>((String value) {
+                                                                            return DropdownMenuItem<String>(
+                                                                                value: value,
+                                                                                child: Text(value),
+                                                                            );
+                                                                        }).toList(),
+                                                                    ),
+                                                                ),
+                                                            ),
+                                                        ),
+                                                    ],
+                                                ),
+                                                onTap: () => _showAlertDialog()
+                                            ),
+                                        ),
+                                    ],
+                                ),
                                 Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,6 +259,13 @@ class _SettingsState extends State<Settings>
                 ]
             ),
         );
+    }
+
+    Text _selectedLanguage(String languageCode) {
+        if (languageCode == 'en') return Text('Inglés');
+        else if (languageCode == 'es') return Text('Español');
+        else if (languageCode == 'ca') return Text('Catalan');
+        return Text('Seleciona el idioma  . . .');
     }
 
     void _showAlertDialog() {

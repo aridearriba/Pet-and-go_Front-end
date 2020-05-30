@@ -7,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petandgo/model/mascota.dart';
+import 'package:petandgo/multilanguage/appLanguage.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/pets/pet.dart';
@@ -16,9 +18,9 @@ import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:petandgo/screens/user/sign-up.dart';
+import 'package:provider/provider.dart';
 
-import 'awards.dart';
+import 'package:petandgo/screens/user/awards.dart';
 
 
 // ignore: must_be_immutable
@@ -96,12 +98,15 @@ class _ProfileState extends State<Profile>
     Widget build(BuildContext context) {
         _image64 = widget.user.image;
         _imageProfile = getImage();
+        var appLanguage = Provider.of<AppLanguage>(context);
+        var title = AppLocalizations.of(context).translate('profile-title');
 
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Perfil',
+                    AppLocalizations.of(context).translate('profile-title'),
+                    //'Perfil',
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -127,6 +132,23 @@ class _ProfileState extends State<Profile>
                             top: 20.0, left: 30.0, right: 30.0),
                         child: Column(
                             children: <Widget>[
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                        RaisedButton(
+                                            onPressed: () {
+                                                appLanguage.changeLanguage(Locale("en"));
+                                            },
+                                            child: Text('English'),
+                                        ),
+                                        RaisedButton(
+                                            onPressed: () {
+                                                appLanguage.changeLanguage(Locale("es"));
+                                            },
+                                            child: Text('Spanish'),
+                                        )
+                                    ],
+                                ),
                                 CircleAvatar(
                                     backgroundImage: _imageProfile,
                                     radius: 75,

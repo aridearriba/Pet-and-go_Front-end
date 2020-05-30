@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/multilanguage/appLanguage.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/user/sign-up.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 
 GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
@@ -32,12 +34,7 @@ class LogIn extends StatelessWidget {
                 }
             },
 
-            child: MaterialApp(
-                title: _title,
-                theme: ThemeData(
-                    primaryColor: Color.fromRGBO(63, 202, 12, 1),
-                ),
-                home: Scaffold(
+            child: Scaffold(
                     body: Stack(
                         children: <Widget>[
                         Center(
@@ -52,7 +49,6 @@ class LogIn extends StatelessWidget {
                         )
                     ]
                     ),),
-            ),
         );
     }
 }
