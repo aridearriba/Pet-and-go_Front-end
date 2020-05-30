@@ -132,23 +132,6 @@ class _ProfileState extends State<Profile>
                             top: 20.0, left: 30.0, right: 30.0),
                         child: Column(
                             children: <Widget>[
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                        RaisedButton(
-                                            onPressed: () {
-                                                appLanguage.changeLanguage(Locale("en"));
-                                            },
-                                            child: Text('English'),
-                                        ),
-                                        RaisedButton(
-                                            onPressed: () {
-                                                appLanguage.changeLanguage(Locale("es"));
-                                            },
-                                            child: Text('Spanish'),
-                                        )
-                                    ],
-                                ),
                                 CircleAvatar(
                                     backgroundImage: _imageProfile,
                                     radius: 75,

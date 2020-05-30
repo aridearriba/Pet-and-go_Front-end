@@ -57,8 +57,8 @@ class _MyAppState extends State<MyApp> {
                     locale: model.appLocal,
                     supportedLocales: [
                         Locale('es', 'ES'),
-                        Locale('en', 'US'),
                         Locale('ca', 'CA'),
+                        Locale('en', 'US'),
                     ],
                     localizationsDelegates: [
                         AppLocalizations.delegate,

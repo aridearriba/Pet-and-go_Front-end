@@ -1,3 +1,28 @@
 {
-	"profile-title": "Perfil"
+	"user_login_email": "Email",
+	"user_login_password": "Contraseña",
+	"user_login_login": "Entrar",
+	"user_login_or": "o",
+	"user_login_sign-up": "Registrarse",
+	"user_login_sign-in-google": "Entrar con Google",
+	"user_login_empty-email": "Por favor, escribe un email.",
+	"user_login_empty-password": "Por favor, escribe una contraseña.",
+	"user_login_wrong-user-password": "Email o contraseña incorrectos",
+	"user_login_not-complete": "No se ha podido completar el inicio de sesión",
+
+	"settings_title": "Configuración",
+	"settings_language": "IDIOMA",
+	"settings_notifications": "NOTIFICACIONES",
+	"settings_calendar-notifications": "Notificaciones calendario",
+	"settings_account": "CUENTA",
+	"settings_delete-account": "Eliminar cuenta",
+	"settings_delete-account-confirmation": "Estás apunto de eliminar tu cuenta. ¿Estás seguro?",
+	"settings_language-ca": "Catalan",
+	"settings_language-es": "Español",
+	"settings_language-en": "Inglés",
+
+	"notifications_today": "Hoy",
+
+	"alert-dialog_accept": "ACEPTAR",
+	"alert-dialog_close": "CERRAR"
 }

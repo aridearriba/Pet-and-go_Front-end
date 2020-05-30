@@ -85,13 +85,12 @@ class _SettingsState extends State<Settings>
     @override
     Widget build(BuildContext context) {
         var appLanguage = Provider.of<AppLanguage>(context);
-        var title = AppLocalizations.of(context).translate('profile-title');
 
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Configuración',
+                    AppLocalizations.of(context).translate('settings_title'),
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -115,7 +114,7 @@ class _SettingsState extends State<Settings>
                                         Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                                             child: Text(
-                                                "IDIOMA",
+                                                AppLocalizations.of(context).translate('settings_language'),
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontWeight: FontWeight.bold,
@@ -126,7 +125,6 @@ class _SettingsState extends State<Settings>
                                         ),
                                         Padding (
                                             padding: const EdgeInsets.only(top: 10.0, bottom: 40),
-                                            child: GestureDetector(
                                                 child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: <Widget>[
@@ -136,6 +134,7 @@ class _SettingsState extends State<Settings>
                                                         ),
                                                         Container(
                                                             width: 260,
+                                                            height: 40,
                                                             child: DropdownButtonHideUnderline(
                                                                 child: ButtonTheme(
                                                                     alignedDropdown: true,
@@ -151,11 +150,16 @@ class _SettingsState extends State<Settings>
                                                                             setState(() {
                                                                                 language = newValue;
                                                                             });
+                                                                            appLanguage.changeLanguage(Locale(language));
+                                                                            if (MyApp.calendarNotifications) {
+                                                                                _disableCalendarNotifications();
+                                                                                _enableCalendarNotifications();
+                                                                            }
                                                                         },
-                                                                        items: <String>['Catalan', 'Español', 'Inglés'].map<DropdownMenuItem<String>>((String value) {
+                                                                        items: <String>['es', 'ca', 'en'].map<DropdownMenuItem<String>>((String value) {
                                                                             return DropdownMenuItem<String>(
                                                                                 value: value,
-                                                                                child: Text(value),
+                                                                                child: _selectedLanguage(value),
                                                                             );
                                                                         }).toList(),
                                                                     ),
@@ -163,8 +167,6 @@ class _SettingsState extends State<Settings>
                                                             ),
                                                         ),
                                                     ],
-                                                ),
-                                                onTap: () => _showAlertDialog()
                                             ),
                                         ),
                                     ],
@@ -177,7 +179,7 @@ class _SettingsState extends State<Settings>
                                         Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                                             child: Text(
-                                                "NOTIFICACIONES",
+                                                AppLocalizations.of(context).translate('settings_notifications'),
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontWeight: FontWeight.bold,
@@ -192,7 +194,7 @@ class _SettingsState extends State<Settings>
                                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: <Widget>[
                                                     Text(
-                                                        'Notificaciones calendario',
+                                                        AppLocalizations.of(context).translate('settings_calendar-notifications'),
                                                         style: TextStyle(
                                                             fontSize: 16,
                                                             color: Colors.black54
@@ -222,7 +224,7 @@ class _SettingsState extends State<Settings>
                                         Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 20.0),
                                             child: Text(
-                                                "CUENTA",
+                                                AppLocalizations.of(context).translate('settings_account'),
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontWeight: FontWeight.bold,
@@ -241,7 +243,7 @@ class _SettingsState extends State<Settings>
                                                             color: Colors.redAccent,
                                                         ),
                                                         Text(
-                                                            '   ' + "Eliminar cuenta",
+                                                            '   ' + AppLocalizations.of(context).translate('settings_delete-account'),
                                                             style: TextStyle(
                                                                 color: Colors.redAccent,
                                                             ),
@@ -262,10 +264,10 @@ class _SettingsState extends State<Settings>
     }
 
     Text _selectedLanguage(String languageCode) {
-        if (languageCode == 'en') return Text('Inglés');
-        else if (languageCode == 'es') return Text('Español');
-        else if (languageCode == 'ca') return Text('Catalan');
-        return Text('Seleciona el idioma  . . .');
+        if (languageCode == 'en') return Text(AppLocalizations.of(context).translate('settings_language-en'));
+        else if (languageCode == 'es') return Text(AppLocalizations.of(context).translate('settings_language-es'));
+        else if (languageCode == 'ca') return Text(AppLocalizations.of(context).translate('settings_language-ca'));
+        return Text('. . .');
     }
 
     void _showAlertDialog() {
@@ -273,15 +275,15 @@ class _SettingsState extends State<Settings>
             context: context,
             builder: (BuildContext context) {
                 return AlertDialog(
-                    title: Text("Eliminar cuenta", textAlign: TextAlign.center),
-                    content: Text("Estas apunto de eliminar tu cuenta. ¿Estás seguro?", textAlign: TextAlign.center),
+                    title: Text(AppLocalizations.of(context).translate('settings_delete-account'), textAlign: TextAlign.center),
+                    content: Text(AppLocalizations.of(context).translate('settings_delete-account-confirmation'), textAlign: TextAlign.center),
                     actions: <Widget>[
                         FlatButton(
-                            child: Text("CERRAR", style: TextStyle(color: Colors.black45),),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_accept'), style: TextStyle(color: Colors.black45),),
                             onPressed: () =>  Navigator.pop(context),
                         ),
                         FlatButton(
-                            child: Text("ACEPTAR", style: TextStyle(color: Colors.redAccent),),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_close'), style: TextStyle(color: Colors.redAccent),),
                             onPressed:  () => deleteAccount().whenComplete(
                                     () {
                                         Navigator.pop(context);
@@ -335,7 +337,7 @@ class _SettingsState extends State<Settings>
             DateTime date = DateTime(e.dateIni.year, e.dateIni.month, e.dateIni.day, e.dateIni.hour, e.dateIni.minute);
             DateTime scheduledDateTime = date.subtract(Duration(hours: 1));
 
-            String title = 'Hoy  ' + e.dateIni.hour.toString().padLeft(2, '0') + ': ' + e.dateIni.minute.toString().padLeft(2, '0');
+            String title = AppLocalizations.of(context).translate('notifications_today') + '  ' + e.dateIni.hour.toString().padLeft(2, '0') + ': ' + e.dateIni.minute.toString().padLeft(2, '0');
             String body = '[' + e.user + ']  ' + e.title;
 
             if (e.notifications) {

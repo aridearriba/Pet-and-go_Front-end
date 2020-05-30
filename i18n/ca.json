@@ -1,3 +1,28 @@
 {
-	"profile-title": "Perfil"
+	"user_login_email": "Email",
+	"user_login_password": "Contrasenya",
+	"user_login_login": "Entrar",
+	"user_login_or": "o",
+	"user_login_sign-up": "Registrar-se",
+	"user_login_sign-in-google": "Entrar amb Google",
+	"user_login_empty-email": "Si us plau, escriu un email.",
+	"user_login_empty-password": "Si us plau, escriu una contrasenya.",
+	"user_login_wrong-user-password": "Email o contrasenya incorrectes",
+	"user_login_not-complete": "No se ha pogut completar l'inici de sessió",
+
+	"settings_title": "Configuració",
+	"settings_language": "IDIOMA",
+	"settings_notifications": "NOTIFICACIONS",
+	"settings_calendar-notifications": "Notificacions calendari",
+	"settings_account": "COMPTE",
+	"settings_delete-account": "Esborrar compte",
+	"settings_delete-account-confirmation": "Estàs apunt d'esborrar el teu compte. ¿Estàs segur?",
+	"settings_language-ca": "Català",
+	"settings_language-es": "Espanyol",
+	"settings_language-en": "Anglès",
+
+	"notifications_today": "Avui",
+
+	"alert-dialog_accept": "ACCEPTAR",
+	"alert-dialog_close": "TANCAR"
 }

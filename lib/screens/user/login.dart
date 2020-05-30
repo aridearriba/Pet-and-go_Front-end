@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:carousel_pro/carousel_pro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/multilanguage/appLanguage.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/user/sign-up.dart';
 
@@ -67,6 +70,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     final controladorPasswd = new TextEditingController();
 
     User user = new User();
+    String language;
 
     void nHome(){
         Navigator.pushReplacement(
@@ -77,13 +81,49 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
     @override
     Widget build(BuildContext context) {
+        var appLanguage = Provider.of<AppLanguage>(context);
         return Form(
             key: _formKey,
             child: ListView(
-                //crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                    Align(
+                        alignment: Alignment.topRight,
+                        child: Padding(
+                            padding: EdgeInsets.only(top: 10, right: 10),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                    Text(language == null ? appLanguage.appLocal.languageCode.toUpperCase() : language, style: TextStyle(color: Colors.white)),
+                                    PopupMenuButton<String>(
+                                        initialValue: appLanguage.appLocal.languageCode,
+                                        icon: Icon(Icons.language, color: Colors.white),
+                                        itemBuilder: (context) => [
+                                            PopupMenuItem(
+                                                value: "es",
+                                                child:  Text("ES"),
+                                            ),
+                                            PopupMenuItem(
+                                                value: "ca",
+                                                child:  Text("CA"),
+                                            ),
+                                            PopupMenuItem(
+                                                value: "en",
+                                                child:  Text("EN"),
+                                            ),
+                                        ],
+                                        onSelected: (value) {
+                                            setState(() {
+                                              language = value.toUpperCase();
+                                            });
+                                            appLanguage.changeLanguage(Locale(value));
+                                        },
+                                    )
+                                ]
+                            )
+                        ),
+                    ),
                     Container(
-                        padding: EdgeInsets.only(top: 70.0),
+                        padding: EdgeInsets.only(top: 15.0),
                         child: Image.asset('assets/images/pet-and-go-logo.png', height: 150),
                     ),
                     Padding(
@@ -92,8 +132,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             style: TextStyle(
                                 color: Colors.white,
                             ),
-                            decoration: const InputDecoration(
-                                labelText: 'Email',
+                            decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context).translate('user_login_email'),
                                 labelStyle: TextStyle(color: Colors.white),
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(color: Colors.white),
@@ -103,10 +143,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             controller: controladorEmail,
                             validator: (value) {
                                 if (value.isEmpty) {
-                                    return 'Por favor, escribe un email.';
+                                    return AppLocalizations.of(context).translate('user_login_empty-email');
                                 }
                                 else if (_responseCode == 400) {
-                                    return 'Usuario o contraseña incorrectos';
+                                    return AppLocalizations.of(context).translate('user_login_wrong-user-password');
                                 }
 
                                 return null;
@@ -119,8 +159,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             style: TextStyle(
                                 color: Colors.white
                             ),
-                            decoration: const InputDecoration(
-                                labelText: 'Contraseña',
+                            decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context).translate('user_login_password'),
                                 labelStyle: TextStyle(color: Colors.white),
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(color: Colors.white),
@@ -129,10 +169,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             controller: controladorPasswd,
                             validator: (value) {
                                 if (value.isEmpty) {
-                                    return 'Por favor, escribe tu constraseña';
+                                    return AppLocalizations.of(context).translate('user_login_empty-password');
                                 }
                                 else if (_responseCode == 400) {
-                                    return 'Usuario o contraseña incorrectos';
+                                    return AppLocalizations.of(context).translate('user_login_wrong-user-password');
                                 }
                                 return null;
                             },
@@ -150,7 +190,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                         if (_formKey.currentState.validate()) {
                                             if(_responseCode != 200) {
                                                 Scaffold.of(context).showSnackBar(SnackBar(
-                                                content: Text('No se ha podido completar el login')));
+                                                content: Text(AppLocalizations.of(context).translate('user_login_not-complete'))));
                                             }
                                             else {
                                                 getData().whenComplete(
@@ -167,14 +207,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                     }
                                 );
                             },
-                            child: Text('Log in'),
+                            child: Text(AppLocalizations.of(context).translate('user_login_login')),
                         ),
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 90.0),
                         child: Center(
                             child: Text(
-                                'or',
+                                AppLocalizations.of(context).translate('user_login_or'),
                                 style: TextStyle(color: Colors.white),
                             ),
                         ),
@@ -188,7 +228,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                     MaterialPageRoute(builder: (context) => SignUpPage())
                                 );
                             },
-                            child: Text('Sign up'),
+                            child: Text(AppLocalizations.of(context).translate('user_login_sign-up')),
                         ),
                     ),
                     Padding(
@@ -230,7 +270,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: Text(
-                                'Sign in with Google',
+                                AppLocalizations.of(context).translate('user_login_sign-in-google'),
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.white,
