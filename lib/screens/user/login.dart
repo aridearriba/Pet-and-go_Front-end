@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/material.dart';
@@ -133,7 +131,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 color: Colors.white,
                             ),
                             decoration: InputDecoration(
-                                labelText: AppLocalizations.of(context).translate('user_login_email'),
+                                labelText: AppLocalizations.of(context).translate('user_email'),
                                 labelStyle: TextStyle(color: Colors.white),
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(color: Colors.white),
@@ -160,7 +158,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                 color: Colors.white
                             ),
                             decoration: InputDecoration(
-                                labelText: AppLocalizations.of(context).translate('user_login_password'),
+                                labelText: AppLocalizations.of(context).translate('user_password'),
                                 labelStyle: TextStyle(color: Colors.white),
                                 enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(color: Colors.white),

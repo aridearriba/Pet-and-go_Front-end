@@ -279,11 +279,11 @@ class _SettingsState extends State<Settings>
                     content: Text(AppLocalizations.of(context).translate('settings_delete-account-confirmation'), textAlign: TextAlign.center),
                     actions: <Widget>[
                         FlatButton(
-                            child: Text(AppLocalizations.of(context).translate('alert-dialog_accept'), style: TextStyle(color: Colors.black45),),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_close'), style: TextStyle(color: Colors.black45),),
                             onPressed: () =>  Navigator.pop(context),
                         ),
                         FlatButton(
-                            child: Text(AppLocalizations.of(context).translate('alert-dialog_close'), style: TextStyle(color: Colors.redAccent),),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_accept'), style: TextStyle(color: Colors.redAccent),),
                             onPressed:  () => deleteAccount().whenComplete(
                                     () {
                                         Navigator.pop(context);

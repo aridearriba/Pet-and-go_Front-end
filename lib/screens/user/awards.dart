@@ -5,6 +5,7 @@ import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/avatar.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 
@@ -45,7 +46,7 @@ class _AwardsState extends State<Awards>
                 drawer: Menu(widget.user),
                 appBar: AppBar(
                     title: Text(
-                        'Premios',
+                        AppLocalizations.of(context).translate('user_awards_title'),
                         style: TextStyle(
                             color: Colors.white,
                         ),
@@ -82,9 +83,9 @@ class _AwardsState extends State<Awards>
 
                         child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
                     ),
-                    const Padding(
+                    Padding(
                         padding: EdgeInsets.all(30),
-                        child: Text('Cargando avatares...'),
+                        child: Text(AppLocalizations.of(context).translate('user_awards_loading-avatars')),
                     )
                 ],
             ),
@@ -114,11 +115,11 @@ class _AwardsState extends State<Awards>
                                                 if(_statusCode == 200) {
                                                     widget.user.avatar = _selectedAvatar;
                                                     _scaffoldKey.currentState.showSnackBar(
-                                                        SnackBar(content: Text('Cambios guardados correctamente')));
+                                                        SnackBar(content: Text(AppLocalizations.of(context).translate('user_awards_saved-changes-success'))));
                                                 }
                                                 else
                                                     _scaffoldKey.currentState.showSnackBar(
-                                                        SnackBar(content: Text('No se han podidio guardar los cambios')));
+                                                        SnackBar(content: Text(AppLocalizations.of(context).translate('user_awards_saved-changes-fail'))));
                                             }
                                         );
                                     },
@@ -129,7 +130,7 @@ class _AwardsState extends State<Awards>
                                     child: Padding(
                                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                                         child: Text(
-                                                    'Guardar cambios',
+                                                    AppLocalizations.of(context).translate('user_awards_save-changes'),
                                                     style: TextStyle(
                                                         color: Colors.black54,
                                                     ),
@@ -141,19 +142,6 @@ class _AwardsState extends State<Awards>
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                    // USER
-                                    Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                                        child: Text(
-                                            "AVATAR",
-                                            style: TextStyle(
-                                                color: Colors.black87,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18.0,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                        )
-                                    ),
                                     Padding(
                                         padding: const EdgeInsets.only(
                                             top: 5.0),

@@ -98,14 +98,12 @@ class _ProfileState extends State<Profile>
     Widget build(BuildContext context) {
         _image64 = widget.user.image;
         _imageProfile = getImage();
-        var appLanguage = Provider.of<AppLanguage>(context);
-        var title = AppLocalizations.of(context).translate('profile-title');
 
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    AppLocalizations.of(context).translate('profile-title'),
+                    AppLocalizations.of(context).translate('user_profile_title'),
                     //'Perfil',
                     style: TextStyle(
                         color: Colors.white,
@@ -147,7 +145,7 @@ class _ProfileState extends State<Profile>
                                                     child:
                                                         FloatingActionButton(
                                                             onPressed: _pickImage,
-                                                            tooltip: 'Elige una imagen',
+                                                            tooltip: AppLocalizations.of(context).translate('user_sign-up_choose-image'),
                                                             elevation: 10.0,
                                                             backgroundColor: Theme.of(context).primaryColor,
                                                             child: Icon(Icons.add_a_photo, color: Colors.black, size: 15),
@@ -167,7 +165,7 @@ class _ProfileState extends State<Profile>
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 5.0),
                                             child: Text(
-                                                "USUARIO",
+                                                AppLocalizations.of(context).translate('user_profile_user'),
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontWeight: FontWeight.bold,
@@ -257,7 +255,7 @@ class _ProfileState extends State<Profile>
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 5.0),
                                             child: Text(
-                                                "NIVEL",
+                                                AppLocalizations.of(context).translate('user_profile_level').toUpperCase(),
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontWeight: FontWeight.bold,
@@ -278,7 +276,7 @@ class _ProfileState extends State<Profile>
                                                         size: 22,
                                                     ),
                                                     Text(
-                                                        '    ' + 'Nivel ' + widget.user.level.toString(),
+                                                        '    ' + AppLocalizations.of(context).translate('user_profile_level') + ' ' + widget.user.level.toString(),
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16.0,
@@ -298,7 +296,7 @@ class _ProfileState extends State<Profile>
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + widget.user.points.toString() + ' punto(s)',
+                                                        '   ' + widget.user.points.toString() + ' ' + AppLocalizations.of(context).translate('user_profile_points'),
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16.0,
@@ -318,7 +316,7 @@ class _ProfileState extends State<Profile>
                                         Padding(
                                             padding: const EdgeInsets.only(top: 5.0, bottom: 10),
                                             child: Text(
-                                                "PREMIOS",
+                                                AppLocalizations.of(context).translate('user_profile_awards'),
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontWeight: FontWeight.bold,
@@ -348,7 +346,7 @@ class _ProfileState extends State<Profile>
                                                                 color: Colors.black54,
                                                             ),
                                                             Text(
-                                                                '    ' + 'Ver premios ',
+                                                                '    ' + 	AppLocalizations.of(context).translate('user_profile_see-awards') + ' ',
                                                                 style: TextStyle(
                                                                     color: Colors.black54,
                                                                 ),
@@ -385,14 +383,14 @@ class _ProfileState extends State<Profile>
             context: context,
             builder: (context) =>
                 AlertDialog(
-                    title: Text("Selecciona una opción"),
+                    title: Text(AppLocalizations.of(context).translate('alert-dialog_select-option')),
                     actions: <Widget>[
                         MaterialButton(
-                            child: Text("Camera"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_camera')),
                             onPressed: () => Navigator.pop(context, ImageSource.camera),
                         ),
                         MaterialButton(
-                            child: Text("Galería"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_gallery')),
                             onPressed: () => Navigator.pop(context, ImageSource.gallery),
                         )
                     ],

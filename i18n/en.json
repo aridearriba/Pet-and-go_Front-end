@@ -1,6 +1,13 @@
 {
-	"user_login_email": "Email",
-	"user_login_password": "Password",
+	"home_title": "Home",
+
+	"user_email": "Email",
+	"user_password": "Password",
+	"user_repeat-password": "Repeat password",
+	"user_username": "Username",
+	"user_name": "Name",
+	"user_surname": "Surname",
+
 	"user_login_login": "Log in",
 	"user_login_or": "or",
 	"user_login_sign-up": "Sign up",
@@ -10,7 +17,54 @@
 	"user_login_wrong-user-password": "Incorrect email or password",
 	"user_login_not-complete": "Login can not be completed",
 
-	"settings_title": "SETTINGS",
+	"user_sign-up_title": "Sign up",
+	"user_sign-up_choose-image": "Choose an image",
+	"user_sign-up_invalid-email": "Invalid email.",
+	"user_sign-up_existing-email": "Email already exists",
+	"user_sign-up_empty-username": "Please, write a username.",
+	"user_sign-up_existing-username": "Ja existeix un usuari amb aquest username",
+	"user_sign-up_empty-name": "Please, write your name.",
+	"user_sign-up_empty-surname": "Please, write your surname.",
+	"user_sign-up_not-match-passwords": "Passwords does not match",
+	"user_sign-up_success": "User signed up successfully",
+	"user_sign-up_fail": "User sign up failed",
+	"user_sign-up_upload-image-url": "assets/images/examinar-en.jpg",
+
+	"user_profile_title": "Profile",
+	"user_profile_user": "USER",
+	"user_profile_level": "Level",
+	"user_profile_points": "Point(s)",
+	"user_profile_awards": "AWARDS",
+	"user_profile_see-awards": "See awards",
+
+	"user_awards_title": "Awards",
+	"user_awards_loading-avatars": "Loading avatars...",
+	"user_awards_saved-changes-success": "Changes saved successfully",
+	"user_awards_saved-changes-fail": "Error on saving changes",
+	"user_awards_save-changes": "Save changes",
+
+	"user_edit_title": "Edit user",
+	"user_edit_empty-fields": "Error. Some fields are empty.",
+	"user_edit_update": "Update",
+	"user_edit_change-password": "Change password",
+	"user_edit_current-password": "Current password",
+	"user_edit_new-password": "New password",
+	"user_edit_password-update-success": "Password updated successfully",
+	"user_edit_wrong-current-password": "Wrong current password",
+	"user_edit_alert": "Alert!",
+	"user_edit_google-user": "You are a Google user, you cannot change your password in this app.",
+
+	"pets_my-pets_title": "My pets",
+
+	"meetings_my-meetings_title": "My meetings",
+
+	"points-of-interest_title": "Points of interest",
+
+	"calendar_calendar_title": "Calendar",
+
+	"chat_title": "Chat",
+
+	"settings_title": "Settings",
 	"settings_language": "LANGUAGE",
 	"settings_notifications": "NOTIFICATIONS",
 	"settings_calendar-notifications": "Calendar notifications",
@@ -24,5 +78,10 @@
 	"notifications_today": "Today",
 
 	"alert-dialog_accept": "ACCEPT",
-	"alert-dialog_close": "CLOSE"
+	"alert-dialog_close": "CLOSE",
+	"alert-dialog_select-option": "Select an option",
+	"alert-dialog_camera": "Camera",
+	"alert-dialog_gallery": "Gallery",
+
+	"logout": "Logout"
 }

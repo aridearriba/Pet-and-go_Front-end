@@ -1,6 +1,13 @@
 {
-	"user_login_email": "Email",
-	"user_login_password": "Contrasenya",
+	"home_title": "Inici",
+
+	"user_email": "Email",
+	"user_password": "Contrasenya",
+	"user_repeat-password": "Repetir constrasenya",
+	"user_username": "Username",
+	"user_name": "Nom",
+	"user_surname": "Cognom",
+
 	"user_login_login": "Entrar",
 	"user_login_or": "o",
 	"user_login_sign-up": "Registrar-se",
@@ -9,6 +16,53 @@
 	"user_login_empty-password": "Si us plau, escriu una contrasenya.",
 	"user_login_wrong-user-password": "Email o contrasenya incorrectes",
 	"user_login_not-complete": "No se ha pogut completar l'inici de sessió",
+
+	"user_sign-up_title": "Registre",
+	"user_sign-up_choose-image": "Escull una imatge",
+	"user_sign-up_invalid-email": "Aquest email no es vàlid.",
+	"user_sign-up_existing-email": "Ja existeix un usuari amb aquest email.",
+	"user_sign-up_empty-username": "Si us plau, escriu un username.",
+	"user_sign-up_existing-username": "Ja existeix un usuari amb aquest username",
+	"user_sign-up_empty-name": "Si us plau, escriu el teu nom.",
+	"user_sign-up_empty-surname": "Si us plau, escriu el teu cognom.",
+	"user_sign-up_not-match-passwords": "Las contrasenyes no coincideixen",
+	"user_sign-up_success": "Usuari registrat amb èxit",
+	"user_sign-up_fail": "No s'ha pogut registrar l'usuari",
+	"user_sign-up_upload-image-url": "assets/images/examinar-ca.jpg",
+
+	"user_profile_title": "Perfil",
+	"user_profile_user": "USUARI",
+	"user_profile_level": "Nivell",
+	"user_profile_points": "Punt(s)",
+	"user_profile_awards": "PREMIS",
+	"user_profile_see-awards": "Veure premis",
+
+	"user_awards_title": "Premis",
+	"user_awards_loading-avatars": "Carregant avatars...",
+	"user_awards_saved-changes-success": "Cambis guardats correctament",
+	"user_awards_saved-changes-fail": "No s'han pogut desar els canvis",
+	"user_awards_save-changes": "Desar canvis",
+
+	"user_edit_title": "Editar usuari",
+	"user_edit_empty-fields": "Error. Algun dels camps està buit.",
+	"user_edit_update": "Actualitzar",
+	"user_edit_change-password": "Canviar contrasenya",
+	"user_edit_current-password": "Contrasenya actual",
+	"user_edit_new-password": "Nova contrasenya",
+	"user_edit_password-update-success": "Contrasenya actualizada amb èxit",
+	"user_edit_wrong-current-password": "Contrasenya actual incorrecta",
+	"user_edit_alert": "Alerta!",
+	"user_edit_google-user": "Ets un usuari de Google, no pots canviar la teva contrasenya en aquesta app.",
+
+	"pets_my-pets_title": "Mascotes",
+
+	"meetings_my-meetings_title": "Quedades",
+
+	"points-of-interest_title": "Punts d'interès",
+
+	"calendar_calendar_title": "Calendari",
+
+	"chat_title": "Xat",
 
 	"settings_title": "Configuració",
 	"settings_language": "IDIOMA",
@@ -24,5 +78,10 @@
 	"notifications_today": "Avui",
 
 	"alert-dialog_accept": "ACCEPTAR",
-	"alert-dialog_close": "TANCAR"
+	"alert-dialog_close": "TANCAR",
+	"alert-dialog_select-option": "Selecciona una opció",
+	"alert-dialog_camera": "Càmara",
+	"alert-dialog_gallery": "Galeria",
+
+	"logout": "Tancar sessió"
 }
