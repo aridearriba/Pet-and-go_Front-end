@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
@@ -13,13 +14,12 @@ class QuedadasTabView extends StatefulWidget {
 }
 
 class QuedadasTabState extends State<QuedadasTabView>{
-
     @override
     Widget build(BuildContext context) {
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
-                title: Text('Mis quedadas',style: TextStyle(color: Colors.white,),),
+                title: Text(AppLocalizations.of(context).translate('meetings_my-meetings_title'), style: TextStyle(color: Colors.white,),),
                 iconTheme: IconThemeData(color: Colors.white,),
             ),
             body: Column(
@@ -36,8 +36,8 @@ class QuedadasTabState extends State<QuedadasTabView>{
                                                     unselectedLabelColor: Colors.grey,
                                                     indicatorColor: Colors.green,
                                                     tabs: [
-                                                        Tab(text: "Mis quedadas",),
-                                                        Tab(text: "Mis PerreParadas",),
+                                                        Tab(text: AppLocalizations.of(context).translate('meetings_my-meetings_title')),
+                                                        Tab(text: AppLocalizations.of(context).translate('meetings_my-dogstops_title')),
                                                     ],
                                                 ),
                                                 Expanded(
@@ -59,5 +59,4 @@ class QuedadasTabState extends State<QuedadasTabView>{
             ),
         );
     }
-
 }

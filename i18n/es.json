@@ -61,10 +61,37 @@
 	"user_edit_google-user": "Eres un usuario Google, no puedes cambiar tu contraseña en esta app.",
 
 	"pets_my-pets_title": "Mis mascotas",
+	"pets_my-pets_add-pet": "Añadir mascota",
+
+	"pets_pet_title": "Mi mascota",
+	"pets_pet_info": "Info",
+	"pets_pet_years": "año(s)",
+	"pets_pet_edit": "Editar mascota",
+	"pets_pet_pet-info": "Info de la mascota",
+	"pets_pet_birthday": "Fecha de nacimiento",
+	"pets_pet_update-fail": "Error. No se ha podido cambiar la fecha.",
+
+	"pets_add-pet_success": "Mascota añadida con éxito",
+	"pets_add-pet_fail": "No se ha podido añadir la mascota",
+	"pets_add-pet_empty-name": "Por favor, escribe el nombre de tu mascota",
+	"pets_add-pet_existing": "Ya tienes otra mascota con este nombre",
+
+	"pets_delete-pet_title": "Eliminar mascota",
+	"pets_delete-pet_confirm": "Estás apunto de eliminar esta mascota. ¿Estás seguro?",
 
 	"meetings_my-meetings_title": "Mis quedadas",
+	"meetings_my-dogstops_title": "Mis PerreParadas",
+	"meetings_my-meetings_empty": "No tienes quedadas",
+
 
 	"points-of-interest_title": "Puntos de interés",
+	"points-of-interest_list": "Lista",
+	"points-of-interest_map": "Mapa",
+
+	"points-of-interest_one_title": "Punto de interés",
+	"points-of-interest_one_opened": "Abierto ahora mismo",
+	"points-of-interest_one_closed": "Cerrado ahora mismo",
+	"points-of-interest_one_see-map": "Ver en mapa",
 
 	"calendar_calendar_title": "Calendario",
 	"calendar_calendar_month": "Mes",

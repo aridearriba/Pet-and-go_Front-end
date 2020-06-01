@@ -4,7 +4,7 @@
 	"home_title": "Inici",
 	"home_tip": "Consell",
 	"home_loading-tip": "carregant consell...",
-	"home_near-dogstops": "'PerreParadas' properes",
+	"home_near-dogstops": "PerreParadas properes",
 	"home_searching-position": "carregant posició...",
 
 	"user_email": "Email",
@@ -61,10 +61,36 @@
 	"user_edit_google-user": "Ets un usuari de Google, no pots canviar la teva contrasenya en aquesta app.",
 
 	"pets_my-pets_title": "Mascotes",
+	"pets_my-pets_add-pet": "Afegir mascota",
+
+	"pets_pet_title": "Mascota",
+	"pets_pet_info": "Info",
+	"pets_pet_years": "any(s)",
+	"pets_pet_edit": "Editar mascota",
+	"pets_pet_pet-info": "Info de la mascota",
+	"pets_pet_birthday": "Data de naixement",
+	"pets_pet_update-fail": "Error. No s'ha pogut canviar la data.",
+
+	"pets_add-pet_success": "Mascota afegida amb èxit",
+	"pets_add-pet_fail": "No s'ha pogut afegir la mascota",
+	"pets_add-pet_empty-name": "Si us plau, escriu el nom de la teva mascota",
+	"pets_add-pet_existing": "Ja tens una altre mascota amb aquest nom",
+
+	"pets_delete-pet_title": "Esborrar mascota",
+	"pets_delete-pet_confirm": "Estàs apunt d'esborrar aquesta mascota. Estàs segur?",
 
 	"meetings_my-meetings_title": "Quedades",
+	"meetings_my-dogstops_title": "PerreParadas",
+	"meetings_my-meetings_empty": "No tens quedades",
 
 	"points-of-interest_title": "Punts d'interès",
+	"points-of-interest_list": "Llista",
+	"points-of-interest_map": "Mapa",
+
+	"points-of-interest_one_title": "Punt d'interès",
+	"points-of-interest_one_opened": "Obert en aquest moment",
+	"points-of-interest_one_closed": "Tancat en aquest moment",
+	"points-of-interest_one_see-map": "Veure en mapa",
 
 	"calendar_calendar_title": "Calendari",
 	"calendar_calendar_month": "Mes",

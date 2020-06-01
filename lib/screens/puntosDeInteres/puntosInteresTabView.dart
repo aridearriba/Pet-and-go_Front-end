@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:petandgo/model/PuntosInteres.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/puntosDeInteres/listadoPuntosInteresView.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
@@ -32,7 +33,7 @@ class PuntosInteresTabState extends State<PuntosInteresTabView>{
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
-                title: Text('Puntos de interes',style: TextStyle(color: Colors.white,),),
+                title: Text(AppLocalizations.of(context).translate('points-of-interest_title'), style: TextStyle(color: Colors.white)),
                 iconTheme: IconThemeData(color: Colors.white,),
             ),
             body: Column(
@@ -51,7 +52,10 @@ class PuntosInteresTabState extends State<PuntosInteresTabView>{
             builder: (BuildContext context, AsyncSnapshot<PuntosInteres> snapshot) {
                 if (! snapshot.hasData) {
                     return Center(
-                        child: CircularProgressIndicator(),
+                        child: Padding(
+                            padding: EdgeInsets.all(30),
+                            child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
+                        ),
                     );
                 } else {
                     return Expanded(
@@ -67,8 +71,8 @@ class PuntosInteresTabState extends State<PuntosInteresTabView>{
                                                     unselectedLabelColor: Colors.grey,
                                                     indicatorColor: Colors.green,
                                                     tabs: [
-                                                        Tab(text: "Ver listado",),
-                                                        Tab(text: "Ver mapa",),
+                                                        Tab(text: AppLocalizations.of(context).translate('points-of-interest_list')),
+                                                        Tab(text: AppLocalizations.of(context).translate('points-of-interest_map')),
                                                     ],
                                                 ),
                                                 Expanded(
@@ -97,7 +101,6 @@ class PuntosInteresTabState extends State<PuntosInteresTabView>{
         String path = "/maps/api/place/textsearch/json";
         String location = await getCurrentLocation();
         return await getPuntosInteresApi(url,path,location);
-        //return new PuntosInteres();
     }
 
     Future<PuntosInteres> getPuntosInteresApi(String url,String path,String location) async {

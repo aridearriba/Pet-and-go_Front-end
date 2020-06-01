@@ -28,7 +28,7 @@
 	"user_sign-up_invalid-email": "Invalid email.",
 	"user_sign-up_existing-email": "Email already exists",
 	"user_sign-up_empty-username": "Please, write a username.",
-	"user_sign-up_existing-username": "Ja existeix un usuari amb aquest username",
+	"user_sign-up_existing-username": "Username already exists",
 	"user_sign-up_empty-name": "Please, write your name.",
 	"user_sign-up_empty-surname": "Please, write your surname.",
 	"user_sign-up_not-match-passwords": "Passwords does not match",
@@ -61,10 +61,36 @@
 	"user_edit_google-user": "You are a Google user, you cannot change your password in this app.",
 
 	"pets_my-pets_title": "My pets",
+	"pets_my-pets_add-pet": "Add pet",
+
+	"pets_pet_title": "My pet",
+	"pets_pet_info": "Info",
+	"pets_pet_years": "year(s)",
+	"pets_pet_edit": "Edit pet",
+	"pets_pet_pet-info": "Pet's info",
+	"pets_pet_birthday": "Birth date",
+	"pets_pet_update-fail": "Error. Birth date update failed.",
+
+	"pets_add-pet_success": "Pet added successfully",
+	"pets_add-pet_fail": "Pet creation failed",
+	"pets_add-pet_empty-name": "Please, write your pet name",
+	"pets_add-pet_existing": "You have other pet with this name",
+
+	"pets_delete-pet_title": "Delete pet",
+	"pets_delete-pet_confirm": "You are going to delete this pet. Are you sure?",
 
 	"meetings_my-meetings_title": "My meetings",
+	"meetings_my-dogstops_title": "My DogStops",
+	"meetings_my-meetings_empty": "No meetings",
 
 	"points-of-interest_title": "Points of interest",
+	"points-of-interest_list": "List",
+	"points-of-interest_map": "Map",
+
+	"points-of-interest_one_title": "Point of interest",
+	"points-of-interest_one_opened": "Opened right now",
+	"points-of-interest_one_closed": "Closed right now",
+	"points-of-interest_one_see-map": "See in map",
 
 	"calendar_calendar_title": "Calendar",
 	"calendar_calendar_month": "Month",

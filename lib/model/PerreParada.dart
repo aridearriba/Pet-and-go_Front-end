@@ -1,6 +1,8 @@
 import 'dart:convert';
 
-List<PerreParada> reqResponsePerreParadaFromJson(String str) => List<PerreParada>.from(json.decode(str).map((x) => PerreParada.fromJson(x)));
+import 'dart:typed_data';
+
+List<PerreParada> reqResponsePerreParadaFromJson(Uint8List str) => List<PerreParada>.from(json.decode(utf8.decode(str)).map((x) => PerreParada.fromJson(x)));
 
 String reqResponsePerreParadaToJson(List<PerreParada> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
