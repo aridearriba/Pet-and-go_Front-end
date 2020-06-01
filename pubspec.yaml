@@ -60,6 +60,9 @@ dependencies:
     socket_io_client: any
     firebase_messaging: ^5.1.2
 
+    # Google translator
+    translator: 0.1.4
+
 
 dev_dependencies:
     flutter_test:

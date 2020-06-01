@@ -1,5 +1,11 @@
 {
+	"language": "en",
+
 	"home_title": "Home",
+	"home_tip": "Tip",
+	"home_loading-tip": "loading tip...",
+	"home_near-dogstops": "Near DogStops",
+	"home_searching-position": "searching position...",
 
 	"user_email": "Email",
 	"user_password": "Password",
@@ -61,6 +67,54 @@
 	"points-of-interest_title": "Points of interest",
 
 	"calendar_calendar_title": "Calendar",
+	"calendar_calendar_month": "Month",
+	"calendar_calendar_week": "Week",
+	"calendar_calendar_sync": "Synchronize",
+	"calendar_calendar_sync-disabled": "Disable synchronization",
+	"calendar_calendar_january": "Jan.",
+	"calendar_calendar_february": "Feb.",
+	"calendar_calendar_march": "Mar.",
+	"calendar_calendar_april": "Apr.",
+	"calendar_calendar_may": "May",
+	"calendar_calendar_june": "Jun.",
+	"calendar_calendar_july": "Jul.",
+	"calendar_calendar_august": "Aug.",
+	"calendar_calendar_september": "Sep.",
+	"calendar_calendar_october": "Oct.",
+	"calendar_calendar_november": "Nov.",
+	"calendar_calendar_december": "Dec.",
+	"calendar_calendar_locale": "en_US",
+	"calendar_calendar_see-calendars": "See calendars",
+	"calendar_calendar_select-sync": "Select a calendar to synchronize",
+	"calendar_calendar_select-disable-sync": "Select a calendar to disable synchronization",
+
+	"calendar_new-event_title": "New event",
+	"calendar_new-event_event-title": "Title",
+	"calendar_new-event_init-date": "Init date",
+	"calendar_new-event_init-time": "Init time",
+	"calendar_new-event_end-date": "End date",
+	"calendar_new-event_end-time": "End time",
+	"calendar_new-event_description": "Description",
+	"calendar_new-event_reminder": "Reminder 1h before",
+	"calendar_new-event_add": "Add",
+	"calendar_new-event_empty-title": "Please, write a title for this event.",
+	"calendar_new-event_empty-date": "Please, select a date.",
+	"calendar_new-event_empty-time": "Please, select a time.",
+	"calendar_new-event_before-dates": "End date should be after init date.",
+	"calendar_new-event_before-times": "End time should be after init time",
+	"calendar_new-event_success": "Event added successfully",
+	"calendar_new-event_fail": "Event creation failed",
+
+	"calendar_view-event_title": "Event",
+	"calendar_view-event_notifications": "Notifications",
+	"calendar_view-event_edit": "Edit event",
+	"calendar_view-event_delete": "Delete event",
+	"calendar_view-event_no-reminders": "No active reminders",
+
+	"calendar_edit-event_title": "Edit event",
+	"calendar_edit-event_success": "Event updated successfully",
+	"calendar_edit-event_fail": "Event update failed",
+
 
 	"chat_title": "Chat",
 
@@ -82,6 +136,7 @@
 	"alert-dialog_select-option": "Select an option",
 	"alert-dialog_camera": "Camera",
 	"alert-dialog_gallery": "Gallery",
+	"alert-dialog_cancel": "Cancel",
 
 	"logout": "Logout"
 }

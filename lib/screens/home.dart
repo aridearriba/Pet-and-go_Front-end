@@ -1,18 +1,19 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:petandgo/multilanguage/appLanguage.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/quedadas/nuevaPerreParada.dart';
-import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
+import 'package:translator/translator.dart';
 
 
 class Home extends StatefulWidget {
@@ -29,6 +30,7 @@ class _HomeState extends State<Home> {
 
     String _queryParameters = '0/0';
     String _consejo = '';
+    var translator = new GoogleTranslator();
 
     nLogIn() {
         Navigator.pushReplacement(
@@ -69,12 +71,20 @@ class _HomeState extends State<Home> {
 
     // GET Consejos
     Future<String> _getConsejos() async {
-        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/consejos/one"));
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/consejos/one"),
+            headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            }
+        );
 
-        Map<String, dynamic> responseJson = json.decode(response.body);
+        Map<String, dynamic> responseJson = json.decode(utf8.decode(response.bodyBytes));
+
+        _consejo = responseJson['consejo'];
+
+        String translation = await translator.translate(_consejo, to: AppLocalizations.of(context).translate('language'));
 
         setState(() {
-            _consejo = responseJson['consejo'];
+            _consejo = translation;
         });
 
         return _consejo;
@@ -97,7 +107,7 @@ class _HomeState extends State<Home> {
                         ),
                         child:  ListTile(
                             title: Text(
-                                "CONSEJO",
+                                AppLocalizations.of(context).translate('home_tip').toUpperCase(),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 22,
@@ -109,7 +119,7 @@ class _HomeState extends State<Home> {
                             subtitle: Padding(
                                 padding: EdgeInsets.only(top: 10),
                                 child: _consejo == '' ?
-                                    Text ('cargando consejo...',
+                                    Text (AppLocalizations.of(context).translate('home_loading-tip'),
                                         textAlign: TextAlign.center,
                                     ) :
                                     Text(
@@ -127,10 +137,10 @@ class _HomeState extends State<Home> {
                 RichText title = RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: 'PERREPARADAS CERCANAS',
+                        text: AppLocalizations.of(context).translate('home_near-dogstops').toUpperCase(),
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 22,
                             decoration: TextDecoration.underline,
                         ),
                     )
@@ -180,9 +190,9 @@ class _HomeState extends State<Home> {
 
                                         child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
                                     ),
-                                    const Padding(
-                                        padding: EdgeInsets.all(100),
-                                        child: Text('searching position...'),
+                                    Padding(
+                                        padding: EdgeInsets.all(40),
+                                        child: Text(AppLocalizations.of(context).translate('home_searching-position')),
                                     )
                                 ],
                             ),

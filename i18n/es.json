@@ -1,5 +1,11 @@
 {
+	"language": "es",
+
 	"home_title": "Inicio",
+	"home_tip": "Consejo",
+	"home_loading-tip": "cargando consejo...",
+	"home_near-dogstops": "PerreParadas cercanas",
+	"home_searching-position": "cargando posición...",
 
 	"user_email": "Email",
 	"user_password": "Contraseña",
@@ -61,6 +67,53 @@
 	"points-of-interest_title": "Puntos de interés",
 
 	"calendar_calendar_title": "Calendario",
+	"calendar_calendar_month": "Mes",
+	"calendar_calendar_week": "Semana",
+	"calendar_calendar_sync": "Sincronizar",
+	"calendar_calendar_sync-disabled": "Desactivar sincronización",
+	"calendar_calendar_january": "Ene.",
+	"calendar_calendar_february": "Feb.",
+	"calendar_calendar_march": "Mar.",
+	"calendar_calendar_april": "Abr.",
+	"calendar_calendar_may": "May.",
+	"calendar_calendar_june": "Jun.",
+	"calendar_calendar_july": "Jul.",
+	"calendar_calendar_august": "Ago.",
+	"calendar_calendar_september": "Sep.",
+	"calendar_calendar_october": "Oct.",
+	"calendar_calendar_november": "Nov.",
+	"calendar_calendar_december": "Dic.",
+	"calendar_calendar_locale": "es_ES",
+	"calendar_calendar_see-calendars": "Ver calendarios",
+	"calendar_calendar_select-sync": "Selecciona un calendario para sincronizar",
+	"calendar_calendar_select-disable-sync": "Selecciona un calendario para desactivar la sincronización",
+
+	"calendar_new-event_title": "Añadir evento",
+	"calendar_new-event_event-title": "Título",
+	"calendar_new-event_init-date": "Fecha inicio",
+	"calendar_new-event_init-time": "Hora inicio",
+	"calendar_new-event_end-date": "Fecha fin",
+	"calendar_new-event_end-time": "Hora fin",
+	"calendar_new-event_description": "Descripción",
+	"calendar_new-event_reminder": "Recordatorio 1h antes",
+	"calendar_new-event_add": "Añadir",
+	"calendar_new-event_empty-title": "Por favor, escribe el título del evento.",
+	"calendar_new-event_empty-date": "Por favor, selecciona una fecha.",
+	"calendar_new-event_empty-time": "Por favor, selecciona una hora.",
+	"calendar_new-event_before-dates": "La fecha fin debe ser posterior a la de inicio.",
+	"calendar_new-event_before-times": "La hora fin debe ser posterior a la de inicio",
+	"calendar_new-event_success": "Evento añadido con éxito",
+	"calendar_new-event_fail": "No se ha podido añadir el evento",
+
+	"calendar_view-event_title": "Evento",
+	"calendar_view-event_notifications": "Notificaciones",
+	"calendar_view-event_edit": "Editar evento",
+	"calendar_view-event_delete": "Eliminar evento",
+	"calendar_view-event_no-reminders": "No hay recordatorios activos",
+
+	"calendar_edit-event_title": "Editar evento",
+	"calendar_edit-event_success": "Evento actualizado con éxito",
+	"calendar_edit-event_fail": "No se han podido guardar los cambios",
 
 	"chat_title": "Chat",
 
@@ -82,6 +135,7 @@
 	"alert-dialog_select-option": "Selecciona una opción",
 	"alert-dialog_camera": "Cámara",
 	"alert-dialog_gallery": "Galería",
+	"alert-dialog_cancel": "Cancelar",
 
 	"logout": "Cerrar sesión"
 }

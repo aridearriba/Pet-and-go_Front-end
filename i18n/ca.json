@@ -1,5 +1,11 @@
 {
+	"language": "ca",
+
 	"home_title": "Inici",
+	"home_tip": "Consell",
+	"home_loading-tip": "carregant consell...",
+	"home_near-dogstops": "'PerreParadas' properes",
+	"home_searching-position": "carregant posició...",
 
 	"user_email": "Email",
 	"user_password": "Contrasenya",
@@ -61,6 +67,53 @@
 	"points-of-interest_title": "Punts d'interès",
 
 	"calendar_calendar_title": "Calendari",
+	"calendar_calendar_month": "Mes",
+	"calendar_calendar_week": "Setmana",
+	"calendar_calendar_sync": "Sincronitzar",
+	"calendar_calendar_sync-disabled": "Desactivar sincronització",
+	"calendar_calendar_january": "Gen.",
+	"calendar_calendar_february": "Feb.",
+	"calendar_calendar_march": "Mar.",
+	"calendar_calendar_april": "Abr.",
+	"calendar_calendar_may": "Maig",
+	"calendar_calendar_june": "Jun.",
+	"calendar_calendar_july": "Jul.",
+	"calendar_calendar_august": "Ago.",
+	"calendar_calendar_september": "Set.",
+	"calendar_calendar_october": "Oct.",
+	"calendar_calendar_november": "Nov.",
+	"calendar_calendar_december": "Dec.",
+	"calendar_calendar_locale": "ca_CA",
+	"calendar_calendar_see-calendars": "Veure calendaris",
+	"calendar_calendar_select-sync": "Selecciona un calendari per sincronitzar",
+	"calendar_calendar_select-disable-sync": "Selecciona un calendari per desactivar la sincronització",
+
+	"calendar_new-event_title": "Afegir esdeveniment",
+	"calendar_new-event_event-title": "Títol",
+	"calendar_new-event_init-date": "Data inici",
+	"calendar_new-event_init-time": "Hora inici",
+	"calendar_new-event_end-date": "Data fi",
+	"calendar_new-event_end-time": "Hora fi",
+	"calendar_new-event_description": "Descripció",
+	"calendar_new-event_reminder": "Recordatori 1h abans",
+	"calendar_new-event_add": "Afegir",
+	"calendar_new-event_empty-title": "Si us plau, escriu el títol de l'esdeveniment.",
+	"calendar_new-event_empty-date": "Si us plau, selecciona una data.",
+	"calendar_new-event_empty-time": "Si us plau, selecciona una hora.",
+	"calendar_new-event_before-dates": "La data fi ha de ser posterior a la d'inici.",
+	"calendar_new-event_before-times": "La hora fi ha de ser posterior a la d'inici",
+	"calendar_new-event_success": "Esdeveniment afegit amb èxit",
+	"calendar_new-event_fail": "No se ha pogut afegir l'esdeveniment",
+
+	"calendar_view-event_title": "Esdeveniment",
+	"calendar_view-event_notifications": "Notificacions",
+	"calendar_view-event_edit": "Editar esdeveniment",
+	"calendar_view-event_delete": "Esborrar esdeveniment",
+	"calendar_view-event_no-reminders": "No hi ha recordatoris actius",
+
+	"calendar_edit-event_title": "Editar esdeveniment",
+	"calendar_edit-event_success": "Esdeveniment actualitzat amb èxit",
+	"calendar_edit-event_fail": "No s'han pogut desar els canvis",
 
 	"chat_title": "Xat",
 
@@ -82,6 +135,7 @@
 	"alert-dialog_select-option": "Selecciona una opció",
 	"alert-dialog_camera": "Càmara",
 	"alert-dialog_gallery": "Galeria",
+	"alert-dialog_cancel": "Cancel·lar",
 
 	"logout": "Tancar sessió"
 }

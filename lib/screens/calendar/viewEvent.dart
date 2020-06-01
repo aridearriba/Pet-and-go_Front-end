@@ -1,18 +1,15 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:petandgo/main.dart';
 import 'package:petandgo/model/event.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/calendar/editEvent.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
-import 'package:petandgo/screens/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -53,7 +50,7 @@ class _viewEventState extends State<ViewEvent>{
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Mi evento',
+                    AppLocalizations.of(context).translate('calendar_view-event_title'),
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -106,7 +103,7 @@ class _viewEventState extends State<ViewEvent>{
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + 'Fecha inicio',
+                                                        '   ' + AppLocalizations.of(context).translate('calendar_new-event_init-date'),
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16.0,
@@ -141,7 +138,7 @@ class _viewEventState extends State<ViewEvent>{
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + 'Fecha fin',
+                                                        '   ' + AppLocalizations.of(context).translate('calendar_new-event_end-date'),
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16.0,
@@ -176,7 +173,7 @@ class _viewEventState extends State<ViewEvent>{
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + 'Descripción',
+                                                        '   ' + AppLocalizations.of(context).translate('calendar_new-event_description'),
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16
@@ -204,7 +201,7 @@ class _viewEventState extends State<ViewEvent>{
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + 'Notificaciones',
+                                                        '   ' + AppLocalizations.of(context).translate('calendar_view-event_notifications'),
                                                         style: TextStyle(
                                                             color: Colors.black54,
                                                             fontSize: 16
@@ -222,7 +219,7 @@ class _viewEventState extends State<ViewEvent>{
                                                         color: widget.event.notifications ? Colors.green : Colors.redAccent,
                                                     ),
                                                     Text(
-                                                        widget.event.notifications ? '   Recordatorio 1h antes' : '   No hay recordatorios activos',
+                                                        widget.event.notifications ? '   ' + AppLocalizations.of(context).translate('calendar_new-event_reminder') : '   ' + AppLocalizations.of(context).translate('calendar_view-event_no-reminders'),
                                                         style: TextStyle(
                                                             color: Colors.black87,
                                                             fontSize: 16
@@ -233,40 +230,34 @@ class _viewEventState extends State<ViewEvent>{
                                         ),
                                     ],
                                 ),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 20.0, left: 30),
-                                    child: Row(
-                                        children: <Widget>[
-                                            FloatingActionButton.extended(
-                                                heroTag: "editEvent",
-                                                icon: Icon(Icons.edit, color: Colors.white),
-                                                backgroundColor: Colors.green,
-                                                label: Text("Editar datos del evento"),
-                                                onPressed: () {
-                                                    nEditEvent();
-                                                }
-                                            )
-                                        ],
+                                Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(top: 20.0),
+                                        child: FloatingActionButton.extended(
+                                            heroTag: "editEvent",
+                                            icon: Icon(Icons.edit, color: Colors.white),
+                                            backgroundColor: Colors.green,
+                                            label: Text(AppLocalizations.of(context).translate('calendar_view-event_edit')),
+                                            onPressed: () {
+                                                nEditEvent();
+                                            }
+                                        )
                                     ),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 30.0, bottom: 30, left: 60),
-                                    child: Row(
-                                        children: <Widget>[
-                                            FloatingActionButton.extended(
-                                                heroTag: "deleteEvent",
-                                                icon: Icon(Icons.delete, color: Colors.white),
-                                                backgroundColor: Colors.redAccent,
-                                                label: Text("Eliminar evento"),
-                                                onPressed: () {
-                                                    deleteEvent().whenComplete(nCalendar);
-                                                }
-                                            )
-                                        ],
+                                 Padding(
+                                        padding: EdgeInsets.only(top:20),
+                                        child: FloatingActionButton.extended(
+                                            heroTag: "deleteEvent",
+                                            icon: Icon(Icons.delete, color: Colors.white),
+                                            backgroundColor: Colors.redAccent,
+                                            label: Text(AppLocalizations.of(context).translate('calendar_view-event_delete')),
+                                            onPressed: () {
+                                                deleteEvent().whenComplete(nCalendar);
+                                            }
+                                        )
                                     ),
-                                ),
+                                 ])
                             ],
                         ),
                     ),
