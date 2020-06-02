@@ -68,7 +68,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
         final response = await http.get(URL);
 
         if (response.statusCode == 200) {
-            var data = json.decode(response.body);
+            var data = json.decode(utf8.decode(response.bodyBytes));
             print(data);
 
             _listPets = await _getUsersPets();
@@ -98,162 +98,125 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                 if (snapshot.hasData) {
                     children = <Widget>[
                         Padding(
-                            padding: const EdgeInsets.only(top: 16),
-                        ),
-                        Row(
-                            children: <Widget>[
-                                Icon(
-                                    Icons.person,
-                                    color: Colors.grey,
-                                ),
-                                Text(
-                                    '${snapshot.data.admin}',
-                                ),
-                            ],
-                        ),
-                        Row(
-                            children: <Widget>[
-                                Icon(
-                                    Icons.place,
-                                    color: Colors.grey,
-                                ),
-                                Text(
-                                    '${snapshot.data.lugarInicio}',
-                                    overflow: TextOverflow.ellipsis,
-                                ),
-                            ],
-                        ),
-                        Row(
-                            children: <Widget>[
-                                Icon(
-                                    Icons.access_time,
-                                    color: Colors.grey,
-                                ),
-                                Text(
-                                    '${snapshot.data.fechaQuedada.day}/${snapshot.data.fechaQuedada.month}/${snapshot.data.fechaQuedada.year}     ${snapshot.data.fechaQuedada.hour}:${snapshot.data.fechaQuedada.minute}',
-                                ),
-                            ],
-                        ),
-                        Padding(
-                            padding: EdgeInsets.all(20.0),
-                        ),
-                        Center(
-                            child: Container(
-                                height: 250,
-                                width: 350,
-                                child: GoogleMap(
-                                    mapType: MapType.normal,
-                                    initialCameraPosition: CameraPosition(
-                                        target: LatLng(snapshot.data.latitud,snapshot.data.longitud),
-                                        zoom: 15,
-                                    ),
-                                    onMapCreated: (GoogleMapController controller) {
-                                        _controller.complete(controller);
-                                    },
-                                    markers: _markers,
-                                ),
-                            ),
-                        ),
-                        Padding(
-                            padding: EdgeInsets.all(10.0),
-                        ),
-                        RaisedButton(
-                            onPressed: (){
-                                _notJoined ?
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                        return _PetsDialog(
-                                            callback: this.callback,
-                                            user: widget.user,
-                                            paradaId: widget.id,
-                                            pets: _listPets,
-                                            selectedPets: _seledtedPets,
-                                            onSelectedPetsListChanged: (pets) {
-                                                _seledtedPets = pets;
-                                                print(_seledtedPets);
-                                            }
-                                        );
-                                    }
-                                ) :
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                        return Dialog(
-                                            child: Container(
-                                                height: 250,
-                                                width: 300,
-                                                child: Column(
-                                                    children: <Widget>[
-                                                        Padding(
-                                                            padding: EdgeInsets.all(20),
-                                                        ),
-                                                        Text(AppLocalizations.of(context).translate('dogstops_one_confirm-unroll'),
-                                                            overflow: TextOverflow.fade,
-                                                            textAlign: TextAlign.center,
-                                                            style: new TextStyle(
-                                                                fontSize: 20.0,
-                                                                color: Colors.black,
-                                                            ),
-                                                        ),
-                                                        Padding(
-                                                            padding: EdgeInsets.all(5),
-                                                        ),
-                                                        Text(AppLocalizations.of(context).translate('dogstops_one_info-unroll'),
-                                                            overflow: TextOverflow.fade,
-                                                            textAlign: TextAlign.center,
-                                                            style: new TextStyle(
-                                                                fontSize: 12.0,
-                                                                color: Colors.black26,
-                                                            ),
-                                                        ),
-                                                        Padding(
-                                                            padding: EdgeInsets.all(20),
-                                                        ),
-                                                        Center(
-                                                            child: Container(
-                                                                child: Row(
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                    children: <Widget>[
-                                                                        RaisedButton(
-                                                                            color: Colors.grey[300],
-                                                                            onPressed: () {
-                                                                                deleteMyParticipations();
-                                                                                Navigator.pop(context);
-                                                                            },
-                                                                            child: Text(
-                                                                                AppLocalizations.of(context).translate('alert-dialog_accept'),
-                                                                                style: TextStyle(
-                                                                                    color: Colors.black,
-                                                                                ),
-                                                                            ),
-                                                                        ),
-                                                                        RaisedButton(
-                                                                            color: Colors.grey[300],
-                                                                            onPressed: () {
-                                                                                Navigator.pop(context);
-                                                                            },
-                                                                            child: Text(
-                                                                                AppLocalizations.of(context).translate('alert-dialog_cancel').toUpperCase(),
-                                                                                style: TextStyle(
-                                                                                    color: Colors.black,
-                                                                                ),
-                                                                            ),
-                                                                        ),
-                                                                    ],
-                                                                ),
-                                                            ),
-                                                        ),
-                                                    ],
-                                                ),
+                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                            child: Column(
+                                children: <Widget>[
+                                    Row(
+                                        children: <Widget>[
+                                            Icon(
+                                                Icons.person,
+                                                color: Colors.grey,
                                             ),
-                                        );
-                                    }
-                                );
-                            },
-                            child: Text( _notJoined ?
-                                AppLocalizations.of(context).translate('dogstops_one_enroll') : AppLocalizations.of(context).translate('dogstops_one_unroll')
+                                            Text(
+                                                '  ${snapshot.data.admin}',
+                                            ),
+                                        ],
+                                    ),
+                                    Divider(color: Colors.transparent),
+                                    Row(
+                                        children: <Widget>[
+                                            Icon(
+                                                Icons.place,
+                                                color: Colors.grey,
+                                            ),
+                                            Text(
+                                                '  ${snapshot.data.lugarInicio}',
+                                                overflow: TextOverflow.ellipsis,
+                                            ),
+                                        ],
+                                    ),
+                                    Divider(color: Colors.transparent),
+                                    Row(
+                                        children: <Widget>[
+                                            Icon(
+                                                Icons.access_time,
+                                                color: Colors.grey,
+                                            ),
+                                            Text(
+                                                '  ${snapshot.data.fechaQuedada.day.toString().padLeft(2, '0')}/${snapshot.data.fechaQuedada.month.toString().padLeft(2, '0')}/${snapshot.data.fechaQuedada.year}     ${snapshot.data.fechaQuedada.hour.toString().padLeft(2, '0')}:${snapshot.data.fechaQuedada.minute.toString().padLeft(2, '0')} h',
+                                            ),
+                                        ],
+                                    ),
+                                    Divider(color: Colors.transparent),
+                                    Center(
+                                        child: Container(
+                                            height: 250,
+                                            width: 350,
+                                            child: GoogleMap(
+                                                mapType: MapType.normal,
+                                                initialCameraPosition: CameraPosition(
+                                                    target: LatLng(snapshot.data.latitud,snapshot.data.longitud),
+                                                    zoom: 15,
+                                                ),
+                                                onMapCreated: (GoogleMapController controller) {
+                                                    _controller.complete(controller);
+                                                },
+                                                markers: _markers,
+                                            ),
+                                        ),
+                                    ),
+                                    Divider(color: Colors.transparent, height: 40,),
+                                    RaisedButton(
+                                        onPressed: (){
+                                            _notJoined ?
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                    return _PetsDialog(
+                                                        callback: this.callback,
+                                                        user: widget.user,
+                                                        paradaId: widget.id,
+                                                        pets: _listPets,
+                                                        selectedPets: _seledtedPets,
+                                                        onSelectedPetsListChanged: (pets) {
+                                                            _seledtedPets = pets;
+                                                            print(_seledtedPets);
+                                                        }
+                                                    );
+                                                }
+                                            ) :
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                    return AlertDialog(
+                                                        title: Text(
+                                                            AppLocalizations.of(context).translate('dogstops_one_confirm-unroll'),
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                color: Colors.black,
+                                                                fontSize: 18.0
+                                                            ),
+                                                        ),
+                                                        content: Text(
+                                                            AppLocalizations.of(context).translate('dogstops_one_info-unroll'),
+                                                            textAlign: TextAlign.center,
+                                                            style: TextStyle(
+                                                                color: Colors.black26,
+                                                                fontSize: 12.0
+                                                            ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                            FlatButton(
+                                                                child: Text(AppLocalizations.of(context).translate('alert-dialog_cancel').toUpperCase(), style: TextStyle(color: Colors.black45),),
+                                                                onPressed: () => Navigator.pop(context),
+                                                            ),
+                                                            FlatButton(
+                                                                child: Text(AppLocalizations.of(context).translate('alert-dialog_accept').toUpperCase(), style: TextStyle(color: Colors.black),),
+                                                                onPressed: () {
+                                                                    deleteMyParticipations();
+                                                                    Navigator.pop(context);
+                                                                },
+                                                            ),
+                                                        ],
+                                                    );
+                                                },
+                                            );
+                                        },
+                                        child: Text( _notJoined ?
+                                            AppLocalizations.of(context).translate('dogstops_one_enroll') : AppLocalizations.of(context).translate('dogstops_one_unroll')
+                                        )
+                                    ),
+                                ],
                             ),
                         ),
                     ];
@@ -412,6 +375,8 @@ class _PetsDialogState extends State<_PetsDialog> {
                                 addMeAsParticipant();
                                 Navigator.pop(context);
                             },
+                            color: Colors.transparent,
+                            elevation: 0,
                             child: Text(AppLocalizations.of(context).translate('alert-dialog_accept')),
                         )
                     ],
