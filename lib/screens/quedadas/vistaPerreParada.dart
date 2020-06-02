@@ -119,10 +119,13 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                                 Icons.place,
                                                 color: Colors.grey,
                                             ),
-                                            Text(
-                                                '  ${snapshot.data.lugarInicio}',
-                                                overflow: TextOverflow.ellipsis,
-                                            ),
+                                            Text("  "),
+                                            Expanded(child:
+                                                Text(
+                                                '${snapshot.data.lugarInicio}',
+                                                overflow: TextOverflow.visible,
+                                                ),
+                                            )
                                         ],
                                     ),
                                     Divider(color: Colors.transparent),
