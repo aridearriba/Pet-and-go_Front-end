@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:petandgo/screens/menu/menu.dart';
-import 'package:petandgo/model/user.dart';
 import 'package:device_calendar/device_calendar.dart';
 
 

@@ -13,6 +13,7 @@ class Avatar {
     int get level => _level;
     String get image => _image;
 
+    set level(int level) => _level = level;
     set image(String image) => _image = image;
 
     factory Avatar.fromJson(Map<String, dynamic> json) {

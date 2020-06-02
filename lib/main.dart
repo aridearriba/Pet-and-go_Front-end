@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'multilanguage/appLanguage.dart';
+import 'multilanguage/appLocalizations.dart';
 import 'screens/user/login.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    AppLanguage appLanguage = AppLanguage();
+    await appLanguage.fetchLocale();
+
+    runApp(MyApp(appLanguage: appLanguage));
+}
 
 class MyApp extends StatefulWidget {
+    final AppLanguage appLanguage;
+    MyApp({this.appLanguage});
+
     static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
     static bool calendarNotifications;
 
@@ -32,12 +46,28 @@ class _MyAppState extends State<MyApp> {
 
     @override
     Widget build(BuildContext context) {
-        return MaterialApp(
-            title: 'Pet and Go',
-            theme: ThemeData(
-                primaryColor: Color.fromRGBO(63, 202, 12, 1),
-            ),
-            home: LogIn(),
+        return ChangeNotifierProvider<AppLanguage>(
+            create: (_) => widget.appLanguage,
+            child: Consumer<AppLanguage>(builder: (context, model, child) {
+                return MaterialApp(
+                    title: 'Pet and Go',
+                    theme: ThemeData(
+                        primaryColor: Color.fromRGBO(63, 202, 12, 1),
+                    ),
+                    locale: model.appLocal,
+                    supportedLocales: [
+                        Locale('es', 'ES'),
+                        Locale('ca', 'CA'),
+                        Locale('en', 'US'),
+                    ],
+                    localizationsDelegates: [
+                        AppLocalizations.delegate,
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                    ],
+                    home: LogIn(),
+                );
+            }),
         );
     }
 

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:petandgo/model/PerreParada.dart';
 import 'package:petandgo/model/mascota.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
@@ -129,7 +130,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                     color: Colors.grey,
                                 ),
                                 Text(
-                                    '${snapshot.data.fechaQuedada.day}/${snapshot.data.fechaQuedada.month}/${snapshot.data.fechaQuedada.year} a las ${snapshot.data.fechaQuedada.hour}:${snapshot.data.fechaQuedada.minute}',
+                                    '${snapshot.data.fechaQuedada.day}/${snapshot.data.fechaQuedada.month}/${snapshot.data.fechaQuedada.year}     ${snapshot.data.fechaQuedada.hour}:${snapshot.data.fechaQuedada.minute}',
                                 ),
                             ],
                         ),
@@ -187,7 +188,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                                         Padding(
                                                             padding: EdgeInsets.all(20),
                                                         ),
-                                                        Text('¿Seguro de que quieres abandonar esta quedada?',
+                                                        Text(AppLocalizations.of(context).translate('dogstops_one_confirm-unroll'),
                                                             overflow: TextOverflow.fade,
                                                             textAlign: TextAlign.center,
                                                             style: new TextStyle(
@@ -198,7 +199,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                                         Padding(
                                                             padding: EdgeInsets.all(5),
                                                         ),
-                                                        Text('si abandonas esta quedada se borraran desapuntaran todos los perros con los que te apuntastes',
+                                                        Text(AppLocalizations.of(context).translate('dogstops_one_info-unroll'),
                                                             overflow: TextOverflow.fade,
                                                             textAlign: TextAlign.center,
                                                             style: new TextStyle(
@@ -213,11 +214,8 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                                             child: Container(
                                                                 child: Row(
                                                                     crossAxisAlignment: CrossAxisAlignment.center,
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                     children: <Widget>[
-                                                                        Padding(
-                                                                            padding: EdgeInsets.all(26),
-                                                                        ),
-
                                                                         RaisedButton(
                                                                             color: Colors.grey[300],
                                                                             onPressed: () {
@@ -225,23 +223,19 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                                                                 Navigator.pop(context);
                                                                             },
                                                                             child: Text(
-                                                                                'OK',
+                                                                                AppLocalizations.of(context).translate('alert-dialog_accept'),
                                                                                 style: TextStyle(
                                                                                     color: Colors.black,
                                                                                 ),
                                                                             ),
                                                                         ),
-                                                                        Padding(
-                                                                            padding: EdgeInsets.all(10),
-                                                                        ),
-
                                                                         RaisedButton(
                                                                             color: Colors.grey[300],
                                                                             onPressed: () {
                                                                                 Navigator.pop(context);
                                                                             },
                                                                             child: Text(
-                                                                                'CANCEL',
+                                                                                AppLocalizations.of(context).translate('alert-dialog_cancel').toUpperCase(),
                                                                                 style: TextStyle(
                                                                                     color: Colors.black,
                                                                                 ),
@@ -259,7 +253,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                 );
                             },
                             child: Text( _notJoined ?
-                                'Apuntarse' : 'Desapuntarse'
+                                AppLocalizations.of(context).translate('dogstops_one_enroll') : AppLocalizations.of(context).translate('dogstops_one_unroll')
                             ),
                         ),
                     ];
@@ -284,9 +278,9 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                             width: 60,
                             height: 60,
                         ),
-                        const Padding(
+                        Padding(
                             padding: EdgeInsets.only(top: 16),
-                            child: Text('Awaiting result...'),
+                            child: Text(AppLocalizations.of(context).translate('dogstops_one_awaiting-results')),
                         )
                     ];
                 }
@@ -294,7 +288,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                     key: _scaffoldKey, drawer: Menu(widget.user),
                     appBar: AppBar(
                         title: Text(
-                            'Perreparada',
+                            AppLocalizations.of(context).translate('dogstops_one_title'),
                             style: TextStyle(
                                 color: Colors.white,
                             ),
@@ -376,7 +370,7 @@ class _PetsDialogState extends State<_PetsDialog> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                                Text('¿Con que mascotas vas a ir?',
+                                Text(AppLocalizations.of(context).translate('dogstops_one_pet-select'),
                                     style: TextStyle(fontSize: 18.0, color: Colors.black),
                                     textAlign: TextAlign.center,
                                 ),
@@ -418,7 +412,7 @@ class _PetsDialogState extends State<_PetsDialog> {
                                 addMeAsParticipant();
                                 Navigator.pop(context);
                             },
-                            child: Text('OK'),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_accept')),
                         )
                     ],
                 ),
