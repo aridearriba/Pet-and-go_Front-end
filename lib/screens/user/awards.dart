@@ -241,6 +241,7 @@ class _AwardsState extends State<Awards>
     }
 
     TableRow _createRow(Avatar avatar1, Avatar avatar2, Avatar avatar3) {
+        print("LEVEL: " + widget.user.level.toString() + " " + avatar1.level.toString());
         rows.add(TableRow(
             children: [
                 Padding(
@@ -248,9 +249,9 @@ class _AwardsState extends State<Awards>
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                            avatar1 == null ? Container(width: 80) : _showAvatar(widget.user.level <= avatar1.level ? true : false, avatar1),
-                            avatar2 == null ? Container(width: 80) : _showAvatar(widget.user.level <= avatar2.level ? true : false, avatar2),
-                            avatar3 == null ? Container(width: 80) : _showAvatar(widget.user.level <= avatar3.level ? true : false, avatar3),
+                            avatar1 == null ? Container(width: 80) : _showAvatar(widget.user.level < avatar1.level ? true : false, avatar1),
+                            avatar2 == null ? Container(width: 80) : _showAvatar(widget.user.level < avatar2.level ? true : false, avatar2),
+                            avatar3 == null ? Container(width: 80) : _showAvatar(widget.user.level < avatar3.level ? true : false, avatar3),
                         ]))
         ]));
     }
