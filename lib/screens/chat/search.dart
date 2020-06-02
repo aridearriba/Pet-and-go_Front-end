@@ -21,7 +21,12 @@ class _SearchState extends State<Search>{
 
     User userSearch = new User();
     bool mostrar = false;
+    var _responseCode;
 
+
+    void initState(){
+        super.initState();
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -35,7 +40,6 @@ class _SearchState extends State<Search>{
                         color: Colors.white,
                     ),
                 ),
-                centerTitle: true,
                 iconTheme: IconThemeData(
                     color: Colors.white,
                 ),
@@ -54,6 +58,19 @@ class _SearchState extends State<Search>{
                                                     labelText: 'Introduzca un email'
                                                 ),
                                                 controller: _controller,
+                                                validator: (value) {
+                                                    RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                                                    if(value.isEmpty){
+                                                        return 'Por favor, escriba un email';
+                                                    }
+                                                    if(!regex.hasMatch(value)){
+                                                        return 'Este email no es válido.';
+                                                    }
+                                                    if (_responseCode !=200) {
+                                                        return 'No existe un usuario con este email.';
+                                                    }
+                                                    return null;
+                                                },
                                             )
                                     ),
                                 ),
@@ -61,10 +78,13 @@ class _SearchState extends State<Search>{
                                 FloatingActionButton(
                                     child: Icon(Icons.search),
                                     onPressed: () => {
-                                        getData().whenComplete(() => {
-                                            setState((){
-                                                mostrar = true;
-                                            })
+                                        getData().whenComplete(() =>
+                                        {
+                                            if(_formKey.currentState.validate()){
+                                                setState(() {
+                                                    mostrar = true;
+                                                })
+                                            }
                                         })
                                     },
                                     backgroundColor: Colors.green,
@@ -161,6 +181,16 @@ class _SearchState extends State<Search>{
                                         ],
                                     )
                                 ),
+                                Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 15.0),
+                                    child: FloatingActionButton.extended(
+                                        heroTag: "btn3",
+                                        label: Text('Añadir amigo'),
+                                        icon: Icon(Icons.add),
+                                        backgroundColor: Colors.blue,
+                                    ),
+                                )
                             ],
                         ),
                     ],
@@ -173,5 +203,6 @@ class _SearchState extends State<Search>{
         var email = _controller.text;
         final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email));
         userSearch = User.fromJson(jsonDecode(response.body));
+        _responseCode = response.statusCode;
     }
 }
