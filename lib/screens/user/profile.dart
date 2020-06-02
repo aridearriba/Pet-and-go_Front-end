@@ -10,6 +10,7 @@ import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/pets/pet.dart';
+import 'package:petandgo/screens/user/blocks.dart';
 import 'package:petandgo/screens/user/edit.dart';
 import 'package:petandgo/screens/user/friends.dart';
 import 'package:petandgo/screens/user/login.dart';
@@ -81,6 +82,13 @@ class _ProfileState extends State<Profile>
         Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Friends(widget.user))
+        );
+    }
+
+    nBlocks(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Blocks(widget.user))
         );
     }
 
@@ -253,7 +261,7 @@ class _ProfileState extends State<Profile>
                                                 icon: Icon(Icons.not_interested),
                                                 backgroundColor: Colors.red,
                                                 label: Text('Bloqueados'),
-                                                onPressed: () => {}
+                                                onPressed: () => nBlocks(),
                                             )
                                         )
                                     ],

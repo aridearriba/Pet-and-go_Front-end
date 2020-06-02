@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
-import 'package:petandgo/screens/menu/menu.dart';
 
 class Friends extends StatefulWidget{
     Friends(this.user);
