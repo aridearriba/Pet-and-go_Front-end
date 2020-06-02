@@ -22,6 +22,7 @@ class _SearchState extends State<Search>{
     User userSearch = new User();
     bool mostrar = false;
     var _responseCode;
+    bool isFriend = false;
 
 
     void initState(){
@@ -184,11 +185,28 @@ class _SearchState extends State<Search>{
                                 Padding(
                                     padding: const EdgeInsets.only(
                                         top: 15.0),
-                                    child: FloatingActionButton.extended(
+                                    child: isFriend ?
+                                    FloatingActionButton.extended(
+                                        heroTag: "btn3",
+                                        label: Text('Borrar amigo'),
+                                        icon: Icon(Icons.remove),
+                                        backgroundColor: Colors.red,
+                                        onPressed: () => {
+                                            setState((){
+                                                isFriend = false;
+                                            })
+                                        },
+                                    ) :
+                                    FloatingActionButton.extended(
                                         heroTag: "btn3",
                                         label: Text('Añadir amigo'),
                                         icon: Icon(Icons.add),
                                         backgroundColor: Colors.blue,
+                                        onPressed: () => {
+                                            setState((){
+                                                isFriend = true;
+                                            })
+                                        },
                                     ),
                                 )
                             ],
