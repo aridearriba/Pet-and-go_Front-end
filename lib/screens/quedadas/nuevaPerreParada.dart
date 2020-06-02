@@ -153,7 +153,7 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
 
     Future<void> add() async{
         var email = widget.user.email;
-        var date = _dateTime.day.toString() + '-' +  _dateTime.month.toString() + '-' +  _dateTime.year.toString() +  ' '  + _hour.hour.toString() + ':' + _hour.minute.toString() + ':00';
+        var date = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day, _dateTime.hour, _dateTime.minute).toString();
         var today = DateTime.now().toString().substring(0, 10);
 
         http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/quedadas"),
@@ -172,9 +172,6 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
             }));
         _statusCode = response.statusCode;
         _id = int.parse(response.body);
-
-        print('$_id');
-        print(_statusCode);
     }
 
     Widget getFutureWidget() {
@@ -298,7 +295,7 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                                                                 firstDate: DateTime(DateTime.now().year - 20),
                                                                 lastDate: DateTime(DateTime.now().year + 1)
                                                             );
-                                                            _controladorDate.text = _dateTime.day.toString() + ". " + _dateTime.month.toString() + ". " + _dateTime.year.toString();
+                                                            _controladorDate.text = _dateTime.day.toString().padLeft(2, '0') + ". " + _dateTime.month.toString().padLeft(2, '0') + ". " + _dateTime.year.toString();
                                                         },
                                                         child: IgnorePointer(
                                                             child: new TextFormField(
@@ -323,7 +320,7 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                                                                 context: context,
                                                                 initialTime: TimeOfDay(hour: 12, minute: 0),
                                                             );
-                                                            _controladorHour.text = _hour.hour.toString() + ':' + _hour.minute.toString();
+                                                            _controladorHour.text = _hour.hour.toString().padLeft(2, '0') + ':' + _hour.minute.toString().padLeft(2, '0');
                                                         },
                                                         child: IgnorePointer(
                                                             child: new TextFormField(
