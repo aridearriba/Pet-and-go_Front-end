@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:io';
+
+import 'package:petandgo/Credentials.dart';
 import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,16 +41,27 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
     Completer<GoogleMapController> _controller = Completer();
     Set<Marker> _markers = {};
 
-    bool _notJoined = true;
-    bool _hasPets; //posible ampliación
+    PerreParada _parada;
+
+    bool _joined = true;
+    bool _owner;
 
     List<Mascota> _listPets;
     List<Mascota> _seledtedPets = [];
+    List<Mascota> _wasSelected = [];
+
+    List<Mascota> _participants;
 
     void callback(int status){
-        if (status == 0) {
-            setState(() {
-              _notJoined = false;
+        if (status == 0) { //añadidos
+            setState(() async {
+                _joined = true;
+                _participants = await _getParticipants();
+            });
+        } else if (status == 1) { //eliminados todas tus mascotas
+            setState(() async {
+                _joined = false;
+                _participants = await _getParticipants();
             });
         }
     }
@@ -57,40 +70,83 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
         var email = widget.user.email;
         final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/mascotas"));
         Iterable list = json.decode(response.body);
-        _listPets = list.map((model) => Mascota.fromJson(model)).toList();
-        return _listPets;
+        return list.map((model) => Mascota.fromJson(model)).toList();
+    }
+
+    Future<List<Mascota>> _getParticipants() async{
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/quedadas/${widget.id}/participantes"));
+
+        print(response.statusCode);
+        if (response.statusCode == 200 || response.statusCode == 201){
+            Iterable list = json.decode(response.body);
+
+            for(var l in list){
+                print(l);
+            }
+
+            return list.map((model) => Mascota.fromJson(model)).toList();
+        }
+        else print('ERROR en participantes');
+
     }
 
     Future<PerreParada> getPerreParada(int id) async{
 
-        String URL = 'https://petandgo.herokuapp.com/api/quedadas/$id';
-        final response = await http.get(URL);
+        if(_parada == null) {
+            String URL = 'https://petandgo.herokuapp.com/api/quedadas/$id';
+            final response = await http.get(URL);
 
-        if (response.statusCode == 200) {
-            var data = json.decode(response.body);
-            print(data);
+            if (response.statusCode == 200) {
+                var data = json.decode(response.body);
+                print(data);
 
-            _listPets = await _getUsersPets();
+                _listPets = await _getUsersPets();
+                _participants = await _getParticipants();
 
-            PerreParada parada = PerreParada.fromJson(data);
+                for( Mascota m in _listPets){
+                    if (m.isIn(_participants)){
+                        _seledtedPets.add(m);
+                        _wasSelected.add(m);
+                    }
+                }
 
-            _markers.add(Marker(
-                markerId: MarkerId('PERREPARADA'),
-                position: LatLng(parada.latitud,parada.longitud),
-            ));
+                for (var m in _seledtedPets){
+                    print(m.id.name);
+                }
 
-            return parada;
-        } else {
-            throw Exception('An error occurred getting places nearby');
+                if (_seledtedPets != []) {
+                    setState(() {
+                      _joined = true;
+                    });
+                }
+
+                PerreParada parada = PerreParada.fromJson(data);
+
+                if(parada.admin == widget.user.email) setState(() {
+                    _owner = true;
+                });
+                else setState(() {
+                    _owner = false;
+                });
+
+                _markers.add(Marker(
+                    markerId: MarkerId('PERREPARADA'),
+                    position: LatLng(parada.latitud,parada.longitud),
+                ));
+
+                _parada = parada;
+                return parada;
+            } else {
+                throw Exception('An error occurred getting the DogStop');
+            }
         }
-        return null;
+        else return _parada;
     }
 
     @override
     Widget build(BuildContext context) {
         return FutureBuilder<PerreParada>(
-            future: getPerreParada(widget.id),// a previously-obtained Future<String> or null
-            // ignore: missing_return
+            future: getPerreParada(widget.id),
             builder: (BuildContext context, AsyncSnapshot<PerreParada> snapshot) {
                 List<Widget> children;
 
@@ -154,112 +210,54 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                             ),
                         ),
                         Padding(
+                            padding: EdgeInsets.all(10)
+                        ),
+                        Center(
+                            child: RaisedButton(
+                                padding: EdgeInsets.only(left: 30, right: 30),
+                                onPressed: (){
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                            return _PetsDialog(
+                                                owner: _owner,
+                                                callback: this.callback,
+                                                user: widget.user,
+                                                paradaId: widget.id,
+                                                pets: _listPets,
+                                                selectedPets: _seledtedPets,
+                                                wasSelected: _wasSelected,
+                                                onSelectedPetsListChanged: (pets) {
+                                                    _seledtedPets = pets;
+                                                    print(_seledtedPets);
+                                                }
+                                            );
+                                        }
+                                    );
+                                },
+                                child: Text( ! _joined ?
+                                'Apuntarse' : 'Modificar'
+                                ),
+                            ),
+                        ),
+                        Padding(
                             padding: EdgeInsets.all(10.0),
                         ),
-                        RaisedButton(
-                            onPressed: (){
-                                _notJoined ?
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                        return _PetsDialog(
-                                            callback: this.callback,
-                                            user: widget.user,
-                                            paradaId: widget.id,
-                                            pets: _listPets,
-                                            selectedPets: _seledtedPets,
-                                            onSelectedPetsListChanged: (pets) {
-                                                _seledtedPets = pets;
-                                                print(_seledtedPets);
-                                            }
-                                        );
-                                    }
-                                ) :
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                        return Dialog(
-                                            child: Container(
-                                                height: 250,
-                                                width: 300,
-                                                child: Column(
-                                                    children: <Widget>[
-                                                        Padding(
-                                                            padding: EdgeInsets.all(20),
-                                                        ),
-                                                        Text('¿Seguro de que quieres abandonar esta quedada?',
-                                                            overflow: TextOverflow.fade,
-                                                            textAlign: TextAlign.center,
-                                                            style: new TextStyle(
-                                                                fontSize: 20.0,
-                                                                color: Colors.black,
-                                                            ),
-                                                        ),
-                                                        Padding(
-                                                            padding: EdgeInsets.all(5),
-                                                        ),
-                                                        Text('si abandonas esta quedada se borraran desapuntaran todos los perros con los que te apuntastes',
-                                                            overflow: TextOverflow.fade,
-                                                            textAlign: TextAlign.center,
-                                                            style: new TextStyle(
-                                                                fontSize: 12.0,
-                                                                color: Colors.black26,
-                                                            ),
-                                                        ),
-                                                        Padding(
-                                                            padding: EdgeInsets.all(20),
-                                                        ),
-                                                        Center(
-                                                            child: Container(
-                                                                child: Row(
-                                                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                                                    children: <Widget>[
-                                                                        Padding(
-                                                                            padding: EdgeInsets.all(26),
-                                                                        ),
-
-                                                                        RaisedButton(
-                                                                            color: Colors.grey[300],
-                                                                            onPressed: () {
-                                                                                deleteMyParticipations();
-                                                                                Navigator.pop(context);
-                                                                            },
-                                                                            child: Text(
-                                                                                'OK',
-                                                                                style: TextStyle(
-                                                                                    color: Colors.black,
-                                                                                ),
-                                                                            ),
-                                                                        ),
-                                                                        Padding(
-                                                                            padding: EdgeInsets.all(10),
-                                                                        ),
-
-                                                                        RaisedButton(
-                                                                            color: Colors.grey[300],
-                                                                            onPressed: () {
-                                                                                Navigator.pop(context);
-                                                                            },
-                                                                            child: Text(
-                                                                                'CANCEL',
-                                                                                style: TextStyle(
-                                                                                    color: Colors.black,
-                                                                                ),
-                                                                            ),
-                                                                        ),
-                                                                    ],
-                                                                ),
-                                                            ),
-                                                        ),
-                                                    ],
-                                                ),
-                                            ),
-                                        );
-                                    }
-                                );
-                            },
-                            child: Text( _notJoined ?
-                                'Apuntarse' : 'Desapuntarse'
+                        Text('   PARTICIPANTES:'),
+                        Container(
+                            height: 200,
+                            width: 500,
+                            child: ListView.builder(
+                                itemCount: _participants.length,
+                                itemBuilder: (BuildContext context, int index){
+                                    return Card(
+                                        child: ListTile(
+                                            leading: Icon(Icons.pets),
+                                            title: Text(_participants[index].id.name),
+                                            subtitle: Text('de ${_participants[index].id.amo}'),
+                                        ),
+                                    );
+                                }
                             ),
                         ),
                     ];
@@ -310,12 +308,8 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                         ],
                     ),
                     body: ListView(
-                        children: <Widget>[
-                            Column(
-                                children: children,
-                            ),
-                        ],
-                    ),
+                        children: children,
+                    )
                 );
             }
             );
@@ -329,46 +323,44 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
 class _PetsDialog extends StatefulWidget{
 
     _PetsDialog({
+        this.owner,
         this.callback,
         this.user,
         this.paradaId,
         this.pets,
         this.selectedPets,
         this.onSelectedPetsListChanged,
+        this.wasSelected,
+
     });
 
     Function callback;
     User user;
     int paradaId;
+    bool owner;
     final List<Mascota> pets;
     final List<Mascota> selectedPets;
     final ValueChanged<List<Mascota>> onSelectedPetsListChanged;
+    final List<Mascota> wasSelected;
 
     @override
     _PetsDialogState createState() => _PetsDialogState();
 }
 
 class _PetsDialogState extends State<_PetsDialog> {
-    List<Mascota> _tempSelectedPets = [];
-
-    @override
-    void initState() {
-        _tempSelectedPets = widget.selectedPets;
-        super.initState();
-    }
 
     @override
     Widget build(BuildContext context) {
         return Dialog(
             child:  Container(
                 height: 350,
+                width: 300,
                 child: Column(
                     children: <Widget>[
                         FlatButton(
-                            padding: EdgeInsets.only(left: 280),
+                            padding: EdgeInsets.only(left: 270),
                             onPressed: () {
-                                _tempSelectedPets = [];
-                                widget.onSelectedPetsListChanged(_tempSelectedPets);
+                                widget.onSelectedPetsListChanged(widget.wasSelected);
                                 Navigator.pop(context);
                             },
                             child: Icon(Icons.close),
@@ -376,7 +368,7 @@ class _PetsDialogState extends State<_PetsDialog> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                                Text('¿Con que mascotas vas a ir?',
+                                Text('¿Con que mascotas quieres a ir?',
                                     style: TextStyle(fontSize: 18.0, color: Colors.black),
                                     textAlign: TextAlign.center,
                                 ),
@@ -391,23 +383,23 @@ class _PetsDialogState extends State<_PetsDialog> {
                                         height: 50,
                                         child: CheckboxListTile(
                                             title: Text(pet.id.name),
-                                            value: _tempSelectedPets.contains(pet),
+                                            value: pet.isIn(widget.selectedPets),
                                             onChanged: (bool value) {
                                                 if (value) {
-                                                    if (!_tempSelectedPets.contains(pet)) {
+                                                    if (!pet.isIn(widget.selectedPets)) {
                                                         setState(() {
-                                                            _tempSelectedPets.add(pet);
+                                                            widget.selectedPets.add(pet);
                                                         });
                                                     }
                                                 }
                                                 else {
-                                                    if (_tempSelectedPets.contains(pet)) {
+                                                    if (pet.isIn(widget.selectedPets)) {
                                                         setState(() {
-                                                            _tempSelectedPets.removeWhere((Mascota p) => p == pet);
+                                                            widget.selectedPets.removeWhere((Mascota p) => p == pet);
                                                         });
                                                     }
                                                 }
-                                                widget.onSelectedPetsListChanged(_tempSelectedPets);
+                                                widget.onSelectedPetsListChanged(widget.selectedPets);
                                             }),
                                     );
                                 },
@@ -415,7 +407,7 @@ class _PetsDialogState extends State<_PetsDialog> {
                         ),
                         RaisedButton(
                             onPressed: (){
-                                addMeAsParticipant();
+                                addMyParticipants();
                                 Navigator.pop(context);
                             },
                             child: Text('OK'),
@@ -426,35 +418,62 @@ class _PetsDialogState extends State<_PetsDialog> {
         );
     }
 
-    Future<void> addMeAsParticipant() async {
+    Future<void> addMyParticipants() async {
         bool ok = false;
 
-        for (var p in widget.selectedPets) {
-            http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/quedadas/${widget.paradaId}/participantes"),
-                headers: <String, String>{
-                    HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-                    HttpHeaders.authorizationHeader: widget.user.token.toString(),
-                },
-                body: jsonEncode(
-                    {
-                        'nombre': p.id.name,
-                        'amo': p.id.amo,
-                    }
-                )
-            );
+        for (var p in widget.pets) {
+            if (p.isIn(widget.wasSelected)){
+                if (! p.isIn(widget.selectedPets)){
+                    //si estaba seleccionado y ahora no lo esta se borra de la quedada
+                    http.Response response = await http.delete(new Uri.http(Global.apiURL, "/api/quedadas/${widget.paradaId}/participantes/${p.id.amo}/mascotas/${p.id.name}"),
+                        headers: <String, String>{
+                            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                            HttpHeaders.authorizationHeader: widget.user.token.toString(),
+                        },
+                    );
 
-            if (response.statusCode == 201) ok = true;
-            else {
-                print('ERROR'); //Que se lo muestre al usuario en un futuro
+                    if (response.statusCode == 200) ok = true;
+                    else {
+                        print('ERROR');
+                    }
+                    print('${p.id.name} ${response.statusCode}');
+                }
             }
-            print('${p.id.name} ${response.statusCode}');
+            else{
+                if (p.isIn(widget.selectedPets)){
+                    //si no estaba seleccionado y ahora si lo esta se añade a la quedada
+                    http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/quedadas/${widget.paradaId}/participantes"),
+                        headers: <String, String>{
+                            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+                            HttpHeaders.authorizationHeader: widget.user.token.toString(),
+                        },
+                        body: jsonEncode(
+                            {
+                                'nombre': p.id.name,
+                                'amo': p.id.amo,
+                            }
+                        )
+                    );
+
+                    if (response.statusCode == 200) ok = true;
+                    else {
+                        print('ERROR'); //Que se lo muestre al usuario en un futuro
+                    }
+                    print('${p.id.name} ${response.statusCode}');
+                }
+            }
         }
 
-        if (ok) widget.callback(0);
-        else widget.callback(-1);
+        if (ok) {
+            if (widget.selectedPets == []) {
+                widget.callback(1);
+            }
+            else {
+                widget.callback(0);
+            }
+
+        }
     }
-
-
 }
 
 
