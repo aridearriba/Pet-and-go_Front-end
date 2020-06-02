@@ -291,7 +291,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591113161058</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="mejora boton">
+      <created>1591113724176</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1591113724176</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -325,7 +332,8 @@
     <MESSAGE value="creacio llista amics" />
     <MESSAGE value="creacio pantalla bloquejats" />
     <MESSAGE value="boto afegir amic buscador" />
-    <option name="LAST_COMMIT_MESSAGE" value="boto afegir amic buscador" />
+    <MESSAGE value="mejora boton" />
+    <option name="LAST_COMMIT_MESSAGE" value="mejora boton" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

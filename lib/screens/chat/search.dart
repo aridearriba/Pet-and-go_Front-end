@@ -94,9 +94,9 @@ class _SearchState extends State<Search>{
                         ),
                     ),
                     Padding(
-                        padding: EdgeInsets.all(35.0),
-                        child: mostrar ? _buildCard(context) : null
-                    )
+                        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                        child: mostrar ? _buildCard(context) : null,
+                    ),
                 ],
             )
         );
