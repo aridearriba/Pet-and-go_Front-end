@@ -83,6 +83,20 @@
 	"meetings_my-dogstops_title": "My DogStops",
 	"meetings_my-meetings_empty": "No meetings",
 
+	"dogstops_new_title": "New DogStop",
+	"dogstops_new_address": "Address",
+	"dogstops_new_date": "Date",
+	"dogstops_new_time": "Time",
+	"dogstops_new_empty-address": "Please, write an address",
+
+	"dogstops_one_title": "DogStop",
+	"dogstops_one_confirm-unroll": "¿Are you sure unrolling this meeting?",
+	"dogstops_one_info-unroll": "If you unroll this meeting, all your pets will be unrolled too.",
+	"dogstops_one_enroll": "Enroll",
+	"dogstops_one_unroll": "Unroll",
+	"dogstops_one_awaiting-results": "Awaiting results...",
+	"dogstops_one_pet-select": "¿Which pet will you bring with you?",
+
 	"points-of-interest_title": "Points of interest",
 	"points-of-interest_list": "List",
 	"points-of-interest_map": "Map",

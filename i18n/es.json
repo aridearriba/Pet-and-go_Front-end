@@ -83,6 +83,19 @@
 	"meetings_my-dogstops_title": "Mis PerreParadas",
 	"meetings_my-meetings_empty": "No tienes quedadas",
 
+	"dogstops_new_title": "Añadir PerreParada",
+	"dogstops_new_address": "Dirección",
+	"dogstops_new_date": "Fecha",
+	"dogstops_new_time": "Hora",
+	"dogstops_new_empty-address": "Por favor, pon una localización",
+
+	"dogstops_one_title": "PerreParada",
+	"dogstops_one_confirm-unroll": "¿Seguro de que quieres abandonar esta quedada?",
+	"dogstops_one_info-unroll": "Si abandonas esta quedada se desapuntarán todas las mascotas con los que te apuntastes.",
+	"dogstops_one_enroll": "Apuntarse",
+	"dogstops_one_unroll": "Desapuntarse",
+	"dogstops_one_awaiting-results": "Esperando resultados...",
+	"dogstops_one_pet-select": "¿Con qué mascota vas a ir?",
 
 	"points-of-interest_title": "Puntos de interés",
 	"points-of-interest_list": "Lista",

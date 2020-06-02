@@ -215,33 +215,22 @@ class _AwardsState extends State<Awards>
         _avatars.sort((a,b) => a.level.compareTo(b.level));
 
         rows.clear();
-        int count = 3;
+        int count = 0;
         Avatar avatar1, avatar2, avatar3;
+        List<Avatar> _avatarsRow = new List(3);
+
         for (var avatar in _avatars) {
-            if (count == 1) {
-                avatar3 = avatar;
-                count = 4;
-                _createRow(avatar1, avatar2, avatar3);
+            _avatarsRow[count] = avatar;
+
+            if (count == 2) {
+                count = -1;
+                _createRow(_avatarsRow[0], _avatarsRow[1], _avatarsRow[2]);
+                _avatarsRow = new List(3);
             }
-            if (count == 2) avatar2 = avatar;
-            if (count == 3) avatar1 = avatar;
-
-            count--;
+            count++;
         }
 
-        if (count == 1) {
-            avatar3 = new Avatar();
-            avatar3.image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ursulamascaro.es%2Fblank-product.html&psig=AOvVaw0Z-SGnU2Ui9HWuXEJHzRkI&ust=1590695673220000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIjY_Kbp1OkCFQAAAAAdAAAAABAS";
-            _createRow(avatar1, avatar2, avatar3);
-        }
-
-        if (count == 2) {
-            avatar3 = new Avatar();
-            avatar3.image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ursulamascaro.es%2Fblank-product.html&psig=AOvVaw0Z-SGnU2Ui9HWuXEJHzRkI&ust=1590695673220000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIjY_Kbp1OkCFQAAAAAdAAAAABAS";
-            avatar2 = new Avatar();
-            avatar2.image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ursulamascaro.es%2Fblank-product.html&psig=AOvVaw0Z-SGnU2Ui9HWuXEJHzRkI&ust=1590695673220000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIjY_Kbp1OkCFQAAAAAdAAAAABAS";
-            _createRow(avatar1, avatar2, avatar3);
-        }
+        if (count == 1 || count == 2) _createRow(_avatarsRow[0], _avatarsRow[1], _avatarsRow[2]);
 
         if (_selectedAvatar == null) {
             _selectedAvatar = widget.user.avatar;
@@ -259,9 +248,9 @@ class _AwardsState extends State<Awards>
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                            _showAvatar(widget.user.level <= avatar1.level ? true : false, avatar1),
-                            _showAvatar(widget.user.level <= avatar2.level ? true : false, avatar2),
-                            _showAvatar(widget.user.level <= avatar3.level ? true : false, avatar3),
+                            avatar1 == null ? Container(width: 80) : _showAvatar(widget.user.level <= avatar1.level ? true : false, avatar1),
+                            avatar2 == null ? Container(width: 80) : _showAvatar(widget.user.level <= avatar2.level ? true : false, avatar2),
+                            avatar3 == null ? Container(width: 80) : _showAvatar(widget.user.level <= avatar3.level ? true : false, avatar3),
                         ]))
         ]));
     }

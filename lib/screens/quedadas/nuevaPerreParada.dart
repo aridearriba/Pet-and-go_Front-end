@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
+import 'package:petandgo/screens/home.dart';
+import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import 'package:uuid/uuid.dart';
 import '../../Credentials.dart';
@@ -125,14 +127,25 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
     @override
     Widget build(BuildContext context) {
     return new Scaffold(
+        drawer: Menu(widget.user),
         appBar: AppBar(
             title: Text(
-                'Pet & Go',
+                AppLocalizations.of(context).translate('dogstops_new_title'),
                 style: TextStyle(
                     color: Colors.white,
                 ),
-
             ),
+            iconTheme: IconThemeData(color: Colors.white),
+            actions: <Widget>[
+                IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Home(widget.user))
+                    ),
+                )
+            ],
         ),
         body: buildBody(),
     );
@@ -265,12 +278,12 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                                                         });
                                                     },
                                                     onSaved: (String value) => print("saved: $value"),
-                                                    decoration: const InputDecoration(
-                                                        labelText: "Dirección"
+                                                    decoration: InputDecoration(
+                                                        labelText: AppLocalizations.of(context).translate('dogstops_new_address')
                                                     ),
                                                     validator: (value){
                                                         if(value.isEmpty){
-                                                            return 'Por favor, pon una localización.';
+                                                            return AppLocalizations.of(context).translate('dogstops_new_empty-address');
                                                         }
                                                         return null;
                                                     },
@@ -289,11 +302,11 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                                                         },
                                                         child: IgnorePointer(
                                                             child: new TextFormField(
-                                                                decoration: new InputDecoration(labelText: 'Fecha:'),
+                                                                decoration: new InputDecoration(labelText: AppLocalizations.of(context).translate('dogstops_new_date')),
                                                                 controller: _controladorDate,
                                                                 validator: (value){
                                                                     if(value.isEmpty){
-                                                                        return 'Por favor, pon una fecha.';
+                                                                        return AppLocalizations.of(context).translate('calendar_new-event_empty-date');
                                                                     }
                                                                     return null;
                                                                 },
@@ -314,11 +327,11 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                                                         },
                                                         child: IgnorePointer(
                                                             child: new TextFormField(
-                                                                decoration: new InputDecoration(labelText: 'Hora:'),
+                                                                decoration: new InputDecoration(labelText: AppLocalizations.of(context).translate('dogstops_new_time')),
                                                                 controller: _controladorHour,
                                                                 validator: (value){
                                                                     if(value.isEmpty){
-                                                                        return 'Por favor, pon una hora.';
+                                                                        return AppLocalizations.of(context).translate('calendar_new-event_empty-time');
                                                                     }
                                                                     return null;
                                                                 },
@@ -363,7 +376,7 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                                                                     }
                                                                 });
                                                         },
-                                                        child: Text('Añadir'),
+                                                        child: Text(AppLocalizations.of(context).translate('calendar_new-event_add')),
                                                     )
                                                 ),
                                             ],
