@@ -36,7 +36,6 @@ class _PrincipalState extends State<Principal>{
                         color: Colors.white,
                     ),
                 ),
-                centerTitle: true,
                 iconTheme: IconThemeData(
                     color: Colors.white,
                 ),
