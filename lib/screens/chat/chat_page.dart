@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:intl/intl.Dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:petandgo/model/message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:petandgo/global/global.dart' as Global;
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -36,8 +38,17 @@ class _ChatPageState extends State<ChatPage>{
 
     List<Message> _missatges = List();
 
+    String _time;
+
+
     @override
     void initState(){
+        String fecha = DateTime.now().toString().substring(0,10);
+        String hora = DateTime.now().toString().substring(11, 19);
+
+        _time = fecha+'T' + hora;
+
+        print(_time);
         socket.on('connect', (_) {
             print('connect');
             socket.emit('join', widget.userMe.email);
@@ -54,8 +65,7 @@ class _ChatPageState extends State<ChatPage>{
                     Message m = new Message(
                         sender: msg['sender'],
                         text: msg['text'],
-                        time: msg['time'],
-                        isLiked: false,
+                        created_at: msg['created_at'],
                         unread: false
                     );
                     if(!_missatges.contains(m)) {
@@ -122,7 +132,7 @@ class _ChatPageState extends State<ChatPage>{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                     Text(
-                        message.time,
+                        message.created_at,
                         style: TextStyle(
                             color: Colors.grey,
                             fontSize: 11.0,
@@ -198,7 +208,7 @@ class _ChatPageState extends State<ChatPage>{
                                         'text': _controller.text,
                                         'sender': widget.userMe.email,
                                         'receiver': widget.userChat,
-                                        'time': DateTime.now().hour.toString()+ ':'+ DateTime.now().minute.toString(),
+                                        'created_at': _time,
                                     })
                                 );
                                 setState(() {
@@ -206,7 +216,7 @@ class _ChatPageState extends State<ChatPage>{
                                         Message(
                                             sender: widget.userMe.email,
                                             text: _controller.text,
-                                            time: DateTime.now().hour.toString()+ ':'+ DateTime.now().minute.toString(),
+                                            created_at: _time,
                                             isLiked: false,
                                             unread: false
                                         )
@@ -232,7 +242,7 @@ class _ChatPageState extends State<ChatPage>{
 
 
         print('hola');
-
+        print(widget.userMe.token);
 
         return Scaffold(
             appBar: PreferredSize(
@@ -277,5 +287,12 @@ class _ChatPageState extends State<ChatPage>{
                 ],
             ),
         );
+    }
+
+    Future<void> getMessages() async{
+        var email = widget.userMe.email;
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email+'/mensajes'));
+        Iterable list = json.decode(response.body);
+        _missatges = list.map((model) => Message.fromJson(model)).toList();
     }
 }
