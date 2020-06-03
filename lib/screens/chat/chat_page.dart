@@ -217,7 +217,6 @@ class _ChatPageState extends State<ChatPage>{
                                             sender: widget.userMe.email,
                                             text: _controller.text,
                                             created_at: _time,
-                                            isLiked: false,
                                             unread: false
                                         )
                                     );

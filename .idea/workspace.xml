@@ -11,7 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/message.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/message.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -306,7 +305,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591116341553</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="chat historico">
+      <created>1591185922154</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1591185922154</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -342,7 +348,8 @@
     <MESSAGE value="boto afegir amic buscador" />
     <MESSAGE value="mejora boton" />
     <MESSAGE value="mejorar carta amigo" />
-    <option name="LAST_COMMIT_MESSAGE" value="mejorar carta amigo" />
+    <MESSAGE value="chat historico" />
+    <option name="LAST_COMMIT_MESSAGE" value="chat historico" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
