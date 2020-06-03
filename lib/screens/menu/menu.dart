@@ -3,10 +3,13 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
+import 'package:petandgo/screens/puntosDeInteres/puntosInteresTabView.dart';
 import 'package:petandgo/screens/quedadas/perreParadaTabView.dart';
 import 'package:petandgo/screens/settings.dart';
 import 'package:petandgo/screens/chat/principal.dart';
+import 'package:petandgo/screens/chat/search.dart';
 
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
@@ -59,6 +62,14 @@ class _MenuContent extends State<Menu> {
             MaterialPageRoute(builder: (context) => QuedadasTabView(widget.user))
         );
     }
+
+    // Navigate to MyPets
+    nPuntosInteres(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => PuntosInteresTabView(widget.user))
+        );
+    }
     // Navigate to Settings
     nSettings(){
         Navigator.pushReplacement(
@@ -66,11 +77,25 @@ class _MenuContent extends State<Menu> {
             MaterialPageRoute(builder: (context) => Settings(widget.user))
         );
     }
+    // Navigate to Calendar
+    nCalendar(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Calendari(widget.user))
+        );
+    }
 
     nChat(){
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Principal(widget.user))
+        );
+    }
+
+    nSearch(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Search(widget.user))
         );
     }
 
@@ -140,9 +165,24 @@ class _MenuContent extends State<Menu> {
                         onTap: () => nMisQuedadas(),
                     ),
                     ListTile(
+                        leading: Icon(Icons.account_balance),
+                        title: Text('Puntos de interes'),
+                        onTap: () => nPuntosInteres(),
+                    ),
+                    ListTile(
+                        leading: Icon(Icons.calendar_today),
+                        title: Text('Calendario'),
+                        onTap: () => nCalendar(),
+                    ),
+                    ListTile(
                         leading: Icon(Icons.chat),
                         title: Text('Chat'),
                         onTap: () => nChat(),
+                    ),
+                    ListTile(
+                        leading: Icon(Icons.search),
+                        title: Text('Buscar'),
+                        onTap: () => nSearch(),
                     ),
                     ListTile(
                         leading: Icon(Icons.settings),

@@ -11,6 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/message.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/message.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,6 +51,7 @@
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/build/app/outputs/apk/app.apk" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_Edited_API_29" />
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-01T17:05:56.774Z" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
@@ -62,9 +64,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src\main\res\drawable" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\calendar" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\global" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\calendar" />
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -246,7 +257,56 @@
       <option name="project" value="LOCAL" />
       <updated>1589405334339</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="notifications #2">
+      <created>1589410070468</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1589410070468</updated>
+    </task>
+    <task id="LOCAL-00014" summary="creacio field per buscar">
+      <created>1590440465954</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1590440465954</updated>
+    </task>
+    <task id="LOCAL-00015" summary="creacio llista amics">
+      <created>1591111230164</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1591111230164</updated>
+    </task>
+    <task id="LOCAL-00016" summary="creacio pantalla bloquejats">
+      <created>1591111442206</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1591111442206</updated>
+    </task>
+    <task id="LOCAL-00017" summary="boto afegir amic buscador">
+      <created>1591113161058</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1591113161058</updated>
+    </task>
+    <task id="LOCAL-00018" summary="mejora boton">
+      <created>1591113724176</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1591113724176</updated>
+    </task>
+    <task id="LOCAL-00019" summary="mejorar carta amigo">
+      <created>1591116341553</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1591116341553</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -275,7 +335,14 @@
     <MESSAGE value="enviament missatges" />
     <MESSAGE value="scroll correcte" />
     <MESSAGE value="notifications #1" />
-    <option name="LAST_COMMIT_MESSAGE" value="notifications #1" />
+    <MESSAGE value="notifications #2" />
+    <MESSAGE value="creacio field per buscar" />
+    <MESSAGE value="creacio llista amics" />
+    <MESSAGE value="creacio pantalla bloquejats" />
+    <MESSAGE value="boto afegir amic buscador" />
+    <MESSAGE value="mejora boton" />
+    <MESSAGE value="mejorar carta amigo" />
+    <option name="LAST_COMMIT_MESSAGE" value="mejorar carta amigo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

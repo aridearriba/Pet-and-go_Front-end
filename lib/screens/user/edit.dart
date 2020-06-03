@@ -26,28 +26,20 @@ class Edit extends StatelessWidget{
                 }
 
             },
-            child: MaterialApp(
-                title: appTitle,
-                theme: ThemeData(
-                    primaryColor: Colors.green
-                ),
-                home: Scaffold(
+            child: Scaffold(
                     //resizeToAvoidBottomInset: false,
                     appBar: AppBar(
-                        title: Text("Editar usuario"),
+                        title: Text("Editar usuario",
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),
+                        ),
                         iconTheme: IconThemeData(
                             color: Colors.white,
                         ),
-                        actions: <Widget>[
-                            IconButton(
-                                icon: Icon(Icons.arrow_back, color: Colors.white),
-                                onPressed: () => Navigator.pop(context),
-                            )
-                        ],
                     ),
                     body: EditForm(user),
                 ),
-            ),
         );
   }
 

@@ -57,7 +57,7 @@ class _PetsState extends State<MyPets>
     return FutureBuilder<List<Mascota>>(
         future: getMascotas(),
         builder: (BuildContext context, AsyncSnapshot<List<Mascota>> snapshot) {
-            if(snapshot.data == null){
+            if(!snapshot.hasData){
                 return Scaffold(
                     drawer: Menu(widget.user),
                     appBar: AppBar(
@@ -103,8 +103,8 @@ class _PetsState extends State<MyPets>
                                         ),
                                         Padding(
                                             padding: const EdgeInsets.only(
-                                                top: 5.0),
-                                            child: Text(" ")
+                                                top: 30.0),
+                                            child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen))
                                         ),
                                     ],
                                 ),

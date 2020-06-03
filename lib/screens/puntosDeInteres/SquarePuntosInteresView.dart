@@ -1,39 +1,44 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/material.dart';
-import 'package:petandgo/model/PerreParada.dart';
+import 'package:petandgo/model/PuntosInteres.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/screens/puntosDeInteres/puntoInteres/puntoInteresView.dart';
 import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import '../../Credentials.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
-import 'perreParadaTabView.dart';
 
-class SquarePerreParadaWidget extends StatefulWidget {
+
+class SquarePuntoInteresWidget extends StatefulWidget {
     User user;
-    PerreParada miniQuedada;
+    PuntoInteres puntoInteres;
+    LatLng position;
 
-    SquarePerreParadaWidget(User User, PerreParada quedada) {
+    SquarePuntoInteresWidget(User User, PuntoInteres puntoInteres,LatLng position) {
         this.user = User;
-        this.miniQuedada = quedada;
+        this.puntoInteres = puntoInteres;
+        this.position = position;
     }
 
     @override
-    SquarePerreParadaView createState() => SquarePerreParadaView();
+    SquarePuntoInteresView createState() => SquarePuntoInteresView();
 }
 
-class SquarePerreParadaView extends State<SquarePerreParadaWidget> {
+class SquarePuntoInteresView extends State<SquarePuntoInteresWidget> {
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-    nPerreParadaView() {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => VistaPerreParada(widget.user, widget.miniQuedada.id)));
+    nPuntoInteresView() {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => PuntoInteresView(widget.user, widget.puntoInteres,widget.position)));
     }
 
     @override
     Widget build(BuildContext context) {
         return GestureDetector(
-            onTap: () => nPerreParadaView(),
+            onTap: () => nPuntoInteresView(),
             child: buildImage(context)
         );
     }
@@ -52,7 +57,7 @@ class SquarePerreParadaView extends State<SquarePerreParadaWidget> {
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: snapshot.data,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                             ),
                         ),
                         height: 200.0,
@@ -71,7 +76,7 @@ class SquarePerreParadaView extends State<SquarePerreParadaWidget> {
                                         size: MediaQuery.of(context).size.height * 0.04,
                                     ),
                                     Center(
-                                        child: Text(widget.miniQuedada.lugarInicio, textAlign: TextAlign.center,)
+                                        child: Text(widget.puntoInteres.name, textAlign: TextAlign.center,)
                                     ),
                                 ],
                             ),
@@ -83,17 +88,21 @@ class SquarePerreParadaView extends State<SquarePerreParadaWidget> {
     }
 
     Future<ImageProvider> getImage() async{
-        String urlExistImage = "maps.googleapis.com";
-        String pathExistImage = "/maps/api/streetview/metadata";
-        String urlGetImage = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location=" + widget.miniQuedada.latitud.toString()  + "," + widget.miniQuedada.longitud.toString() +  "&heading=151.78&pitch=-0.76&key=" + PLACES_API_KEY;
-
-        if ( await changeProfileImage(urlExistImage, pathExistImage))
-            return Image.network(urlGetImage).image;
-        else {
-            return AssetImage("assets/images/parkDog.jpg");
+        try{
+            if (widget.puntoInteres.photos.length > 0) {
+                String ref = widget.puntoInteres.photos[0].photoReference;
+                String urlImage = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + ref + "&key=" + PLACES_API_KEY;
+                return Image.network(urlImage).image;
+            }else {
+                return AssetImage("assets/images/noImage.jpg");
+            }
+        }catch(e) {
+            return AssetImage("assets/images/noImage.jpg");
         }
+
     }
 
+/*
     Future<bool> changeProfileImage(String url,String path) async {
         var queryParameters = {
             "size": "600x300",
@@ -108,13 +117,14 @@ class SquarePerreParadaView extends State<SquarePerreParadaWidget> {
         var res;
         try {
             final response = await http.get(uri);
-             res = json.decode(response.body);
-             if (res.containsKey("status"))
-                 return res["status"] == "OK";
+            res = json.decode(response.body);
+            if (res.containsKey("status"))
+                return res["status"] == "OK";
         }catch(e) {
             return false;
         }
-    }
 
+    }
+*/
 }
 
