@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:intl/intl.Dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +36,6 @@ class _ChatPageState extends State<ChatPage>{
     ScrollController _listController = new ScrollController();
 
     List<Message> _missatges = List();
-
     String _time;
 
 
@@ -47,6 +45,8 @@ class _ChatPageState extends State<ChatPage>{
         String hora = DateTime.now().toString().substring(11, 19);
 
         _time = fecha+'T' + hora;
+
+        getMessages();
 
         print(_time);
         socket.on('connect', (_) {
@@ -100,6 +100,7 @@ class _ChatPageState extends State<ChatPage>{
                 print('on launch $message');
             },
         );
+
     }
 
     _buildMessage(Message message, bool isMe) {
@@ -238,8 +239,6 @@ class _ChatPageState extends State<ChatPage>{
 
     @override
     Widget build(BuildContext context) {
-
-
         print('hola');
         print(widget.userMe.token);
 
@@ -290,8 +289,16 @@ class _ChatPageState extends State<ChatPage>{
 
     Future<void> getMessages() async{
         var email = widget.userMe.email;
-        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email+'/mensajes'));
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email+'/mensajes'),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.userMe.token.toString(),
+            },
+        );
+
         Iterable list = json.decode(response.body);
-        _missatges = list.map((model) => Message.fromJson(model)).toList();
+        setState(() {
+            _missatges = list.map((model) => Message.fromJson(model)).toList();
+        });
+
     }
 }
