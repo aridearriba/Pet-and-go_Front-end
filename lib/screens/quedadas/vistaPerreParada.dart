@@ -364,9 +364,13 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                         ),
                         actions: <Widget>[
                             IconButton(
-                                icon: Icon(Icons.home, color: Colors.white),
-                                onPressed: () => nHome(),
-                            ),
+                                icon: Icon(Icons.arrow_back, color: Colors.white),
+                                onPressed: () => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => VistaPerreParada(widget.user, widget.id))
+                                ),
+                            )
                         ],
                     ),
                     body: ListView(
