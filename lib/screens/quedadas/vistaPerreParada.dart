@@ -190,12 +190,8 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
             future: getPerreParada(widget.id),
             builder: (BuildContext context, AsyncSnapshot<PerreParada> snapshot) {
                 List<Widget> children;
-
                 if (snapshot.hasData) {
                     children = <Widget>[
-                        Padding(
-                            padding: const EdgeInsets.only(top: 16),
-                        ),
                         Row(
                             children: <Widget>[
                                 Icon(
@@ -203,22 +199,27 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                     color: Colors.grey,
                                 ),
                                 Text(
-                                    '${snapshot.data.admin}',
+                                    '  ${snapshot.data.admin}',
                                 ),
                             ],
                         ),
+                        Divider(color: Colors.transparent),
                         Row(
                             children: <Widget>[
                                 Icon(
                                     Icons.place,
                                     color: Colors.grey,
-                                ),
-                                Text(
-                                    '${snapshot.data.lugarInicio}',
-                                    overflow: TextOverflow.ellipsis,
-                                ),
-                            ],
+                                 ),
+                                Text("  "),
+                                Expanded(child:
+                                    Text(
+                                        '${snapshot.data.lugarInicio}',
+                                        overflow: TextOverflow.visible,
+                                    ),
+                                )
+                             ],
                         ),
+                        Divider(color: Colors.transparent),
                         Row(
                             children: <Widget>[
                                 Icon(
@@ -226,13 +227,11 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                     color: Colors.grey,
                                 ),
                                 Text(
-                                    '${snapshot.data.fechaQuedada.day}/${snapshot.data.fechaQuedada.month}/${snapshot.data.fechaQuedada.year} a las ${snapshot.data.fechaQuedada.hour}:${snapshot.data.fechaQuedada.minute}',
+                                    '  ${snapshot.data.fechaQuedada.day.toString().padLeft(2, '0')}/${snapshot.data.fechaQuedada.month.toString().padLeft(2, '0')}/${snapshot.data.fechaQuedada.year}     ${snapshot.data.fechaQuedada.hour.toString().padLeft(2, '0')}:${snapshot.data.fechaQuedada.minute.toString().padLeft(2, '0')} h',
                                 ),
                             ],
                         ),
-                        Padding(
-                            padding: EdgeInsets.all(20.0),
-                        ),
+                        Divider(color: Colors.transparent),
                         Center(
                             child: Container(
                                 height: 250,
@@ -250,9 +249,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                 ),
                             ),
                         ),
-                        Padding(
-                            padding: EdgeInsets.all(10)
-                        ),
+                        Divider(color: Colors.transparent, height: 20,),
                         Center(
                             child: RaisedButton(
                                 padding: EdgeInsets.only(left: 30, right: 30),
@@ -277,7 +274,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                     );
                                 },
                                 child: Text( ! _joined ?
-                                'Apuntarse' : 'Modificar'
+                                AppLocalizations.of(context).translate('dogstops_one_enroll') : AppLocalizations.of(context).translate('dogstops_one_unroll')
                                 ),
                             ),
                         ),
@@ -293,7 +290,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                 }
                             )
                         ) : Divider(color: Colors.transparent),
-                        Text('   PARTICIPANTES:'),
+                        Text("  " + AppLocalizations.of(context).translate('meetings_my-meetings_title_participants').toUpperCase()),
                         Container(
                             height: 200,
                             width: 500,
@@ -311,7 +308,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                                         onTap: nPerreParadaParticipantesView,
                                                         leading: Icon(Icons.pets),
                                                         title: Text(_participants[index].id.name),
-                                                        subtitle: Text('de ${_participants[index].id.amo}'),
+                                                        subtitle: Text('${_participants[index].id.amo}'),
 
                                                     ),
                                                 );
@@ -349,9 +346,9 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                             width: 60,
                             height: 60,
                         ),
-                        const Padding(
+                        Padding(
                             padding: EdgeInsets.only(top: 16),
-                            child: Text('Awaiting result...'),
+                            child: Text(AppLocalizations.of(context).translate('dogstops_one_enroll')),
                         )
                     ];
                 }
@@ -359,7 +356,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                     key: _scaffoldKey, drawer: Menu(widget.user),
                     appBar: AppBar(
                         title: Text(
-                            'Perreparada',
+                            AppLocalizations.of(context).translate('dogstops_one_title'),
                             style: TextStyle(
                                 color: Colors.white,
                             ),
