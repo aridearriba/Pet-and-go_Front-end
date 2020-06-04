@@ -248,7 +248,6 @@ class _ChatPageState extends State<ChatPage>{
                 child: AppBar(
                     title: Row(
                         children: <Widget>[
-                            SizedBox(width: 40.0,),
                             CircleAvatar(
                                 radius: 20.0,
                                 child: Icon(Icons.person),
@@ -257,14 +256,12 @@ class _ChatPageState extends State<ChatPage>{
                             Text(
                                 widget.userChat,
                                 style: TextStyle(
-                                    fontSize: 18.0,
+                                    fontSize: 14.0,
                                     fontWeight: FontWeight.bold,
                                 ),
                             )
                         ],
                     ),
-                    centerTitle: true,
-                    elevation: 0.0,
                 ),
             ),
             body: Column(

@@ -11,7 +11,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/user/friends.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/friends.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/principal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/principal.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -333,7 +334,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591271097909</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="arreglos llista amics">
+      <created>1591272993968</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1591272993968</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -373,7 +381,8 @@
     <MESSAGE value="chat historico funciona" />
     <MESSAGE value="amigos y buscador" />
     <MESSAGE value="imagen perfil buscador" />
-    <option name="LAST_COMMIT_MESSAGE" value="imagen perfil buscador" />
+    <MESSAGE value="arreglos llista amics" />
+    <option name="LAST_COMMIT_MESSAGE" value="arreglos llista amics" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

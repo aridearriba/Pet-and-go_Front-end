@@ -3,10 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:petandgo/model/message.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/chat/chat_page.dart';
 import 'package:petandgo/screens/menu/menu.dart';
+import 'package:http/http.dart' as http;
+import 'package:petandgo/global/global.dart' as Global;
 
 class Principal extends StatefulWidget{
     Principal(this.user);
@@ -17,15 +18,19 @@ class Principal extends StatefulWidget{
 
 class _PrincipalState extends State<Principal>{
 
+    User userMe;
+    List<dynamic> _friends = new List();
+    var _responseCode;
+
+    void initState(){
+        super.initState();
+        getFriends();
+    }
 
     @override
     Widget build(BuildContext context) {
 
         String userChat;
-        if(widget.user.email == 'cvila@gmail.com'){
-            userChat = 'a@prueba.com';
-        }
-        else userChat = 'cvila@gmail.com';
 
         return Scaffold(
             drawer: Menu(widget.user),
@@ -41,42 +46,45 @@ class _PrincipalState extends State<Principal>{
                 ),
             ),
             body: GestureDetector(
-                onTap: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute( builder: (_) => ChatPage(
-                            widget.user, userChat
-                            )
-                        )
-                    )
-                },
-                child: ListView(
-                        children: <Widget>[
-                            Row(
-                                children: <Widget>[
-                                    CircleAvatar(
+                child: ListView.separated(
+                    padding: EdgeInsets.only(top: 10.0),
+                        separatorBuilder: (context, index) => Divider(
+                            color: Colors.black,
+                        ),
+                        itemCount: _friends.length,
+                        itemBuilder: (BuildContext context, index) {
+                            return ListTile(
+                                title: Text(_friends[index], style: TextStyle(
+                                ),),
+                                    leading: CircleAvatar(
                                         radius: 35.0,
                                         child: Icon(Icons.person),
                                     ),
-                                    SizedBox(width: 10.0),
-                                    Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                            Text(
-                                                userChat,
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 15.0,
-                                                    fontWeight: FontWeight.bold,
-                                                ),
-                                            ),
-                                        ],
-                                    ),
-                                ],
-                            ),
-                        ],
+                                    onTap: () => {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute( builder: (_) => ChatPage(
+                                            widget.user, _friends[index]
+                                        )
+                                        )
+                                    )
+                                    },
+                            );
+                        },
                     ),
                 ),
             );
   }
+
+    Future<void> getFriends() async {
+        var email = widget.user.email;
+        final response = await http.get(
+            new Uri.http(Global.apiURL, "/api/usuarios/" + email));
+        userMe = User.fromJson(jsonDecode(response.body));
+        setState(() {
+            _friends = userMe.friends;
+        });
+        print(_friends);
+        _responseCode = response.statusCode;
+    }
 }
