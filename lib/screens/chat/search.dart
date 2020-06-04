@@ -51,7 +51,7 @@ class _SearchState extends State<Search>{
                     color: Colors.white,
                 ),
             ),
-            body: ListView(
+            body: Column(
                 children: <Widget>[
                     Padding(
                         padding: EdgeInsets.all(20.0),
