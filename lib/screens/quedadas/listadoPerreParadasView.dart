@@ -32,7 +32,7 @@ class ListaPerreParadasWidget extends StatelessWidget {
                 (BuildContext context, AsyncSnapshot<List<PerreParada>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
                     );
                 } else {
                     if (snapshot.data != null) {

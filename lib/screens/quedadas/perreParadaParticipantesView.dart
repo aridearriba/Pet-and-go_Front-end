@@ -62,7 +62,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                     (BuildContext context, AsyncSnapshot<List<Participante>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
-                            child: CircularProgressIndicator(),
+                            child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
                         );
                     } else {
                         if (snapshot.data != null) {
