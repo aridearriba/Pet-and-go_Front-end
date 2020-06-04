@@ -28,7 +28,6 @@ class _SearchState extends State<Search>{
     var _responseCode;
     bool isFriend = false;
     bool isBlocked = false;
-    bool progress = false;
 
     List<dynamic> _bloqueados = new List();
 
@@ -88,12 +87,7 @@ class _SearchState extends State<Search>{
                                         getData().whenComplete(() =>
                                         {
                                             if(_formKey.currentState.validate()){
-                                                setState((){
-                                                    progress = true;
-                                                    mostrar = false;
-                                                }),
                                                 isAmic().whenComplete(() => {
-                                                    print('icono de progress:'+progress.toString()),
                                                     isBlock().whenComplete(() => {
                                                         getProfileImage().whenComplete(() => {
                                                             _image64 = userSearch.image,
@@ -116,14 +110,10 @@ class _SearchState extends State<Search>{
                     Padding(
                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
                         child: Container(
-                            height: !progress ? 0.0 : mostrar ? 310.0 : 100.0,
-                            child: !progress ? SizedBox(width: 10) : mostrar ? _buildCard(context) : SizedBox(height: 100.0,
-                                                            width: 100.0,
-                                                            child: CircularProgressIndicator(
-                                                            backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)
-                                                            ),)
-                        ),
-                    )
+                            height: 310.0,
+                            child: mostrar ? _buildCard(context) : null,
+                        )
+                    ),
                 ],
             )
         );
@@ -153,7 +143,7 @@ class _SearchState extends State<Search>{
                                                     // username
                                                     Padding(
                                                         padding: const EdgeInsets.only(
-                                                            top: 10.0),
+                                                            top: 5.0),
                                                         child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -176,7 +166,7 @@ class _SearchState extends State<Search>{
                                                     // email
                                                     Padding(
                                                         padding: const EdgeInsets.only(
-                                                            top: 10.0),
+                                                            top: 5.0),
                                                         child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -196,7 +186,7 @@ class _SearchState extends State<Search>{
                                                     ),
                                                     Padding(
                                                         padding: const EdgeInsets.only(
-                                                            top: 10.0),
+                                                            top: 5.0),
                                                         child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             crossAxisAlignment: CrossAxisAlignment.center,

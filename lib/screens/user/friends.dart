@@ -24,7 +24,6 @@ class _FriendsState extends State<Friends>{
     User userFriend;
     User userMe;
     var _responseCode;
-    bool mostrar = false;
 
     String _image64;
     ImageProvider _imageProfile;
@@ -33,22 +32,15 @@ class _FriendsState extends State<Friends>{
 
 
     void initState(){
-        getFriends().whenComplete(() => {
-            for(String email in _friends){
-                getData(email).whenComplete(() => {
-                    getProfileImage(userFriend),
-                })
-            },
-            setState(() => {
-                mostrar = true
-            }),
-        });
-        print(_myFriends.length);
+        print(_friends);
+        super.initState();
+        getData();
+
     }
 
   @override
   Widget build(BuildContext context) {
-        if(!mostrar){
+        if(_friends.isEmpty){
             return Scaffold(
                 appBar: AppBar(
                     iconTheme: IconThemeData(
@@ -59,15 +51,6 @@ class _FriendsState extends State<Friends>{
                             color: Colors.white,
                         ),
                     ),
-                ),
-                body: Center(
-                    child: SizedBox(
-                        height: 100.0,
-                        width: 100.0,
-                        child: CircularProgressIndicator(
-                            backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)
-                        ),
-                    )
                 ),
             );
         }
@@ -84,19 +67,19 @@ class _FriendsState extends State<Friends>{
                     ),
                 ),
                 body: ListView.builder(
-                    itemCount: _myFriends.length,
+                    itemCount: _friends.length,
                     itemBuilder: (BuildContext context, index) {
                         return Card(
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                             child: Padding(
-                                padding: EdgeInsets.all(10.0),
+                                padding: EdgeInsets.all(5.0),
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
                                         CircleAvatar(
                                             radius: 50.0,
-                                            backgroundImage: getImage(_myFriends[index].image),
+                                            child: Icon(Icons.person),
                                         ),
 
                                         Column(
@@ -107,59 +90,19 @@ class _FriendsState extends State<Friends>{
                                                 // username
                                                 Padding(
                                                     padding: const EdgeInsets.only(
-                                                        top: 10.0),
+                                                        top: 5.0),
                                                     child: Row(
                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: <Widget>[
                                                             Text(
-                                                                _myFriends[index].username,
+                                                                _friends[index],
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black54,
                                                                     fontWeight: FontWeight
                                                                         .bold,
                                                                     fontSize: 16.0,
-                                                                ),
-                                                                textAlign: TextAlign
-                                                                    .center,
-                                                            ),
-                                                        ]
-                                                    ),
-                                                ),
-                                                Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        top: 10.0),
-                                                    child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: <Widget>[
-                                                            Text(
-                                                                _myFriends[index].name,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black54,
-                                                                    fontSize: 16.0,
-                                                                ),
-                                                                textAlign: TextAlign
-                                                                    .center,
-                                                            ),
-                                                        ]
-                                                    ),
-                                                ),
-                                                Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        top: 10.0),
-                                                    child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                                        children: <Widget>[
-                                                            Text(
-                                                                _myFriends[index].email,
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black54,
-                                                                    fontSize: 12.0,
                                                                 ),
                                                                 textAlign: TextAlign
                                                                     .center,
@@ -177,9 +120,9 @@ class _FriendsState extends State<Friends>{
                                                         icon: Icon(Icons.delete),
                                                         backgroundColor: Colors.red,
                                                         onPressed: () => {
-                                                            removeAmic(_friends[index].email).whenComplete(() => {
+                                                            removeAmic(_myFriends[index].email).whenComplete(() => {
                                                                 if(_responseCode == 200){
-                                                                    getFriends()
+                                                                    getData()
                                                                 }
                                                             })
                                                         },
@@ -196,7 +139,7 @@ class _FriendsState extends State<Friends>{
                                                         onPressed: () => {
                                                             blockFriend(_friends[index]).whenComplete(() => {
                                                                 if(_responseCode == 200){
-                                                                    getFriends()
+                                                                    getData()
                                                                 }
                                                             })
                                                         },
@@ -214,7 +157,7 @@ class _FriendsState extends State<Friends>{
         }
   }
 
-    Future<void> getFriends() async {
+    Future<void> getData() async {
         var email = widget.user.email;
         final response = await http.get(
             new Uri.http(Global.apiURL, "/api/usuarios/" + email));
@@ -226,34 +169,14 @@ class _FriendsState extends State<Friends>{
         _responseCode = response.statusCode;
     }
 
-    Future<void> getData(email) async{
-        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email));
-        userFriend = User.fromJson(jsonDecode(response.body));
-
-    }
-
-    ImageProvider getImage(String image)  {
-        _image64 = image;
-        // no user image
-        if (_image64 == "")
-            return Image.network(widget.user.profileImageUrl).image;
-
-        // else --> load image
-        Uint8List _bytesImage;
-        String _imgString = _image64.toString();
-        _bytesImage = Base64Decoder().convert(_imgString);
-        return Image.memory(_bytesImage).image;
-    }
-
-    Future<void> getProfileImage(User userF) async{
-        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + userF.email + "/image"),
-            headers: <String, String>{
-                HttpHeaders.authorizationHeader: widget.user.token.toString(),
-            },);
-        userF.image = response.body;
-        setState(() => {
-            _myFriends.add(userF)
+    Future<void> getFriend(String emailFriend) async {
+        var email = emailFriend;
+        final response = await http.get(
+            new Uri.http(Global.apiURL, "/api/usuarios/" + email));
+        setState(() {
+            userFriend = User.fromJson(jsonDecode(response.body));
         });
+        _responseCode = response.statusCode;
     }
 
     Future<void> removeAmic(String emailFriend) async{
@@ -269,6 +192,28 @@ class _FriendsState extends State<Friends>{
         print(_responseCode);
     }
 
+    Future<void> getProfileImage() async{
+        var email = userFriend.email;
+        print(email);
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/image"),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },);
+        userFriend.image = response.body;
+    }
+
+    ImageProvider getImage()  {
+        // no user image
+        if (_image64 == "")
+            return Image.network(widget.user.profileImageUrl).image;
+
+        // else --> load image
+        Uint8List _bytesImage;
+        String _imgString = _image64.toString();
+        _bytesImage = Base64Decoder().convert(_imgString);
+        return Image.memory(_bytesImage).image;
+    }
+
     Future<void> blockFriend(String emailFriend) async{
         var email = widget.user.email;
         final response = await http.post(
@@ -281,5 +226,4 @@ class _FriendsState extends State<Friends>{
         _responseCode = response.statusCode;
         print(_responseCode);
     }
-
 }

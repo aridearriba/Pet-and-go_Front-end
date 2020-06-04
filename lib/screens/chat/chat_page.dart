@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 class ChatPage extends StatefulWidget{
     ChatPage(this.userMe, this.userChat);
     User userMe;
-    User userChat;
+    String userChat;
 
 
     @override
@@ -34,7 +33,6 @@ class _ChatPageState extends State<ChatPage>{
     });
 
     Map<String, dynamic> msg = new Map();
-    String _image64;
 
     ScrollController _listController = new ScrollController();
 
@@ -224,7 +222,7 @@ class _ChatPageState extends State<ChatPage>{
                                     jsonEncode(<String, String>{
                                         'text': _controller.text,
                                         'sender': widget.userMe.email,
-                                        'receiver': widget.userChat.email,
+                                        'receiver': widget.userChat,
                                         'created_at': _time,
                                     })
                                 );
@@ -267,11 +265,11 @@ class _ChatPageState extends State<ChatPage>{
                         children: <Widget>[
                             CircleAvatar(
                                 radius: 20.0,
-                                backgroundImage: getImage(widget.userChat.image),
+                                child: Icon(Icons.person),
                             ),
                             SizedBox(width: 15.0),
                             Text(
-                                widget.userChat.name,
+                                widget.userChat,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 14.0,
@@ -304,7 +302,7 @@ class _ChatPageState extends State<ChatPage>{
 
     Future<void> getMessages() async{
         var email = widget.userMe.email;
-        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email+'/mensajes/'+widget.userChat.email),
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email+'/mensajes/'+widget.userChat),
             headers: <String, String>{
                 HttpHeaders.authorizationHeader: widget.userMe.token.toString(),
             },
@@ -315,18 +313,5 @@ class _ChatPageState extends State<ChatPage>{
             _missatges = list.map((model) => Message.fromJson(model)).toList();
         });
 
-    }
-
-    ImageProvider getImage(String image)  {
-        _image64 = image;
-        // no user image
-        if (_image64 == "")
-            return Image.network(widget.userChat.profileImageUrl).image;
-
-        // else --> load image
-        Uint8List _bytesImage;
-        String _imgString = _image64.toString();
-        _bytesImage = Base64Decoder().convert(_imgString);
-        return Image.memory(_bytesImage).image;
     }
 }
