@@ -76,7 +76,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
         );
     }
 
-    void callback(int status){
+    void callback(int status) async{
         if (status == 0) { //añadidos
             setState(() async {
                 _joined = true;
@@ -504,6 +504,8 @@ class _PetsDialogState extends State<_PetsDialog> {
                         },
                     );
 
+                    print(response.statusCode);
+
                     if (response.statusCode == 200 || response.statusCode == 201) ok = true;
                     else {
                         print('ERROR');
@@ -526,6 +528,8 @@ class _PetsDialogState extends State<_PetsDialog> {
                             }
                         )
                     );
+
+                    print(response.statusCode);
 
                     if (response.statusCode == 200 || response.statusCode == 201) ok = true;
                     else {
