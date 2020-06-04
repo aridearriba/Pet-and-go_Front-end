@@ -55,7 +55,7 @@ class _BlocksState extends State<Blocks>{
 
     @override
     Widget build(BuildContext context) {
-        return Scaffold(
+        return Scaffold (
             appBar: AppBar(
                 iconTheme: IconThemeData(
                     color: Colors.white,
