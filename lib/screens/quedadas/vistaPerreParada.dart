@@ -315,7 +315,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                     }
                                     else {
                                         return Center(
-                                            child: CircularProgressIndicator(),
+                                            child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
                                         );
                                     }
                                 },
@@ -339,14 +339,21 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                 }
                 else {
                     children = <Widget>[
-                        SizedBox(
-                            child: CircularProgressIndicator(),
-                            width: 60,
-                            height: 60,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(top: 16),
-                            child: Text(AppLocalizations.of(context).translate('dogstops_one_awaiting-results')),
+                        Center(
+                            child: Column(
+                                children: <Widget>[
+                                    Divider(color: Colors.transparent, height: 20),
+                                    SizedBox(
+                                        child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
+                                        width: 40,
+                                        height: 40,
+                                    ),
+                                    Padding(
+                                        padding: EdgeInsets.only(top: 16),
+                                        child: Text(AppLocalizations.of(context).translate('dogstops_one_awaiting-results')),
+                                    )
+                                ],
+                            ),
                         )
                     ];
                 }

@@ -42,7 +42,7 @@ class SquarePerreParadaView extends State<SquarePerreParadaWidget> {
             builder: (BuildContext context, AsyncSnapshot<ImageProvider> snapshot) {
                 if (! snapshot.hasData) {
                     return Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
                     );
                 } else {
                     return Container(
