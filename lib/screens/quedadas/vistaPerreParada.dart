@@ -62,8 +62,6 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
 
     List<Mascota> _participants;
 
-    PerreParada parada;
-
     nMisQuedadas(){
         Navigator.pushReplacement(
             context,
@@ -74,7 +72,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
     nEditPerreParada(){
         Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => EditPerreParada(widget.user, parada))
+            MaterialPageRoute(builder: (context) => EditPerreParada(widget.user, _parada))
         );
     }
 
@@ -115,7 +113,6 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
             return list.map((model) => Mascota.fromJson(model)).toList();
         }
         else print('ERROR en participantes');
-
     }
 
     Future<PerreParada> getPerreParada(int id) async {
@@ -181,6 +178,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
             else
                 return _parada;
         }
+        else return _parada;
     }
 
     @override
