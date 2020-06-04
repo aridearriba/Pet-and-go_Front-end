@@ -29,6 +29,7 @@ class _SearchState extends State<Search>{
     bool isFriend = false;
     bool isBlocked = false;
     bool progress = false;
+    bool iAmBlocked = false;
 
     List<dynamic> _bloqueados = new List();
 
@@ -95,11 +96,13 @@ class _SearchState extends State<Search>{
                                                 isAmic().whenComplete(() => {
                                                     print('icono de progress:'+progress.toString()),
                                                     isBlock().whenComplete(() => {
-                                                        getProfileImage().whenComplete(() => {
-                                                            _image64 = userSearch.image,
-                                                            _imageProfile = getImage(),
-                                                            setState(() {
-                                                                mostrar = true;
+                                                        iAmBlock().whenComplete(() => {
+                                                            getProfileImage().whenComplete(() => {
+                                                                _image64 = userSearch.image,
+                                                                _imageProfile = getImage(),
+                                                                setState(() {
+                                                                    mostrar = true;
+                                                                })
                                                             })
                                                         })
                                                     })
@@ -219,6 +222,18 @@ class _SearchState extends State<Search>{
                                                 style: TextStyle(color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic)
                                             )
                                         ) :
+                                            iAmBlocked ?
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15.0),
+                                                child: Text('Esta persona te ha bloqueado. No puedes interaccionar con ella',
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontWeight: FontWeight.bold,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                ),
+                                            ) :
                                         Padding(
                                             padding: const EdgeInsets.only(top: 15.0),
                                             child: isBlocked ? null : isFriend ?
@@ -252,6 +267,7 @@ class _SearchState extends State<Search>{
                                             ),
                                         ),
                                         widget.user.email == _controller.text ?
+                                        Container() : iAmBlocked ?
                                         Container() :
                                         Padding(
                                             padding: const EdgeInsets.only(
@@ -339,6 +355,16 @@ class _SearchState extends State<Search>{
 
     }
 
+    Future<void> iAmBlock() async{
+        var email = userSearch.email;
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/amigos/"+email+'/Bloqueados'));
+        _bloqueados = jsonDecode(response.body);
+        setState(() {
+            iAmBlocked = (_bloqueados.contains(widget.user.email));
+        });
+
+    }
+
     Future<void> addAmic() async{
         var email = widget.user.email;
         print(_controller.text);
@@ -402,4 +428,5 @@ class _SearchState extends State<Search>{
         _responseCode = response.statusCode;
         print('El codigo de desbloqueado:'+_responseCode.toString());
     }
+
 }

@@ -178,9 +178,11 @@ class _FriendsState extends State<Friends>{
                                                         icon: Icon(Icons.delete),
                                                         backgroundColor: Colors.red,
                                                         onPressed: () => {
-                                                            removeAmic(_friends[index].email).whenComplete(() => {
+                                                            removeAmic(_myFriends[index].email).whenComplete(() => {
                                                                 if(_responseCode == 200){
-                                                                    getFriends()
+                                                                    setState((){
+                                                                        _myFriends.removeAt(index);
+                                                                    })
                                                                 }
                                                             })
                                                         },
@@ -195,9 +197,11 @@ class _FriendsState extends State<Friends>{
                                                         icon: Icon(Icons.block),
                                                         backgroundColor: Colors.black,
                                                         onPressed: () => {
-                                                            blockFriend(_friends[index]).whenComplete(() => {
+                                                            blockFriend(_myFriends[index].email).whenComplete(() => {
                                                                 if(_responseCode == 200){
-                                                                    getFriends()
+                                                                    setState((){
+                                                                        _myFriends.removeAt(index);
+                                                                    })
                                                                 }
                                                             })
                                                         },
