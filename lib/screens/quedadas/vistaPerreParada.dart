@@ -194,18 +194,6 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                         Padding(
                             padding: const EdgeInsets.only(top: 16),
                         ),
-                        snapshot.data.admin == widget.user.email ? Padding(
-                            padding: EdgeInsets.only(top:20),
-                            child: FloatingActionButton.extended(
-                                heroTag: "editDogStop",
-                                icon: Icon(Icons.edit, color: Colors.white),
-                                backgroundColor: Colors.green,
-                                label: Text(AppLocalizations.of(context).translate('dogstops_edit_title')),
-                                onPressed: () {
-                                    nEditPerreParada();
-                                }
-                            )
-                        ) : Divider(color: Colors.transparent),
                         Row(
                             children: <Widget>[
                                 Icon(
@@ -291,9 +279,18 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                 ),
                             ),
                         ),
-                        Padding(
-                            padding: EdgeInsets.all(10.0),
-                        ),
+                        snapshot.data.admin == widget.user.email ? Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                            child: FloatingActionButton.extended(
+                                heroTag: "editDogStop",
+                                icon: Icon(Icons.edit, color: Colors.white),
+                                backgroundColor: Colors.green,
+                                label: Text(AppLocalizations.of(context).translate('dogstops_edit_title')),
+                                onPressed: () {
+                                    nEditPerreParada();
+                                }
+                            )
+                        ) : Divider(color: Colors.transparent),
                         Text('   PARTICIPANTES:'),
                         Container(
                             height: 200,
