@@ -158,7 +158,7 @@
 
 	"calendar_edit-event_title": "Edit event",
 	"calendar_edit-event_success": "Event updated successfully",
-	"calendar_edit-event_fail": "Event update failed",
+	"calendar_edit-event_fail": "Changes not updated",
 
 	"friends_title": "Friends",
 	"blocks_title": "Blocked users",

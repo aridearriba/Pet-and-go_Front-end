@@ -368,7 +368,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                 onPressed: () => Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => VistaPerreParada(widget.user, widget.id))
+                                        builder: (context) => QuedadasTabView(widget.user))
                                 ),
                             )
                         ],

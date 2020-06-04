@@ -199,16 +199,19 @@ class _EditPerreParadaState extends State<EditPerreParada> {
             future: _buildSearchList(),
             initialData: List<ListTile>(),
             builder: (BuildContext context, AsyncSnapshot<List<ListTile>> childItems) {
-                return new Container(
-                    color: Colors.white,
-                    height: getChildren(childItems).length * 48.0,
-                    width: MediaQuery.of(context).size.width,
-                    child: new ListView(
-                        padding: new EdgeInsets.only(left: 50.0),
-                        children: childItems.data.isNotEmpty
-                            ? ListTile.divideTiles(context: context, tiles: getChildren(childItems)).toList() : List(),
-                    ),
-                );
+                if (childItems.hasData)
+                    return new Container(
+                        color: Colors.white,
+                        height: getChildren(childItems).length * 48.0,
+                        width: MediaQuery.of(context).size.width,
+                        child: new ListView(
+                            padding: new EdgeInsets.only(left: 50.0),
+                            children: childItems.data.isNotEmpty
+                                ? ListTile.divideTiles(context: context, tiles: getChildren(childItems)).toList() : List(),
+                        ),
+                    );
+                else
+                    return new Container();
             },
         );
     }
