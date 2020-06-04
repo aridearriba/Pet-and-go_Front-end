@@ -24,6 +24,7 @@ class _FriendsState extends State<Friends>{
     User userFriend;
     User userMe;
     var _responseCode;
+    bool mostrar = false;
 
     String _image64;
     ImageProvider _imageProfile;
@@ -32,15 +33,22 @@ class _FriendsState extends State<Friends>{
 
 
     void initState(){
-        print(_friends);
-        super.initState();
-        getData();
-
+        getFriends().whenComplete(() => {
+            for(String email in _friends){
+                getData(email).whenComplete(() => {
+                    _myFriends.add(userFriend),
+                })
+            },
+            setState(() => {
+                mostrar = true
+            }),
+        });
+        print(_myFriends.length);
     }
 
   @override
   Widget build(BuildContext context) {
-        if(_friends.isEmpty){
+        if(!mostrar){
             return Scaffold(
                 appBar: AppBar(
                     iconTheme: IconThemeData(
@@ -51,6 +59,15 @@ class _FriendsState extends State<Friends>{
                             color: Colors.white,
                         ),
                     ),
+                ),
+                body: Center(
+                    child: SizedBox(
+                        height: 100.0,
+                        width: 100.0,
+                        child: CircularProgressIndicator(
+                            backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)
+                        ),
+                    )
                 ),
             );
         }
@@ -67,7 +84,7 @@ class _FriendsState extends State<Friends>{
                     ),
                 ),
                 body: ListView.builder(
-                    itemCount: _friends.length,
+                    itemCount: _myFriends.length,
                     itemBuilder: (BuildContext context, index) {
                         return Card(
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -96,7 +113,7 @@ class _FriendsState extends State<Friends>{
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: <Widget>[
                                                             Text(
-                                                                _friends[index],
+                                                                _myFriends[index].email,
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black54,
@@ -120,9 +137,9 @@ class _FriendsState extends State<Friends>{
                                                         icon: Icon(Icons.delete),
                                                         backgroundColor: Colors.red,
                                                         onPressed: () => {
-                                                            removeAmic(_myFriends[index].email).whenComplete(() => {
+                                                            removeAmic(_friends[index].email).whenComplete(() => {
                                                                 if(_responseCode == 200){
-                                                                    getData()
+                                                                    getFriends()
                                                                 }
                                                             })
                                                         },
@@ -139,7 +156,7 @@ class _FriendsState extends State<Friends>{
                                                         onPressed: () => {
                                                             blockFriend(_friends[index]).whenComplete(() => {
                                                                 if(_responseCode == 200){
-                                                                    getData()
+                                                                    getFriends()
                                                                 }
                                                             })
                                                         },
@@ -157,7 +174,7 @@ class _FriendsState extends State<Friends>{
         }
   }
 
-    Future<void> getData() async {
+    Future<void> getFriends() async {
         var email = widget.user.email;
         final response = await http.get(
             new Uri.http(Global.apiURL, "/api/usuarios/" + email));
@@ -169,14 +186,14 @@ class _FriendsState extends State<Friends>{
         _responseCode = response.statusCode;
     }
 
-    Future<void> getFriend(String emailFriend) async {
-        var email = emailFriend;
-        final response = await http.get(
-            new Uri.http(Global.apiURL, "/api/usuarios/" + email));
+    Future<void> getData(String email) async{
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email));
         setState(() {
             userFriend = User.fromJson(jsonDecode(response.body));
         });
-        _responseCode = response.statusCode;
+
+        print(response.statusCode.toString());
+
     }
 
     Future<void> removeAmic(String emailFriend) async{

@@ -19,14 +19,37 @@ class Blocks extends StatefulWidget{
 class _BlocksState extends State<Blocks>{
 
     var _responseCode;
+    bool mostrar = false;
+    User userBlock;
+    List<User> _myBloqueados = new List();
+    List<dynamic> _bloqueados = new List();
 
     void initState(){
-        super.initState();
-        getBloqueados();
+        getBloqueados().whenComplete(() =>
+        {
+            if(_bloqueados.isNotEmpty){
+                print('tinc almenys un bloquejat'),
+                for(String email in _bloqueados){
+                    getData(email).whenComplete(() =>
+                    {
+                        _myBloqueados.add(userBlock),
+                    })
+                },
+                setState(() =>
+                {
+                    mostrar = true
+                }),
+            }
+            else{
+                setState(() =>
+                {
+                    mostrar = true
+                }),
+            }
+        });
 
     }
 
-    List<dynamic> _bloqueados = new List();
     @override
     Widget build(BuildContext context) {
         return Scaffold(
@@ -35,13 +58,13 @@ class _BlocksState extends State<Blocks>{
                     color: Colors.white,
                 ),
                 backgroundColor: Colors.red,
-                title: Text('Personas bloquadas',
+                title: Text('Personas bloqueadas',
                     style: TextStyle(
                         color: Colors.white,
                     ),
                 ),
             ),
-            body: ListView.builder(
+            body: mostrar ? ListView.builder(
                 itemCount: _bloqueados.length,
                 itemBuilder: (BuildContext context, index) {
                     return Card(
@@ -109,7 +132,19 @@ class _BlocksState extends State<Blocks>{
                         )
                     );
                 },
-            ),
+            ) : Padding(
+                padding: const EdgeInsets.all(
+                    30.0),
+                child: Center(
+                    child: SizedBox(
+                        height: 100.0,
+                        width: 100.0,
+                        child: CircularProgressIndicator(
+                            backgroundColor: Colors.red, valueColor: AlwaysStoppedAnimation(Colors.red[200])
+                        ),
+                    )
+                ),
+            )
         );
     }
 
@@ -120,6 +155,7 @@ class _BlocksState extends State<Blocks>{
             _bloqueados = jsonDecode(response.body);
         });
         _responseCode = response.statusCode;
+        print(_responseCode);
     }
 
     Future<void> desbloquearFriend(String emailFriend) async{
@@ -133,6 +169,16 @@ class _BlocksState extends State<Blocks>{
         );
         _responseCode = response.statusCode;
         print('El codigo de desbloqueado:'+_responseCode.toString());
+    }
+
+    Future<void> getData(String email) async{
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email));
+        setState(() {
+            userBlock = User.fromJson(jsonDecode(response.body));
+        });
+
+        print(response.statusCode.toString());
+
     }
 
 }

@@ -12,6 +12,9 @@
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/chat/principal.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/principal.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/search.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/search.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user/blocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/blocks.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user/friends.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/friends.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -368,7 +371,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591284954991</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="arreglo divider chat">
+      <created>1591287069814</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1591287069815</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -385,7 +395,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="navegacion pantalla single chat" />
     <MESSAGE value="pantalla single chat" />
     <MESSAGE value="stream builder" />
     <MESSAGE value="chat envia mensajes" />
@@ -410,7 +419,8 @@
     <MESSAGE value="buscador amigos y bloqueados" />
     <MESSAGE value="arreglar formato chat" />
     <MESSAGE value="arreglar formato hora chat" />
-    <option name="LAST_COMMIT_MESSAGE" value="arreglar formato hora chat" />
+    <MESSAGE value="arreglo divider chat" />
+    <option name="LAST_COMMIT_MESSAGE" value="arreglo divider chat" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
