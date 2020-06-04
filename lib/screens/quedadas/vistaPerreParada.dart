@@ -12,6 +12,8 @@ import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/screens/quedadas/perreParadaParticipantesView.dart';
+import 'package:petandgo/screens/quedadas/perreParadaParticipantesView.dart';
 import '../home.dart';
 
 
@@ -27,6 +29,11 @@ class VistaPerreParada extends StatefulWidget {
 }
 
 class _VistaPerreParadaState extends State<VistaPerreParada>{
+
+    nPerreParadaParticipantesView() {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => PerreParadaParticipantesView(widget.user,widget.id) ) );
+    }
 
     nHome(){
         Navigator.pushReplacement(
@@ -159,6 +166,14 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                         ),
                                     ),
                                     Divider(color: Colors.transparent, height: 40,),
+                                    RaisedButton(
+                                    onPressed: () {
+                                        nPerreParadaParticipantesView();
+                                    },
+                                    child: Text(
+                                        AppLocalizations.of(context).translate('dogstops_one_participants'),
+                                    ),
+                                    ),
                                     RaisedButton(
                                         onPressed: (){
                                             _notJoined ?
