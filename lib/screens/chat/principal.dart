@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/chat/chat_page.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:http/http.dart' as http;
@@ -36,7 +37,7 @@ class _PrincipalState extends State<Principal>{
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Chats',
+                    AppLocalizations.of(context).translate('chat_title'),
                     style: TextStyle(
                         color: Colors.white,
                     ),

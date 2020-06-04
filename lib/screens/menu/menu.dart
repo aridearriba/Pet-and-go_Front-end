@@ -182,7 +182,7 @@ class _MenuContent extends State<Menu> {
                     ),
                     ListTile(
                         leading: Icon(Icons.search),
-                        title: Text('Buscar'),
+                        title: Text(AppLocalizations.of(context).translate('search_title')),
                         onTap: () => nSearch(),
                     ),
                     ListTile(
@@ -191,8 +191,8 @@ class _MenuContent extends State<Menu> {
                         onTap: () => nSettings(),
                     ),
                     ListTile(
-                        leading: Icon(Icons.exit_to_app),
-                        title: Text(AppLocalizations.of(context).translate('logout')),
+                        leading: Icon(Icons.exit_to_app, color: Colors.redAccent),
+                        title: Text(AppLocalizations.of(context).translate('logout'), style: TextStyle(color: Colors.redAccent)),
                         onTap: () => nLogIn(),
                     ),
                 ],

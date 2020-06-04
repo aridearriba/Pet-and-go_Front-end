@@ -99,6 +99,8 @@
 	"dogstops_one_participants": "Ver participantes",
 
 
+	"dogstops_edit_title": "Editar PerreParada",
+
 	"points-of-interest_title": "Puntos de interés",
 	"points-of-interest_list": "Lista",
 	"points-of-interest_map": "Mapa",
@@ -158,6 +160,17 @@
 	"calendar_edit-event_fail": "No se han podido guardar los cambios",
 
 	"chat_title": "Chat",
+	"chat_send-message": "Envia un mensaje...",
+
+	"search_title": "Buscar",
+	"search_write-email": "Introduzca un email",
+	"search_no-user": "No existe ningún usuario con este email",
+	"search_delete-friend": "Borrar amigo",
+	"search_add-friend": "Añadir amigo",
+	"search_block-friend": "Bloquear",
+	"search_unblock-friend": "Desbloquear",
+	"search_your-user": "Este es tu usuario",
+
 
 	"settings_title": "Configuración",
 	"settings_language": "IDIOMA",

@@ -98,6 +98,8 @@
 	"dogstops_one_pet-select": "¿Which pet will you bring with you?",
 	"dogstops_one_participants": "Show participants",
 
+	"dogstops_edit_title": "Edit DogStop",
+
 	"points-of-interest_title": "Points of interest",
 	"points-of-interest_list": "List",
 	"points-of-interest_map": "Map",
@@ -156,8 +158,17 @@
 	"calendar_edit-event_success": "Event updated successfully",
 	"calendar_edit-event_fail": "Event update failed",
 
-
 	"chat_title": "Chat",
+	"chat_send-message": "Send a message...",
+
+	"search_title": "Search",
+	"search_write-email": "Write an email",
+	"search_no-user": "This user email does not exist",
+	"search_delete-friend": "Delete friend",
+	"search_add-friend": "Add friend",
+	"search_block-friend": "Block",
+	"search_unblock-friend": "Unblock",
+	"search_your-user": "This is your account",
 
 	"settings_title": "Settings",
 	"settings_language": "LANGUAGE",
