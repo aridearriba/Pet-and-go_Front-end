@@ -315,7 +315,7 @@ class _ChatPageState extends State<ChatPage>{
     }
 
     ImageProvider getImage(String image)  {
-        _image64 = image;
+        _image64 = image ;
         // no user image
         if (_image64 == "")
             return Image.network(widget.userChat.profileImageUrl).image;
