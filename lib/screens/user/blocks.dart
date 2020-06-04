@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _BlocksState extends State<Blocks>{
     User userBlock;
     List<User> _myBloqueados = new List();
     List<dynamic> _bloqueados = new List();
+    String _image64;
 
     void initState(){
         getBloqueados().whenComplete(() =>
@@ -32,7 +34,7 @@ class _BlocksState extends State<Blocks>{
                 for(String email in _bloqueados){
                     getData(email).whenComplete(() =>
                     {
-                        _myBloqueados.add(userBlock),
+                        getProfileImage(userBlock)
                     })
                 },
                 setState(() =>
@@ -70,14 +72,14 @@ class _BlocksState extends State<Blocks>{
                     return Card(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                         child: Padding(
-                            padding: EdgeInsets.all(5.0),
+                            padding: EdgeInsets.all(10.0),
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: <Widget>[
                                     CircleAvatar(
                                         radius: 50.0,
-                                        child: Icon(Icons.person),
+                                        backgroundImage: getImage(_myBloqueados[index].image),
                                     ),
 
                                     Column(
@@ -88,19 +90,59 @@ class _BlocksState extends State<Blocks>{
                                             // username
                                             Padding(
                                                 padding: const EdgeInsets.only(
-                                                    top: 5.0),
+                                                    top: 10.0),
                                                 child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                     children: <Widget>[
                                                         Text(
-                                                            _bloqueados[index],
+                                                            _myBloqueados[index].username,
                                                             style: TextStyle(
                                                                 color: Colors
                                                                     .black54,
                                                                 fontWeight: FontWeight
                                                                     .bold,
                                                                 fontSize: 16.0,
+                                                            ),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                        ),
+                                                    ]
+                                                ),
+                                            ),
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0),
+                                                child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: <Widget>[
+                                                        Text(
+                                                            _myBloqueados[index].name,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontSize: 16.0,
+                                                            ),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                        ),
+                                                    ]
+                                                ),
+                                            ),
+                                            Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10.0),
+                                                child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: <Widget>[
+                                                        Text(
+                                                            _myBloqueados[index].email,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black54,
+                                                                fontSize: 12.0,
                                                             ),
                                                             textAlign: TextAlign
                                                                 .center,
@@ -171,14 +213,34 @@ class _BlocksState extends State<Blocks>{
         print('El codigo de desbloqueado:'+_responseCode.toString());
     }
 
-    Future<void> getData(String email) async{
+    Future<void> getData(email) async{
         final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email));
-        setState(() {
-            userBlock = User.fromJson(jsonDecode(response.body));
+        userBlock = User.fromJson(jsonDecode(response.body));
+
+    }
+
+    ImageProvider getImage(String image)  {
+        _image64 = image;
+        // no user image
+        if (_image64 == "")
+            return Image.network(widget.user.profileImageUrl).image;
+
+        // else --> load image
+        Uint8List _bytesImage;
+        String _imgString = _image64.toString();
+        _bytesImage = Base64Decoder().convert(_imgString);
+        return Image.memory(_bytesImage).image;
+    }
+
+    Future<void> getProfileImage(User userF) async{
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + userF.email + "/image"),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },);
+        userF.image = response.body;
+        setState(() => {
+            _myBloqueados.add(userF)
         });
-
-        print(response.statusCode.toString());
-
     }
 
 }

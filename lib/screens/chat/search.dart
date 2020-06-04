@@ -152,7 +152,7 @@ class _SearchState extends State<Search>{
                                                     // username
                                                     Padding(
                                                         padding: const EdgeInsets.only(
-                                                            top: 5.0),
+                                                            top: 10.0),
                                                         child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -175,7 +175,7 @@ class _SearchState extends State<Search>{
                                                     // email
                                                     Padding(
                                                         padding: const EdgeInsets.only(
-                                                            top: 5.0),
+                                                            top: 10.0),
                                                         child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -195,7 +195,7 @@ class _SearchState extends State<Search>{
                                                     ),
                                                     Padding(
                                                         padding: const EdgeInsets.only(
-                                                            top: 5.0),
+                                                            top: 10.0),
                                                         child: Row(
                                                             mainAxisAlignment: MainAxisAlignment.center,
                                                             crossAxisAlignment: CrossAxisAlignment.center,
