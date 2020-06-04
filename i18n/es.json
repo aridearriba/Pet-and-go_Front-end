@@ -175,6 +175,7 @@
 	"search_block-friend": "Bloquear",
 	"search_unblock-friend": "Desbloquear",
 	"search_your-user": "Este es tu usuario",
+	"search_iamblocked": "Este usuario te ha bloqueado. No puedes interaccionar con esta persona.",
 
 
 	"settings_title": "Configuración",

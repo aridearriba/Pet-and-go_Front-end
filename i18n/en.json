@@ -174,6 +174,7 @@
 	"search_block-friend": "Block",
 	"search_unblock-friend": "Unblock",
 	"search_your-user": "This is your account",
+	"search_iamblocked": "This user has blocked you. You can't interact with this person.",
 
 	"settings_title": "Settings",
 	"settings_language": "LANGUAGE",
