@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/global/global.dart' as Global;
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 
 class Friends extends StatefulWidget{
     Friends(this.user);
@@ -60,7 +61,7 @@ class _FriendsState extends State<Friends>{
                     iconTheme: IconThemeData(
                         color: Colors.white,
                     ),
-                    title: Text('Mis amigos',
+                    title: Text(AppLocalizations.of(context).translate('friends_title'),
                         style: TextStyle(
                             color: Colors.white,
                         ),
@@ -116,7 +117,7 @@ class _FriendsState extends State<Friends>{
                                                         top: 15.0),
                                                     child: FloatingActionButton.extended(
                                                         heroTag: "btn4",
-                                                        label: Text('Borrar amigo'),
+                                                        label: Text(AppLocalizations.of(context).translate('search_delete-friend')),
                                                         icon: Icon(Icons.delete),
                                                         backgroundColor: Colors.red,
                                                         onPressed: () => {
@@ -133,7 +134,7 @@ class _FriendsState extends State<Friends>{
                                                         top: 15.0),
                                                     child: FloatingActionButton.extended(
                                                         heroTag: "btn5",
-                                                        label: Text('Bloquear'),
+                                                        label: Text(AppLocalizations.of(context).translate('search_block-friend')),
                                                         icon: Icon(Icons.block),
                                                         backgroundColor: Colors.black,
                                                         onPressed: () => {

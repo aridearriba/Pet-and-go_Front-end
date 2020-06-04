@@ -83,6 +83,7 @@
 	"meetings_my-dogstops_title": "Mis PerreParadas",
 	"meetings_my-meetings_empty": "No tienes quedadas",
 	"meetings_my-meetings_title_participants": "Participantes",
+	"meetings_my-meetings_title_no-participants": "Sin participantes",
 
 	"dogstops_new_title": "Añadir PerreParada",
 	"dogstops_new_address": "Dirección",
@@ -159,6 +160,9 @@
 	"calendar_edit-event_title": "Editar evento",
 	"calendar_edit-event_success": "Evento actualizado con éxito",
 	"calendar_edit-event_fail": "No se han podido guardar los cambios",
+
+	"friends_title": "Amigos",
+	"blocks_title": "Usuarios bloqueados",
 
 	"chat_title": "Chat",
 	"chat_send-message": "Envia un mensaje...",

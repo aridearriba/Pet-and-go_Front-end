@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/global/global.dart' as Global;
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 
 class Blocks extends StatefulWidget{
     Blocks(this.user);
@@ -35,7 +36,7 @@ class _BlocksState extends State<Blocks>{
                     color: Colors.white,
                 ),
                 backgroundColor: Colors.red,
-                title: Text('Personas bloquadas',
+                title: Text(AppLocalizations.of(context).translate('blocks_title'),
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -90,7 +91,7 @@ class _BlocksState extends State<Blocks>{
                                                     top: 15.0),
                                                 child: FloatingActionButton.extended(
                                                     heroTag: "btn5",
-                                                    label: Text('Desbloquear'),
+                                                    label: Text(AppLocalizations.of(context).translate('search_unblock-friend')),
                                                     icon: Icon(Icons.not_interested),
                                                     backgroundColor: Colors.blueGrey,
                                                     onPressed: () => {

@@ -266,7 +266,7 @@ class _ProfileState extends State<Profile>
                                                 heroTag: "bnt1",
                                                 icon: Icon(Icons.people),
                                                 backgroundColor: Colors.green,
-                                                label: Text('Amigos'),
+                                                label: Text(AppLocalizations.of(context).translate('friends_title')),
                                                 onPressed: () => nFriends(),
                                             )
                                         ),
@@ -277,7 +277,7 @@ class _ProfileState extends State<Profile>
                                                 heroTag: "bnt2",
                                                 icon: Icon(Icons.not_interested),
                                                 backgroundColor: Colors.red,
-                                                label: Text('Bloqueados'),
+                                                label: Text(AppLocalizations.of(context).translate('blocks_title')),
                                                 onPressed: () => nBlocks(),
                                             )
                                         )

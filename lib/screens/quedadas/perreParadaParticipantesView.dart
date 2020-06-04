@@ -85,7 +85,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
 
                                 child: Center(
                                     child: Text(
-                                        "Sin participantes",
+                                        AppLocalizations.of(context).translate('meetings_my-meetings_title_no-participants'),
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize: 30,
