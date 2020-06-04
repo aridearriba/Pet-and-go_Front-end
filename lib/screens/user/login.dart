@@ -307,11 +307,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 () => login(user.email, "").whenComplete(
                     (){
                         user.token = _token.toString();
+                        print("TOKEN USER GOGOLE: " + _token.toString());
                     }
                 )
             );
         }catch(error){
-            print(error);
+            print("ERROR GOOGLE: " + error);
         }
     }
 
@@ -326,6 +327,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 'password': password}));
         _responseCode = response.statusCode;
         _token = response.headers['authorization'].toString();
+         print("TOKEN LOGIN GOGOLE: " + _token.toString());
     }
 
     Future<void> signUp() async{

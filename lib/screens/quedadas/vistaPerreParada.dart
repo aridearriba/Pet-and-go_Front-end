@@ -12,6 +12,8 @@ import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/screens/quedadas/editPerreParada.dart';
+import 'package:petandgo/screens/quedadas/perreParadaTabView.dart';
 import '../home.dart';
 
 
@@ -28,13 +30,6 @@ class VistaPerreParada extends StatefulWidget {
 
 class _VistaPerreParadaState extends State<VistaPerreParada>{
 
-    nHome(){
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Home(widget.user))
-        );
-    }
-
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
     Completer<GoogleMapController> _controller = Completer();
@@ -45,6 +40,22 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
 
     List<Mascota> _listPets;
     List<Mascota> _seledtedPets = [];
+
+    PerreParada parada;
+
+    nMisQuedadas(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => QuedadasTabView(widget.user))
+        );
+    }
+
+    nEditPerreParada(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => EditPerreParada(widget.user, parada))
+        );
+    }
 
     void callback(int status){
         if (status == 0) {
@@ -73,7 +84,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
 
             _listPets = await _getUsersPets();
 
-            PerreParada parada = PerreParada.fromJson(data);
+            parada = PerreParada.fromJson(data);
 
             _markers.add(Marker(
                 markerId: MarkerId('PERREPARADA'),
@@ -219,6 +230,18 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                             AppLocalizations.of(context).translate('dogstops_one_enroll') : AppLocalizations.of(context).translate('dogstops_one_unroll')
                                         )
                                     ),
+                                    snapshot.data.admin == widget.user.email ? Padding(
+                                        padding: EdgeInsets.only(top:20),
+                                        child: FloatingActionButton.extended(
+                                            heroTag: "editDogStop",
+                                            icon: Icon(Icons.edit, color: Colors.white),
+                                            backgroundColor: Colors.green,
+                                            label: Text(AppLocalizations.of(context).translate('dogstops_edit_title')),
+                                            onPressed: () {
+                                                nEditPerreParada();
+                                            }
+                                        )
+                                    ) : Divider(color: Colors.transparent),
                                 ],
                             ),
                         ),
@@ -264,8 +287,8 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                         ),
                         actions: <Widget>[
                             IconButton(
-                                icon: Icon(Icons.home, color: Colors.white),
-                                onPressed: () => nHome(),
+                                icon: Icon(Icons.arrow_back, color: Colors.white),
+                                onPressed: () => nMisQuedadas(),
                             ),
                         ],
                     ),
