@@ -11,9 +11,28 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/chat/search.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/search.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/user/blocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/blocks.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/user/friends.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/friends.dart" afterDir="false" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/i18n/ca.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/ca.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/es.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/es.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" afterDir="false" />
+=======
+=======
+<<<<<<< Updated upstream
+>>>>>>> 4428b68a8760abbb80d9cfc208b101369922f103
+      <change beforePath="$PROJECT_DIR$/lib/model/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/i18n/ca.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/ca.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/es.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/es.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/nuevaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/nuevaPerreParada.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/login.dart" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -363,35 +382,7 @@
       <option name="project" value="LOCAL" />
       <updated>1591284254914</updated>
     </task>
-    <task id="LOCAL-00028" summary="arreglar formato hora chat">
-      <created>1591284954990</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1591284954991</updated>
-    </task>
-    <task id="LOCAL-00029" summary="arreglo divider chat">
-      <created>1591287069814</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1591287069815</updated>
-    </task>
-    <task id="LOCAL-00030" summary="arreglo progreso">
-      <created>1591294885390</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1591294885391</updated>
-    </task>
-    <task id="LOCAL-00031" summary="foto perfil chats">
-      <created>1591300714139</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1591300714140</updated>
-    </task>
-    <option name="localTasksCounter" value="32" />
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -408,6 +399,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="llista de chats" />
+    <MESSAGE value="navegacion pantalla single chat" />
+    <MESSAGE value="pantalla single chat" />
+    <MESSAGE value="stream builder" />
     <MESSAGE value="chat envia mensajes" />
     <MESSAGE value="canvi pantalles chat screen" />
     <MESSAGE value="enviar missatges" />
@@ -429,11 +424,7 @@
     <MESSAGE value="arreglos llista amics" />
     <MESSAGE value="buscador amigos y bloqueados" />
     <MESSAGE value="arreglar formato chat" />
-    <MESSAGE value="arreglar formato hora chat" />
-    <MESSAGE value="arreglo divider chat" />
-    <MESSAGE value="arreglo progreso" />
-    <MESSAGE value="foto perfil chats" />
-    <option name="LAST_COMMIT_MESSAGE" value="foto perfil chats" />
+    <option name="LAST_COMMIT_MESSAGE" value="arreglar formato chat" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
