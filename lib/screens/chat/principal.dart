@@ -49,7 +49,9 @@ class _PrincipalState extends State<Principal>{
                 child: ListView.separated(
                     padding: EdgeInsets.only(top: 10.0),
                         separatorBuilder: (context, index) => Divider(
-                            color: Colors.black,
+                            color: Colors.grey,
+                            indent: 25.0,
+                            endIndent: 25.0,
                         ),
                         itemCount: _friends.length,
                         itemBuilder: (BuildContext context, index) {
