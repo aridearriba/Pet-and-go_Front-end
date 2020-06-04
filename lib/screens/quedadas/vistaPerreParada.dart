@@ -181,6 +181,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
             else
                 return _parada;
         }
+        else return _parada;
     }
 
     @override
