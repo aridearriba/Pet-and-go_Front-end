@@ -13,6 +13,7 @@ import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:random_string/random_string.dart';
 import '../home.dart';
 
 
@@ -30,6 +31,13 @@ class VistaPerreParada extends StatefulWidget {
 class _VistaPerreParadaState extends State<VistaPerreParada>{
 
     nHome(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Home(widget.user))
+        );
+    }
+
+    nProfile(String email){
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Home(widget.user))
@@ -56,12 +64,14 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
         if (status == 0) { //añadidos
             setState(() async {
                 _joined = true;
-                _participants = await _getParticipants();
+                _participants =  await _getParticipants();
+                _wasSelected = _seledtedPets;
             });
         } else if (status == 1) { //eliminados todas tus mascotas
-            setState(() async {
+            setState(() {
                 _joined = false;
-                _participants = await _getParticipants();
+                _participants = _getParticipants() as List<Mascota>;
+                _wasSelected = _seledtedPets;
             });
         }
     }
@@ -247,17 +257,33 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                         Container(
                             height: 200,
                             width: 500,
-                            child: ListView.builder(
-                                itemCount: _participants.length,
-                                itemBuilder: (BuildContext context, int index){
-                                    return Card(
-                                        child: ListTile(
-                                            leading: Icon(Icons.pets),
-                                            title: Text(_participants[index].id.name),
-                                            subtitle: Text('de ${_participants[index].id.amo}'),
-                                        ),
-                                    );
-                                }
+                            child: FutureBuilder<List<Mascota>>(
+                                future: _getParticipants(),
+                                builder: (context, snapshot) {
+                                    if (snapshot.hasData){
+                                        return ListView.builder(
+                                            itemCount: (_participants == []) ? 0 : _participants.length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (BuildContext context, int index){
+                                                return Card(
+                                                    key: new Key(randomString(10)),
+                                                    child: ListTile(
+                                                        onTap: nHome,
+                                                        leading: Icon(Icons.pets),
+                                                        title: Text(_participants[index].id.name),
+                                                        subtitle: Text('de ${_participants[index].id.amo}'),
+
+                                                    ),
+                                                );
+                                            }
+                                        );
+                                    }
+                                    else {
+                                        return Center(
+                                            child: CircularProgressIndicator(),
+                                        );
+                                    }
+                                },
                             ),
                         ),
                     ];
@@ -273,6 +299,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                             padding: const EdgeInsets.only(top: 16),
                             child: Text('Error: ${snapshot.error}'),
                         )
+
                     ];
                 }
                 else {
@@ -314,10 +341,6 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
             }
             );
     }
-
-    Future<void> deleteMyParticipations() async {
-    }
-
 }
 
 class _PetsDialog extends StatefulWidget{
@@ -432,7 +455,7 @@ class _PetsDialogState extends State<_PetsDialog> {
                         },
                     );
 
-                    if (response.statusCode == 200) ok = true;
+                    if (response.statusCode == 200 || response.statusCode == 201) ok = true;
                     else {
                         print('ERROR');
                     }
@@ -455,7 +478,7 @@ class _PetsDialogState extends State<_PetsDialog> {
                         )
                     );
 
-                    if (response.statusCode == 200) ok = true;
+                    if (response.statusCode == 200 || response.statusCode == 201) ok = true;
                     else {
                         print('ERROR'); //Que se lo muestre al usuario en un futuro
                     }

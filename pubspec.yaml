@@ -56,7 +56,7 @@ dependencies:
 
     socket_io_client: any
     firebase_messaging: ^5.1.2
-
+    random_string: 2.0.1
 
 
 dev_dependencies:
