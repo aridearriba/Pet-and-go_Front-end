@@ -9,8 +9,8 @@ import 'package:petandgo/global/global.dart' as Global;
 import 'package:http/http.dart' as http;
 import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/menu/menu.dart';
+import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 
-import 'SquarePerreParadaView.dart';
 
 class PerreParadaParticipantesView extends StatefulWidget {
     int idPerreParada;
@@ -27,13 +27,33 @@ class PerreParadaParticipantesView extends StatefulWidget {
 }
 
 class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
+
+    nPerreParadaView() {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => VistaPerreParada(widget.user, widget.idPerreParada)));
+    }
+
     @override
     Widget build(BuildContext context) {
-        return Scaffold(
+        return GestureDetector(
+            onTap: () {
+            FocusScopeNode actualFocus = FocusScope.of(context);
+
+            if(!actualFocus.hasPrimaryFocus){
+                actualFocus.unfocus();
+            }
+        },
+        child: Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(AppLocalizations.of(context).translate('meetings_my-meetings_title_participants'), style: TextStyle(color: Colors.white,),),
                 iconTheme: IconThemeData(color: Colors.white,),
+                actions: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () => nPerreParadaView()
+                    )
+                ],
             ),
             body: FutureBuilder(
                 future: getParticipantes(),
@@ -78,7 +98,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                     }
                 },
             ),
-        );
+        ));
     }
 
     Widget _buildCard(ImageProvider _imageProfile,Participante userSearch,bool isFriend,bool isBlocked){

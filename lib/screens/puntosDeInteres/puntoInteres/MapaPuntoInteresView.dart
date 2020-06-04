@@ -36,6 +36,12 @@ class MapaPuntoInteresState extends State<MapaPuntoInteresView> {
             appBar: AppBar(
                 title: Text(AppLocalizations.of(context).translate('points-of-interest_one_title'), style: TextStyle(color: Colors.white)),
                 iconTheme: IconThemeData(color: Colors.white,),
+                actions: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () => Navigator.pop(context),
+                    )
+                ],
             ),
             body: MapaPuntosInteresWidget(widget.user,widget.puntosInteres,widget.position),
         );

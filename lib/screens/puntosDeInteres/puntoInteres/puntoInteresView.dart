@@ -43,6 +43,12 @@ class PuntoInteresState extends State<PuntoInteresView> {
             appBar: AppBar(
                 title: Text(AppLocalizations.of(context).translate('points-of-interest_one_title'), style: TextStyle(color: Colors.white,),),
                 iconTheme: IconThemeData(color: Colors.white,),
+                actions: <Widget>[
+                    IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () => Navigator.pop(context),
+                )
+            ],
             ),
             body: Padding(
                 padding: const EdgeInsets.all(8.0),
