@@ -68,7 +68,7 @@ class _BlocksState extends State<Blocks>{
                 ),
             ),
             body: mostrar ? ListView.builder(
-                itemCount: _bloqueados.length,
+                itemCount: _myBloqueados.length,
                 itemBuilder: (BuildContext context, index) {
                     return Card(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -160,9 +160,11 @@ class _BlocksState extends State<Blocks>{
                                                     icon: Icon(Icons.not_interested),
                                                     backgroundColor: Colors.blueGrey,
                                                     onPressed: () => {
-                                                        desbloquearFriend(_bloqueados[index]).whenComplete(() => {
+                                                        desbloquearFriend(_myBloqueados[index].email).whenComplete(() => {
                                                             if(_responseCode == 200){
-                                                                getBloqueados()
+                                                                setState((){
+                                                                    _myBloqueados.removeAt(index);
+                                                                })
                                                             }
                                                         })
                                                     },
@@ -196,6 +198,8 @@ class _BlocksState extends State<Blocks>{
         final response = await http.get(new Uri.http(Global.apiURL, "/api/amigos/"+email+'/Bloqueados'));
         setState(() {
             _bloqueados = jsonDecode(response.body);
+
+
         });
         _responseCode = response.statusCode;
         print(_responseCode);
