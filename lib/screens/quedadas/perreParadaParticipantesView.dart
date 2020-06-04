@@ -32,7 +32,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
         return Scaffold(
             drawer: Menu(widget.user),
             appBar: AppBar(
-                title: Text(AppLocalizations.of(context).translate('meetings_my-meetings_title'), style: TextStyle(color: Colors.white,),),
+                title: Text(AppLocalizations.of(context).translate('meetings_my-meetings_title_participants'), style: TextStyle(color: Colors.white,),),
                 iconTheme: IconThemeData(color: Colors.white,),
             ),
             body: FutureBuilder(
@@ -46,19 +46,17 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                     } else {
                         if (snapshot.data != null) {
                           return Container(
-                              child: ListView.separated(
+                              child: ListView.builder(
                                   itemCount: snapshot.data.length,
                                   itemBuilder: (BuildContext context, int i) {
                                       return Padding(
                                           padding: EdgeInsets.all(5.0),
                                           child: Container(
-                                              height: 310.0,
-                                              child: _buildCard(context,null,snapshot.data[i],false,false)
+                                              height: 400.0,
+                                              child: _buildCard(null,snapshot.data[i],false,false)
                                           )
                                       );
-                                  },
-                                  separatorBuilder: (BuildContext context, int index) =>
-                                  const Divider(),
+                                  }
                               ),
                           );
 
@@ -83,10 +81,8 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
         );
     }
 
-    Widget _buildCard(BuildContext context,ImageProvider _imageProfile,Participante userSearch,bool isFriend,bool isBlocked){
-        return ListView(
-            children: <Widget>[
-                Card(
+    Widget _buildCard(ImageProvider _imageProfile,Participante userSearch,bool isFriend,bool isBlocked){
+        return Card(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                     child: Padding(
                         padding: EdgeInsets.all(5.0),
@@ -171,19 +167,21 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                                                 top: 15.0),
                                             child: userSearch.estado == "ACEPTADA" ?
                                             FloatingActionButton.extended(
-                                                heroTag: "btn3",
-                                                label: Text('Borrar amigo'),
+                                                heroTag: "btn30",
+                                                label: Text(AppLocalizations.of(context).translate('search_delete-friend')),
                                                 icon: Icon(Icons.remove),
                                                 backgroundColor: Colors.red,
                                                 onPressed: () => {
+                                                    removeAmic(userSearch.email).whenComplete(() => {
                                                     setState((){
                                                         userSearch.estado = null;
+                                                        })
                                                     })
                                                 },
                                             ) :
                                             FloatingActionButton.extended(
-                                                heroTag: "btn4",
-                                                label: Text('Añadir amigo'),
+                                                heroTag: "btn40",
+                                                label: Text(AppLocalizations.of(context).translate('search_add-friend')),
                                                 icon: Icon(Icons.add),
                                                 backgroundColor: Colors.blue,
                                                 onPressed: () => {
@@ -205,8 +203,8 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                                                 top: 15.0),
                                             child: userSearch.estado == "BLOQUEADO" ?
                                             FloatingActionButton.extended(
-                                                heroTag: "btn7",
-                                                label: Text('Desbloquear'),
+                                                heroTag: "btn70",
+                                                label: Text(AppLocalizations.of(context).translate('search_unblock-friend')),
                                                 icon: Icon(Icons.not_interested),
                                                 backgroundColor: Colors.blueGrey,
                                                 onPressed: () => {
@@ -223,8 +221,8 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                                                 },
                                             ) :
                                             FloatingActionButton.extended(
-                                                heroTag: "btn6",
-                                                label: Text('Bloquear'),
+                                                heroTag: "btn60",
+                                                label: Text(AppLocalizations.of(context).translate('search_block-friend')),
                                                 icon: Icon(Icons.block),
                                                 backgroundColor: Colors.black,
                                                 onPressed: () => {
@@ -243,9 +241,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                             ],
                         ),
                     ),
-                ),
-            ]
-        );
+                );
     }
 
     Future<List<Participante>> getParticipantes() async {
@@ -308,4 +304,17 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
         );
         widget._responseCode = response.statusCode;
     }
+
+    Future<void> removeAmic(String emailFriend) async{
+        var email = widget.user.email;
+        final response = await http.post(
+            new Uri.http(Global.apiURL, "/api/amigos/" + email+'/Removeamic'),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+            body: emailFriend
+        );
+        widget._responseCode = response.statusCode;
+    }
+
 }
