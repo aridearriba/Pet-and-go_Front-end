@@ -28,6 +28,7 @@ class _SearchState extends State<Search>{
     var _responseCode;
     bool isFriend = false;
     bool isBlocked = false;
+    bool progress = false;
 
     List<dynamic> _bloqueados = new List();
 
@@ -60,25 +61,25 @@ class _SearchState extends State<Search>{
                                 Form(
                                     key: _formKey,
                                     child: SizedBox(width: 250.0,
-                                            child: TextFormField(
-                                                decoration: InputDecoration(
-                                                    labelText: AppLocalizations.of(context).translate('search_write-email')
-                                                ),
-                                                controller: _controller,
-                                                validator: (value) {
-                                                    RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
-                                                    if(value.isEmpty){
-                                                        return AppLocalizations.of(context).translate('user_login_empty-email');
-                                                    }
-                                                    if(!regex.hasMatch(value)){
-                                                        return AppLocalizations.of(context).translate('user_sign-up_invalid-email');
-                                                    }
-                                                    if (_responseCode != 200) {
-                                                        return  AppLocalizations.of(context).translate('search_no-user');
-                                                    }
-                                                    return null;
-                                                },
-                                            )
+                                        child: TextFormField(
+                                            decoration: InputDecoration(
+                                                labelText: AppLocalizations.of(context).translate('search_write-email')
+                                            ),
+                                            controller: _controller,
+                                            validator: (value) {
+                                                RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+                                                if(value.isEmpty){
+                                                    return AppLocalizations.of(context).translate('user_login_empty-email');
+                                                }
+                                                if(!regex.hasMatch(value)){
+                                                    return AppLocalizations.of(context).translate('user_sign-up_invalid-email');
+                                                }
+                                                if (_responseCode != 200) {
+                                                    return  AppLocalizations.of(context).translate('search_no-user');
+                                                }
+                                                return null;
+                                            },
+                                        )
                                     ),
                                 ),
                                 FloatingActionButton(
@@ -87,7 +88,12 @@ class _SearchState extends State<Search>{
                                         getData().whenComplete(() =>
                                         {
                                             if(_formKey.currentState.validate()){
+                                                setState((){
+                                                    progress = true;
+                                                    mostrar = false;
+                                                }),
                                                 isAmic().whenComplete(() => {
+                                                    print('icono de progress:'+progress.toString()),
                                                     isBlock().whenComplete(() => {
                                                         getProfileImage().whenComplete(() => {
                                                             _image64 = userSearch.image,
@@ -110,10 +116,14 @@ class _SearchState extends State<Search>{
                     Padding(
                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
                         child: Container(
-                            height: 310.0,
-                            child: mostrar ? _buildCard(context) : null,
-                        )
-                    ),
+                            height: !progress ? 0.0 : mostrar ? 310.0 : 100.0,
+                            child: !progress ? SizedBox(width: 10) : mostrar ? _buildCard(context) : SizedBox(height: 100.0,
+                                width: 100.0,
+                                child: CircularProgressIndicator(
+                                    backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)
+                                ),)
+                        ),
+                    )
                 ],
             )
         );
@@ -121,172 +131,172 @@ class _SearchState extends State<Search>{
 
     Widget _buildCard(BuildContext context){
         return ListView(
-                children: <Widget>[
-                        Card(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                                child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                            CircleAvatar(
-                                                radius: 50.0,
-                                                backgroundImage: _imageProfile,
-                                            ),
+            children: <Widget>[
+                Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                    child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                                CircleAvatar(
+                                    radius: 50.0,
+                                    backgroundImage: _imageProfile,
+                                ),
 
-                                            Column(
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                        // USER
+                                        // username
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10.0),
+                                            child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 crossAxisAlignment: CrossAxisAlignment.center,
                                                 children: <Widget>[
-                                                    // USER
-                                                    // username
-                                                    Padding(
-                                                        padding: const EdgeInsets.only(
-                                                            top: 5.0),
-                                                        child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: <Widget>[
-                                                                Text(
-                                                                    userSearch.username,
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black54,
-                                                                        fontWeight: FontWeight
-                                                                            .bold,
-                                                                        fontSize: 16.0,
-                                                                    ),
-                                                                    textAlign: TextAlign
-                                                                        .center,
-                                                                ),
-                                                            ]
+                                                    Text(
+                                                        userSearch.username,
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .black54,
+                                                            fontWeight: FontWeight
+                                                                .bold,
+                                                            fontSize: 16.0,
                                                         ),
+                                                        textAlign: TextAlign
+                                                            .center,
                                                     ),
-                                                    // email
-                                                    Padding(
-                                                        padding: const EdgeInsets.only(
-                                                            top: 5.0),
-                                                        child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: <Widget>[
-                                                                Text(
-                                                                    userSearch.name,
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black54,
-                                                                        fontSize: 16.0,
-                                                                    ),
-                                                                    textAlign: TextAlign
-                                                                        .center,
-                                                                )
-                                                            ]
+                                                ]
+                                            ),
+                                        ),
+                                        // email
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10.0),
+                                            child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                    Text(
+                                                        userSearch.name,
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .black54,
+                                                            fontSize: 16.0,
                                                         ),
-                                                    ),
-                                                    Padding(
-                                                        padding: const EdgeInsets.only(
-                                                            top: 5.0),
-                                                        child: Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                                            children: <Widget>[
-                                                                Text(
-                                                                    userSearch.email,
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .black54,
-                                                                    ),
-                                                                )
-                                                            ],
-                                                        )
-                                                    ),
-                                                    widget.user.email == _controller.text ?
-                                                        Padding(
-                                                            padding: const EdgeInsets.only(top: 15.0),
-                                                            child: Text(
-                                                                AppLocalizations.of(context).translate('search_your-user'),
-                                                                style: TextStyle(color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic)
-                                                            )
-                                                        ) :
-                                                        Padding(
-                                                        padding: const EdgeInsets.only(top: 15.0),
-                                                        child: isBlocked ? null : isFriend ?
-                                                        FloatingActionButton.extended(
-                                                            heroTag: "btn3",
-                                                            label: Text(AppLocalizations.of(context).translate('search_delete-friend')),
-                                                            icon: Icon(Icons.remove),
-                                                            backgroundColor: Colors.red,
-                                                            onPressed: () => {
-                                                                setState((){
-                                                                    isFriend = false;
-                                                                })
-                                                            },
-                                                        ) :
-                                                        FloatingActionButton.extended(
-                                                            heroTag: "btn4",
-                                                            label: Text(AppLocalizations.of(context).translate('search_add-friend')),
-                                                            icon: Icon(Icons.add),
-                                                            backgroundColor: Colors.blue,
-                                                            onPressed: () => {
-                                                                addAmic().whenComplete(() => {
-                                                                    if(_responseCode == 201){
-                                                                        setState((){
-                                                                            isFriend = true;
-                                                                        })
-                                                                    }
-
-                                                                })
-
-                                                            },
-                                                        ),
-                                                    ),
-                                                    widget.user.email == _controller.text ?
-                                                        Container() :
-                                                        Padding(
-                                                        padding: const EdgeInsets.only(
-                                                            top: 15.0),
-                                                        child: isBlocked ?
-                                                        FloatingActionButton.extended(
-                                                            heroTag: "btn7",
-                                                            label: Text(AppLocalizations.of(context).translate('search_unblock-friend')),
-                                                            icon: Icon(Icons.not_interested),
-                                                            backgroundColor: Colors.blueGrey,
-                                                            onPressed: () => {
-                                                                desbloquearFriend(userSearch.email).whenComplete(() => {
-                                                                    if(_responseCode == 200){
-                                                                        isAmic().whenComplete(() => {
-                                                                            setState((){
-                                                                                isBlocked = false;
-                                                                            })
-                                                                        })
-
-                                                                    }
-                                                                })
-                                                            },
-                                                        ) :
-                                                        FloatingActionButton.extended(
-                                                            heroTag: "btn6",
-                                                            label: Text(AppLocalizations.of(context).translate('search_block-friend')),
-                                                            icon: Icon(Icons.block),
-                                                            backgroundColor: Colors.black,
-                                                            onPressed: () => {
-                                                                blockFriend(userSearch.email).whenComplete(() => {
-                                                                    if(_responseCode == 200){
-                                                                        setState((){
-                                                                            isBlocked = true;
-                                                                        })
-                                                                    }
-                                                                })
-                                                            },
+                                                        textAlign: TextAlign
+                                                            .center,
+                                                    )
+                                                ]
+                                            ),
+                                        ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 10.0),
+                                            child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                    Text(
+                                                        userSearch.email,
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .black54,
                                                         ),
                                                     )
                                                 ],
+                                            )
+                                        ),
+                                        widget.user.email == _controller.text ?
+                                        Padding(
+                                            padding: const EdgeInsets.only(top: 15.0),
+                                            child: Text(
+                                                AppLocalizations.of(context).translate('search_your-user'),
+                                                style: TextStyle(color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic)
+                                            )
+                                        ) :
+                                        Padding(
+                                            padding: const EdgeInsets.only(top: 15.0),
+                                            child: isBlocked ? null : isFriend ?
+                                            FloatingActionButton.extended(
+                                                heroTag: "btn3",
+                                                label: Text(AppLocalizations.of(context).translate('search_delete-friend')),
+                                                icon: Icon(Icons.remove),
+                                                backgroundColor: Colors.red,
+                                                onPressed: () => {
+                                                    setState((){
+                                                        isFriend = false;
+                                                    })
+                                                },
+                                            ) :
+                                            FloatingActionButton.extended(
+                                                heroTag: "btn4",
+                                                label: Text(AppLocalizations.of(context).translate('search_add-friend')),
+                                                icon: Icon(Icons.add),
+                                                backgroundColor: Colors.blue,
+                                                onPressed: () => {
+                                                    addAmic().whenComplete(() => {
+                                                        if(_responseCode == 201){
+                                                            setState((){
+                                                                isFriend = true;
+                                                            })
+                                                        }
+
+                                                    })
+
+                                                },
                                             ),
-                                        ],
-                                    ),
+                                        ),
+                                        widget.user.email == _controller.text ?
+                                        Container() :
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 15.0),
+                                            child: isBlocked ?
+                                            FloatingActionButton.extended(
+                                                heroTag: "btn7",
+                                                label: Text(AppLocalizations.of(context).translate('search_unblock-friend')),
+                                                icon: Icon(Icons.not_interested),
+                                                backgroundColor: Colors.blueGrey,
+                                                onPressed: () => {
+                                                    desbloquearFriend(userSearch.email).whenComplete(() => {
+                                                        if(_responseCode == 200){
+                                                            isAmic().whenComplete(() => {
+                                                                setState((){
+                                                                    isBlocked = false;
+                                                                })
+                                                            })
+
+                                                        }
+                                                    })
+                                                },
+                                            ) :
+                                            FloatingActionButton.extended(
+                                                heroTag: "btn6",
+                                                label: Text(AppLocalizations.of(context).translate('search_block-friend')),
+                                                icon: Icon(Icons.block),
+                                                backgroundColor: Colors.black,
+                                                onPressed: () => {
+                                                    blockFriend(userSearch.email).whenComplete(() => {
+                                                        if(_responseCode == 200){
+                                                            setState((){
+                                                                isBlocked = true;
+                                                            })
+                                                        }
+                                                    })
+                                                },
+                                            ),
+                                        )
+                                    ],
                                 ),
+                            ],
                         ),
+                    ),
+                ),
             ]
         );
     }
