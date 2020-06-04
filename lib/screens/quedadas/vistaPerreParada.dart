@@ -348,7 +348,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                         ),
                         Padding(
                             padding: EdgeInsets.only(top: 16),
-                            child: Text(AppLocalizations.of(context).translate('dogstops_one_enroll')),
+                            child: Text(AppLocalizations.of(context).translate('dogstops_one_awaiting-results')),
                         )
                     ];
                 }
