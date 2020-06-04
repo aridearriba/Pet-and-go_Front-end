@@ -158,6 +158,16 @@
 	"calendar_edit-event_fail": "No s'han pogut desar els canvis",
 
 	"chat_title": "Xat",
+	"chat_send-message": "Envia un missatge...",
+
+	"search_title": "Buscar",
+	"search_write-email": "Escriu un email",
+	"search_no-user": "No existeix cap usuari amb aquest email",
+	"search_delete-friend": "Esborrar amic",
+	"search_add-friend": "Afegir amic",
+	"search_block-friend": "Bloquejar",
+	"search_unblock-friend": "Desbloquejar",
+	"search_your-user": "Aquest és el teu usuari",
 
 	"settings_title": "Configuració",
 	"settings_language": "IDIOMA",

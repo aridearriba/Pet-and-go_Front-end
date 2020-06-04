@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/model/message.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -201,7 +202,7 @@ class _ChatPageState extends State<ChatPage>{
                             },
                             controller: _controller,
                             decoration: InputDecoration.collapsed(
-                                hintText: 'Send a message...',
+                                hintText: AppLocalizations.of(context).translate('chat_send-message'),
                             ),
                             onTap: () {
                                 Timer(
@@ -259,6 +260,7 @@ class _ChatPageState extends State<ChatPage>{
             appBar: PreferredSize(
                 preferredSize: Size.fromHeight(60.0),
                 child: AppBar(
+                    iconTheme: IconThemeData(color: Colors.white),
                     title: Row(
                         children: <Widget>[
                             CircleAvatar(
@@ -269,6 +271,7 @@ class _ChatPageState extends State<ChatPage>{
                             Text(
                                 widget.userChat,
                                 style: TextStyle(
+                                    color: Colors.white,
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.bold,
                                 ),

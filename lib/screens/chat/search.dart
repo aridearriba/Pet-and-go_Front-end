@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/global/global.dart' as Global;
@@ -40,7 +41,7 @@ class _SearchState extends State<Search>{
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Buscar',
+                    AppLocalizations.of(context).translate('search_title'),
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -49,37 +50,37 @@ class _SearchState extends State<Search>{
                     color: Colors.white,
                 ),
             ),
-            body: Column(
+            body: ListView(
                 children: <Widget>[
                     Padding(
-                        padding: EdgeInsets.all(35.0),
+                        padding: EdgeInsets.all(20.0),
                         child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                                 Form(
                                     key: _formKey,
                                     child: SizedBox(width: 250.0,
                                             child: TextFormField(
                                                 decoration: InputDecoration(
-                                                    labelText: 'Introduzca un email'
+                                                    labelText: AppLocalizations.of(context).translate('search_write-email')
                                                 ),
                                                 controller: _controller,
                                                 validator: (value) {
                                                     RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
                                                     if(value.isEmpty){
-                                                        return 'Por favor, escriba un email';
+                                                        return AppLocalizations.of(context).translate('user_login_empty-email');
                                                     }
                                                     if(!regex.hasMatch(value)){
-                                                        return 'Este email no es válido.';
+                                                        return AppLocalizations.of(context).translate('user_sign-up_invalid-email');
                                                     }
-                                                    if (_responseCode !=200) {
-                                                        return 'No existe un usuario con este email.';
+                                                    if (_responseCode != 200) {
+                                                        return  AppLocalizations.of(context).translate('search_no-user');
                                                     }
                                                     return null;
                                                 },
                                             )
                                     ),
                                 ),
-                                SizedBox(width: 15.0,),
                                 FloatingActionButton(
                                     child: Icon(Icons.search),
                                     onPressed: () => {
@@ -200,13 +201,20 @@ class _SearchState extends State<Search>{
                                                             ],
                                                         )
                                                     ),
-                                                    Padding(
-                                                        padding: const EdgeInsets.only(
-                                                            top: 15.0),
+                                                    widget.user.email == _controller.text ?
+                                                        Padding(
+                                                            padding: const EdgeInsets.only(top: 15.0),
+                                                            child: Text(
+                                                                AppLocalizations.of(context).translate('search_your-user'),
+                                                                style: TextStyle(color: Colors.grey, fontSize: 12.0, fontStyle: FontStyle.italic)
+                                                            )
+                                                        ) :
+                                                        Padding(
+                                                        padding: const EdgeInsets.only(top: 15.0),
                                                         child: isBlocked ? null : isFriend ?
                                                         FloatingActionButton.extended(
                                                             heroTag: "btn3",
-                                                            label: Text('Borrar amigo'),
+                                                            label: Text(AppLocalizations.of(context).translate('search_delete-friend')),
                                                             icon: Icon(Icons.remove),
                                                             backgroundColor: Colors.red,
                                                             onPressed: () => {
@@ -217,7 +225,7 @@ class _SearchState extends State<Search>{
                                                         ) :
                                                         FloatingActionButton.extended(
                                                             heroTag: "btn4",
-                                                            label: Text('Añadir amigo'),
+                                                            label: Text(AppLocalizations.of(context).translate('search_add-friend')),
                                                             icon: Icon(Icons.add),
                                                             backgroundColor: Colors.blue,
                                                             onPressed: () => {
@@ -233,13 +241,15 @@ class _SearchState extends State<Search>{
                                                             },
                                                         ),
                                                     ),
-                                                    Padding(
+                                                    widget.user.email == _controller.text ?
+                                                        Container() :
+                                                        Padding(
                                                         padding: const EdgeInsets.only(
                                                             top: 15.0),
                                                         child: isBlocked ?
                                                         FloatingActionButton.extended(
                                                             heroTag: "btn7",
-                                                            label: Text('Desbloquear'),
+                                                            label: Text(AppLocalizations.of(context).translate('search_unblock-friend')),
                                                             icon: Icon(Icons.not_interested),
                                                             backgroundColor: Colors.blueGrey,
                                                             onPressed: () => {
@@ -257,7 +267,7 @@ class _SearchState extends State<Search>{
                                                         ) :
                                                         FloatingActionButton.extended(
                                                             heroTag: "btn6",
-                                                            label: Text('Bloquear'),
+                                                            label: Text(AppLocalizations.of(context).translate('search_block-friend')),
                                                             icon: Icon(Icons.block),
                                                             backgroundColor: Colors.black,
                                                             onPressed: () => {
