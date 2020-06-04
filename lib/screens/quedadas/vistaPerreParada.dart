@@ -14,12 +14,10 @@ import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
-<<<<<<< HEAD
 import 'package:petandgo/screens/quedadas/editPerreParada.dart';
+import 'package:petandgo/screens/quedadas/perreParadaParticipantesView.dart';
 import 'package:petandgo/screens/quedadas/perreParadaTabView.dart';
-=======
 import 'package:random_string/random_string.dart';
->>>>>>> participantesquedadas
 import '../home.dart';
 
 
@@ -36,23 +34,12 @@ class VistaPerreParada extends StatefulWidget {
 
 class _VistaPerreParadaState extends State<VistaPerreParada>{
 
-<<<<<<< HEAD
-=======
     nHome(){
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => Home(widget.user))
         );
     }
-
-    nProfile(String email){
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Home(widget.user))
-        );
-    }
-
->>>>>>> participantesquedadas
 
     nPerreParadaParticipantesView() {
         Navigator.pushReplacement(context,
@@ -131,9 +118,8 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
 
     }
 
-    Future<PerreParada> getPerreParada(int id) async{
-
-        if(_parada == null) {
+    Future<PerreParada> getPerreParada(int id) async {
+        if (_parada == null) {
             String URL = 'https://petandgo.herokuapp.com/api/quedadas/$id';
             final response = await http.get(URL);
 
@@ -144,54 +130,57 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                 _listPets = await _getUsersPets();
                 _participants = await _getParticipants();
 
-                for( Mascota m in _listPets){
-                    if (m.isIn(_participants)){
+                for (Mascota m in _listPets) {
+                    if (m.isIn(_participants)) {
                         _seledtedPets.add(m);
                         _wasSelected.add(m);
                     }
                 }
 
-                for (var m in _seledtedPets){
+                for (var m in _seledtedPets) {
                     print(m.id.name);
                 }
 
-<<<<<<< HEAD
-        if (response.statusCode == 200) {
-            var data = json.decode(utf8.decode(response.bodyBytes));
-            print(data);
-=======
-                if (_seledtedPets != []) {
-                    setState(() {
-                      _joined = true;
-                    });
+                if (response.statusCode == 200) {
+                    var data = json.decode(utf8.decode(response.bodyBytes));
+                    print(data);
+
+                    if (_seledtedPets != []) {
+                        setState(() {
+                            _joined = true;
+                        });
+                    }
+
+
+                    PerreParada parada = PerreParada.fromJson(data);
+
+
+                    parada = PerreParada.fromJson(data);
+
+                    if (parada.admin == widget.user.email)
+                        setState(() {
+                            _owner = true;
+                        });
+                    else
+                        setState(() {
+                            _owner = false;
+                        });
+
+
+                    _markers.add(Marker(
+                        markerId: MarkerId('PERREPARADA'),
+                        position: LatLng(parada.latitud, parada.longitud),
+                    ));
+
+                    _parada = parada;
+                    return parada;
+                } else {
+                    throw Exception('An error occurred getting the DogStop');
                 }
->>>>>>> participantesquedadas
-
-                PerreParada parada = PerreParada.fromJson(data);
-
-<<<<<<< HEAD
-            parada = PerreParada.fromJson(data);
-=======
-                if(parada.admin == widget.user.email) setState(() {
-                    _owner = true;
-                });
-                else setState(() {
-                    _owner = false;
-                });
->>>>>>> participantesquedadas
-
-                _markers.add(Marker(
-                    markerId: MarkerId('PERREPARADA'),
-                    position: LatLng(parada.latitud,parada.longitud),
-                ));
-
-                _parada = parada;
-                return parada;
-            } else {
-                throw Exception('An error occurred getting the DogStop');
             }
+            else
+                return _parada;
         }
-        else return _parada;
     }
 
     @override
@@ -204,150 +193,67 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                 if (snapshot.hasData) {
                     children = <Widget>[
                         Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-                            child: Column(
-                                children: <Widget>[
-                                    Row(
-                                        children: <Widget>[
-                                            Icon(
-                                                Icons.person,
-                                                color: Colors.grey,
-                                            ),
-                                            Text(
-                                                '  ${snapshot.data.admin}',
-                                            ),
-                                        ],
+                            padding: const EdgeInsets.only(top: 16),
+                        ),
+                        snapshot.data.admin == widget.user.email ? Padding(
+                            padding: EdgeInsets.only(top:20),
+                            child: FloatingActionButton.extended(
+                                heroTag: "editDogStop",
+                                icon: Icon(Icons.edit, color: Colors.white),
+                                backgroundColor: Colors.green,
+                                label: Text(AppLocalizations.of(context).translate('dogstops_edit_title')),
+                                onPressed: () {
+                                    nEditPerreParada();
+                                }
+                            )
+                        ) : Divider(color: Colors.transparent),
+                        Row(
+                            children: <Widget>[
+                                Icon(
+                                    Icons.person,
+                                    color: Colors.grey,
+                                ),
+                                Text(
+                                    '${snapshot.data.admin}',
+                                ),
+                            ],
+                        ),
+                        Row(
+                            children: <Widget>[
+                                Icon(
+                                    Icons.place,
+                                    color: Colors.grey,
+                                ),
+                                Text(
+                                    '${snapshot.data.lugarInicio}',
+                                    overflow: TextOverflow.ellipsis,
+                                ),
+                            ],
+                        ),
+                        Row(
+                            children: <Widget>[
+                                Icon(
+                                    Icons.access_time,
+                                    color: Colors.grey,
+                                ),
+                                Text(
+                                    '${snapshot.data.fechaQuedada.day}/${snapshot.data.fechaQuedada.month}/${snapshot.data.fechaQuedada.year} a las ${snapshot.data.fechaQuedada.hour}:${snapshot.data.fechaQuedada.minute}',
+                                ),
+                            ],
+                        ),
+                        Padding(
+                            padding: EdgeInsets.all(20.0),
+                        ),
+                        Center(
+                            child: Container(
+                                height: 250,
+                                width: 350,
+                                child: GoogleMap(
+                                    mapType: MapType.normal,
+                                    initialCameraPosition: CameraPosition(
+                                        target: LatLng(snapshot.data.latitud,snapshot.data.longitud),
+                                        zoom: 15,
                                     ),
-<<<<<<< HEAD
-                                    Divider(color: Colors.transparent),
-                                    Row(
-                                        children: <Widget>[
-                                            Icon(
-                                                Icons.place,
-                                                color: Colors.grey,
-                                            ),
-                                            Text("  "),
-                                            Expanded(child:
-                                                Text(
-                                                '${snapshot.data.lugarInicio}',
-                                                overflow: TextOverflow.visible,
-                                                ),
-                                            )
-                                        ],
-                                    ),
-                                    Divider(color: Colors.transparent),
-                                    Row(
-                                        children: <Widget>[
-                                            Icon(
-                                                Icons.access_time,
-                                                color: Colors.grey,
-                                            ),
-                                            Text(
-                                                '  ${snapshot.data.fechaQuedada.day.toString().padLeft(2, '0')}/${snapshot.data.fechaQuedada.month.toString().padLeft(2, '0')}/${snapshot.data.fechaQuedada.year}     ${snapshot.data.fechaQuedada.hour.toString().padLeft(2, '0')}:${snapshot.data.fechaQuedada.minute.toString().padLeft(2, '0')} h',
-                                            ),
-                                        ],
-                                    ),
-                                    Divider(color: Colors.transparent),
-                                    Center(
-                                        child: Container(
-                                            height: 250,
-                                            width: 350,
-                                            child: GoogleMap(
-                                                mapType: MapType.normal,
-                                                initialCameraPosition: CameraPosition(
-                                                    target: LatLng(snapshot.data.latitud,snapshot.data.longitud),
-                                                    zoom: 15,
-                                                ),
-                                                onMapCreated: (GoogleMapController controller) {
-                                                    _controller.complete(controller);
-                                                },
-                                                markers: _markers,
-                                            ),
-                                        ),
-                                    ),
-                                    Divider(color: Colors.transparent, height: 40,),
-                                    RaisedButton(
-                                    onPressed: () {
-                                        nPerreParadaParticipantesView();
-                                    },
-                                    child: Text(
-                                        AppLocalizations.of(context).translate('dogstops_one_participants'),
-                                    ),
-                                    ),
-                                    RaisedButton(
-                                        onPressed: (){
-                                            _notJoined ?
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                    return _PetsDialog(
-                                                        callback: this.callback,
-                                                        user: widget.user,
-                                                        paradaId: widget.id,
-                                                        pets: _listPets,
-                                                        selectedPets: _seledtedPets,
-                                                        onSelectedPetsListChanged: (pets) {
-                                                            _seledtedPets = pets;
-                                                            print(_seledtedPets);
-                                                        }
-                                                    );
-                                                }
-                                            ) :
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                    return AlertDialog(
-                                                        title: Text(
-                                                            AppLocalizations.of(context).translate('dogstops_one_confirm-unroll'),
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                color: Colors.black,
-                                                                fontSize: 18.0
-                                                            ),
-                                                        ),
-                                                        content: Text(
-                                                            AppLocalizations.of(context).translate('dogstops_one_info-unroll'),
-                                                            textAlign: TextAlign.center,
-                                                            style: TextStyle(
-                                                                color: Colors.black26,
-                                                                fontSize: 12.0
-                                                            ),
-                                                        ),
-                                                        actions: <Widget>[
-                                                            FlatButton(
-                                                                child: Text(AppLocalizations.of(context).translate('alert-dialog_cancel').toUpperCase(), style: TextStyle(color: Colors.black45),),
-                                                                onPressed: () => Navigator.pop(context),
-                                                            ),
-                                                            FlatButton(
-                                                                child: Text(AppLocalizations.of(context).translate('alert-dialog_accept').toUpperCase(), style: TextStyle(color: Colors.black),),
-                                                                onPressed: () {
-                                                                    deleteMyParticipations();
-                                                                    Navigator.pop(context);
-                                                                },
-                                                            ),
-                                                        ],
-                                                    );
-                                                },
-                                            );
-                                        },
-                                        child: Text( _notJoined ?
-                                            AppLocalizations.of(context).translate('dogstops_one_enroll') : AppLocalizations.of(context).translate('dogstops_one_unroll')
-                                        )
-                                    ),
-                                    snapshot.data.admin == widget.user.email ? Padding(
-                                        padding: EdgeInsets.only(top:20),
-                                        child: FloatingActionButton.extended(
-                                            heroTag: "editDogStop",
-                                            icon: Icon(Icons.edit, color: Colors.white),
-                                            backgroundColor: Colors.green,
-                                            label: Text(AppLocalizations.of(context).translate('dogstops_edit_title')),
-                                            onPressed: () {
-                                                nEditPerreParada();
-                                            }
-                                        )
-                                    ) : Divider(color: Colors.transparent),
-                                ],
-=======
                                     onMapCreated: (GoogleMapController controller) {
                                         _controller.complete(controller);
                                     },
@@ -404,7 +310,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                                 return Card(
                                                     key: new Key(randomString(10)),
                                                     child: ListTile(
-                                                        onTap: nHome,
+                                                        onTap: nPerreParadaParticipantesView,
                                                         leading: Icon(Icons.pets),
                                                         title: Text(_participants[index].id.name),
                                                         subtitle: Text('de ${_participants[index].id.amo}'),
@@ -420,7 +326,6 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                         );
                                     }
                                 },
->>>>>>> participantesquedadas
                             ),
                         ),
                     ];
@@ -446,9 +351,9 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                             width: 60,
                             height: 60,
                         ),
-                        Padding(
+                        const Padding(
                             padding: EdgeInsets.only(top: 16),
-                            child: Text(AppLocalizations.of(context).translate('dogstops_one_awaiting-results')),
+                            child: Text('Awaiting result...'),
                         )
                     ];
                 }
@@ -456,7 +361,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                     key: _scaffoldKey, drawer: Menu(widget.user),
                     appBar: AppBar(
                         title: Text(
-                            AppLocalizations.of(context).translate('dogstops_one_title'),
+                            'Perreparada',
                             style: TextStyle(
                                 color: Colors.white,
                             ),
@@ -466,8 +371,8 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                         ),
                         actions: <Widget>[
                             IconButton(
-                                icon: Icon(Icons.arrow_back, color: Colors.white),
-                                onPressed: () => nMisQuedadas(),
+                                icon: Icon(Icons.home, color: Colors.white),
+                                onPressed: () => nHome(),
                             ),
                         ],
                     ),
@@ -476,7 +381,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                     )
                 );
             }
-            );
+        );
     }
 }
 
@@ -528,11 +433,8 @@ class _PetsDialogState extends State<_PetsDialog> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-<<<<<<< HEAD
+
                                 Text(AppLocalizations.of(context).translate('dogstops_one_pet-select'),
-=======
-                                Text('¿Con que mascotas quieres a ir?',
->>>>>>> participantesquedadas
                                     style: TextStyle(fontSize: 18.0, color: Colors.black),
                                     textAlign: TextAlign.center,
                                 ),
