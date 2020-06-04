@@ -30,7 +30,7 @@ class _BlocksState extends State<Blocks>{
     List<dynamic> _bloqueados = new List();
     @override
     Widget build(BuildContext context) {
-        return Scaffold(
+        return Scaffold (
             appBar: AppBar(
                 iconTheme: IconThemeData(
                     color: Colors.white,
