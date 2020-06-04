@@ -132,13 +132,26 @@ class _ChatPageState extends State<ChatPage>{
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                    Text(
-                        message.created_at,
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 11.0,
-                            fontWeight: FontWeight.w600,
-                        ),
+                    Row(
+                        children: <Widget>[
+                            Text(
+                                message.created_at.substring(0,10),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 11.0,
+                                    fontWeight: FontWeight.w600,
+                                ),
+                            ),
+                            SizedBox(width: 155.0),
+                            Text(
+                                message.created_at.substring(11,16),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 11.0,
+                                    fontWeight: FontWeight.w600,
+                                ),
+                            ),
+                        ],
                     ),
                     SizedBox(height: 8.0),
                     Text(
