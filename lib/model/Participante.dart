@@ -10,36 +10,32 @@ String participanteToJson(List<Participante> data) => json.encode(List<dynamic>.
 
 class Participante {
   Participante({
-    this.id,
-  });
-
-  Id id;
-
-  factory Participante.fromJson(Map<String, dynamic> json) => Participante(
-    id: Id.fromJson(json["id"]),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "id": id.toJson(),
-  };
-}
-
-class Id {
-  Id({
     this.nombre,
-    this.amo,
+    this.username,
+    this.email,
+    this.image,
+    this.estado,
   });
 
   String nombre;
-  String amo;
+  String username;
+  String email;
+  String image;
+  String estado;
 
-  factory Id.fromJson(Map<String, dynamic> json) => Id(
+  factory Participante.fromJson(Map<String, dynamic> json) => Participante(
     nombre: json["nombre"],
-    amo: json["amo"],
+    username: json["username"],
+    email: json["email"],
+    image: json["image"] == null ? null : json["image"],
+    estado: json["estado"] == null ? null : json["estado"],
   );
 
   Map<String, dynamic> toJson() => {
     "nombre": nombre,
-    "amo": amo,
+    "username": username,
+    "email": email,
+    "image": image == null ? null : image,
+    "estado": estado == null ? null : estado,
   };
 }
