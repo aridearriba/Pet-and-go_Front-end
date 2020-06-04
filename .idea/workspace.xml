@@ -36,6 +36,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/i18n/ca.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/ca.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/es.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/es.json" afterDir="false" />
@@ -61,6 +62,8 @@
       <change beforePath="$PROJECT_DIR$/lib/screens/user/blocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/blocks.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/user/friends.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/friends.dart" afterDir="false" />
 >>>>>>> chat
+=======
+>>>>>>> 8d75b94c337d2390a1476531d52381898199511c
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
