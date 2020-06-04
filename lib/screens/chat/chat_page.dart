@@ -142,7 +142,7 @@ class _ChatPageState extends State<ChatPage>{
                                     fontWeight: FontWeight.w600,
                                 ),
                             ),
-                            SizedBox(width: 155.0),
+                            SizedBox(width: isMe ? 135.0 : 155.0),
                             Text(
                                 message.created_at.substring(11,16),
                                 style: TextStyle(
