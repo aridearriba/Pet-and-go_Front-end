@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,9 @@ class _SearchState extends State<Search>{
     bool mostrar = false;
     var _responseCode;
     bool isFriend = false;
+
+    String _image64;
+    ImageProvider _imageProfile;
 
     @override
     Widget build(BuildContext context) {
@@ -80,8 +84,12 @@ class _SearchState extends State<Search>{
                                         {
                                             if(_formKey.currentState.validate()){
                                                 isAmic().whenComplete(() => {
-                                                    setState(() {
-                                                        mostrar = true;
+                                                    getProfileImage().whenComplete(() => {
+                                                        _image64 = userSearch.image,
+                                                        _imageProfile = getImage(),
+                                                        setState(() {
+                                                            mostrar = true;
+                                                        })
                                                     })
                                                 })
 
@@ -118,7 +126,7 @@ class _SearchState extends State<Search>{
                                         children: <Widget>[
                                             CircleAvatar(
                                                 radius: 50.0,
-                                                child: Icon(Icons.person),
+                                                backgroundImage: _imageProfile,
                                             ),
 
                                             Column(
@@ -250,6 +258,16 @@ class _SearchState extends State<Search>{
         _responseCode = response.statusCode;
     }
 
+    Future<void> getProfileImage() async{
+        var email = userSearch.email;
+        print(email);
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/image"),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },);
+        userSearch.image = response.body;
+    }
+
     Future<void> isAmic() async{
         var email = widget.user.email;
         final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email));
@@ -284,5 +302,17 @@ class _SearchState extends State<Search>{
         );
         _responseCode = response.statusCode;
         print(_responseCode);
+    }
+
+    ImageProvider getImage()  {
+        // no user image
+        if (_image64 == "")
+            return Image.network(widget.user.profileImageUrl).image;
+
+        // else --> load image
+        Uint8List _bytesImage;
+        String _imgString = _image64.toString();
+        _bytesImage = Base64Decoder().convert(_imgString);
+        return Image.memory(_bytesImage).image;
     }
 }
