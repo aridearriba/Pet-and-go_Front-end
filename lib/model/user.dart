@@ -13,8 +13,9 @@ class User {
     String _token;
     String _image;
     Position pos;
+    List<dynamic> _friends;
 
-    User({String username, String password,String email, String name, String token})
+    User({String username, String password,String email, String name, String token, List<dynamic> friends})
     {
         this._username = username;
         this._password = password;
@@ -23,6 +24,7 @@ class User {
         this._token = token;
         this._image = image = "";
         this._profileImageUrl = "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+        this._friends = friends;
     }
 
     String get username => _username;
@@ -32,6 +34,7 @@ class User {
     String get profileImageUrl => _profileImageUrl;
     String get image => _image;
     String get token => _token;
+    List<dynamic> get friends => _friends;
 
     set username(String username) => _username = username;
     set email(String email) => _email = email;
@@ -45,7 +48,8 @@ class User {
             username: json['username'],
             password: json['password'],
             email: json['email'],
-            name: json['nombre']
+            name: json['nombre'],
+            friends: json['myFriends']
         );
     }
 }

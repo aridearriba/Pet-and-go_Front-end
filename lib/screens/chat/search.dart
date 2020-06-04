@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,14 +21,10 @@ class _SearchState extends State<Search>{
     final _formKey = GlobalKey<FormState>();
 
     User userSearch = new User();
+    User userMe;
     bool mostrar = false;
     var _responseCode;
     bool isFriend = false;
-
-
-    void initState(){
-        super.initState();
-    }
 
     @override
     Widget build(BuildContext context) {
@@ -82,9 +79,12 @@ class _SearchState extends State<Search>{
                                         getData().whenComplete(() =>
                                         {
                                             if(_formKey.currentState.validate()){
-                                                setState(() {
-                                                    mostrar = true;
+                                                isAmic().whenComplete(() => {
+                                                    setState(() {
+                                                        mostrar = true;
+                                                    })
                                                 })
+
                                             }
                                         })
                                     },
@@ -95,7 +95,10 @@ class _SearchState extends State<Search>{
                     ),
                     Padding(
                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                        child: mostrar ? _buildCard(context) : null,
+                        child: Container(
+                            height: 310.0,
+                            child: mostrar ? _buildCard(context) : null,
+                        )
                     ),
                 ],
             )
@@ -103,117 +106,140 @@ class _SearchState extends State<Search>{
     }
 
     Widget _buildCard(BuildContext context){
-        return new Card(
-            clipBehavior: Clip.antiAlias,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-            child: Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                        CircleAvatar(
-                            radius: 50.0,
-                            child: Icon(Icons.person),
-                        ),
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                                // USER
-                                // username
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5.0),
-                                    child: Row(
+        return ListView(
+                children: <Widget>[
+                        Card(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+                                child: Padding(
+                                    padding: EdgeInsets.all(5.0),
+                                    child: Column(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: <Widget>[
-                                            Text(
-                                                userSearch.username,
-                                                style: TextStyle(
-                                                    color: Colors
-                                                        .black54,
-                                                    fontWeight: FontWeight
-                                                        .bold,
-                                                    fontSize: 16.0,
-                                                ),
-                                                textAlign: TextAlign
-                                                    .center,
+                                            CircleAvatar(
+                                                radius: 50.0,
+                                                child: Icon(Icons.person),
                                             ),
-                                        ]
-                                    ),
-                                ),
-                                // email
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                            Text(
-                                                userSearch.name,
-                                                style: TextStyle(
-                                                    color: Colors
-                                                        .black54,
-                                                    fontSize: 16.0,
-                                                ),
-                                                textAlign: TextAlign
-                                                    .center,
-                                            )
-                                        ]
-                                    ),
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 5.0),
-                                    child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                            Text(
-                                                userSearch.email,
-                                                style: TextStyle(
-                                                    color: Colors
-                                                        .black54,
-                                                ),
-                                            )
+
+                                            Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: <Widget>[
+                                                    // USER
+                                                    // username
+                                                    Padding(
+                                                        padding: const EdgeInsets.only(
+                                                            top: 5.0),
+                                                        child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                                Text(
+                                                                    userSearch.username,
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black54,
+                                                                        fontWeight: FontWeight
+                                                                            .bold,
+                                                                        fontSize: 16.0,
+                                                                    ),
+                                                                    textAlign: TextAlign
+                                                                        .center,
+                                                                ),
+                                                            ]
+                                                        ),
+                                                    ),
+                                                    // email
+                                                    Padding(
+                                                        padding: const EdgeInsets.only(
+                                                            top: 5.0),
+                                                        child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                                Text(
+                                                                    userSearch.name,
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black54,
+                                                                        fontSize: 16.0,
+                                                                    ),
+                                                                    textAlign: TextAlign
+                                                                        .center,
+                                                                )
+                                                            ]
+                                                        ),
+                                                    ),
+                                                    Padding(
+                                                        padding: const EdgeInsets.only(
+                                                            top: 5.0),
+                                                        child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                            children: <Widget>[
+                                                                Text(
+                                                                    userSearch.email,
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black54,
+                                                                    ),
+                                                                )
+                                                            ],
+                                                        )
+                                                    ),
+                                                    Padding(
+                                                        padding: const EdgeInsets.only(
+                                                            top: 15.0),
+                                                        child: isFriend ?
+                                                        FloatingActionButton.extended(
+                                                            heroTag: "btn3",
+                                                            label: Text('Borrar amigo'),
+                                                            icon: Icon(Icons.remove),
+                                                            backgroundColor: Colors.red,
+                                                            onPressed: () => {
+                                                                setState((){
+                                                                    isFriend = false;
+                                                                })
+                                                            },
+                                                        ) :
+                                                        FloatingActionButton.extended(
+                                                            heroTag: "btn4",
+                                                            label: Text('Añadir amigo'),
+                                                            icon: Icon(Icons.add),
+                                                            backgroundColor: Colors.blue,
+                                                            onPressed: () => {
+                                                                addAmic().whenComplete(() => {
+                                                                    if(_responseCode == 201){
+                                                                        setState((){
+                                                                            isFriend = true;
+                                                                        })
+                                                                    }
+
+                                                                })
+
+                                                            },
+                                                        ),
+                                                    ),
+                                                    Padding(
+                                                        padding: const EdgeInsets.only(
+                                                            top: 15.0),
+                                                        child: FloatingActionButton.extended(
+                                                            heroTag: "btn6",
+                                                            label: Text('Bloquear'),
+                                                            icon: Icon(Icons.block),
+                                                            backgroundColor: Colors.black,
+                                                            onPressed: () => {
+
+                                                            },
+                                                        ),
+                                                    )
+                                                ],
+                                            ),
                                         ],
-                                    )
-                                ),
-                                Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 15.0),
-                                    child: isFriend ?
-                                    FloatingActionButton.extended(
-                                        heroTag: "btn3",
-                                        label: Text('Borrar amigo'),
-                                        icon: Icon(Icons.remove),
-                                        backgroundColor: Colors.red,
-                                        onPressed: () => {
-                                            setState((){
-                                                isFriend = false;
-                                            })
-                                        },
-                                    ) :
-                                    FloatingActionButton.extended(
-                                        heroTag: "btn3",
-                                        label: Text('Añadir amigo'),
-                                        icon: Icon(Icons.add),
-                                        backgroundColor: Colors.blue,
-                                        onPressed: () => {
-                                            setState((){
-                                                isFriend = true;
-                                            })
-                                        },
                                     ),
-                                )
-                            ],
+                                ),
                         ),
-                    ],
-                ),
-            )
+            ]
         );
     }
 
@@ -222,5 +248,41 @@ class _SearchState extends State<Search>{
         final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email));
         userSearch = User.fromJson(jsonDecode(response.body));
         _responseCode = response.statusCode;
+    }
+
+    Future<void> isAmic() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email));
+        userMe = User.fromJson(jsonDecode(response.body));
+        setState(() {
+            isFriend = (userMe.friends.contains(_controller.text));
+        });
+
+    }
+
+    Future<void> addAmic() async{
+        var email = widget.user.email;
+        print(_controller.text);
+        final response = await http.post(new Uri.http(Global.apiURL, "/api/amigos/"+email+'/Addamic'),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+            body: userSearch.email
+        );
+        _responseCode = response.statusCode;
+        print(_responseCode);
+    }
+
+    Future<void> removeAmic(String emailFriend) async{
+        var email = widget.user.email;
+        final response = await http.post(
+            new Uri.http(Global.apiURL, "/api/amigos/" + email+'/Removeamic'),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+            body: emailFriend
+        );
+        _responseCode = response.statusCode;
+        print(_responseCode);
     }
 }

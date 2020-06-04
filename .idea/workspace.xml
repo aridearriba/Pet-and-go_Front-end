@@ -11,9 +11,9 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/message.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/message.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/search.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/search.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user/friends.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/friends.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -314,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591185922154</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="chat historico funciona">
+      <created>1591190004883</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1591190004883</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -351,7 +358,8 @@
     <MESSAGE value="mejora boton" />
     <MESSAGE value="mejorar carta amigo" />
     <MESSAGE value="chat historico" />
-    <option name="LAST_COMMIT_MESSAGE" value="chat historico" />
+    <MESSAGE value="chat historico funciona" />
+    <option name="LAST_COMMIT_MESSAGE" value="chat historico funciona" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
