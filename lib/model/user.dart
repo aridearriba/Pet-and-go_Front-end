@@ -16,9 +16,10 @@ class User {
     int _points;
     int _level;
     String _avatar;
+    List<dynamic> _friends;
 
 
-    User({String username, String password,String email, String name, String token, int points, int level, String avatar})
+    User({String username, String password,String email, String name, String token, int points, int level, String avatar, List<dynamic> friends})
     {
         this._username = username;
         this._password = password;
@@ -30,6 +31,8 @@ class User {
         this._points = points;
         this._level = level;
         this._avatar = avatar;
+        this._friends = friends;
+
     }
 
     String get username => _username;
@@ -42,6 +45,7 @@ class User {
     int get points => _points;
     int get level => _level;
     String get avatar => _avatar;
+    List<dynamic> get friends => _friends;
 
     set username(String username) => _username = username;
     set email(String email) => _email = email;
@@ -61,7 +65,8 @@ class User {
             name: json['nombre'],
             points: json['puntos'],
             level: json['nivel'],
-            avatar: json['avatar']
+            avatar: json['avatar'],
+            friends: json['myFriends']
         );
     }
 }

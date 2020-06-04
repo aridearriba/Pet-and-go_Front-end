@@ -10,6 +10,7 @@ import 'package:petandgo/screens/puntosDeInteres/puntosInteresTabView.dart';
 import 'package:petandgo/screens/quedadas/perreParadaTabView.dart';
 import 'package:petandgo/screens/settings.dart';
 import 'package:petandgo/screens/chat/principal.dart';
+import 'package:petandgo/screens/chat/search.dart';
 
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
@@ -92,6 +93,13 @@ class _MenuContent extends State<Menu> {
         );
     }
 
+    nSearch(){
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Search(widget.user))
+        );
+    }
+
     @override
     Widget build(BuildContext context) {
         return Drawer(
@@ -171,6 +179,11 @@ class _MenuContent extends State<Menu> {
                         leading: Icon(Icons.chat),
                         title: Text(AppLocalizations.of(context).translate('chat_title')),
                         onTap: () => nChat(),
+                    ),
+                    ListTile(
+                        leading: Icon(Icons.search),
+                        title: Text('Buscar'),
+                        onTap: () => nSearch(),
                     ),
                     ListTile(
                         leading: Icon(Icons.settings),

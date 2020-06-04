@@ -9,6 +9,7 @@ import 'package:petandgo/model/message.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:petandgo/global/global.dart' as Global;
 
 FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -35,9 +36,19 @@ class _ChatPageState extends State<ChatPage>{
     ScrollController _listController = new ScrollController();
 
     List<Message> _missatges = List();
+    String _time;
+
 
     @override
     void initState(){
+        String fecha = DateTime.now().toString().substring(0,10);
+        String hora = DateTime.now().toString().substring(11, 19);
+
+        _time = fecha+'T' + hora;
+
+        getMessages();
+
+        print(_time);
         socket.on('connect', (_) {
             print('connect');
             socket.emit('join', widget.userMe.email);
@@ -54,8 +65,7 @@ class _ChatPageState extends State<ChatPage>{
                     Message m = new Message(
                         sender: msg['sender'],
                         text: msg['text'],
-                        time: msg['time'],
-                        isLiked: false,
+                        created_at: msg['created_at'],
                         unread: false
                     );
                     if(!_missatges.contains(m)) {
@@ -90,6 +100,7 @@ class _ChatPageState extends State<ChatPage>{
                 print('on launch $message');
             },
         );
+
     }
 
     _buildMessage(Message message, bool isMe) {
@@ -121,13 +132,26 @@ class _ChatPageState extends State<ChatPage>{
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                    Text(
-                        message.time,
-                        style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 11.0,
-                            fontWeight: FontWeight.w600,
-                        ),
+                    Row(
+                        children: <Widget>[
+                            Text(
+                                message.created_at.substring(0,10),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 11.0,
+                                    fontWeight: FontWeight.w600,
+                                ),
+                            ),
+                            SizedBox(width: isMe ? 135.0 : 155.0),
+                            Text(
+                                message.created_at.substring(11,16),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 11.0,
+                                    fontWeight: FontWeight.w600,
+                                ),
+                            ),
+                        ],
                     ),
                     SizedBox(height: 8.0),
                     Text(
@@ -198,7 +222,7 @@ class _ChatPageState extends State<ChatPage>{
                                         'text': _controller.text,
                                         'sender': widget.userMe.email,
                                         'receiver': widget.userChat,
-                                        'time': DateTime.now().hour.toString()+ ':'+ DateTime.now().minute.toString(),
+                                        'created_at': _time,
                                     })
                                 );
                                 setState(() {
@@ -206,8 +230,7 @@ class _ChatPageState extends State<ChatPage>{
                                         Message(
                                             sender: widget.userMe.email,
                                             text: _controller.text,
-                                            time: DateTime.now().hour.toString()+ ':'+ DateTime.now().minute.toString(),
-                                            isLiked: false,
+                                            created_at: _time,
                                             unread: false
                                         )
                                     );
@@ -229,10 +252,8 @@ class _ChatPageState extends State<ChatPage>{
 
     @override
     Widget build(BuildContext context) {
-
-
         print('hola');
-
+        print(widget.userMe.token);
 
         return Scaffold(
             appBar: PreferredSize(
@@ -240,7 +261,6 @@ class _ChatPageState extends State<ChatPage>{
                 child: AppBar(
                     title: Row(
                         children: <Widget>[
-                            SizedBox(width: 40.0,),
                             CircleAvatar(
                                 radius: 20.0,
                                 child: Icon(Icons.person),
@@ -249,14 +269,12 @@ class _ChatPageState extends State<ChatPage>{
                             Text(
                                 widget.userChat,
                                 style: TextStyle(
-                                    fontSize: 18.0,
+                                    fontSize: 14.0,
                                     fontWeight: FontWeight.bold,
                                 ),
                             )
                         ],
                     ),
-                    centerTitle: true,
-                    elevation: 0.0,
                 ),
             ),
             body: Column(
@@ -277,5 +295,20 @@ class _ChatPageState extends State<ChatPage>{
                 ],
             ),
         );
+    }
+
+    Future<void> getMessages() async{
+        var email = widget.userMe.email;
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email+'/mensajes/'+widget.userChat),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.userMe.token.toString(),
+            },
+        );
+
+        Iterable list = json.decode(response.body);
+        setState(() {
+            _missatges = list.map((model) => Message.fromJson(model)).toList();
+        });
+
     }
 }

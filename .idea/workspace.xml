@@ -11,10 +11,15 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/i18n/ca.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/ca.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/i18n/es.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/es.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/lib/model/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,7 +28,10 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_Edited_API_29" />
+=======
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -54,11 +62,16 @@
   <component name="PropertiesComponent">
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/build/app/outputs/apk/app.apk" />
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_2_Edited_API_29" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-12T20:26:25.908Z" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-05-01T17:05:56.774Z" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
+<<<<<<< HEAD
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/screens/quedadas" />
+=======
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/StudioProjects/StudioProjects" />
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -66,6 +79,7 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+<<<<<<< HEAD
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
@@ -75,6 +89,20 @@
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front\lib\screens\quedadas" />
+=======
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src\main\res\drawable" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\calendar" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\global" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\calendar" />
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
     </key>
@@ -250,7 +278,112 @@
       <option name="project" value="LOCAL" />
       <updated>1589405334339</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="notifications #2">
+      <created>1589410070468</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1589410070468</updated>
+    </task>
+    <task id="LOCAL-00014" summary="creacio field per buscar">
+      <created>1590440465954</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1590440465954</updated>
+    </task>
+    <task id="LOCAL-00015" summary="creacio llista amics">
+      <created>1591111230164</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1591111230164</updated>
+    </task>
+    <task id="LOCAL-00016" summary="creacio pantalla bloquejats">
+      <created>1591111442206</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1591111442206</updated>
+    </task>
+    <task id="LOCAL-00017" summary="boto afegir amic buscador">
+      <created>1591113161058</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1591113161058</updated>
+    </task>
+    <task id="LOCAL-00018" summary="mejora boton">
+      <created>1591113724176</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1591113724176</updated>
+    </task>
+    <task id="LOCAL-00019" summary="mejorar carta amigo">
+      <created>1591116341553</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1591116341553</updated>
+    </task>
+    <task id="LOCAL-00020" summary="chat historico">
+      <created>1591185922154</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1591185922154</updated>
+    </task>
+    <task id="LOCAL-00021" summary="chat historico funciona">
+      <created>1591190004883</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1591190004883</updated>
+    </task>
+    <task id="LOCAL-00022" summary="amigos y buscador">
+      <created>1591269975729</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1591269975729</updated>
+    </task>
+    <task id="LOCAL-00023" summary="imagen perfil buscador">
+      <created>1591271097908</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1591271097909</updated>
+    </task>
+    <task id="LOCAL-00024" summary="arreglos llista amics">
+      <created>1591272993968</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1591272993968</updated>
+    </task>
+    <task id="LOCAL-00025" summary="arreglos llista amics">
+      <created>1591274379036</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1591274379037</updated>
+    </task>
+    <task id="LOCAL-00026" summary="buscador amigos y bloqueados">
+      <created>1591283186406</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1591283186407</updated>
+    </task>
+    <task id="LOCAL-00027" summary="arreglar formato chat">
+      <created>1591284254914</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1591284254914</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -267,7 +400,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="creation chat principal page" />
     <MESSAGE value="llista de chats" />
     <MESSAGE value="navegacion pantalla single chat" />
     <MESSAGE value="pantalla single chat" />
@@ -279,7 +411,21 @@
     <MESSAGE value="enviament missatges" />
     <MESSAGE value="scroll correcte" />
     <MESSAGE value="notifications #1" />
-    <option name="LAST_COMMIT_MESSAGE" value="notifications #1" />
+    <MESSAGE value="notifications #2" />
+    <MESSAGE value="creacio field per buscar" />
+    <MESSAGE value="creacio llista amics" />
+    <MESSAGE value="creacio pantalla bloquejats" />
+    <MESSAGE value="boto afegir amic buscador" />
+    <MESSAGE value="mejora boton" />
+    <MESSAGE value="mejorar carta amigo" />
+    <MESSAGE value="chat historico" />
+    <MESSAGE value="chat historico funciona" />
+    <MESSAGE value="amigos y buscador" />
+    <MESSAGE value="imagen perfil buscador" />
+    <MESSAGE value="arreglos llista amics" />
+    <MESSAGE value="buscador amigos y bloqueados" />
+    <MESSAGE value="arreglar formato chat" />
+    <option name="LAST_COMMIT_MESSAGE" value="arreglar formato chat" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -289,7 +435,10 @@
     </breakpoint-manager>
     <watches-manager>
       <configuration name="FlutterRunConfigurationType">
-        <watch expression="widget.pts" language="Dart" />
+        <watch expression="json[&quot;id&quot;]" language="Dart" />
+        <watch expression="int.parse(json['id'])" language="Dart" />
+        <watch expression="misPerreParadas" language="Dart" />
+        <watch expression="misQuedadas" language="Dart" />
       </configuration>
     </watches-manager>
   </component>

@@ -12,7 +12,9 @@ import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/pets/pet.dart';
+import 'package:petandgo/screens/user/blocks.dart';
 import 'package:petandgo/screens/user/edit.dart';
+import 'package:petandgo/screens/user/friends.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
@@ -78,6 +80,20 @@ class _ProfileState extends State<Profile>
         Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Edit(widget.user))
+        );
+    }
+    
+    nFriends(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Friends(widget.user))
+        );
+    }
+
+    nBlocks(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Blocks(widget.user))
         );
     }
 
@@ -243,6 +259,28 @@ class _ProfileState extends State<Profile>
                                                 ],
                                             )
                                         ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0, bottom: 30),
+                                            child: FloatingActionButton.extended(
+                                                heroTag: "bnt1",
+                                                icon: Icon(Icons.people),
+                                                backgroundColor: Colors.green,
+                                                label: Text('Amigos'),
+                                                onPressed: () => nFriends(),
+                                            )
+                                        ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0, bottom: 30),
+                                            child: FloatingActionButton.extended(
+                                                heroTag: "bnt2",
+                                                icon: Icon(Icons.not_interested),
+                                                backgroundColor: Colors.red,
+                                                label: Text('Bloqueados'),
+                                                onPressed: () => nBlocks(),
+                                            )
+                                        )
                                     ],
                                 ),
                                 Column(
