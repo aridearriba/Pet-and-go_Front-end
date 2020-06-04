@@ -276,11 +276,13 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
         );
 
         list =  participanteFromJson(response.body);
-
-        for(int i = 0; i< list.length; i++){
-            if(list[i].image != null && list[i].image != ""){
-                list[i].image = await getProfileImage(list[i].email);
+        if (list != null){
+            for(int i = 0; i< list.length; i++){
+                if(list[i].image != null && list[i].image != ""){
+                    list[i].image = await getProfileImage(list[i].email);
+                }
             }
+            return list;
         }
         return list;
     }
