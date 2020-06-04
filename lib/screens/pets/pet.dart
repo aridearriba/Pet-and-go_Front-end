@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petandgo/model/mascota.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
@@ -58,7 +59,7 @@ class _PetState extends State<Pet>{
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Mi mascota',
+                    AppLocalizations.of(context).translate('pets_pet_title'),
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -96,7 +97,7 @@ class _PetState extends State<Pet>{
                                                     FloatingActionButton(
                                                         heroTag: "pickImage",
                                                         onPressed: _pickImage,
-                                                        tooltip: 'Elige una imagen',
+                                                        tooltip: AppLocalizations.of(context).translate('user_sign-up_choose-image'),
                                                         elevation: 10.0,
                                                         backgroundColor: Theme.of(context).primaryColor,
                                                         child: Icon(Icons.add_a_photo, color: Colors.black, size: 15),
@@ -114,7 +115,7 @@ class _PetState extends State<Pet>{
                                         Padding(
                                             padding: const EdgeInsets.symmetric(vertical: 5.0),
                                             child: Text(
-                                                "INFO",
+                                                AppLocalizations.of(context).translate('pets_pet_info').toUpperCase(),
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontWeight: FontWeight.bold,
@@ -152,33 +153,29 @@ class _PetState extends State<Pet>{
                                                         color: Colors.black54,
                                                     ),
                                                     Text(
-                                                        '   ' + _date + " (" + _age + " años)",
-                                                        style: TextStyle(
-                                                            color: Colors.black54,
-                                                        ),
+                                                        '   ' + _date + " (" + _age + " " + AppLocalizations.of(context).translate('pets_pet_years') + ")",
+                                                        style: TextStyle(color: Colors.black54,),
                                                     )
                                                 ],
                                             )
                                         ),
-                                        Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0, bottom: 30),
-                                            child: Row(
-                                                children: <Widget>[
-                                                    FloatingActionButton.extended(
-                                                        heroTag: "editPet",
-                                                        icon: Icon(Icons.pets, color: Colors.white),
-                                                        backgroundColor: Colors.green,
-                                                        label: Text("Editar datos de mascota"),
-                                                        onPressed: () {
-                                                            showDialog(
-                                                                context: context,
-                                                                builder: (BuildContext context) => _buildEditDialog(context)
-                                                            );
-                                                        }
-                                                    )
-                                                ],
-                                            )
+                                        Center(
+                                            child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 5.0, bottom: 30),
+                                                child: FloatingActionButton.extended(
+                                                    heroTag: "editPet",
+                                                    icon: Icon(Icons.pets, color: Colors.white),
+                                                    backgroundColor: Colors.green,
+                                                    label: Text(AppLocalizations.of(context).translate('pets_pet_edit')),
+                                                    onPressed: () {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (BuildContext context) => _buildEditDialog(context)
+                                                        );
+                                                    }
+                                                )
+                                            ),
                                         ),
                                     ],
                                 ),
@@ -197,16 +194,14 @@ class _PetState extends State<Pet>{
         TextEditingController _dateController = new TextEditingController();
         _dateController.text = _dateT;
         return new SimpleDialog(
-            title: Text('Datos de la mascota',
+            title: Text(AppLocalizations.of(context).translate('pets_pet_pet-info'),
             textAlign: TextAlign.center,),
             children: <Widget>[
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
                     child: Text(
-                                "Fecha de nacimiento:  ",
-                                style: TextStyle(
-                                    color: Colors.green,
-                                ),
+                                AppLocalizations.of(context).translate('pets_pet_birthday'),
+                                style: TextStyle(color: Colors.green,),
                                 textAlign: TextAlign.center,
                             ),
                 ),
@@ -228,7 +223,7 @@ class _PetState extends State<Pet>{
                                         textAlign: TextAlign.center,
                                         validator: (value){
                                             if(value.isEmpty){
-                                                return 'Por favor, pon una fecha.';
+                                                return AppLocalizations.of(context).translate('calendar_new-event_empty-date');
                                             }
                                             return null;
                                         },
@@ -242,13 +237,13 @@ class _PetState extends State<Pet>{
                     child: SimpleDialogOption(
                         child: RaisedButton(
                             disabledColor: Colors.green,
-                            child: Text("Actualizar"),
+                            child: Text(AppLocalizations.of(context).translate('user_edit_update')),
                             disabledTextColor: Colors.white,
                         ),
                         onPressed: ()  {
                             if(_dateController.text == _date){
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                    content: Text('Error: No se ha actualizado la fecha'),
+                                    content: Text(AppLocalizations.of(context).translate('pets_pet_update-fail')),
                                     duration: Duration(seconds: 2),
                                 ));
                             }
@@ -256,7 +251,6 @@ class _PetState extends State<Pet>{
                                 update().whenComplete(() {
                                     if(_statusCode == 200){
                                         getMascota().whenComplete(() {
-                                            print(_result.date);
                                             Navigator.pop(context);
                                             nPet(_result);
                                         });
@@ -281,12 +275,11 @@ class _PetState extends State<Pet>{
             },
             body: jsonEncode({
                     "id": {
-                    "nombre":mascot,
-                    "amo":"cvila@hotmail.com"
+                        "nombre": mascot,
+                        "amo": widget.user.email
                     },
-                    "fechaNacimiento":date}));
+                    "fechaNacimiento": date}));
         _statusCode = response.statusCode;
-        print(_statusCode);
     }
 
 
@@ -295,7 +288,6 @@ class _PetState extends State<Pet>{
         String mascot = widget.mascota.id.name;
         http.Response response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/mascotas/"+ mascot));
         _result = Mascota.fromJson(jsonDecode(response.body));
-        print("La data en result: " +_result.date.toString());
     }
     ImageProvider getImage()  {
         // no pet image
@@ -314,14 +306,14 @@ class _PetState extends State<Pet>{
             context: context,
             builder: (context) =>
                 AlertDialog(
-                    title: Text("Selecciona una opción"),
+                    title: Text(AppLocalizations.of(context).translate('alert-dialog_select-option')),
                     actions: <Widget>[
                         MaterialButton(
-                            child: Text("Camera"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_camera')),
                             onPressed: () => Navigator.pop(context, ImageSource.camera),
                         ),
                         MaterialButton(
-                            child: Text("Galería"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_gallery')),
                             onPressed: () => Navigator.pop(context, ImageSource.gallery),
                         )
                     ],

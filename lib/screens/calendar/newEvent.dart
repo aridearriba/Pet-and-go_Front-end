@@ -7,6 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 
@@ -19,8 +20,6 @@ class NewEvent extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        final appTitle = 'petandgo';
-
         return GestureDetector(
             onTap: () {
                 FocusScopeNode actualFocus = FocusScope.of(context);
@@ -30,31 +29,24 @@ class NewEvent extends StatelessWidget {
                 }
 
             },
-            child: MaterialApp(
-                title: appTitle,
-                theme: ThemeData(
-                    primaryColor: Colors.green
-                ),
-                home: Scaffold(
-                    //resizeToAvoidBottomInset: false,
-                    drawer: Menu(user),
-                    appBar: AppBar(
-                        title: Text("Añadir evento"),
-                        iconTheme: IconThemeData(
-                            color: Colors.white,
-                        ),
-                        actions: <Widget>[
-                            IconButton(
-                                icon: Icon(Icons.arrow_back, color: Colors.white),
-                                onPressed: () => Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => Calendari(user))
-                                ),
-                            )
-                        ],
+            child: Scaffold(
+                drawer: Menu(user),
+                appBar: AppBar(
+                    title: Text(AppLocalizations.of(context).translate('calendar_new-event_title'), style: TextStyle(color: Colors.white)),
+                    iconTheme: IconThemeData(
+                        color: Colors.white,
                     ),
-                    body: NewEventForm(user),
+                    actions: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.arrow_back, color: Colors.white),
+                            onPressed: () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (context) => Calendari(user))
+                            ),
+                        )
+                    ],
                 ),
+                body: NewEventForm(user),
             ),
         );
     }
@@ -123,13 +115,13 @@ class MyCustomFormState extends State<NewEventForm> {
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Título"
+                                labelText: AppLocalizations.of(context).translate('calendar_new-event_event-title')
                             ),
                             controller: _controladorTitle,
                             keyboardType: TextInputType.text,
                             validator: (value){
                                 if(value.isEmpty){
-                                    return 'Por favor, escribe el título del evento.';
+                                    return AppLocalizations.of(context).translate('calendar_new-event_empty-title');
                                 }
                                 return null;
                             },
@@ -150,11 +142,11 @@ class MyCustomFormState extends State<NewEventForm> {
                             },
                             child: IgnorePointer(
                                 child: new TextFormField(
-                                    decoration: new InputDecoration(labelText: 'Fecha inicio'),
+                                    decoration: new InputDecoration(labelText: AppLocalizations.of(context).translate('calendar_new-event_init-date')),
                                     controller: _controladorDateIni,
                                     validator: (value){
                                         if(value.isEmpty){
-                                            return 'Por favor, pon una fecha.';
+                                            return AppLocalizations.of(context).translate('calendar_new-event_empty-date');
                                         }
                                         return null;
                                     },
@@ -175,11 +167,11 @@ class MyCustomFormState extends State<NewEventForm> {
                             },
                             child: IgnorePointer(
                                 child: new TextFormField(
-                                    decoration: new InputDecoration(labelText: 'Hora inicio'),
+                                    decoration: new InputDecoration(labelText: AppLocalizations.of(context).translate('calendar_new-event_init-time')),
                                     controller: _controladorHourIni,
                                     validator: (value){
                                         if(value.isEmpty){
-                                            return 'Por favor, pon una hora.';
+                                            return AppLocalizations.of(context).translate('calendar_new-event_empty-time');
                                         }
                                         return null;
                                     },
@@ -202,14 +194,14 @@ class MyCustomFormState extends State<NewEventForm> {
                             },
                             child: IgnorePointer(
                                 child: new TextFormField(
-                                    decoration: new InputDecoration(labelText: 'Fecha fin'),
+                                    decoration: new InputDecoration(labelText: AppLocalizations.of(context).translate('calendar_new-event_end-date')),
                                     controller: _controladorDateEnd,
                                     validator: (value){
                                         if(value.isEmpty){
-                                            return 'Por favor, pon una fecha.';
+                                            return AppLocalizations.of(context).translate('calendar_new-event_empty-date');
                                         }
                                         if(_dateEnd.isBefore(_dateIni)){
-                                            return 'La fecha fin debe ser posterior a la de inicio.';
+                                            return AppLocalizations.of(context).translate('calendar_new-event_before-dates');
                                         }
                                         return null;
                                     },
@@ -230,16 +222,16 @@ class MyCustomFormState extends State<NewEventForm> {
                             },
                             child: IgnorePointer(
                                 child: new TextFormField(
-                                    decoration: new InputDecoration(labelText: 'Hora fin'),
+                                    decoration: new InputDecoration(labelText: AppLocalizations.of(context).translate('calendar_new-event_end-time')),
                                     controller: _controladorHourEnd,
                                     validator: (value){
                                         if(value.isEmpty){
-                                            return 'Por favor, pon una hora.';
+                                            return AppLocalizations.of(context).translate('calendar_new-event_empty-time');
                                         }
-                                        if(_dateIni.compareTo(_dateEnd) == 0 &&
+                                        if((_dateIni.day ==  _dateEnd.day && _dateIni.month == _dateEnd.month && _dateIni.year == _dateEnd.year) &&
                                             ((_timeEnd.hour == _timeIni.hour && _timeEnd.minute <= _timeIni.minute) ||
                                                 (_timeEnd.hour < _timeIni.hour))){
-                                            return 'La hora fin debe ser posterior a la de inicio.';
+                                            return AppLocalizations.of(context).translate('calendar_new-event_before-times');
                                         }
                                         return null;
                                     },
@@ -254,7 +246,7 @@ class MyCustomFormState extends State<NewEventForm> {
                         child: TextFormField(
                             maxLines: 5,
                             decoration: InputDecoration(
-                                labelText: "Descripción",
+                                labelText: AppLocalizations.of(context).translate('calendar_new-event_description'),
                                 alignLabelWithHint: true,
                             ),
                             controller: _controladorDescription,
@@ -266,7 +258,7 @@ class MyCustomFormState extends State<NewEventForm> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                                 Text(
-                                    'Recordatorio 1h antes',
+                                    AppLocalizations.of(context).translate('calendar_new-event_reminder'),
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.black54
@@ -293,21 +285,18 @@ class MyCustomFormState extends State<NewEventForm> {
                                         addEvent().whenComplete(
                                             () {
                                                     if (_statusCode == 201) {
-                                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Evento añadido con éxito!')));
+                                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).translate('calendar_new-event_success'))));
                                                         if (notificationsOn) _scheduleNotification();
                                                         nCalendar();
                                                     }
-                                                    else if (_statusCode == 404) {
-                                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('Ya tienes otro evento en ese rango de fecha/hora')));
-                                                    }
                                                     else {
-                                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text('No se ha podido añadir el evento.')));
+                                                        Scaffold.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).translate('calendar_new-event_fail'))));
                                                     }
                                                 }
                                         );
                                 }
                             },
-                            child: Text('Añadir'),
+                            child: Text(AppLocalizations.of(context).translate('calendar_new-event_add')),
                         ),
                     ),
                 ],
@@ -351,7 +340,7 @@ class MyCustomFormState extends State<NewEventForm> {
         var platformChannelSpecifics = new NotificationDetails(
             androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
 
-        String data = 'Hoy  ' + _controladorHourIni.text;
+        String data = AppLocalizations.of(context).translate('notifications_today') + '  ' + _controladorHourIni.text;
         String text = '[' + widget.user.email + ']  ' + _controladorTitle.text;
 
         await MyApp.flutterLocalNotificationsPlugin.schedule(

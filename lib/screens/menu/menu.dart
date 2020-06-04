@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/calendar/calendar.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
 import 'package:petandgo/screens/puntosDeInteres/puntosInteresTabView.dart';
@@ -146,37 +147,37 @@ class _MenuContent extends State<Menu> {
                     ),
                     ListTile(
                         leading: Icon(Icons.home),
-                        title: Text('Inicio'),
+                        title: Text(AppLocalizations.of(context).translate('home_title')),
                         onTap: () => nHome(),
                     ),
                     ListTile(
                         leading: Icon(Icons.account_circle),
-                        title: Text('Perfil'),
+                        title: Text(AppLocalizations.of(context).translate('user_profile_title')),
                         onTap: () => nProfile(),
                     ),
                     ListTile(
                         leading: Icon(Icons.pets),
-                        title: Text('Mis mascotas'),
+                        title: Text(AppLocalizations.of(context).translate('pets_my-pets_title')),
                         onTap: () => nMyPets(),
                     ),
                     ListTile(
                         leading: Icon(Icons.sentiment_satisfied),
-                        title: Text('Mis quedadas'),
+                        title: Text(AppLocalizations.of(context).translate('meetings_my-meetings_title')),
                         onTap: () => nMisQuedadas(),
                     ),
                     ListTile(
                         leading: Icon(Icons.account_balance),
-                        title: Text('Puntos de interes'),
+                        title: Text(AppLocalizations.of(context).translate('points-of-interest_title')),
                         onTap: () => nPuntosInteres(),
                     ),
                     ListTile(
                         leading: Icon(Icons.calendar_today),
-                        title: Text('Calendario'),
+                        title: Text(AppLocalizations.of(context).translate('calendar_calendar_title')),
                         onTap: () => nCalendar(),
                     ),
                     ListTile(
                         leading: Icon(Icons.chat),
-                        title: Text('Chat'),
+                        title: Text(AppLocalizations.of(context).translate('chat_title')),
                         onTap: () => nChat(),
                     ),
                     ListTile(
@@ -186,12 +187,12 @@ class _MenuContent extends State<Menu> {
                     ),
                     ListTile(
                         leading: Icon(Icons.settings),
-                        title: Text('Configuración'),
+                        title: Text(AppLocalizations.of(context).translate('settings_title')),
                         onTap: () => nSettings(),
                     ),
                     ListTile(
                         leading: Icon(Icons.exit_to_app),
-                        title: Text('Logout'),
+                        title: Text(AppLocalizations.of(context).translate('logout')),
                         onTap: () => nLogIn(),
                     ),
                 ],

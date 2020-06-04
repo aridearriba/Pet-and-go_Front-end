@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import '../home.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -23,18 +24,13 @@ class SignUpPage extends StatelessWidget {
                     actualFocus.unfocus();
                 }
             },
-            child: MaterialApp(
-                title: appTitle,
-                theme: ThemeData(
-                    primaryColor: Colors.green
+            child:  Scaffold(
+                //resizeToAvoidBottomInset: false,
+                appBar: AppBar(
+                    iconTheme: IconThemeData(color: Colors.white),
+                    title: Text(AppLocalizations.of(context).translate('user_sign-up_title'), style: TextStyle(color: Colors.white)),
                 ),
-                home: Scaffold(
-                    //resizeToAvoidBottomInset: false,
-                    appBar: AppBar(
-                        title: Text("Pet and Go"),
-                    ),
-                    body: MyCustomForm(),
-                ),
+                body: MyCustomForm(),
             ),
         );
     }
@@ -95,7 +91,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                         child:
                                         FloatingActionButton(
                                             onPressed: _pickImage,
-                                            tooltip: 'Elige una imagen',
+                                            tooltip: AppLocalizations.of(context).translate('user_sign-up_choose-image'),
                                             elevation: 10.0,
                                             backgroundColor: Theme.of(context).primaryColor,
                                             child: Icon(Icons.add_a_photo, color: Colors.black, size: 15),
@@ -109,20 +105,20 @@ class MyCustomFormState extends State<MyCustomForm> {
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Email:"
+                                labelText: AppLocalizations.of(context).translate('user_email')
                             ),
                             controller: _controladorEmail,
                             keyboardType: TextInputType.emailAddress,
                             validator: (value){
                                 RegExp regex = new RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
                                 if(value.isEmpty){
-                                    return 'Por favor, escribe un email válido.';
+                                    return AppLocalizations.of(context).translate('user_login_empty-email');
                                 }
                                 if(!regex.hasMatch(value)){
-                                    return 'Este email no es válido.';
+                                    return AppLocalizations.of(context).translate('user_sign-up_invalid-email');
                                 }
                                 if (_responseMessage == "email") {
-                                    return 'Ya existe un usuario con este email';
+                                    return AppLocalizations.of(context).translate('user_sign-up_existing-email');
                                 }
                                 return null;
                             },
@@ -133,15 +129,15 @@ class MyCustomFormState extends State<MyCustomForm> {
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Username:",
+                                labelText: AppLocalizations.of(context).translate('user_username'),
                             ),
                             controller: _controladorUsername,
                             validator: (value){
                                 if(value.isEmpty){
-                                    return 'Por favor, escribe un username.';
+                                    return AppLocalizations.of(context).translate('user_sign-up_empty-username');
                                 }
                                 if (_responseMessage == "username"){
-                                    return 'Ya existe un usuario con este username';
+                                    return AppLocalizations.of(context).translate('user_sign-up_existing-username');
                                 }
                                 return null;
                             },
@@ -151,12 +147,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Nombre:",
+                                labelText: AppLocalizations.of(context).translate('user_name'),
                             ),
                             controller: _controladorNombre,
                             validator: (value){
                                 if(value.isEmpty){
-                                    return 'Por favor, escribe tu nombre.';
+                                    return AppLocalizations.of(context).translate('user_sign-up_empty-name');
                                 }
                                 return null;
                             },
@@ -166,12 +162,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Apellidos:",
+                                labelText: AppLocalizations.of(context).translate('user_surname'),
                             ),
                             controller: _controladorApellido1,
                             validator: (value){
                                 if(value.isEmpty){
-                                    return 'Por favor, escribe tus apellidos.';
+                                    return AppLocalizations.of(context).translate('user_sign-up_empty-surname');
                                 }
                                 return null;
                             },
@@ -182,12 +178,12 @@ class MyCustomFormState extends State<MyCustomForm> {
                         child: TextFormField(
                             obscureText: true,
                             decoration: InputDecoration(
-                                labelText: "Contraseña:",
+                                labelText: AppLocalizations.of(context).translate('user_password'),
                             ),
                             controller: _controladorPasswd,
                             validator: (value){
                                 if(value.isEmpty){
-                                    return 'Por favor, escribe una contraseña.';
+                                    return AppLocalizations.of(context).translate('user_login_empty-password');
                                 }
                                 return null;
                             },
@@ -199,11 +195,11 @@ class MyCustomFormState extends State<MyCustomForm> {
                             obscureText: true,
                             maxLength: 20,
                             decoration: InputDecoration(
-                                labelText: "Repetir contraseña:"
+                                labelText: AppLocalizations.of(context).translate('user_repeat-password')
                             ),
                             validator: (value) {
                                 if(value!=_controladorPasswd.text){
-                                    return 'Las contraseñas no coinciden.';
+                                    return AppLocalizations.of(context).translate('user_sign-up_not-match_passwords');
                                 }
                                 return null;
                             },
@@ -224,8 +220,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                                         if(_responseCode == 201) {
                                             Scaffold.of(context).showSnackBar(
                                                 SnackBar(
-                                                    content: Text(
-                                                        'Usuario registrado con éxito!')));
+                                                    content: Text(AppLocalizations.of(context).translate('user_sign-up_success'))));
                                                 // navigate to home
                                                 login(_controladorEmail.text, _controladorPasswd.text).whenComplete(
                                                     () => getData().whenComplete(
@@ -243,10 +238,10 @@ class MyCustomFormState extends State<MyCustomForm> {
                                             }
                                         }
                                         else Scaffold.of(context).showSnackBar(SnackBar(
-                                            content: Text('No se ha podido registrar el usuario')));
+                                            content: Text(AppLocalizations.of(context).translate('user_sign-up_fail'))));
                                 });
                             },
-                            child: Text('Sign Up'),
+                            child: Text(AppLocalizations.of(context).translate('user_login_sign-up')),
                         ),
                     ),
                 ],
@@ -271,7 +266,7 @@ class MyCustomFormState extends State<MyCustomForm> {
     Image getImage()  {
         // no image
         if (_image64 == "")
-            return Image.asset('assets/images/examinar.jpg', fit: BoxFit.cover, width: 150, height: 150);
+            return Image.asset(AppLocalizations.of(context).translate('user_sign-up_upload-image-url'), fit: BoxFit.cover, width: 150, height: 150);
 
         // else --> load image
         Uint8List _bytesImage;
@@ -286,14 +281,14 @@ class MyCustomFormState extends State<MyCustomForm> {
             context: context,
             builder: (context) =>
                 AlertDialog(
-                    title: Text("Selecciona una opción"),
+                    title: Text(AppLocalizations.of(context).translate('alert-dialog_select-option')),
                     actions: <Widget>[
                         MaterialButton(
-                            child: Text("Camera"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_camera')),
                             onPressed: () => Navigator.pop(context, ImageSource.camera),
                         ),
                         MaterialButton(
-                            child: Text("Galería"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_gallery')),
                             onPressed: () => Navigator.pop(context, ImageSource.gallery),
                         )
                     ],

@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'dart:typed_data';
-import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/material.dart';
 import 'package:petandgo/model/PerreParada.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import '../../Credentials.dart';
 import 'package:http/http.dart' as http;
-import 'perreParadaTabView.dart';
 
 class SquarePerreParadaWidget extends StatefulWidget {
     User user;

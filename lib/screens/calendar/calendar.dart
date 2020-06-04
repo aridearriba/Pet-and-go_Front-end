@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:petandgo/model/event.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/calendar/calendarList.dart';
 import 'package:petandgo/screens/calendar/newEvent.dart';
 import 'package:petandgo/screens/calendar/viewEvent.dart';
@@ -14,7 +14,6 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:http/http.dart' as http;
 
-import '../../main.dart';
 
 class Calendari extends StatefulWidget {
     Calendari(this.user);
@@ -31,10 +30,6 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     AnimationController _animationController;
     CalendarController _calendarController;
     String statusString = '';
-    Map<CalendarFormat, String> formats = {
-        CalendarFormat.month: 'Mes',
-        CalendarFormat.week: 'Semana'
-    };
     var _scaffoldKey = new GlobalKey<ScaffoldState>();
 
     // Navigate to NewEvent
@@ -107,7 +102,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Calendario',
+                    AppLocalizations.of(context).translate('calendar_calendar_title'),
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -127,7 +122,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
                                             Icons.sync,
                                             color: Colors.black54,
                                         ),
-                                        Text("   Sincronizar"),
+                                        Text("   " + AppLocalizations.of(context).translate('calendar_calendar_sync')),
                                     ],
                                 ),
                             ),
@@ -139,7 +134,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
                                             Icons.sync_disabled,
                                             color: Colors.black54,
                                         ),
-                                        Text("   Desincronizar"),
+                                        Text("   " + AppLocalizations.of(context).translate('calendar_calendar_sync-disabled')),
                                     ],
                                 ),
                             ),
@@ -172,8 +167,11 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     // TableCalendar configuration
     Widget _buildTableCalendar() {
         return TableCalendar(
-            locale: 'es_ES',
-            availableCalendarFormats: formats,
+            locale: AppLocalizations.of(context).translate('calendar_calendar_locale'),
+            availableCalendarFormats: {
+                CalendarFormat.month: AppLocalizations.of(context).translate('calendar_calendar_month'),
+                CalendarFormat.week: AppLocalizations.of(context).translate('calendar_calendar_week')
+            },
             calendarController: _calendarController,
             events: _events,
             initialCalendarFormat: CalendarFormat.month,
@@ -234,18 +232,18 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
 
     String _monthName(int month)
     {
-        if (month == 1) return 'Ene.';
-        if (month == 2) return 'Feb.';
-        if (month == 3) return 'Mar.';
-        if (month == 4) return 'Abr.';
-        if (month == 5) return 'May.';
-        if (month == 6) return 'Jun.';
-        if (month == 7) return 'Jul.';
-        if (month == 8) return 'Ago.';
-        if (month == 9) return 'Sep.';
-        if (month == 10) return 'Oct.';
-        if (month == 11) return 'Nov.';
-        if (month == 12) return 'Dic.';
+        if (month == 1) return AppLocalizations.of(context).translate('calendar_calendar_january');
+        if (month == 2) return AppLocalizations.of(context).translate('calendar_calendar_february');
+        if (month == 3) return AppLocalizations.of(context).translate('calendar_calendar_march');
+        if (month == 4) return AppLocalizations.of(context).translate('calendar_calendar_april');
+        if (month == 5) return AppLocalizations.of(context).translate('calendar_calendar_may');
+        if (month == 6) return AppLocalizations.of(context).translate('calendar_calendar_june');
+        if (month == 7) return AppLocalizations.of(context).translate('calendar_calendar_july');
+        if (month == 8) return AppLocalizations.of(context).translate('calendar_calendar_august');
+        if (month == 9) return AppLocalizations.of(context).translate('calendar_calendar_september');
+        if (month == 10) return AppLocalizations.of(context).translate('calendar_calendar_october');
+        if (month == 11) return AppLocalizations.of(context).translate('calendar_calendar_november');
+        return AppLocalizations.of(context).translate('calendar_calendar_december');
     }
 
     // GET Events from User
@@ -279,13 +277,10 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     }
 
 
-
-
-
     // Device calendar Variables
     bool deleted = false;
     bool calendarSelected = false;
-    String calendarButtonText = 'Ver calendarios';
+    String calendarButtonText;
     String _currentCalendarID = '';
     DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
     StateSetter setStateDialog;
@@ -298,7 +293,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
                     Icons.calendar_today,
                     color: Colors.amber[600],
                 ),
-                label: Text(calendarButtonText,
+                label: Text(calendarButtonText == null ? AppLocalizations.of(context).translate('calendar_calendar_see-calendars') : calendarButtonText,
                     style: Theme.of(context).textTheme.body1),
                 onPressed: () {
                     setStateDialog(() {
@@ -370,7 +365,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     Widget _buildSyncDialog(BuildContext context) {
         return AlertDialog(
             title:
-                Text('Selecciona un calendario para sincronizar',
+                Text(AppLocalizations.of(context).translate('calendar_calendar_select-sync'),
                     textAlign: TextAlign.center,
                     style:
                         TextStyle(
@@ -395,11 +390,11 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
             actions: <Widget>[
                 MaterialButton
                     (
-                    child: Text("Cancelar"),
+                    child: Text(AppLocalizations.of(context).translate('alert-dialog_cancel')),
                     onPressed: () => Navigator.pop(context),
                 ),
                 MaterialButton(
-                    child: Text("Sincronizar"),
+                    child: Text(AppLocalizations.of(context).translate('calendar_calendar_sync')),
                     onPressed: () {
                         if (!calendarSelected) {
                             _addEventsToCalendar(_events);
@@ -414,7 +409,7 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
     Widget _buildDesSyncDialog(BuildContext context) {
         return AlertDialog(
             title:
-            Text('Selecciona un calendario para desincronizar',
+            Text(AppLocalizations.of(context).translate('calendar_calendar_select-disable-sync'),
                 textAlign: TextAlign.center,
                 style:
                 TextStyle(
@@ -439,11 +434,11 @@ class _CalendarState extends State<Calendari> with TickerProviderStateMixin {
             actions: <Widget>[
                 MaterialButton
                     (
-                    child: Text("Cancelar"),
+                    child: Text(AppLocalizations.of(context).translate('alert-dialog_cancel')),
                     onPressed: () => Navigator.pop(context),
                 ),
                 MaterialButton(
-                    child: Text("Desincronizar"),
+                    child: Text(AppLocalizations.of(context).translate('calendar_calendar_sync-disabled')),
                     onPressed: () {
                         if (!calendarSelected) {
                             _deleteEventsFromCalendar(_events);

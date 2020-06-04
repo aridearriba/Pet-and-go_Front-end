@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:petandgo/model/user.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
+import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/user/profile.dart';
 
 class Edit extends StatelessWidget{
@@ -14,9 +16,6 @@ class Edit extends StatelessWidget{
 
     @override
     Widget build(BuildContext context) {
-
-        final appTitle = 'petandgo';
-
         return GestureDetector(
             onTap: () {
                 FocusScopeNode actualFocus = FocusScope.of(context);
@@ -24,22 +23,21 @@ class Edit extends StatelessWidget{
                 if(!actualFocus.hasPrimaryFocus){
                     actualFocus.unfocus();
                 }
-
             },
             child: Scaffold(
-                    //resizeToAvoidBottomInset: false,
-                    appBar: AppBar(
-                        title: Text("Editar usuario",
-                                    style: TextStyle(
-                                        color: Colors.white
-                                    ),
-                        ),
-                        iconTheme: IconThemeData(
-                            color: Colors.white,
-                        ),
-                    ),
-                    body: EditForm(user),
+                drawer: Menu(user),
+                appBar: AppBar(
+                    title: Text(AppLocalizations.of(context).translate('user_edit_title'), style: TextStyle(color: Colors.white)),
+                    iconTheme: IconThemeData(color: Colors.white,),
+                    actions: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.arrow_back, color: Colors.white),
+                            onPressed: () => Navigator.pop(context),
+                        )
+                    ],
                 ),
+                body: EditForm(user),
+            ),
         );
   }
 
@@ -88,25 +86,12 @@ class MyCustomFormState extends State<EditForm>{
                     //crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                         Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20.0),
-                            child: Text(
-                                "PERFIL DE USUARIO",
-                                style: TextStyle(
-                                    color: Colors.black87,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18.0,
-                                ),
-                                textAlign: TextAlign.center,
-                            ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                                 children: <Widget>[
-                                    Expanded(child: Text('Username: ', style: TextStyle(color: Colors.green),)),
+                                    Expanded(child: Text(AppLocalizations.of(context).translate('user_username'), style: TextStyle(color: Colors.green),)),
                                     Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
+                                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5.0),
                                         child: SizedBox(width: 200.0,child: TextFormField(
                                             controller: _controladorUsername,
                                             keyboardType: TextInputType.text,
@@ -121,12 +106,12 @@ class MyCustomFormState extends State<EditForm>{
                             )
                         ),
                         Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 30.0),
                             child: Row(
                                 children: <Widget>[
-                                    Expanded(child: Text('Nombre: ', style: TextStyle(color: Colors.green))),
+                                    Expanded(child: Text(AppLocalizations.of(context).translate('user_name'), style: TextStyle(color: Colors.green))),
                                     Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
                                         child: SizedBox(width: 200.0,child: TextFormField(
                                             controller: _controladorName,
                                             keyboardType: TextInputType.text,
@@ -148,7 +133,7 @@ class MyCustomFormState extends State<EditForm>{
                                 onPressed: () {
                                     if(_controladorName.text.isEmpty || _controladorUsername.text.isEmpty){
                                         _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                            content: Text('Error: Alguno de los campos está vacío.'),
+                                            content: Text(AppLocalizations.of(context).translate('user_edit_empty-fields')),
                                             duration: Duration(seconds: 2),
                                         ));
                                     }
@@ -163,7 +148,7 @@ class MyCustomFormState extends State<EditForm>{
                                         });
                                     }
                                 },
-                                child: Text('Actualizar'),
+                                child: Text(AppLocalizations.of(context).translate('user_edit_update')),
                             ),
                         ),
                         Padding(
@@ -188,7 +173,7 @@ class MyCustomFormState extends State<EditForm>{
                                         }
                                     });
 
-                                }, label: Text('Cambiar contraseña'))
+                                }, label: Text(AppLocalizations.of(context).translate('user_edit_change-password')))
                         ),
                     ],
                 ),
@@ -201,14 +186,16 @@ class MyCustomFormState extends State<EditForm>{
         _controladorOldPasswd.clear();
         _controladorNewPasswd.clear();
         return new SimpleDialog(
-            title: Text('Modificar contraseña: ',
-                textAlign: TextAlign.center,),
+            title: Text(
+                AppLocalizations.of(context).translate('user_edit_change-password'),
+                textAlign: TextAlign.center,
+            ),
             children: <Widget>[
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
                         children: <Widget>[
-                            Expanded(child: Text('Contraseña actual: ', style: TextStyle(color: Colors.green))),
+                            Expanded(child: Text(AppLocalizations.of(context).translate('user_edit_current-password'), style: TextStyle(color: Colors.green))),
                             Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
                                 child: SizedBox(width: 120.0,child: TextFormField(
@@ -223,10 +210,10 @@ class MyCustomFormState extends State<EditForm>{
                     )
                 ),
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
                         children: <Widget>[
-                            Expanded(child: Text('Nueva contraseña: ', style: TextStyle(color: Colors.green))),
+                            Expanded(child: Text(AppLocalizations.of(context).translate('user_edit_new-password'), style: TextStyle(color: Colors.green))),
                             Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
                                 child: SizedBox(width: 120.0,child: TextFormField(
@@ -241,10 +228,10 @@ class MyCustomFormState extends State<EditForm>{
                     )
                 ),
                 Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(
                         children: <Widget>[
-                            Expanded(child: Text('Repetir contraseña: ', style: TextStyle(color: Colors.green))),
+                            Expanded(child: Text(AppLocalizations.of(context).translate('user_repeat-password'), style: TextStyle(color: Colors.green))),
                             Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10.0),
                                 child: SizedBox(width: 120.0, child: TextFormField(
@@ -263,19 +250,19 @@ class MyCustomFormState extends State<EditForm>{
                     child: SimpleDialogOption(
                         child: RaisedButton(
                             disabledColor: Colors.lightGreen,
-                            child: Text("Actualizar"),
+                            child: Text(AppLocalizations.of(context).translate('user_edit_update')),
                             disabledTextColor: Colors.white,
                         ),
                         onPressed: ()  {
                             if(_controladorNewPasswd.text.isEmpty || _controladorOldPasswd.text.isEmpty || _passwdController.text.isEmpty){
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                    content: Text('Error: Alguno de los campos está vacío.'),
+                                    content: Text(AppLocalizations.of(context).translate('user_edit_empty-fields')),
                                     duration: Duration(seconds: 2),
                                 ));
                             }
                             else if(_controladorNewPasswd.text != _passwdController.text){
                                 _scaffoldKey.currentState.showSnackBar(SnackBar(
-                                    content: Text('Error: Los campos de la nueva contraseña no coinciden.'),
+                                    content: Text(AppLocalizations.of(context).translate('user_sign-up_not-match-passwords')),
                                     duration: Duration(seconds: 2),
                                 ));
                             }
@@ -284,8 +271,7 @@ class MyCustomFormState extends State<EditForm>{
                                     if (_responseCode == 200) {
                                         _scaffoldKey.currentState.showSnackBar(
                                             SnackBar(
-                                                content: Text(
-                                                    'Contraseña actualizada con éxito.'),
+                                                content: Text(AppLocalizations.of(context).translate('user_edit_password-update-success')),
                                                 duration: Duration(seconds: 2),
                                             ));
                                         Navigator.pop(context);
@@ -294,7 +280,7 @@ class MyCustomFormState extends State<EditForm>{
                                         _scaffoldKey.currentState.showSnackBar(
                                             SnackBar(
                                                 content: Text(
-                                                    'Contraseña actual incorrecta.'),
+                                                    AppLocalizations.of(context).translate('user_edit_wrong-current-password')),
                                                 duration: Duration(seconds: 2),
                                             ));
                                     }
@@ -309,8 +295,8 @@ class MyCustomFormState extends State<EditForm>{
 
     Widget _buildGoogleDialog(BuildContext context) {
         return new AlertDialog(
-            title: Text('Alerta!', textAlign: TextAlign.center,),
-            content: Text('Eres un usuario Google, así que no puedes cambiar tu contraseña.',
+            title: Text(AppLocalizations.of(context).translate('user_edit_alert'), textAlign: TextAlign.center,),
+            content: Text(AppLocalizations.of(context).translate('user_edit_google-user'),
                 style: TextStyle(color: Colors.red), textAlign: TextAlign.center,),
         );
     }
