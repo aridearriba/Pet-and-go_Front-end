@@ -286,7 +286,7 @@ class _ChatPageState extends State<ChatPage>{
 
     Future<void> getMessages() async{
         var email = widget.userMe.email;
-        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email+'/mensajes'),
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/"+email+'/mensajes/'+widget.userChat),
             headers: <String, String>{
                 HttpHeaders.authorizationHeader: widget.userMe.token.toString(),
             },

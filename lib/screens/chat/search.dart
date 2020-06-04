@@ -26,6 +26,9 @@ class _SearchState extends State<Search>{
     bool mostrar = false;
     var _responseCode;
     bool isFriend = false;
+    bool isBlocked = false;
+
+    List<dynamic> _bloqueados = new List();
 
     String _image64;
     ImageProvider _imageProfile;
@@ -84,11 +87,13 @@ class _SearchState extends State<Search>{
                                         {
                                             if(_formKey.currentState.validate()){
                                                 isAmic().whenComplete(() => {
-                                                    getProfileImage().whenComplete(() => {
-                                                        _image64 = userSearch.image,
-                                                        _imageProfile = getImage(),
-                                                        setState(() {
-                                                            mostrar = true;
+                                                    isBlock().whenComplete(() => {
+                                                        getProfileImage().whenComplete(() => {
+                                                            _image64 = userSearch.image,
+                                                            _imageProfile = getImage(),
+                                                            setState(() {
+                                                                mostrar = true;
+                                                            })
                                                         })
                                                     })
                                                 })
@@ -198,7 +203,7 @@ class _SearchState extends State<Search>{
                                                     Padding(
                                                         padding: const EdgeInsets.only(
                                                             top: 15.0),
-                                                        child: isFriend ?
+                                                        child: isBlocked ? null : isFriend ?
                                                         FloatingActionButton.extended(
                                                             heroTag: "btn3",
                                                             label: Text('Borrar amigo'),
@@ -231,13 +236,38 @@ class _SearchState extends State<Search>{
                                                     Padding(
                                                         padding: const EdgeInsets.only(
                                                             top: 15.0),
-                                                        child: FloatingActionButton.extended(
+                                                        child: isBlocked ?
+                                                        FloatingActionButton.extended(
+                                                            heroTag: "btn7",
+                                                            label: Text('Desbloquear'),
+                                                            icon: Icon(Icons.not_interested),
+                                                            backgroundColor: Colors.blueGrey,
+                                                            onPressed: () => {
+                                                                desbloquearFriend(userSearch.email).whenComplete(() => {
+                                                                    if(_responseCode == 200){
+                                                                        isAmic().whenComplete(() => {
+                                                                            setState((){
+                                                                                isBlocked = false;
+                                                                            })
+                                                                        })
+
+                                                                    }
+                                                                })
+                                                            },
+                                                        ) :
+                                                        FloatingActionButton.extended(
                                                             heroTag: "btn6",
                                                             label: Text('Bloquear'),
                                                             icon: Icon(Icons.block),
                                                             backgroundColor: Colors.black,
                                                             onPressed: () => {
-
+                                                                blockFriend(userSearch.email).whenComplete(() => {
+                                                                    if(_responseCode == 200){
+                                                                        setState((){
+                                                                            isBlocked = true;
+                                                                        })
+                                                                    }
+                                                                })
                                                             },
                                                         ),
                                                     )
@@ -278,6 +308,17 @@ class _SearchState extends State<Search>{
 
     }
 
+    Future<void> isBlock() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/amigos/"+email+'/Bloqueados'));
+        _bloqueados = jsonDecode(response.body);
+        setState(() {
+            isBlocked = (_bloqueados.contains(userSearch.email));
+            print('is blocked?'+isBlocked.toString());
+        });
+
+    }
+
     Future<void> addAmic() async{
         var email = widget.user.email;
         print(_controller.text);
@@ -314,5 +355,31 @@ class _SearchState extends State<Search>{
         String _imgString = _image64.toString();
         _bytesImage = Base64Decoder().convert(_imgString);
         return Image.memory(_bytesImage).image;
+    }
+
+    Future<void> blockFriend(String emailFriend) async{
+        var email = widget.user.email;
+        final response = await http.post(
+            new Uri.http(Global.apiURL, "/api/amigos/" + email+'/Bloquear'),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+            body: emailFriend
+        );
+        _responseCode = response.statusCode;
+        print(_responseCode);
+    }
+
+    Future<void> desbloquearFriend(String emailFriend) async{
+        var email = widget.user.email;
+        final response = await http.post(
+            new Uri.http(Global.apiURL, "/api/amigos/" + email+'/Removebloqueado'),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+            body: emailFriend
+        );
+        _responseCode = response.statusCode;
+        print('El codigo de desbloqueado:'+_responseCode.toString());
     }
 }

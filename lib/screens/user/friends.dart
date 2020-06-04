@@ -137,7 +137,11 @@ class _FriendsState extends State<Friends>{
                                                         icon: Icon(Icons.block),
                                                         backgroundColor: Colors.black,
                                                         onPressed: () => {
-
+                                                            blockFriend(_friends[index]).whenComplete(() => {
+                                                                if(_responseCode == 200){
+                                                                    getData()
+                                                                }
+                                                            })
                                                         },
                                                     ),
                                                 )
@@ -208,5 +212,18 @@ class _FriendsState extends State<Friends>{
         String _imgString = _image64.toString();
         _bytesImage = Base64Decoder().convert(_imgString);
         return Image.memory(_bytesImage).image;
+    }
+
+    Future<void> blockFriend(String emailFriend) async{
+        var email = widget.user.email;
+        final response = await http.post(
+            new Uri.http(Global.apiURL, "/api/amigos/" + email+'/Bloquear'),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },
+            body: emailFriend
+        );
+        _responseCode = response.statusCode;
+        print(_responseCode);
     }
 }
