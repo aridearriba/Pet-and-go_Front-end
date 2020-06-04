@@ -82,6 +82,8 @@
 	"meetings_my-meetings_title": "Quedades",
 	"meetings_my-dogstops_title": "PerreParadas",
 	"meetings_my-meetings_empty": "No tens quedades",
+	"meetings_my-meetings_title_participants": "Participants",
+	"meetings_my-meetings_title_no-participants": "Sense participants",
 
 	"dogstops_new_title": "Afegir PerreParada",
 	"dogstops_new_address": "Adreça",
@@ -96,6 +98,7 @@
 	"dogstops_one_unroll": "Desapuntar-se",
 	"dogstops_one_awaiting-results": "Esperant resultats...",
 	"dogstops_one_pet-select": "¿Amb quina mascota aniràs?",
+	"dogstops_one_participants": "Veure participants",
 
 	"dogstops_edit_title": "Editar PerreParada",
 
@@ -156,6 +159,9 @@
 	"calendar_edit-event_title": "Editar esdeveniment",
 	"calendar_edit-event_success": "Esdeveniment actualitzat amb èxit",
 	"calendar_edit-event_fail": "No s'han pogut desar els canvis",
+
+	"friends_title": "Amics",
+	"blocks_title": "Usuaris bloquejats",
 
 	"chat_title": "Xat",
 	"chat_send-message": "Envia un missatge...",

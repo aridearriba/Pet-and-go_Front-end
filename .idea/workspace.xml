@@ -11,9 +11,19 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/i18n/ca.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/ca.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/es.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/es.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" afterDir="false" />
+=======
+=======
 <<<<<<< Updated upstream
+>>>>>>> 4428b68a8760abbb80d9cfc208b101369922f103
       <change beforePath="$PROJECT_DIR$/lib/model/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
 =======
       <change beforePath="$PROJECT_DIR$/i18n/ca.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/ca.json" afterDir="false" />
@@ -23,6 +33,37 @@
       <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/user/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/login.dart" afterDir="false" />
 >>>>>>> Stashed changes
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/i18n/ca.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/ca.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/es.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/es.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" afterDir="false" />
+=======
+=======
+<<<<<<< Updated upstream
+>>>>>>> 4428b68a8760abbb80d9cfc208b101369922f103
+      <change beforePath="$PROJECT_DIR$/lib/model/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/user.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/chat_page.dart" afterDir="false" />
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/i18n/ca.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/ca.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/i18n/es.json" beforeDir="false" afterPath="$PROJECT_DIR$/i18n/es.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/nuevaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/nuevaPerreParada.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/quedadas/vistaPerreParada.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user/login.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/login.dart" afterDir="false" />
+>>>>>>> Stashed changes
+=======
+      <change beforePath="$PROJECT_DIR$/lib/screens/chat/search.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/search.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user/blocks.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/blocks.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user/friends.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/friends.dart" afterDir="false" />
+>>>>>>> chat
+=======
+>>>>>>> 8d75b94c337d2390a1476531d52381898199511c
     </list>
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -36,7 +77,10 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_API_29" />
+<<<<<<< HEAD
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_Edited_API_29" />
+=======
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -72,11 +116,19 @@
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Dart" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/screens/quedadas" />
+=======
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/StudioProjects/StudioProjects" />
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
+=======
 <<<<<<< Updated upstream
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/StudioProjects/StudioProjects" />
 =======
     <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/screens/quedadas" />
 >>>>>>> Stashed changes
+>>>>>>> 4428b68a8760abbb80d9cfc208b101369922f103
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.17" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -84,7 +136,21 @@
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\screens\MisQuedadas" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src" />
+      <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\assets\images" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front\lib\screens\quedadas" />
+=======
+=======
 <<<<<<< Updated upstream
+>>>>>>> 4428b68a8760abbb80d9cfc208b101369922f103
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\android\app\src\main\res\drawable" />
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\calendar" />
@@ -97,6 +163,9 @@
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+<<<<<<< HEAD
+>>>>>>> 5f0502406f09c6ade599bba79dc60f98be5507f6
+=======
 =======
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Luis\StudioProjects\Pet-and-go_Front-end\lib\model" />
@@ -108,6 +177,7 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\quedadas" />
 >>>>>>> Stashed changes
+>>>>>>> 4428b68a8760abbb80d9cfc208b101369922f103
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib\screens\calendar" />
       <recent name="C:\Users\aride\Documents\FIB Q8\PES\Pet-and-go_Front-end\lib" />
     </key>

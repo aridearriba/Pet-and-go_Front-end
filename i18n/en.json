@@ -82,6 +82,8 @@
 	"meetings_my-meetings_title": "My meetings",
 	"meetings_my-dogstops_title": "My DogStops",
 	"meetings_my-meetings_empty": "No meetings",
+	"meetings_my-meetings_title_participants": "Participants",
+	"meetings_my-meetings_title_no-participants": "No participants",
 
 	"dogstops_new_title": "New DogStop",
 	"dogstops_new_address": "Address",
@@ -96,6 +98,7 @@
 	"dogstops_one_unroll": "Unroll",
 	"dogstops_one_awaiting-results": "Awaiting results...",
 	"dogstops_one_pet-select": "¿Which pet will you bring with you?",
+	"dogstops_one_participants": "Show participants",
 
 	"dogstops_edit_title": "Edit DogStop",
 
@@ -156,6 +159,9 @@
 	"calendar_edit-event_title": "Edit event",
 	"calendar_edit-event_success": "Event updated successfully",
 	"calendar_edit-event_fail": "Event update failed",
+
+	"friends_title": "Friends",
+	"blocks_title": "Blocked users",
 
 	"chat_title": "Chat",
 	"chat_send-message": "Send a message...",

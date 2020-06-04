@@ -53,6 +53,12 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
     }
 
 >>>>>>> participantesquedadas
+
+    nPerreParadaParticipantesView() {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => PerreParadaParticipantesView(widget.user,widget.id) ) );
+    }
+
     final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
     Completer<GoogleMapController> _controller = Completer();
@@ -260,6 +266,14 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
                                         ),
                                     ),
                                     Divider(color: Colors.transparent, height: 40,),
+                                    RaisedButton(
+                                    onPressed: () {
+                                        nPerreParadaParticipantesView();
+                                    },
+                                    child: Text(
+                                        AppLocalizations.of(context).translate('dogstops_one_participants'),
+                                    ),
+                                    ),
                                     RaisedButton(
                                         onPressed: (){
                                             _notJoined ?
