@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final participante = participanteFromJson(jsonString);
-
 import 'dart:convert';
 
 List<Participante> participanteFromJson(String str) => List<Participante>.from(json.decode(str).map((x) => Participante.fromJson(x)));
@@ -15,6 +11,7 @@ class Participante {
     this.email,
     this.image,
     this.estado,
+    this.urlAvatar,
   });
 
   String nombre;
@@ -22,6 +19,7 @@ class Participante {
   String email;
   String image;
   String estado;
+  String urlAvatar;
 
   factory Participante.fromJson(Map<String, dynamic> json) => Participante(
     nombre: json["nombre"],
@@ -29,6 +27,7 @@ class Participante {
     email: json["email"],
     image: json["image"] == null ? null : json["image"],
     estado: json["estado"] == null ? null : json["estado"],
+    urlAvatar: json["urlAvatar"] == null ? null : json["urlAvatar"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -37,5 +36,6 @@ class Participante {
     "email": email,
     "image": image == null ? null : image,
     "estado": estado == null ? null : estado,
+    "urlAvatar": urlAvatar == null ? null : urlAvatar,
   };
 }

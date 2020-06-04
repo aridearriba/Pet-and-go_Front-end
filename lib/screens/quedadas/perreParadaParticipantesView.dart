@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                                           padding: EdgeInsets.all(5.0),
                                           child: Container(
                                               height: 400.0,
-                                              child: _buildCard(null,snapshot.data[i],false,false)
+                                              child: _buildCard(snapshot.data[i])
                                           )
                                       );
                                   }
@@ -101,7 +102,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
         ));
     }
 
-    Widget _buildCard(ImageProvider _imageProfile,Participante userSearch,bool isFriend,bool isBlocked){
+    Widget _buildCard(Participante userSearch){
         return Card(
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                     child: Padding(
@@ -112,7 +113,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                             children: <Widget>[
                                 CircleAvatar(
                                     radius: 50.0,
-                                    backgroundImage: _imageProfile,
+                                    backgroundImage: getImage(userSearch.image, userSearch.urlAvatar),
                                 ),
 
                                 Column(
@@ -249,7 +250,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
                                                     blockFriend(userSearch.email).whenComplete(() => {
                                                         if(widget._responseCode == 200){
                                                             setState((){
-                                                                isBlocked = true;
+                                                                userSearch.estado = "BLOQUEADA";
                                                             })
                                                         }
                                                     })
@@ -275,6 +276,12 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
         );
 
         list =  participanteFromJson(response.body);
+
+        for(int i = 0; i< list.length; i++){
+            if(list[i].image != null && list[i].image != ""){
+                list[i].image = await getProfileImage(list[i].email);
+            }
+        }
         return list;
     }
 
@@ -335,6 +342,31 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
             body: emailFriend
         );
         widget._responseCode = response.statusCode;
+    }
+
+    ImageProvider getImage(String _image64,String urlImage)  {
+        // no user image
+        if ( (_image64 == null  || _image64 == "")   && ( urlImage == null || urlImage  == "" ) )
+            return null;
+        else if  (_image64 == null  || _image64 == "")
+            return Image.network(urlImage).image;
+
+
+        // else --> load image
+        Uint8List _bytesImage;
+        String _imgString = _image64.toString();
+        _bytesImage = Base64Decoder().convert(_imgString);
+        return Image.memory(_bytesImage).image;
+    }
+
+    Future<String> getProfileImage(String emailAmigo) async{
+        var email = emailAmigo;
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/image"),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },);
+        String result = response.body;
+        return result;
     }
 
 }
