@@ -113,6 +113,7 @@ class _VistaPerreParadaState extends State<VistaPerreParada>{
             return list.map((model) => Mascota.fromJson(model)).toList();
         }
         else print('ERROR en participantes');
+        return [];
     }
 
     Future<PerreParada> getPerreParada(int id) async {
