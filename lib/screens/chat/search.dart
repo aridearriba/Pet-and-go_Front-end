@@ -226,7 +226,7 @@ class _SearchState extends State<Search>{
                                             Padding(
                                                 padding: const EdgeInsets.only(
                                                     top: 15.0),
-                                                child: Text('Esta persona te ha bloqueado. No puedes interaccionar con ella',
+                                                child: Text(AppLocalizations.of(context).translate('search_iamblocked'),
                                                     style: TextStyle(
                                                         color: Colors.red,
                                                         fontWeight: FontWeight.bold,
