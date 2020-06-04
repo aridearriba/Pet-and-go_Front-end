@@ -11,7 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a98c81b4-e2a9-4697-af37-ff6de27ee219" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/chat/search.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/chat/search.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user/friends.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user/friends.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -326,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591269975729</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="imagen perfil buscador">
+      <created>1591271097908</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1591271097909</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -365,7 +372,8 @@
     <MESSAGE value="chat historico" />
     <MESSAGE value="chat historico funciona" />
     <MESSAGE value="amigos y buscador" />
-    <option name="LAST_COMMIT_MESSAGE" value="amigos y buscador" />
+    <MESSAGE value="imagen perfil buscador" />
+    <option name="LAST_COMMIT_MESSAGE" value="imagen perfil buscador" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

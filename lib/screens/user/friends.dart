@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +25,17 @@ class _FriendsState extends State<Friends>{
     User userMe;
     var _responseCode;
 
+    String _image64;
+    ImageProvider _imageProfile;
+
+    List<User> _myFriends = new List();
+
+
     void initState(){
         print(_friends);
         super.initState();
         getData();
+
     }
 
   @override
@@ -62,37 +70,30 @@ class _FriendsState extends State<Friends>{
                     itemCount: _friends.length,
                     itemBuilder: (BuildContext context, index) {
                         return Card(
-                            clipBehavior: Clip.antiAlias,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
                             child: Padding(
-                                padding: EdgeInsets.all(10.0),
+                                padding: EdgeInsets.all(5.0),
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: <Widget>[
                                         CircleAvatar(
                                             radius: 50.0,
                                             child: Icon(Icons.person),
                                         ),
+
                                         Column(
-                                            mainAxisAlignment: MainAxisAlignment
-                                                .center,
-                                            crossAxisAlignment: CrossAxisAlignment
-                                                .center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             children: <Widget>[
                                                 // USER
                                                 // username
                                                 Padding(
-                                                    padding: const EdgeInsets
-                                                        .only(
+                                                    padding: const EdgeInsets.only(
                                                         top: 5.0),
                                                     child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .center,
-                                                        crossAxisAlignment: CrossAxisAlignment
-                                                            .center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: <Widget>[
                                                             Text(
                                                                 _friends[index],
@@ -109,6 +110,7 @@ class _FriendsState extends State<Friends>{
                                                         ]
                                                     ),
                                                 ),
+                                                // email
                                                 Padding(
                                                     padding: const EdgeInsets.only(
                                                         top: 15.0),
@@ -118,7 +120,7 @@ class _FriendsState extends State<Friends>{
                                                         icon: Icon(Icons.delete),
                                                         backgroundColor: Colors.red,
                                                         onPressed: () => {
-                                                            removeAmic(_friends[index]).whenComplete(() => {
+                                                            removeAmic(_myFriends[index].email).whenComplete(() => {
                                                                 if(_responseCode == 200){
                                                                     getData()
                                                                 }
@@ -163,6 +165,16 @@ class _FriendsState extends State<Friends>{
         _responseCode = response.statusCode;
     }
 
+    Future<void> getFriend(String emailFriend) async {
+        var email = emailFriend;
+        final response = await http.get(
+            new Uri.http(Global.apiURL, "/api/usuarios/" + email));
+        setState(() {
+            userFriend = User.fromJson(jsonDecode(response.body));
+        });
+        _responseCode = response.statusCode;
+    }
+
     Future<void> removeAmic(String emailFriend) async{
         var email = widget.user.email;
         final response = await http.post(
@@ -176,6 +188,25 @@ class _FriendsState extends State<Friends>{
         print(_responseCode);
     }
 
+    Future<void> getProfileImage() async{
+        var email = userFriend.email;
+        print(email);
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email + "/image"),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },);
+        userFriend.image = response.body;
+    }
 
+    ImageProvider getImage()  {
+        // no user image
+        if (_image64 == "")
+            return Image.network(widget.user.profileImageUrl).image;
 
+        // else --> load image
+        Uint8List _bytesImage;
+        String _imgString = _image64.toString();
+        _bytesImage = Base64Decoder().convert(_imgString);
+        return Image.memory(_bytesImage).image;
+    }
 }
