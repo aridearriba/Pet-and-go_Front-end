@@ -9,6 +9,7 @@ import 'package:petandgo/global/global.dart' as Global;
 import 'package:http/http.dart' as http;
 import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/menu/menu.dart';
+import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 
 import 'SquarePerreParadaView.dart';
 
@@ -65,7 +66,7 @@ class PerreParadaParticipantesState extends State<PerreParadaParticipantesView>{
 
                                 child: Center(
                                     child: Text(
-                                        "Sin participantes",
+                                        AppLocalizations.of(context).translate('meetings_my-meetings_title_no-participants'),
                                         style: TextStyle(
                                             color: Colors.grey,
                                             fontSize: 30,
