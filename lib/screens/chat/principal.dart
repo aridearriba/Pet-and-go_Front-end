@@ -1,5 +1,7 @@
 
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,8 @@ class Principal extends StatefulWidget{
 class _PrincipalState extends State<Principal>{
 
     User userMe, userFriend;
+    String _image64;
+    ImageProvider _imageProfile;
     List<dynamic> _friends = new List();
     var _responseCode;
     List<User> _myFriends = new List();
@@ -26,16 +30,18 @@ class _PrincipalState extends State<Principal>{
 
     void initState(){
         getFriends().whenComplete(() => {
-            for(String email in _friends){
-                getData(email).whenComplete(() => {
-                    _myFriends.add(userFriend),
+            for(var i = 0; i< _friends.length; i++){
+                getData(_friends[i]).whenComplete(() =>
+                {
+                    getProfileImage(userFriend),
+                    print('email despues de getData: '+userFriend.email),
                 })
             },
+            print(_myFriends),
             setState(() => {
                 mostrar = true
             }),
         });
-        print(_myFriends.length);
     }
 
     @override
@@ -88,17 +94,19 @@ class _PrincipalState extends State<Principal>{
 
     ListTile _buildListTile(BuildContext context, int index){
         return ListTile(
-            title: Text(_myFriends[index].email, style: TextStyle(
+            title: Text(_myFriends[index].name, style: TextStyle(
+                fontWeight: FontWeight.bold
             ),),
+            subtitle: Text(_myFriends[index].email),
             leading: CircleAvatar(
-                radius: 35.0,
-                child: Icon(Icons.person),
+                radius: 25.0,
+                backgroundImage: _imageProfile = getImage(_myFriends[index].image),
             ),
             onTap: () => {
                 Navigator.push(
                     context,
                     MaterialPageRoute( builder: (_) => ChatPage(
-                        widget.user, _myFriends[index].email
+                        widget.user, _myFriends[index]
                     )
                     )
                 )
@@ -115,17 +123,36 @@ class _PrincipalState extends State<Principal>{
         setState(() {
             _friends = userMe.friends;
         });
-        print(_friends);
         _responseCode = response.statusCode;
     }
 
-    Future<void> getData(String email) async{
+    Future<void> getData(email) async{
         final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email));
-        setState(() {
-            userFriend = User.fromJson(jsonDecode(response.body));
-        });
+        userFriend = User.fromJson(jsonDecode(response.body));
 
-        print(response.statusCode.toString());
+    }
 
+    ImageProvider getImage(String image)  {
+        _image64 = image;
+        // no user image
+        if (_image64 == "")
+            return Image.network(widget.user.profileImageUrl).image;
+
+        // else --> load image
+        Uint8List _bytesImage;
+        String _imgString = _image64.toString();
+        _bytesImage = Base64Decoder().convert(_imgString);
+        return Image.memory(_bytesImage).image;
+    }
+
+    Future<void> getProfileImage(User userF) async{
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + userF.email + "/image"),
+            headers: <String, String>{
+                HttpHeaders.authorizationHeader: widget.user.token.toString(),
+            },);
+            userF.image = response.body;
+            setState(() => {
+                _myFriends.add(userF)
+            });
     }
 }
