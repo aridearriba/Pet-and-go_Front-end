@@ -153,7 +153,7 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
 
     Future<void> add() async{
         var email = widget.user.email;
-        var date = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day, _dateTime.hour, _dateTime.minute).toString();
+        var date = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day, _hour.hour, _hour.minute).toString();
         var today = DateTime.now().toString().substring(0, 10);
 
         http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/quedadas"),
