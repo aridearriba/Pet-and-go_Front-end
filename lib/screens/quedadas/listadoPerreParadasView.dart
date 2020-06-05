@@ -74,7 +74,7 @@ class ListaPerreParadasWidget extends StatelessWidget {
             case 'cercanas':
                 {
                     http.Response response = await http.get(
-                        new Uri.http(Global.apiURL, "/api/quedadas/distancia/1000/$point"),
+                        new Uri.http(Global.apiURL, "/api/quedadas/distancia/10000/$point"),
                         headers: <String, String>{
                             HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                             HttpHeaders.authorizationHeader: user.token.toString(),
