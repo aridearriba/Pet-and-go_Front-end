@@ -6,12 +6,11 @@ import 'package:petandgo/global/global.dart' as Global;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:petandgo/model/mascota.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/multilanguage/appLocalizations.dart';
+import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/pets/myPets.dart';
-import 'package:petandgo/screens/user/profile.dart';
-import '../home.dart';
 
 class NewPet extends StatelessWidget {
     NewPet(this.user);
@@ -19,8 +18,6 @@ class NewPet extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        final appTitle = 'petandgo';
-
         return GestureDetector(
             onTap: () {
                 FocusScopeNode actualFocus = FocusScope.of(context);
@@ -30,27 +27,19 @@ class NewPet extends StatelessWidget {
                 }
 
             },
-            child: MaterialApp(
-                title: appTitle,
-                theme: ThemeData(
-                    primaryColor: Colors.green
+            child: Scaffold(
+                drawer: Menu(user),
+                appBar: AppBar(
+                    title: Text(AppLocalizations.of(context).translate('pets_my-pets_add-pet'), style: TextStyle(color: Colors.white)),
+                    iconTheme: IconThemeData(color: Colors.white,),
+                    actions: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.arrow_back, color: Colors.white),
+                            onPressed: () => Navigator.pop(context),
+                        )
+                    ],
                 ),
-                home: Scaffold(
-                    //resizeToAvoidBottomInset: false,
-                    appBar: AppBar(
-                        title: Text("Añadir mascota"),
-                        iconTheme: IconThemeData(
-                            color: Colors.white,
-                        ),
-                        actions: <Widget>[
-                            IconButton(
-                                icon: Icon(Icons.arrow_back, color: Colors.white),
-                                onPressed: () => Navigator.pop(context),
-                            )
-                        ],
-                    ),
-                    body: NewPetForm(user),
-                ),
+                body: NewPetForm(user),
             ),
         );
     }
@@ -114,7 +103,7 @@ class MyCustomFormState extends State<NewPetForm> {
                                         child:
                                         FloatingActionButton(
                                             onPressed: _pickImage,
-                                            tooltip: 'Elige una imagen',
+                                            tooltip: AppLocalizations.of(context).translate('user_sign-up_choose-image'),
                                             elevation: 10.0,
                                             backgroundColor: Theme.of(context).primaryColor,
                                             child: Icon(Icons.add_a_photo, color: Colors.black, size: 15),
@@ -128,18 +117,17 @@ class MyCustomFormState extends State<NewPetForm> {
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
                         child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: "Nombre:"
+                                labelText: AppLocalizations.of(context).translate('user_name')
                             ),
                             controller: _controladorName,
                             keyboardType: TextInputType.text,
                             validator: (value){
                                 if(value.isEmpty){
-                                    return 'Por favor, escribe el nombre de tu mascota.';
+                                    return AppLocalizations.of(context).translate('pets_add-pet_empty-name');
                                 }
                                 else if (_statusCode == 500){
-                                    return 'Ya tienes otra mascota con este nombre.';
+                                    return AppLocalizations.of(context).translate('pets_add-pet_existing');
                                 }
-
                                 return null;
                             },
                         ),
@@ -158,11 +146,11 @@ class MyCustomFormState extends State<NewPetForm> {
                             },
                             child: IgnorePointer(
                                 child: new TextFormField(
-                                    decoration: new InputDecoration(labelText: 'Fecha de nacimiento:'),
+                                    decoration: new InputDecoration(labelText: AppLocalizations.of(context).translate('pets_pet_birthday')),
                                     controller: _controladorBirthday,
                                     validator: (value){
                                         if(value.isEmpty){
-                                            return 'Por favor, pon una fecha.';
+                                            return AppLocalizations.of(context).translate('calendar_new-event_empty-date');
                                         }
                                         return null;
                                     },
@@ -171,27 +159,11 @@ class MyCustomFormState extends State<NewPetForm> {
                             ),
                         ),
                     ),
-                    /*Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                        child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: "Raza:",
-                            ),
-                            controller: _controladorRaza,
-                            validator: (value){
-                                if(value.isEmpty){
-                                    return 'Por favor, escribe tu nombre.';
-                                }
-                                return null;
-                            },
-                        ),
-                    ),*/
                     Padding(
                         padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                         child: RaisedButton(
                             onPressed: () {
                                 FocusScope.of(context).requestFocus(FocusNode());
-
                                 add().whenComplete(
                                         () {
                                         // comprueba que los campos sean correctos
@@ -201,8 +173,7 @@ class MyCustomFormState extends State<NewPetForm> {
                                             if(_statusCode == 201) {
                                                 Scaffold.of(context).showSnackBar(
                                                     SnackBar(
-                                                        content: Text(
-                                                            'Usuario registrado con éxito!')));
+                                                        content: Text(AppLocalizations.of(context).translate('pets_add-pet_success'))));
                                                 // navigate to myPets
                                                 if (_image64 != "") changeProfileImage().whenComplete(
                                                         () => Navigator.pushReplacement(context, MaterialPageRoute(
@@ -215,29 +186,10 @@ class MyCustomFormState extends State<NewPetForm> {
                                             }
                                         }
                                         else Scaffold.of(context).showSnackBar(SnackBar(
-                                            content: Text('No se ha podido registrar el usuario')));
-                                    });
-
-
-                                add().whenComplete(
-                                        () {
-                                        // comprueba que los campos sean correctos
-                                        if (_formKey.currentState.validate()) {
-                                            _formKey.currentState.save();
-                                            // Si el formulario es válido, queremos mostrar un Snackbar
-                                            if(_statusCode == 201) {
-                                                Scaffold.of(context).showSnackBar(
-                                                    SnackBar(
-                                                        content: Text(
-                                                            'Mascota añadida con éxito!')));
-                                                nMyPets();
-                                            }
-                                            else Scaffold.of(context).showSnackBar(SnackBar(
-                                                content: Text('No se ha podido añadir la mascota')));
-                                        }
+                                            content: Text(AppLocalizations.of(context).translate('pets_add-pet_fail'))));
                                     });
                             },
-                            child: Text('Añadir'),
+                            child: Text(AppLocalizations.of(context).translate('calendar_new-event_add')),
                         ),
                     ),
                 ],
@@ -281,14 +233,14 @@ class MyCustomFormState extends State<NewPetForm> {
             context: context,
             builder: (context) =>
                 AlertDialog(
-                    title: Text("Selecciona una opción"),
+                    title: Text(AppLocalizations.of(context).translate('alert-dialog_select-option')),
                     actions: <Widget>[
                         MaterialButton(
-                            child: Text("Camera"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_camera')),
                             onPressed: () => Navigator.pop(context, ImageSource.camera),
                         ),
                         MaterialButton(
-                            child: Text("Galería"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_gallery')),
                             onPressed: () => Navigator.pop(context, ImageSource.gallery),
                         )
                     ],

@@ -5,7 +5,6 @@ class Mascota {
     DateTime _date;
     String _image;
 
-
     Mascota({Id id, DateTime date, String image}) {
         this._id = id;
         this._date = date;
@@ -24,6 +23,17 @@ class Mascota {
             date: DateTime.parse(json['fechaNacimiento']),
         );
     }
+
+    bool isIn(List<Mascota> list) {
+        for (var i = 0; i < list.length; ++i) {
+            if (this.id.name == list[i].id.name &&
+                this.id.amo == list[i].id.amo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 class Id {

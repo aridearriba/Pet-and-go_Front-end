@@ -5,27 +5,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:petandgo/model/PerreParada.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
+import 'package:petandgo/screens/quedadas/perreParadaTabView.dart';
 import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import 'package:uuid/uuid.dart';
 import '../../Credentials.dart';
 import 'package:petandgo/global/global.dart' as Global;
 
 
-class NuevaPerreParada extends StatefulWidget {
-    NuevaPerreParada(this.user);
+class EditPerreParada extends StatefulWidget {
+    EditPerreParada(this.user, this.dogstop);
     User user;
+    PerreParada dogstop;
 
     @override
-    _NuevaPerreParadaState createState() => _NuevaPerreParadaState();
+    _EditPerreParadaState createState() => _EditPerreParadaState();
 }
 
-class _NuevaPerreParadaState extends State<NuevaPerreParada> {
+class _EditPerreParadaState extends State<EditPerreParada> {
 
     final _formKey = GlobalKey<FormState>();
+    final _scaffoldKey = new GlobalKey<ScaffoldState>();
 
     final FocusNode _focusNode = new FocusNode();
     final TextEditingController _searchQueryController = new TextEditingController();
@@ -39,28 +43,21 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
     int _onTapTextLength = 0;
 
     var _statusCode;
-    var _id;
     var uuid;
 
     DateTime _dateTime;
     TimeOfDay _hour;
 
-    List<Prediction> _predictions;
     Result _result;
 
     static double lat = 41.390205;
     static double lng = 2.154007;
-    static String code = '';
 
     Completer<GoogleMapController> _controller = Completer();
 
-    static final CameraPosition _camPosition = CameraPosition(
-        target: LatLng(lat, lng),
-        zoom: 10,
-    );
+    Set<Marker> _markers = {};
 
-
-    _NuevaPerreParadaState() {
+    _EditPerreParadaState() {
         _searchQueryController.addListener(() {
            if (_searchQueryController.text.isEmpty){
                setState(() {
@@ -122,41 +119,64 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
         uuid = Uuid();
         super.initState();
         _isSearching = false;
+
+        lat = widget.dogstop.latitud;
+        lng = widget.dogstop.longitud;
+
+        _searchQueryController.text = widget.dogstop.lugarInicio;
+
+        _dateTime = widget.dogstop.fechaQuedada;
+        print("Date init " + _dateTime.toIso8601String());
+        _hour = TimeOfDay.fromDateTime(_dateTime);
+
+        _markers.add(Marker(
+            markerId: MarkerId('PERREPARADA'),
+            position: LatLng(lat, lng),
+        ));
+
+        _controladorDate.text = _dateTime.day.toString().padLeft(2, '0') + ". " + _dateTime.month.toString().padLeft(2, '0') + ". " + _dateTime.year.toString();
+        _controladorHour.text = _hour.hour.toString().padLeft(2, '0') + ':' + _hour.minute.toString().padLeft(2, '0');
+
     }
 
     @override
     Widget build(BuildContext context) {
-    return new Scaffold(
-        drawer: Menu(widget.user),
-        appBar: AppBar(
-            title: Text(
-                AppLocalizations.of(context).translate('dogstops_new_title'),
-                style: TextStyle(
-                    color: Colors.white,
-                ),
-            ),
-            iconTheme: IconThemeData(color: Colors.white),
-            actions: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
-                    onPressed: () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Home(widget.user))
+        return new Scaffold(
+            key: _scaffoldKey,
+            drawer: Menu(widget.user),
+            appBar: AppBar(
+                title: Text(
+                    AppLocalizations.of(context).translate('dogstops_edit_title'),
+                    style: TextStyle(
+                        color: Colors.white,
                     ),
-                )
-            ],
-        ),
-        body: buildBody(),
-    );
+                ),
+                iconTheme: IconThemeData(color: Colors.white),
+                actions: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VistaPerreParada(widget.user, widget.dogstop.id))
+                        ),
+                    )
+                ],
+            ),
+            body: buildBody(),
+        );
     }
 
-    Future<void> add() async{
+    Future<void> edit() async{
         var email = widget.user.email;
+        var id = widget.dogstop.id.toString();
         var date = new DateTime(_dateTime.year, _dateTime.month, _dateTime.day, _hour.hour, _hour.minute).toString();
         var today = DateTime.now().toString().substring(0, 10);
 
-        http.Response response = await http.post(new Uri.http(Global.apiURL, "/api/quedadas"),
+        print("QUEDADA $id");
+        print("DATE: $date");
+
+        http.Response response = await http.put(new Uri.http(Global.apiURL, "/api/quedadas/" + id),
             headers: <String, String>{
                 HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
                 HttpHeaders.authorizationHeader: widget.user.token.toString(),
@@ -171,7 +191,7 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                 'idImageGoogle': '',
             }));
         _statusCode = response.statusCode;
-        _id = int.parse(response.body.toString());
+        print("EDTI SCODE : " + _statusCode.toString());
     }
 
     Widget getFutureWidget() {
@@ -179,16 +199,19 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
             future: _buildSearchList(),
             initialData: List<ListTile>(),
             builder: (BuildContext context, AsyncSnapshot<List<ListTile>> childItems) {
-                return new Container(
-                    color: Colors.white,
-                    height: getChildren(childItems).length * 48.0,
-                    width: MediaQuery.of(context).size.width,
-                    child: new ListView(
-                        padding: new EdgeInsets.only(left: 50.0),
-                        children: childItems.data.isNotEmpty
-                            ? ListTile.divideTiles(context: context, tiles: getChildren(childItems)).toList() : List(),
-                    ),
-                );
+                if (childItems.hasData)
+                    return new Container(
+                        color: Colors.white,
+                        height: getChildren(childItems).length * 48.0,
+                        width: MediaQuery.of(context).size.width,
+                        child: new ListView(
+                            padding: new EdgeInsets.only(left: 50.0),
+                            children: childItems.data.isNotEmpty
+                                ? ListTile.divideTiles(context: context, tiles: getChildren(childItems)).toList() : List(),
+                        ),
+                    );
+                else
+                    return new Container();
             },
         );
     }
@@ -244,7 +267,12 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                zoom: 16,
            )
         ));
-
+        setState(() {
+            _markers.add(Marker(
+                markerId: MarkerId('PERREPARADA'),
+                position: LatLng(lat, lng),
+            ));
+        });
     }
 
     Widget buildBody() {
@@ -318,7 +346,7 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                                                         onTap: () async {
                                                             _hour = await showTimePicker(
                                                                 context: context,
-                                                                initialTime: TimeOfDay(hour: 12, minute: 0),
+                                                                initialTime: _hour == null ? TimeOfDay.fromDateTime(DateTime.now()) : _hour,
                                                             );
                                                             _controladorHour.text = _hour.hour.toString().padLeft(2, '0') + ':' + _hour.minute.toString().padLeft(2, '0');
                                                         },
@@ -342,38 +370,58 @@ class _NuevaPerreParadaState extends State<NuevaPerreParada> {
                                                 ),
                                                 Center(
                                                     child: Container(
-                                                        width: 350,
                                                         height: 250,
+                                                        width: 350,
                                                         child: GoogleMap(
-                                                            mapType: MapType.hybrid,
-                                                            initialCameraPosition: _camPosition,
+                                                            mapType: MapType.normal,
+                                                            initialCameraPosition: CameraPosition(
+                                                                target: LatLng(lat, lng),
+                                                                zoom: 15,
+                                                            ),
                                                             onMapCreated: (GoogleMapController controller) {
                                                                 _controller.complete(controller);
                                                             },
+                                                            markers: _markers,
                                                         ),
                                                     ),
                                                 ),
+
                                                 Padding(
                                                     padding: const EdgeInsets.symmetric(vertical: 30.0, horizontal: 90.0),
                                                     child: RaisedButton(
                                                         onPressed: () {
                                                             FocusScope.of(context).requestFocus(FocusNode());
-                                                            add().whenComplete(
+                                                            edit().whenComplete(
                                                                     () {// comprueba que los campos sean correctos
                                                                     if (_formKey.currentState.validate()) {
                                                                         _formKey.currentState.save();
+                                                                        print("CODE --- $_statusCode");
                                                                         // Si el formulario es válido, queremos mostrar un Snackbar
-                                                                        if(_statusCode == 201) {
+                                                                        if(_statusCode == 200) {
                                                                             Navigator.pushReplacement(
                                                                                 context,
                                                                                 MaterialPageRoute(
-                                                                                    builder: (context) => VistaPerreParada(widget.user, _id))
+                                                                                    builder: (context) => VistaPerreParada(widget.user, widget.dogstop.id))
+                                                                            );
+                                                                        }
+                                                                        if(_statusCode == 400){
+                                                                            _scaffoldKey.currentState.showSnackBar(
+                                                                                SnackBar(
+                                                                                    content: Text(AppLocalizations.of(context).translate('calendar_edit-event_fail'))
+                                                                                )
+                                                                            );
+                                                                        }
+                                                                        else {
+                                                                            _scaffoldKey.currentState.showSnackBar(
+                                                                                SnackBar(
+                                                                                    content: Text(AppLocalizations.of(context).translate('calendar_edit-event_fail'))
+                                                                                )
                                                                             );
                                                                         }
                                                                     }
                                                                 });
                                                         },
-                                                        child: Text(AppLocalizations.of(context).translate('calendar_new-event_add')),
+                                                        child: Text(AppLocalizations.of(context).translate('user_awards_save-changes')),
                                                     )
                                                 ),
                                             ],

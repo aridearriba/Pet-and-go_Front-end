@@ -7,16 +7,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:petandgo/model/mascota.dart';
+import 'package:petandgo/multilanguage/appLanguage.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/home.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/pets/pet.dart';
+import 'package:petandgo/screens/user/blocks.dart';
 import 'package:petandgo/screens/user/edit.dart';
+import 'package:petandgo/screens/user/friends.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/model/user.dart';
 import 'package:petandgo/screens/pets/newPet.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:petandgo/screens/user/sign-up.dart';
+import 'package:provider/provider.dart';
+
+import 'package:petandgo/screens/user/awards.dart';
 
 
 // ignore: must_be_immutable
@@ -69,13 +75,40 @@ class _ProfileState extends State<Profile>
             MaterialPageRoute(builder: (context) => Profile(widget.user))
         );
     }
+
     nEdit(){
         Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Edit(widget.user))
         );
     }
+    
+    nFriends(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Friends(widget.user))
+        );
+    }
 
+    nBlocks(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Blocks(widget.user))
+        );
+    }
+
+    nAwards(){
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => Awards(widget.user))
+        );
+    }
+
+    @override
+    void initState(){
+        getData();
+        super.initState();
+    }
 
     @override
     Widget build(BuildContext context) {
@@ -86,7 +119,8 @@ class _ProfileState extends State<Profile>
             drawer: Menu(widget.user),
             appBar: AppBar(
                 title: Text(
-                    'Perfil',
+                    AppLocalizations.of(context).translate('user_profile_title'),
+                    //'Perfil',
                     style: TextStyle(
                         color: Colors.white,
                     ),
@@ -127,7 +161,7 @@ class _ProfileState extends State<Profile>
                                                     child:
                                                         FloatingActionButton(
                                                             onPressed: _pickImage,
-                                                            tooltip: 'Elige una imagen',
+                                                            tooltip: AppLocalizations.of(context).translate('user_sign-up_choose-image'),
                                                             elevation: 10.0,
                                                             backgroundColor: Theme.of(context).primaryColor,
                                                             child: Icon(Icons.add_a_photo, color: Colors.black, size: 15),
@@ -147,7 +181,7 @@ class _ProfileState extends State<Profile>
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 5.0),
                                             child: Text(
-                                                "USUARIO",
+                                                AppLocalizations.of(context).translate('user_profile_user'),
                                                 style: TextStyle(
                                                     color: Colors.black87,
                                                     fontWeight: FontWeight.bold,
@@ -207,8 +241,7 @@ class _ProfileState extends State<Profile>
                                             ),
                                         ),
                                         Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5.0, bottom: 30),
+                                            padding: const EdgeInsets.only(top: 5.0, bottom: 30),
                                             child: Row(
                                                 children: <Widget>[
                                                     Icon(
@@ -226,6 +259,141 @@ class _ProfileState extends State<Profile>
                                                 ],
                                             )
                                         ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0, bottom: 30),
+                                            child: FloatingActionButton.extended(
+                                                heroTag: "bnt1",
+                                                icon: Icon(Icons.people),
+                                                backgroundColor: Colors.green,
+                                                label: Text(AppLocalizations.of(context).translate('friends_title')),
+                                                onPressed: () => nFriends(),
+                                            )
+                                        ),
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0, bottom: 30),
+                                            child: FloatingActionButton.extended(
+                                                heroTag: "bnt2",
+                                                icon: Icon(Icons.not_interested),
+                                                backgroundColor: Colors.red,
+                                                label: Text(AppLocalizations.of(context).translate('blocks_title')),
+                                                onPressed: () => nBlocks(),
+                                            )
+                                        )
+                                    ],
+                                ),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: <Widget>[
+                                        // PUNTUACION
+                                        Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5.0),
+                                            child: Text(
+                                                AppLocalizations.of(context).translate('user_profile_level').toUpperCase(),
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                            )
+                                        ),
+                                        // nivel
+                                        Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0),
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(
+                                                        Icons.star,
+                                                        color: Colors.black54,
+                                                        size: 22,
+                                                    ),
+                                                    Text(
+                                                        '    ' + AppLocalizations.of(context).translate('user_profile_level') + ' ' + widget.user.level.toString(),
+                                                        style: TextStyle(
+                                                            color: Colors.black54,
+                                                            fontSize: 16.0,
+                                                        ),
+                                                        textAlign: TextAlign.center,
+                                                    )
+                                                ]
+                                            ),
+                                        ),
+                                        // puntos
+                                        Padding(
+                                            padding: const EdgeInsets.only(top: 5.0, bottom: 30),
+                                            child: Row(
+                                                children: <Widget>[
+                                                    Icon(
+                                                        Icons.trending_up,
+                                                        color: Colors.black54,
+                                                    ),
+                                                    Text(
+                                                        '   ' + widget.user.points.toString() + ' ' + AppLocalizations.of(context).translate('user_profile_points'),
+                                                        style: TextStyle(
+                                                            color: Colors.black54,
+                                                            fontSize: 16.0,
+                                                        ),
+                                                        textAlign: TextAlign.center,
+                                                    ),
+                                                ]
+                                            ),
+                                        ),
+                                    ],
+                                ),
+                                Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                        // PREMIOS
+                                        Padding(
+                                            padding: const EdgeInsets.only(top: 5.0, bottom: 10),
+                                            child: Text(
+                                                AppLocalizations.of(context).translate('user_profile_awards'),
+                                                style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18.0,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                            )
+                                        ),
+                                        // premios
+                                        Align(
+                                            alignment: Alignment.bottomLeft,
+                                            child: OutlineButton(
+                                                splashColor: Colors.grey,
+                                                onPressed: () => nAwards(),
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(40)),
+                                                highlightElevation: 0,
+                                                borderSide: BorderSide(color: Colors.grey),
+                                                child: Padding(
+                                                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                                    child: Row(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: <Widget>[
+                                                            Icon(
+                                                                Icons.card_giftcard,
+                                                                color: Colors.black54,
+                                                            ),
+                                                            Text(
+                                                                '    ' + 	AppLocalizations.of(context).translate('user_profile_see-awards') + ' ',
+                                                                style: TextStyle(
+                                                                    color: Colors.black54,
+                                                                ),
+                                                            )
+                                                        ],
+                                                    ),
+                                                ),
+                                            )
+                                        )
                                     ],
                                 ),
                             ],
@@ -253,14 +421,14 @@ class _ProfileState extends State<Profile>
             context: context,
             builder: (context) =>
                 AlertDialog(
-                    title: Text("Selecciona una opción"),
+                    title: Text(AppLocalizations.of(context).translate('alert-dialog_select-option')),
                     actions: <Widget>[
                         MaterialButton(
-                            child: Text("Camera"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_camera')),
                             onPressed: () => Navigator.pop(context, ImageSource.camera),
                         ),
                         MaterialButton(
-                            child: Text("Galería"),
+                            child: Text(AppLocalizations.of(context).translate('alert-dialog_gallery')),
                             onPressed: () => Navigator.pop(context, ImageSource.gallery),
                         )
                     ],
@@ -295,6 +463,17 @@ class _ProfileState extends State<Profile>
         );
         
         if (response.statusCode == 200) widget.user.image = _image64;
+    }
+
+    Future<void> getData() async{
+        var email = widget.user.email;
+        final response = await http.get(new Uri.http(Global.apiURL, "/api/usuarios/" + email));
+        User updatedUser = User.fromJson(jsonDecode(response.body));
+
+        if (response.statusCode == 200) {
+            widget.user.level = updatedUser.level;
+            widget.user.points = updatedUser.points;
+        }
     }
 
 }

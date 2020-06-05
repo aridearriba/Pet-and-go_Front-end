@@ -1,13 +1,19 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:petandgo/multilanguage/appLocalizations.dart';
 import 'package:petandgo/screens/quedadas/listadoPerreParadasView.dart';
 import 'package:petandgo/screens/menu/menu.dart';
 import 'package:petandgo/screens/quedadas/nuevaPerreParada.dart';
-import 'package:petandgo/screens/quedadas/vistaPerreParada.dart';
 import 'package:petandgo/screens/user/login.dart';
 import 'package:petandgo/screens/user/profile.dart';
 import 'package:petandgo/model/user.dart';
+import 'package:http/http.dart' as http;
+import 'package:translator/translator.dart';
 
 
 class Home extends StatefulWidget {
@@ -23,6 +29,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
     String _queryParameters = '0/0';
+    String _consejo = '';
+    var translator = new GoogleTranslator();
 
     nLogIn() {
         Navigator.pushReplacement(
@@ -45,6 +53,11 @@ class _HomeState extends State<Home> {
         );
     }
 
+    @override
+    void initState() {
+        _getConsejos();
+    }
+
     Future<String> _getCurrentLocation() async {
         final position = await Geolocator().getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
@@ -56,36 +69,78 @@ class _HomeState extends State<Home> {
         return position.toString();
     }
 
+    // GET Consejos
+    Future<String> _getConsejos() async {
+        final response = await http.get(new Uri.http("petandgo.herokuapp.com", "/api/consejos/one"),
+            headers: <String, String>{
+                HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            }
+        );
+
+        Map<String, dynamic> responseJson = json.decode(utf8.decode(response.bodyBytes));
+
+        _consejo = responseJson['consejo'];
+
+        String translation = await translator.translate(_consejo, to: AppLocalizations.of(context).translate('language'));
+
+        setState(() {
+            _consejo = translation;
+        });
+
+        return _consejo;
+    }
+
     @override
     Widget build(BuildContext context) {
         return FutureBuilder<String>(
             future: _getCurrentLocation(),
             // a previously-obtained Future<String> or null
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                print(_consejo);
                 Center advice = Center(
                     child: Container(
                         width: 300,
-                        height: 200,
+                        //height: 200,
                         decoration: BoxDecoration(
                             color: Colors.lightGreen[200],
                             borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Text(
-                            '\n"COVID-19 CONSEJO: PASEA A TUS MASCOTAS INDIVIDUALMENTE Y CON LA CORREA PUESTA"',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 25,
+                        child:  ListTile(
+                            title: Text(
+                                AppLocalizations.of(context).translate('home_tip').toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 22,
+                                    //decoration: TextDecoration.underline,
+                                    fontWeight: FontWeight.bold,
+                                    //color: Colors.black45
+                                ),
                             ),
-                        ),
+                            subtitle: Padding(
+                                padding: EdgeInsets.only(top: 10),
+                                child: _consejo == '' ?
+                                    Text (AppLocalizations.of(context).translate('home_loading-tip'),
+                                        textAlign: TextAlign.center,
+                                    ) :
+                                    Text(
+                                    _consejo,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 22,
+                                        color: Colors.black87
+                                    ),
+                                ),
+                            )
+                        )
                     )
                 );
                 RichText title = RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: 'PERREPARADAS CERCANAS',
+                        text: AppLocalizations.of(context).translate('home_near-dogstops').toUpperCase(),
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 25,
+                            fontSize: 22,
                             decoration: TextDecoration.underline,
                         ),
                     )
@@ -113,7 +168,7 @@ class _HomeState extends State<Home> {
                         ),
                         Padding(
                             padding: const EdgeInsets.only(top: 16),
-                            child: Text('Error: ${snapshot.error}'),
+                            child: Text('Error: ${snapshot.data.error}'),
                         )
                     ];
                 }
@@ -133,11 +188,11 @@ class _HomeState extends State<Home> {
                                         width: 30.0,
                                         height: 30.0,
 
-                                        child: CircularProgressIndicator(),
+                                        child: CircularProgressIndicator(backgroundColor: Colors.green, valueColor: AlwaysStoppedAnimation(Colors.lightGreen)),
                                     ),
-                                    const Padding(
-                                        padding: EdgeInsets.all(100),
-                                        child: Text('searching position...'),
+                                    Padding(
+                                        padding: EdgeInsets.all(40),
+                                        child: Text(AppLocalizations.of(context).translate('home_searching-position')),
                                     )
                                 ],
                             ),
@@ -173,4 +228,6 @@ class _HomeState extends State<Home> {
             }
         );
     }
+
+
 }
