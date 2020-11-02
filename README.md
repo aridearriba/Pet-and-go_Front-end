@@ -15,11 +15,6 @@ https://github.com/ceraalex99/Pet_and_Go
 ### Link to Chat Github
 https://github.com/ceraalex99/petandgochat
 
-### Link to Taiga
-https://tree.taiga.io/project/coralvila-pes-petgo/backlog
-
-### Link to Project Record Track
-https://docs.google.com/spreadsheets/d/1HZ2jMO45pnqwhHH_Od_mxbTQ_9pZfgjP6klXEAgS75o/edit?usp=sharing
 
 ## Sprints
 ### Sprint 1
